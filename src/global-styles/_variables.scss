@@ -1,0 +1,50 @@
+@use "sass:map";
+// Colors
+$primary: #ff9698;
+$primary-mute: #ffdfdf;
+$secondary: #b9c889;
+$neutral: #fcfdff;
+$text-color: #262525;
+
+// Font
+$font-uncage: var(--font-uncage);
+
+// Breaking points
+$breakpoints: (
+  "xs": 320px,
+  "s": 767px,
+  "sm": 912px,
+  "md": 1024px,
+  "lg": 1280px,
+  "xxl": 1920px,
+);
+
+// Mixins
+@mixin between-breakpoints($start, $end) {
+  @media only screen and (min-width: map.get($breakpoints, $start)) and (max-width: map.get($breakpoints, $end)) {
+    @content;
+  }
+}
+
+@mixin min-breakpoint($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media only screen and (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $breakpoint) {
+      @content;
+    }
+  }
+}
+@mixin max-breakpoint($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media only screen and (max-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $breakpoint) {
+      @content;
+    }
+  }
+}
