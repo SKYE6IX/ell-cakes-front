@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Montserrat } from "next/font/google";
 import ApolloQueryProvider from "src/contexts/ApolloQueryProvider";
+import Header from "src/components/header/Header";
 import "../global-styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -28,6 +30,15 @@ const fontUncage = localFont({
     },
   ],
   variable: "--font-uncage",
+  preload: true,
+});
+
+const montserrat = Montserrat({
+  subsets: ["cyrillic"],
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600"],
+  variable: "--font-montserrat",
+  preload: true,
 });
 
 export default function RootLayout({
@@ -36,9 +47,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={fontUncage.variable}>
+    <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
-        <ApolloQueryProvider>{children}</ApolloQueryProvider>
+        <ApolloQueryProvider>
+          <Header />
+          {children}
+        </ApolloQueryProvider>
       </body>
     </html>
   );

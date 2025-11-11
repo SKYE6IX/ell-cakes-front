@@ -8,6 +8,7 @@ $text-color: #262525;
 
 // Font
 $font-uncage: var(--font-uncage);
+$font-montserrat: var(--font-montserrat);
 
 // Breaking points
 $breakpoints: (
@@ -37,7 +38,6 @@ $breakpoints: (
     }
   }
 }
-
 @mixin max-breakpoint($breakpoint) {
   @if map.has-key($breakpoints, $breakpoint) {
     @media only screen and (max-width: map.get($breakpoints, $breakpoint)) {

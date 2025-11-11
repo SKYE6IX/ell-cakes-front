@@ -1,0 +1,10 @@
+@use "@/global-styles/variables" as *;
+
+.cart-menu {
+  @include max-breakpoint("md") {
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
