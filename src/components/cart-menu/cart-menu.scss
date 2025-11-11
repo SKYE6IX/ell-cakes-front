@@ -7,4 +7,10 @@
       height: 28px;
     }
   }
+  @include max-breakpoint("s") {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }

@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import ArrowDown from "../icons/ArrowDown";
 import "./navigation.scss";
+
+type NavigationProps = {
+  isMenuOpen: boolean;
+};
 
 const categories = [
   { key: "cupcake", label: "Пироженые" },
@@ -24,17 +28,32 @@ const subMenu = [
   "бенто торты",
 ];
 
-function Navigation() {
+function Navigation({ isMenuOpen }: NavigationProps) {
+  const [isSubMenuActive, setIsSubMenuActive] = useState(false);
+  const handleSubMenuActive = () => {
+    setIsSubMenuActive(!isSubMenuActive);
+  };
   return (
-    <nav className="navigation">
+    <nav className={["navigation", isMenuOpen ? "active" : ""].join(" ")}>
       <ul className="navigation__menu-wrapper">
         {/* Navigation menu with sub-menu */}
         <li className="navigation__menu-item show-widget">
           <span className="navigation__menu-item-label">ТОрты</span>
-          <span className="navigation__sub-menu-trigger">
+          <span
+            className={[
+              "navigation__sub-menu-trigger",
+              isSubMenuActive ? "active" : "",
+            ].join(" ")}
+            onClick={handleSubMenuActive}
+          >
             <ArrowDown />
           </span>
-          <div className="navigation__widget">
+          <div
+            className={[
+              "navigation__widget",
+              isSubMenuActive ? "open-sub-menu" : "",
+            ].join(" ")}
+          >
             <div className="navigation__widget-anchor" />
             <div className="navigation__sub-menu-wrapper">
               <div className="navigation__sub-menu">

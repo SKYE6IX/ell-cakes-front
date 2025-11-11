@@ -27,7 +27,7 @@ function Header() {
             />
           </Link>
         </div>
-        <Navigation />
+        <Navigation isMenuOpen={isMenuOpen} />
         <div className="header__user-action-wrapper">
           <UserMenu />
           <CartMenu />

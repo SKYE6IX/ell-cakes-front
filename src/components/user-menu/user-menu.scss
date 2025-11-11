@@ -9,6 +9,12 @@
       height: 28px;
     }
   }
+  @include max-breakpoint("md") {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 .user-menu__text {
   font-family: $font-montserrat, sans-serif;
