@@ -1,0 +1,58 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-info-panel {
+  width: 100%;
+  padding-top: 40px;
+  margin-right: 50px;
+}
+
+.product-info-panel__title-wrapper {
+  width: 500px;
+  position: relative;
+}
+.product-info-panel__title {
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 43.2px;
+  color: $text-color;
+}
+.product-info-panel__product-metric {
+  padding: 5px 15px;
+  background-color: $primary-accent;
+  color: $neutral;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.75rem;
+  line-height: 14.4px;
+  border-radius: 10px;
+  font-weight: 500;
+  position: absolute;
+  right: 0px;
+  bottom: 100%;
+}
+.product-info-panel__description {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 21.6px;
+  color: $text-color;
+}
+.product-info-panel__add-to-cart {
+  background-color: $primary-accent;
+  border: none;
+  outline: none;
+  height: 70px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 15px;
+  cursor: pointer;
+  @include flex-layout(column, center, center, 5px);
+}
+.product-info-panel__add-to-cart-text,
+.product-info-panel__unit-price {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.25rem;
+  line-height: 24px;
+  color: $neutral;
+}

@@ -1,0 +1,31 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-variant-selector {
+  height: 70px;
+  width: 100%;
+  max-width: 620px;
+  padding: 0px 80px;
+  border-radius: 15px;
+  background-color: $primary-accent;
+  @include flex-layout(row, center, space-between, none);
+}
+.product-variant-selector__button {
+  height: 100%;
+  @include flex-layout(row, center, center, none);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.product-variant-selector__details {
+  @include flex-layout(row, center, none, 10px);
+}
+.product-variant-selector__metric,
+.product-variant-selector__price {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.5rem;
+  line-height: 26.4px;
+  font-weight: 500;
+  color: $neutral;
+}

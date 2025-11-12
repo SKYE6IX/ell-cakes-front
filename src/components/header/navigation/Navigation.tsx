@@ -4,7 +4,7 @@ import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import ArrowDown from "../../icons/ArrowDown";
 import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
-
+import { getTransliteration } from "@/utils/getTransliteration";
 import "./navigation.scss";
 
 type NavigationProps = {
@@ -25,8 +25,8 @@ export const GET_CATEGORIES: TypedDocumentNode<
 `;
 
 const categories = [
-  { key: "cupcake", label: "Пироженые" },
-  { key: "birthday", label: "ДЕНЬ РОЖДЕНИЯ" },
+  { key: getTransliteration("Пироженые"), label: "Пироженые" },
+  { key: getTransliteration("Свадебные торты"), label: "ДЕНЬ РОЖДЕНИЯ" },
 ];
 const navigationMenu = [
   ...categories,
@@ -42,6 +42,7 @@ function Navigation({ isMenuOpen }: NavigationProps) {
   const { data } = useQuery(GET_CATEGORIES, {
     variables: { where: { parent: { slug: { equals: "torty" } } } },
   });
+
   return (
     <nav className={["navigation", isMenuOpen ? "active" : ""].join(" ")}>
       <ul className="navigation__menu-wrapper">
@@ -76,7 +77,7 @@ function Navigation({ isMenuOpen }: NavigationProps) {
                 {data?.categories.map((cat) => (
                   <Link
                     key={cat.id}
-                    href={`cakes/$${cat.slug}`}
+                    href={`cakes/${cat.slug}`}
                     className="navigation__sub-menu-item"
                     data-testid="navigation-sub-menu-item"
                   >
@@ -85,7 +86,6 @@ function Navigation({ isMenuOpen }: NavigationProps) {
                 ))}
               </div>
             </div>
-
             <div className="navigation__banner-wrapper">
               <div className="navigation__banner">
                 <h5 className="navigation__banner-text">
@@ -104,7 +104,11 @@ function Navigation({ isMenuOpen }: NavigationProps) {
           </div>
         </li>
         {navigationMenu.map((menu) => (
-          <Link key={menu.key} href="" className="navigation__menu-link">
+          <Link
+            key={menu.key}
+            href={menu.key}
+            className="navigation__menu-link"
+          >
             <li
               className="navigation__menu-item"
               data-testid="navigation-menu-item"

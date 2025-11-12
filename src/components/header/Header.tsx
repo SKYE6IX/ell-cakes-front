@@ -25,6 +25,7 @@ function Header() {
               height={63}
               alt="Site Icon"
               data-testid="header-site-icon"
+              loading="eager"
             />
           </Link>
         </div>

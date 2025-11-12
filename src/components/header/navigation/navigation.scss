@@ -92,7 +92,8 @@
   top: calc(100% + 1px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease-in;
+  transition: opacity 0.1s ease-in;
+  z-index: 100;
   @include max-breakpoint("md") {
     height: auto;
     position: relative;

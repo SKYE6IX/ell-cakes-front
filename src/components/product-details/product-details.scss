@@ -1,0 +1,8 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-details {
+  width: 100%;
+  padding-top: 50px;
+  @include flex-layout(row, none, space-between, 100px);
+}
