@@ -1,11 +1,28 @@
 import { useState } from "react";
 import Link from "next/link";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import ArrowDown from "../../icons/ArrowDown";
+import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
+
 import "./navigation.scss";
 
 type NavigationProps = {
   isMenuOpen: boolean;
 };
+
+export const GET_CATEGORIES: TypedDocumentNode<
+  { categories: Category[] },
+  { where: CategoryWhereInput }
+> = gql`
+  query GetCategories($where: CategoryWhereInput!) {
+    categories(where: $where) {
+      id
+      name
+      slug
+    }
+  }
+`;
 
 const categories = [
   { key: "cupcake", label: "Пироженые" },
@@ -17,22 +34,14 @@ const navigationMenu = [
   { key: "cooporation", label: "СОТРУДНИЧЕСТВО" },
 ];
 
-const subMenu = [
-  "Торты на День рождения",
-  "Корпоративные Торты",
-  "Торты для детей",
-  "Торты для Нее",
-  "Торты для Него",
-  "ягодные торты",
-  "Свадебные торты",
-  "бенто торты",
-];
-
 function Navigation({ isMenuOpen }: NavigationProps) {
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
   };
+  const { data } = useQuery(GET_CATEGORIES, {
+    variables: { where: { parent: { slug: { equals: "torty" } } } },
+  });
   return (
     <nav className={["navigation", isMenuOpen ? "active" : ""].join(" ")}>
       <ul className="navigation__menu-wrapper">
@@ -64,14 +73,14 @@ function Navigation({ isMenuOpen }: NavigationProps) {
             <div className="navigation__widget-anchor" />
             <div className="navigation__sub-menu-wrapper">
               <div className="navigation__sub-menu">
-                {subMenu.map((menu) => (
+                {data?.categories.map((cat) => (
                   <Link
-                    key={menu}
-                    href={menu}
+                    key={cat.id}
+                    href={`cakes/$${cat.slug}`}
                     className="navigation__sub-menu-item"
                     data-testid="navigation-sub-menu-item"
                   >
-                    {menu}
+                    {cat.name}
                   </Link>
                 ))}
               </div>
