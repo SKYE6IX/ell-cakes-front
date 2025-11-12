@@ -1,11 +1,11 @@
 import React from "react";
-import CarIcon from "../icons/CarIcon";
+import CartIcon from "@/components/icons/CartIcon";
 import "./cart-menu.scss";
 
 function CartMenu() {
   return (
     <div className="cart-menu">
-      <CarIcon />
+      <CartIcon />
     </div>
   );
 }

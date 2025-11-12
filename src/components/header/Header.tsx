@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navigation from "../navigation/Navigation";
-import UserMenu from "../user-menu/UserMenu";
-import CartMenu from "../cart-menu/CartMenu";
+import Navigation from "./navigation/Navigation";
+import UserMenu from "./user-menu/UserMenu";
+import CartMenu from "./cart-menu/CartMenu";
 import MenuBarIcon from "../icons/MenuBarIcon";
 import "./header.scss";
 
@@ -24,9 +24,11 @@ function Header() {
               width={98}
               height={63}
               alt="Site Icon"
+              data-testid="header-site-icon"
             />
           </Link>
         </div>
+
         <Navigation isMenuOpen={isMenuOpen} />
         <div className="header__user-action-wrapper">
           <UserMenu />
@@ -36,6 +38,7 @@ function Header() {
               " "
             )}
             onClick={handleMenuOpen}
+            data-testid="header-menu-button"
           >
             <MenuBarIcon />
           </button>

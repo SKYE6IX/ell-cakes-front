@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import ArrowDown from "../icons/ArrowDown";
+import ArrowDown from "../../icons/ArrowDown";
 import "./navigation.scss";
 
 type NavigationProps = {
@@ -38,13 +38,19 @@ function Navigation({ isMenuOpen }: NavigationProps) {
       <ul className="navigation__menu-wrapper">
         {/* Navigation menu with sub-menu */}
         <li className="navigation__menu-item show-widget">
-          <span className="navigation__menu-item-label">ТОрты</span>
+          <span
+            className="navigation__menu-item-label"
+            data-testid="navigation-menu-item"
+          >
+            ТОрты
+          </span>
           <span
             className={[
               "navigation__sub-menu-trigger",
               isSubMenuActive ? "active" : "",
             ].join(" ")}
             onClick={handleSubMenuActive}
+            data-testid="navigation-sub-menu-trigger"
           >
             <ArrowDown />
           </span>
@@ -53,6 +59,7 @@ function Navigation({ isMenuOpen }: NavigationProps) {
               "navigation__widget",
               isSubMenuActive ? "open-sub-menu" : "",
             ].join(" ")}
+            data-testid="navigation-widget"
           >
             <div className="navigation__widget-anchor" />
             <div className="navigation__sub-menu-wrapper">
@@ -62,6 +69,7 @@ function Navigation({ isMenuOpen }: NavigationProps) {
                     key={menu}
                     href={menu}
                     className="navigation__sub-menu-item"
+                    data-testid="navigation-sub-menu-item"
                   >
                     {menu}
                   </Link>
@@ -88,7 +96,12 @@ function Navigation({ isMenuOpen }: NavigationProps) {
         </li>
         {navigationMenu.map((menu) => (
           <Link key={menu.key} href="" className="navigation__menu-link">
-            <li className="navigation__menu-item">{menu.label}</li>
+            <li
+              className="navigation__menu-item"
+              data-testid="navigation-menu-item"
+            >
+              {menu.label}
+            </li>
           </Link>
         ))}
       </ul>

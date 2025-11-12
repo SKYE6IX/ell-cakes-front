@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import PersonIcon from "../icons/PersonIcon";
+import PersonIcon from "@/components/icons/PersonIcon";
 import "./user-menu.scss";
 
 function UserMenu() {
