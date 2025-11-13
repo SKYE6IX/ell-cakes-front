@@ -1,0 +1,169 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+// Combined Styles
+.product-shape__selection-wrapper,
+.add-customise-photo__button,
+.add-customise-insription__button,
+.add-topping__button {
+  width: 100%;
+  height: 60px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  @include flex-layout(row, center, center, none);
+}
+
+.product-shape {
+  width: 100%;
+  position: relative;
+  @include flex-layout(column, none, none, none);
+}
+.product-shape__label,
+.add-customise-insription__label {
+  font-family: $font-uncage;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 19.2px;
+  color: $text-color-mute;
+}
+.product-shape__selection-icon {
+  svg {
+    transition: transform 0.2s linear;
+  }
+}
+.product-shape__selection-icon.active {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+.product-shape__selection-wrapper {
+  border: 1px solid $dark-color;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.product-shape__selected-option {
+  font-family: $font-uncage;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 500;
+  color: $dark-color;
+}
+.product-shape__selection-icon {
+  svg {
+    width: 20px;
+    height: 25px;
+  }
+}
+
+.add-customise-photo {
+  width: 100%;
+  position: relative;
+  // It's a grid child element. Added this to make it adjust to it's sibiling
+  align-self: flex-end;
+}
+
+.add-customise-photo__button,
+.add-customise-insription__button,
+.add-topping__button {
+  border: none;
+  background: $dark-color;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 500;
+  color: $neutral;
+  cursor: pointer;
+}
+
+.add-customise-insription {
+  @include flex-layout(column, none, none, 5px);
+}
+.add-customise-insription__input-wrapper {
+  width: 100%;
+  position: relative;
+}
+.add-customise-insription__input {
+  width: 100%;
+  height: 60px;
+  border: 1px solid $dark-color;
+  border-radius: 15px;
+  padding: 10px 15px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 19.2px;
+  color: $text-color-mute;
+}
+
+.add-customise-insription__close-input {
+  background: none;
+  border: none;
+  outline: none;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  cursor: pointer;
+}
+
+.add-customise-insription__input::placeholder {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.add-topping {
+  align-self: flex-end;
+}
+
+//**
+// The dropdown styles
+//*
+.customisation__drop-down {
+  @include flex-layout(column, none, none, 10px);
+  position: absolute;
+  padding: 15px 20px;
+  width: 100%;
+  background: $neutral;
+  border-radius: 15px;
+  border: 1px solid $dark-color;
+  z-index: 50;
+  top: calc(100% + 5px);
+  list-style: none;
+}
+.customisation__option {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 19.2px;
+  cursor: pointer;
+}
+.customisation__option:first-child {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #dcdbdb;
+}
+
+.photo-option__label {
+  @include flex-layout(row, center, space-between, none);
+  cursor: pointer;
+}
+.photo-option__count-wrapper {
+  @include flex-layout(row, center, none, 5px);
+}
+.photo-option__count,
+.photo-option__cost {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 500;
+}
+.photo-option__cost {
+  font-weight: 400;
+}
+.photo-option__selection {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}

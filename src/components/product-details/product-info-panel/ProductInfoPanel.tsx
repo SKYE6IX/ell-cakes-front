@@ -1,7 +1,11 @@
+"use client";
 import React from "react";
 import ProductFillingSelector from "../product-filling-selector/ProductFillingSelector";
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
-import ProductCustomisation from "../product-customisation/ProductCustomisation";
+import ProductShape from "../product-customisations/ProductShape";
+import AddCustomisePhoto from "../product-customisations/AddCustomisePhoto";
+import AddCustomiseInscription from "../product-customisations/AddCustomiseInscription";
+import AddTopping from "../product-customisations/AddTopping";
 import "./product-info-panel.scss";
 
 function ProductInfoPanel() {
@@ -19,7 +23,12 @@ function ProductInfoPanel() {
       </p>
       <ProductFillingSelector />
       <ProductVariantSelector />
-      <ProductCustomisation />
+      <div className="product-info-panel__customisations-wrapper">
+        <ProductShape />
+        <AddCustomisePhoto />
+        <AddCustomiseInscription />
+        <AddTopping />
+      </div>
       <button className="product-info-panel__add-to-cart">
         <span className="product-info-panel__add-to-cart-text">
           Добавить в корзину

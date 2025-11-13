@@ -6,7 +6,6 @@
   padding-top: 40px;
   margin-right: 50px;
 }
-
 .product-info-panel__title-wrapper {
   width: 500px;
   position: relative;
@@ -38,6 +37,15 @@
   line-height: 21.6px;
   color: $text-color;
 }
+.product-info-panel__customisations-wrapper {
+  width: 100%;
+  max-width: 620px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  row-gap: 30px;
+}
+
 .product-info-panel__add-to-cart {
   background-color: $primary-accent;
   border: none;
