@@ -1,14 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import showcaseImage1 from "../../../public/desserts-images/showcase1.jpg" //have quastion about path
+import dessertImage from "./dessert.jpeg"
 import "./delivery.scss";
-
 
 function Delivery() {
    return ( 
     <section className="delivery">
-      <div className="delivery__container">
-        <div className="delivery__content">
+      <div className="delivery__inner-wrapper">
+        <div className="delivery__text-wrapper">
           <h2 className="delivery__title">Доставка</h2>
           <p className="delivery__text">Курьерская доставка работает ежедневно с 10:00 до 17:00.</p>
           <p className="delivery__text">
@@ -19,7 +18,7 @@ function Delivery() {
         </div>
 
         <div className="delivery__media">
-          <Image className="delivery__image" src={showcaseImage1} alt="birthday cake" fill priority />
+          <Image className="delivery__image" src={dessertImage} alt="birthday cake" fill priority />
         </div>
       </div>
     </section>

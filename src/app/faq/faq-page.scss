@@ -1,0 +1,89 @@
+@use "@/global-styles/variables" as *;
+
+.faq {
+  overflow: hidden;
+  margin-top: 100px;
+  width: 100%;
+  padding: 0px 100px 50px 100px;
+  @include max-breakpoint("lg") {
+    padding: 0px 50px 50px 50px;
+  }
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+    padding: 0px 40px 50px 40px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+    padding: 0px 40px 20px 40px;
+  }
+  @include max-breakpoint("xs") {
+    margin-top: 40px;
+    padding: 0px 20px 20px 20px;
+  }
+}
+.faq-help__title {
+  font-family: $font-uncage;
+  font-size: 36px;
+  font-weight: 500;
+  color: $text-color;
+  margin-bottom: 30px;
+  @include max-breakpoint("lg") {
+    font-size: 32px;
+  }
+  @include max-breakpoint("md") {
+    font-size: 24px;
+  }
+}
+.faq__inner-wrapper{
+  display: flex;
+  justify-content: space-between;
+  @include max-breakpoint("sm") {
+    flex-direction: column;
+  }
+}
+.faq-help{
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+}
+.faq-help__link-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.faq-help__link{
+  font-family: $font-montserrat;
+  font-size: 20px;
+  padding: 12px 0;
+
+  @include max-breakpoint("s") {
+    font-size: 18px;
+  }
+}
+.faq__body {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  @include max-breakpoint("sm") {
+    margin-top: 40px;
+  }
+}
+.faq__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0; 
+}
+.faq__title {
+  font-family: $font-uncage;
+  font-size: 36px;
+  font-weight: 400;
+  color: $primary;
+  margin-bottom: 30px;
+  @include max-breakpoint("lg") {
+    font-size: 32px;
+  }
+  @include max-breakpoint("md") {
+    font-size: 24px;
+  }
+}

@@ -14,9 +14,6 @@
     margin-top: 80px;
     padding: 0px 40px 50px 40px;
   }
-  @include max-breakpoint("sm") {
-    padding: 0px 40px 50px 40px;
-  }
   @include max-breakpoint("s") {
     margin-top: 40px;
     padding: 0px 40px 20px 40px;
@@ -25,95 +22,80 @@
     margin-top: 40px;
     padding: 0px 20px 20px 20px;
   }
-
-  &__container {
-    max-width: 1240px;
-    margin: 0 auto;
-    display: flex;
+}
+.colaboration__inner-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include max-breakpoint("s") {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+}
+.colaboration__text-wrapper {
+  max-width: 640px;
+  margin-right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  @include max-breakpoint("md") {
+    max-width: 520px; 
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+    max-width: 100%;
+    margin: 40px auto 0;
     align-items: center;
-    justify-content: space-between;
-
-    @include max-breakpoint("s") {
-      flex-direction: column-reverse;
-      justify-content: center;
-    }
   }
-
-  &__content {
-    max-width: 640px;
-    margin-right: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    @include max-breakpoint("md") {
-      max-width: 520px; 
-    }
-
-    @include max-breakpoint("s") {
-      width: 100%;
-      max-width: 100%;
-      margin: 40px auto 0;
-      align-items: center;
-    }
+}
+.colaboration__title {
+  font-family: $font-uncage;
+  font-weight: 500;
+  font-size: 36px;
+  margin-bottom: 40px;
+  color: $text-color;
+  @include max-breakpoint("md") {
+    font-size: 32px;
   }
-
-  &__title {
-    font-family: $font-uncage;
-    font-weight: 500;
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: $text-color;
-
-
-    @include max-breakpoint("md") {
-      font-size: 32px;
-    }
-    @include max-breakpoint("s") {
-      text-align: center;
-    }
+  @include max-breakpoint("s") {
+    text-align: center;
   }
-
-  &__text {
-    font-family: $font-montserrat;
-    font-weight: 300;
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: $text-color;
-
-    @include max-breakpoint("md") {
-      font-size: 18px;
-    }
-    @include max-breakpoint("s") {
-      text-align: center;
-    }
+}
+.colaboration__text {
+  font-family: $font-montserrat;
+  font-weight: 300;
+  font-size: 20px;
+  margin-bottom: 40px;
+  color: $text-color;
+  @include max-breakpoint("md") {
+    font-size: 18px;
   }
-
-  &__media {
-    position: relative;
-    width: 470px;
-    height: 533px;
-    border-radius: 16px;
-    overflow: hidden;
-
-    @include max-breakpoint("md") {
-      width: 390px;
-      height: 450px; 
-    }
-
-    @include max-breakpoint("md") {
-      width: 340px;
-      height: 400px; 
-    }
-
-    @include max-breakpoint("s") {
-      width: 100%;
-      height: 350px; 
-    }
+  @include max-breakpoint("s") {
+    text-align: center;
   }
-
-  &__image {
-    object-fit: cover;
-    border-radius: 16px;
+}
+.colaboration__media {
+  position: relative;
+  width: 470px;
+  height: 533px;
+  border-radius: 16px;
+  overflow: hidden;
+  @include max-breakpoint("md") {
+    width: 390px;
+    height: 450px; 
   }
+  @include max-breakpoint("md") {
+    width: 340px;
+    height: 400px; 
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+    height: 350px; 
+  }
+}
+.colaboration__image {
+  object-fit: cover;
+  border-radius: 16px;
 }
