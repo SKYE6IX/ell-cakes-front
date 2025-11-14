@@ -1,0 +1,39 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-info-btn {
+  width: 100%;
+  padding: 20px 0px;
+  background: none;
+  outline: none;
+  border: none;
+  @include flex-layout(row, center, space-between, none);
+  cursor: pointer;
+  @include max-breakpoint("s") {
+    padding: 15px 0px;
+  }
+}
+.product-info-btn__text {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.25rem;
+  line-height: 22px;
+  font-weight: 600;
+  color: $text-color;
+  @include max-breakpoint("s") {
+    font-size: 1rem;
+    line-height: 19.2px;
+  }
+}
+.product-info-btn__icon {
+  svg {
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+  }
+  @include max-breakpoint("s") {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

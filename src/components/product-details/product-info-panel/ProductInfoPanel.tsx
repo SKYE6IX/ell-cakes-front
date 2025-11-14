@@ -6,6 +6,10 @@ import ProductShape from "../product-customisations/ProductShape";
 import AddCustomisePhoto from "../product-customisations/AddCustomisePhoto";
 import AddCustomiseInscription from "../product-customisations/AddCustomiseInscription";
 import AddTopping from "../product-customisations/AddTopping";
+import StorageInfo from "../storage-info/StorageInfo";
+import IngredientsInfo from "../ingredients-info/IngredientsInfo";
+import ProductReviews from "../product-reviews/ProductReviews";
+import ProductFAQ from "../product-faq/ProductFAQ";
 import "./product-info-panel.scss";
 
 function ProductInfoPanel() {
@@ -35,6 +39,16 @@ function ProductInfoPanel() {
         </span>
         <span className="product-info-panel__unit-price">3200 ₽ </span>
       </button>
+      <StorageInfo />
+      <IngredientsInfo />
+      <div className="product-info-panel__promotion-section">
+        <h5 className="product-info-panel__promotion-text1">
+          Первая покупка — еще вкуснее 
+        </h5>
+        <h5 className="product-info-panel__promotion-text2">с 15% скидкой!</h5>
+      </div>
+      <ProductReviews />
+      <ProductFAQ />
     </div>
   );
 }

@@ -1,0 +1,28 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.storage-info {
+  width: 100%;
+  border-bottom: 1px solid #dcdbdb;
+}
+.storage-info__wrapper {
+  width: 100%;
+}
+.storage-info__heading {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.5rem;
+  line-height: 28.8px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: $text-color;
+}
+.storage-info__text {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.25rem;
+  line-height: 26px;
+  color: $text-color;
+  font-weight: 400;
+}
+.storage-info__text.p1 {
+  margin-bottom: 30px;
+}

@@ -4,5 +4,14 @@
 .product-details {
   width: 100%;
   padding-top: 50px;
-  @include flex-layout(row, none, space-between, 100px);
+  overflow-x: hidden;
+  @include flex-layout(row, none, space-between, 60px);
+  @include max-breakpoint("md") {
+    padding-top: 40px;
+    flex-direction: column;
+  }
+  @include max-breakpoint("s") {
+    padding-top: 20px;
+    gap: 40px;
+  }
 }
