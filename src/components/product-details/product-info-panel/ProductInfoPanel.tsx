@@ -10,6 +10,7 @@ import StorageInfo from "../storage-info/StorageInfo";
 import IngredientsInfo from "../ingredients-info/IngredientsInfo";
 import ProductReviews from "../product-reviews/ProductReviews";
 import ProductFAQ from "../product-faq/ProductFAQ";
+import MixProductOption from "../mix-product-option/MixProductOption";
 import "./product-info-panel.scss";
 
 function ProductInfoPanel() {
@@ -39,6 +40,7 @@ function ProductInfoPanel() {
         </span>
         <span className="product-info-panel__unit-price">3200 ₽ </span>
       </button>
+      <MixProductOption />
       <StorageInfo />
       <IngredientsInfo />
       <div className="product-info-panel__promotion-section">
