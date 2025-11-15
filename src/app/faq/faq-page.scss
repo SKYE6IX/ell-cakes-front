@@ -14,11 +14,7 @@
   }
   @include max-breakpoint("s") {
     margin-top: 40px;
-    padding: 0px 40px 20px 40px;
-  }
-  @include max-breakpoint("xs") {
-    margin-top: 40px;
-    padding: 0px 20px 20px 20px;
+    padding: 20px;
   }
 }
 .faq-help__title {

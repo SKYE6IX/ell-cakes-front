@@ -14,17 +14,12 @@
     margin-top: 80px;
     padding: 0px 40px 50px 40px;
   }
-  @include max-breakpoint("s") {
+   @include max-breakpoint("s") {
     margin-top: 40px;
-    padding: 0px 40px 20px 40px;
-  }
-  @include max-breakpoint("xs") {
-    margin-top: 40px;
-    padding: 0px 20px 20px 20px;
-  }
+    padding: 20px;
+   }
 }
 .delivery__inner-wrapper{
-  max-width: 1240px;
   margin: 0 auto;
   display: flex;
   align-items: center;

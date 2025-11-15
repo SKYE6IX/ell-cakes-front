@@ -1,9 +1,9 @@
 "use client";
 import { useState } from 'react';
+import Link from 'next/link';
 import FaqItem from "@/components/faq-item/FaqItem";
 import { faqList, faqDeliveryList, faqIngredientList } from "./faqList";
 import "./faq-page.scss";
-import Link from 'next/link';
 
 // Section identifiers (to build unique keys) 
 type SectionKey = "frequently" | "delivery" | "ingredients";

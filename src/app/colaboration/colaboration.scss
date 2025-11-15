@@ -6,7 +6,6 @@
   margin-top: 100px;
   width: 100%;
   padding: 0px 100px 50px 100px;
-
   @include max-breakpoint("lg") {
     padding: 0px 50px 50px 50px;
   }
@@ -16,15 +15,10 @@
   }
   @include max-breakpoint("s") {
     margin-top: 40px;
-    padding: 0px 40px 20px 40px;
-  }
-  @include max-breakpoint("xs") {
-    margin-top: 40px;
-    padding: 0px 20px 20px 20px;
+    padding: 20px;
   }
 }
 .colaboration__inner-wrapper {
-  max-width: 1240px;
   margin: 0 auto;
   display: flex;
   align-items: center;
