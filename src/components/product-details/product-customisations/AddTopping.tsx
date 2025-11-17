@@ -1,11 +1,29 @@
 import { useState } from "react";
 import Modal from "@/components/modal/Modal";
+import { ToppingOption } from "@/types/__generated__/graphql";
+import { SetProductConfigurationArgs } from "../product-info-panel/ProductInfoPanel";
 import "./product-customisations.scss";
 
-function AddTopping() {
+type AddToppingProps = {
+  toppingOptions: ToppingOption[];
+  setProductConfiguration: ({}: SetProductConfigurationArgs) => void;
+};
+
+function AddTopping({
+  toppingOptions,
+  setProductConfiguration,
+}: AddToppingProps) {
   const [showModal, setShowModal] = useState(false);
+  const [selectedToppingId, setSelectedToppingId] = useState("");
   const handleSetShowModal = () => {
     setShowModal(!showModal);
+  };
+  const selectTopping = (topping: ToppingOption) => {
+    setSelectedToppingId(topping.id);
+    setProductConfiguration({
+      key: "selectedTopping",
+      configuration: { selectedTopping: topping },
+    });
   };
 
   return (
@@ -19,9 +37,18 @@ function AddTopping() {
         handleCloseModal={handleSetShowModal}
       >
         <ul className="add-topping__list">
-          <li className="add-topping__item">100 г - 200 руб.</li>
-          <li className="add-topping__item">100 г - 200 руб.</li>
-          <li className="add-topping__item">100 г - 200 руб.</li>
+          {toppingOptions.map((option) => (
+            <li
+              className={[
+                "add-topping__item",
+                selectedToppingId === option.id ? "selected" : "",
+              ].join(" ")}
+              key={option.id}
+              onClick={() => selectTopping(option)}
+            >
+              {String(option.weight)} г - {option.extraPrice} руб.
+            </li>
+          ))}
         </ul>
       </Modal>
     </div>

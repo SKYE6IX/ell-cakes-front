@@ -19,6 +19,7 @@
 .product-shape {
   width: 100%;
   position: relative;
+  align-self: flex-end;
   @include flex-layout(column, none, none, none);
 }
 .product-shape__label,
@@ -92,6 +93,7 @@
 }
 
 .add-customise-insription {
+  align-self: flex-end;
   @include flex-layout(column, none, none, 5px);
 }
 .add-customise-insription__input-wrapper {
@@ -146,12 +148,12 @@
   border-radius: 15px;
   cursor: pointer;
 }
-
-.add-topping__item:first-child {
+.add-topping__item.selected {
   background: $primary-accent;
   color: $neutral;
   border: none;
 }
+
 //**
 // The dropdown styles
 //*

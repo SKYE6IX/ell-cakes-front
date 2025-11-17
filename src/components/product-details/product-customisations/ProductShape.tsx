@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Variants } from "motion";
 import * as motion from "motion/react-client";
 import ArrowDown from "@/components/icons/ArrowDown";
+import { CustomiseComponentProps } from "./sharedType";
+import { CustomizationOptionValue } from "@/types/__generated__/graphql";
 import "./product-customisations.scss";
 
 export const variant: Variants = {
@@ -17,22 +19,44 @@ export const variant: Variants = {
   },
 };
 
-function ProductShape() {
+function ProductShape({
+  customOptions,
+  setSelectedCustomization,
+}: CustomiseComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedShape, setSelectedShape] = useState("Круг");
-  const handleSetOpen = () => {
+
+  const productShapes = customOptions.find(
+    (option) => option.name?.toUpperCase() === "SHAPE"
+  );
+
+  const [selectedShape, setSelectedShape] = useState(
+    productShapes?.customValues![0]
+  );
+  const handleSetIsOpen = () => {
     setIsOpen(!isOpen);
   };
-  const handleSetSelectedShape = (option: string) => {
+
+  const handleSetSelectedShape = (option: CustomizationOptionValue) => {
     setSelectedShape(option);
-    handleSetOpen();
+    handleSetIsOpen();
+    setSelectedCustomization({
+      optionId: productShapes?.id as string,
+      valueId: option.id,
+    });
   };
 
+  // Don't render the block if product doesn't have shape customisation
+  if (!productShapes) return null;
   return (
     <div className="product-shape">
       <h5 className="product-shape__label">Выбрать форму</h5>
-      <div className="product-shape__selection-wrapper" onClick={handleSetOpen}>
-        <span className="product-shape__selected-option">{selectedShape}</span>
+      <div
+        className="product-shape__selection-wrapper"
+        onClick={handleSetIsOpen}
+      >
+        <span className="product-shape__selected-option">
+          {selectedShape?.value}
+        </span>
         <span
           className={[
             "product-shape__selection-icon",
@@ -49,18 +73,15 @@ function ProductShape() {
         variants={variant}
         transition={{ duration: 0.2, ease: "easeInOut" }}
       >
-        <li
-          className="customisation__option"
-          onClick={() => handleSetSelectedShape("Круг")}
-        >
-          Круг
-        </li>
-        <li
-          className="customisation__option"
-          onClick={() => handleSetSelectedShape("Сердце")}
-        >
-          Сердце
-        </li>
+        {productShapes.customValues?.map((customValue) => (
+          <li
+            key={customValue.id}
+            className="customisation__option"
+            onClick={() => handleSetSelectedShape(customValue)}
+          >
+            {customValue.value}
+          </li>
+        ))}
       </motion.ul>
     </div>
   );

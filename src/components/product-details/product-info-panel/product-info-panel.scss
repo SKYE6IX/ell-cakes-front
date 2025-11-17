@@ -2,6 +2,7 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-info-panel {
+  @include flex-layout(column, none, none, none);
   padding-top: 40px;
   padding-right: 50px;
   @include max-breakpoint("md") {
@@ -11,6 +12,15 @@
     padding: 0px 20px 0px 20px;
   }
 }
+
+// TODO:
+// These blocks is wrap around the element on product page
+// and needed to be used to adjust spacing.
+.product-info-panel__top-section {
+}
+.product-info-panel__bottom-section {
+}
+
 .product-info-panel__title-wrapper {
   max-width: 500px;
   position: relative;

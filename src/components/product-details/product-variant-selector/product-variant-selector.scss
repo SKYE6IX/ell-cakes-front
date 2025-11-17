@@ -26,6 +26,11 @@
   border: none;
   outline: none;
   cursor: pointer;
+  transition: opacity 0.2s ease-in;
+}
+.product-variant-selector__button.disabled {
+  opacity: 0;
+  pointer-events: none;
 }
 .product-variant-selector__details {
   @include flex-layout(row, center, none, 10px);

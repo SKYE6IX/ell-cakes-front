@@ -382,7 +382,7 @@ export type CreateInitialUserInput = {
 };
 
 export type CustomizationInput = {
-  keyId: Scalars['String']['input'];
+  optionId: Scalars['String']['input'];
   valueId: Scalars['String']['input'];
 };
 
@@ -3813,3 +3813,18 @@ export type VerifyUserByPhoneNumberResponse = {
   message: Maybe<Scalars['String']['output']>;
   status: Maybe<Scalars['Boolean']['output']>;
 };
+
+export type GetCategoriesQueryVariables = Exact<{
+  where: CategoryWhereInput;
+}>;
+
+
+export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null }> | null };
+
+export type ProductQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+  orderBy: Array<ProductVariantOrderByInput> | ProductVariantOrderByInput;
+}>;
+
+
+export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, stockQuantity: number | null, isAvailable: boolean | null, fillingsCount: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null, video: { __typename: 'FileFieldOutput', url: string } | null, fillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', url: string } | null, attribute: { __typename: 'Attribute', id: string, name: string | null, productAttributes: Array<{ __typename: 'ProductAttribute', id: string, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null, isAvailable: boolean | null }> | null }> | null, customization: { __typename: 'ProductCustomization', customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null } | null };
