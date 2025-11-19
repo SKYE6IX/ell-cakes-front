@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import Image from "next/image";
 import { ProductFilling } from "@/types/__generated__/graphql";
-import { SetProductConfigurationArgs } from "../product-info-panel/ProductInfoPanel";
 import image1 from "./mockImage/img-1.png";
+import type { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./product-filling-selector.scss";
 
 type ProductFillingSelectorProps = {
   fillings: ProductFilling[];
-  setProductConfiguration: ({}: SetProductConfigurationArgs) => void;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
 
 // const mockFillings = [
@@ -57,20 +57,13 @@ type ProductFillingSelectorProps = {
 
 function ProductFillingSelector({
   fillings,
-  setProductConfiguration,
+  dispatch,
 }: ProductFillingSelectorProps) {
   const [selectedFillingId, setSelectedFillinId] = useState(fillings[0].id);
 
-  const handleSetSelectedFilling = (newId: string) => {
-    setSelectedFillinId(newId);
-    // Find the filling using the current id that get passed
-    const selectedFilling = fillings.find((filling) => filling.id === newId);
-
-    // Set filling configuration that will be passed to the varinats
-    setProductConfiguration({
-      key: "selectedProductFilling",
-      configuration: { selectedProductFilling: selectedFilling },
-    });
+  const handleSetSelectedFilling = (newFilling: ProductFilling) => {
+    setSelectedFillinId(newFilling.id);
+    dispatch({ type: "set_selected_product_filling", payload: newFilling });
   };
 
   const getFillingDescription = (fillingId: string) => {
@@ -88,7 +81,7 @@ function ProductFillingSelector({
               "product-filling-selector__item",
               selectedFillingId === filling.id ? "selected" : "",
             ].join(" ")}
-            onClick={() => handleSetSelectedFilling(filling.id)}
+            onClick={() => handleSetSelectedFilling(filling)}
           >
             <div className="product-filling-selector__image-container">
               <Image

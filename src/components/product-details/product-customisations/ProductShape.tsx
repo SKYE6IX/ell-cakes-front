@@ -19,19 +19,17 @@ export const variant: Variants = {
   },
 };
 
-function ProductShape({
-  customOptions,
-  setSelectedCustomization,
-}: CustomiseComponentProps) {
+function ProductShape({ customOptions, dispatch }: CustomiseComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
-
   const productShapes = customOptions.find(
     (option) => option.name?.toUpperCase() === "SHAPE"
   );
 
+  const optionId = productShapes?.id ?? "";
   const [selectedShape, setSelectedShape] = useState(
     productShapes?.customValues![0]
   );
+
   const handleSetIsOpen = () => {
     setIsOpen(!isOpen);
   };
@@ -39,13 +37,12 @@ function ProductShape({
   const handleSetSelectedShape = (option: CustomizationOptionValue) => {
     setSelectedShape(option);
     handleSetIsOpen();
-    setSelectedCustomization({
-      optionId: productShapes?.id as string,
-      valueId: option.id,
+    dispatch({
+      type: "add_customization",
+      payload: { optionId, valueId: option.id },
     });
   };
 
-  // Don't render the block if product doesn't have shape customisation
   if (!productShapes) return null;
   return (
     <div className="product-shape">

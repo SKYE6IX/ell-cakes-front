@@ -1,36 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch } from "react";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
 import { ProductVariant } from "@/types/__generated__/graphql";
-import { SetProductConfigurationArgs } from "../product-info-panel/ProductInfoPanel";
+import type { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./product-variant-selector.scss";
 
 type ProductVariantSelectorProps = {
   variants: ProductVariant[];
   variantType: string;
-  setProductConfiguration: ({}: SetProductConfigurationArgs) => void;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
 
 function ProductVariantSelector({
   variants,
   variantType,
-  setProductConfiguration,
+  dispatch,
 }: ProductVariantSelectorProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const selectedVariant = variants[currentIdx];
 
-  // Reset back to the lowest variants when user change their selected
-  // filling
+  // Reset back to the lowest variants when user change their selected filling
   useEffect(() => {
     setCurrentIdx(0);
   }, [variants]);
 
   useEffect(() => {
-    setProductConfiguration({
-      key: "selectedProductVariant",
-      configuration: { selectedProductVariant: selectedVariant },
+    dispatch({
+      type: "set_selected_product_variant",
+      payload: selectedVariant,
     });
-  }, [currentIdx, selectedVariant, setProductConfiguration]);
+  }, [currentIdx, selectedVariant, dispatch]);
 
   const changeVariant = (changeType: "increase" | "decrease") => {
     if (changeType === "increase") {

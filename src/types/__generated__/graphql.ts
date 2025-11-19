@@ -144,7 +144,7 @@ export type CartItem = {
   cart: Maybe<Cart>;
   compositionSnapShot: Maybe<Scalars['JSON']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
-  customizationSnapShot: Maybe<Scalars['JSON']['output']>;
+  customizationsSnapShot: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   product: Maybe<Product>;
   quantity: Maybe<Scalars['Int']['output']>;
@@ -159,7 +159,7 @@ export type CartItemCreateInput = {
   cart?: InputMaybe<CartRelateToOneForCreateInput>;
   compositionSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizationSnapShot?: InputMaybe<Scalars['JSON']['input']>;
+  customizationsSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   product?: InputMaybe<ProductRelateToOneForCreateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   subTotal?: InputMaybe<Scalars['Int']['input']>;
@@ -205,7 +205,7 @@ export type CartItemUpdateInput = {
   cart?: InputMaybe<CartRelateToOneForUpdateInput>;
   compositionSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizationSnapShot?: InputMaybe<Scalars['JSON']['input']>;
+  customizationsSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   subTotal?: InputMaybe<Scalars['Int']['input']>;
@@ -382,6 +382,8 @@ export type CreateInitialUserInput = {
 };
 
 export type CustomizationInput = {
+  imagesId?: InputMaybe<Array<Scalars['String']['input']>>;
+  inscriptionText?: InputMaybe<Scalars['String']['input']>;
   optionId: Scalars['String']['input'];
   valueId: Scalars['String']['input'];
 };
@@ -936,6 +938,8 @@ export type Mutation = {
   createDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   createOrder: Maybe<Order>;
+  createOrderImage: Maybe<OrderImage>;
+  createOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   createOrderItem: Maybe<OrderItem>;
   createOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   createOrders: Maybe<Array<Maybe<Order>>>;
@@ -978,6 +982,8 @@ export type Mutation = {
   deleteDelivaryAddress: Maybe<DelivaryAddress>;
   deleteDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   deleteOrder: Maybe<Order>;
+  deleteOrderImage: Maybe<OrderImage>;
+  deleteOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   deleteOrderItem: Maybe<OrderItem>;
   deleteOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   deleteOrders: Maybe<Array<Maybe<Order>>>;
@@ -1027,6 +1033,8 @@ export type Mutation = {
   updateDelivaryAddress: Maybe<DelivaryAddress>;
   updateDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   updateOrder: Maybe<Order>;
+  updateOrderImage: Maybe<OrderImage>;
+  updateOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   updateOrderItem: Maybe<OrderItem>;
   updateOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   updateOrders: Maybe<Array<Maybe<Order>>>;
@@ -1054,6 +1062,7 @@ export type Mutation = {
   updateToppings: Maybe<Array<Maybe<Topping>>>;
   updateUser: Maybe<User>;
   updateUsers: Maybe<Array<Maybe<User>>>;
+  uploadImageCustomization: Array<OrderImage>;
   verifyUserByPhoneNumber: VerifyUserByPhoneNumberResponse;
 };
 
@@ -1166,6 +1175,16 @@ export type MutationCreateInitialUserArgs = {
 
 export type MutationCreateOrderArgs = {
   data: OrderCreateInput;
+};
+
+
+export type MutationCreateOrderImageArgs = {
+  data: OrderImageCreateInput;
+};
+
+
+export type MutationCreateOrderImagesArgs = {
+  data: Array<OrderImageCreateInput>;
 };
 
 
@@ -1376,6 +1395,16 @@ export type MutationDeleteDelivaryAddressesArgs = {
 
 export type MutationDeleteOrderArgs = {
   where: OrderWhereUniqueInput;
+};
+
+
+export type MutationDeleteOrderImageArgs = {
+  where: OrderImageWhereUniqueInput;
+};
+
+
+export type MutationDeleteOrderImagesArgs = {
+  where: Array<OrderImageWhereUniqueInput>;
 };
 
 
@@ -1631,6 +1660,17 @@ export type MutationUpdateOrderArgs = {
 };
 
 
+export type MutationUpdateOrderImageArgs = {
+  data: OrderImageUpdateInput;
+  where: OrderImageWhereUniqueInput;
+};
+
+
+export type MutationUpdateOrderImagesArgs = {
+  data: Array<OrderImageUpdateArgs>;
+};
+
+
 export type MutationUpdateOrderItemArgs = {
   data: OrderItemUpdateInput;
   where: OrderItemWhereUniqueInput;
@@ -1779,6 +1819,11 @@ export type MutationUpdateUsersArgs = {
 };
 
 
+export type MutationUploadImageCustomizationArgs = {
+  files: Array<Scalars['Upload']['input']>;
+};
+
+
 export type MutationVerifyUserByPhoneNumberArgs = {
   phoneNumber: Scalars['String']['input'];
   token: Scalars['String']['input'];
@@ -1804,6 +1849,8 @@ export type Order = {
   deliveryAddress: Maybe<DelivaryAddress>;
   id: Scalars['ID']['output'];
   note: Maybe<Scalars['String']['output']>;
+  orderImages: Maybe<Array<OrderImage>>;
+  orderImagesCount: Maybe<Scalars['Int']['output']>;
   orderItems: Maybe<Array<OrderItem>>;
   orderItemsCount: Maybe<Scalars['Int']['output']>;
   orderNumber: Maybe<Scalars['String']['output']>;
@@ -1814,6 +1861,20 @@ export type Order = {
   totalAmount: Maybe<Scalars['Int']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   user: Maybe<User>;
+};
+
+
+export type OrderOrderImagesArgs = {
+  cursor?: InputMaybe<OrderImageWhereUniqueInput>;
+  orderBy?: Array<OrderImageOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: OrderImageWhereInput;
+};
+
+
+export type OrderOrderImagesCountArgs = {
+  where?: OrderImageWhereInput;
 };
 
 
@@ -1834,6 +1895,7 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
+  orderImages?: InputMaybe<OrderImageRelateToManyForCreateInput>;
   orderItems?: InputMaybe<OrderItemRelateToManyForCreateInput>;
   orderNumber?: InputMaybe<Scalars['String']['input']>;
   payment?: InputMaybe<PaymentRelateToOneForCreateInput>;
@@ -1850,11 +1912,82 @@ export enum OrderDirection {
   Desc = 'desc'
 }
 
+export type OrderImage = {
+  __typename: 'OrderImage';
+  altText: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  image: Maybe<ImageFieldOutput>;
+  order: Maybe<Order>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type OrderImageCreateInput = {
+  altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  order?: InputMaybe<OrderRelateToOneForCreateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type OrderImageManyRelationFilter = {
+  every?: InputMaybe<OrderImageWhereInput>;
+  none?: InputMaybe<OrderImageWhereInput>;
+  some?: InputMaybe<OrderImageWhereInput>;
+};
+
+export type OrderImageOrderByInput = {
+  altText?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+};
+
+export type OrderImageRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
+  create?: InputMaybe<Array<OrderImageCreateInput>>;
+};
+
+export type OrderImageRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
+  create?: InputMaybe<Array<OrderImageCreateInput>>;
+  disconnect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
+  set?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
+};
+
+export type OrderImageUpdateArgs = {
+  data: OrderImageUpdateInput;
+  where: OrderImageWhereUniqueInput;
+};
+
+export type OrderImageUpdateInput = {
+  altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  order?: InputMaybe<OrderRelateToOneForUpdateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type OrderImageWhereInput = {
+  AND?: InputMaybe<Array<OrderImageWhereInput>>;
+  NOT?: InputMaybe<Array<OrderImageWhereInput>>;
+  OR?: InputMaybe<Array<OrderImageWhereInput>>;
+  altText?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  order?: InputMaybe<OrderWhereInput>;
+  updatedAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type OrderImageWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type OrderItem = {
   __typename: 'OrderItem';
   compositionSnapShot: Maybe<Scalars['JSON']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
-  customizationSnapShot: Maybe<Scalars['JSON']['output']>;
+  customizationsSnapShot: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   order: Maybe<Order>;
   product: Maybe<Product>;
@@ -1869,7 +2002,7 @@ export type OrderItem = {
 export type OrderItemCreateInput = {
   compositionSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizationSnapShot?: InputMaybe<Scalars['JSON']['input']>;
+  customizationsSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   order?: InputMaybe<OrderRelateToOneForCreateInput>;
   product?: InputMaybe<ProductRelateToOneForCreateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
@@ -1915,7 +2048,7 @@ export type OrderItemUpdateArgs = {
 export type OrderItemUpdateInput = {
   compositionSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizationSnapShot?: InputMaybe<Scalars['JSON']['input']>;
+  customizationsSnapShot?: InputMaybe<Scalars['JSON']['input']>;
   order?: InputMaybe<OrderRelateToOneForUpdateInput>;
   product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
@@ -1996,6 +2129,7 @@ export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
+  orderImages?: InputMaybe<OrderImageRelateToManyForUpdateInput>;
   orderItems?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
   orderNumber?: InputMaybe<Scalars['String']['input']>;
   payment?: InputMaybe<PaymentRelateToOneForUpdateInput>;
@@ -2015,6 +2149,7 @@ export type OrderWhereInput = {
   deliveryAddress?: InputMaybe<DelivaryAddressWhereInput>;
   id?: InputMaybe<IdFilter>;
   note?: InputMaybe<StringFilter>;
+  orderImages?: InputMaybe<OrderImageManyRelationFilter>;
   orderItems?: InputMaybe<OrderItemManyRelationFilter>;
   orderNumber?: InputMaybe<StringFilter>;
   payment?: InputMaybe<PaymentWhereInput>;
@@ -2933,6 +3068,9 @@ export type Query = {
   delivaryAddressesCount: Maybe<Scalars['Int']['output']>;
   keystone: KeystoneMeta;
   order: Maybe<Order>;
+  orderImage: Maybe<OrderImage>;
+  orderImages: Maybe<Array<OrderImage>>;
+  orderImagesCount: Maybe<Scalars['Int']['output']>;
   orderItem: Maybe<OrderItem>;
   orderItems: Maybe<Array<OrderItem>>;
   orderItemsCount: Maybe<Scalars['Int']['output']>;
@@ -3113,6 +3251,25 @@ export type QueryDelivaryAddressesCountArgs = {
 
 export type QueryOrderArgs = {
   where: OrderWhereUniqueInput;
+};
+
+
+export type QueryOrderImageArgs = {
+  where: OrderImageWhereUniqueInput;
+};
+
+
+export type QueryOrderImagesArgs = {
+  cursor?: InputMaybe<OrderImageWhereUniqueInput>;
+  orderBy?: Array<OrderImageOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: OrderImageWhereInput;
+};
+
+
+export type QueryOrderImagesCountArgs = {
+  where?: OrderImageWhereInput;
 };
 
 
@@ -3823,8 +3980,9 @@ export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', i
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
-  orderBy: Array<ProductVariantOrderByInput> | ProductVariantOrderByInput;
+  variantsOrderBy: Array<ProductVariantOrderByInput> | ProductVariantOrderByInput;
+  toppingOptionOrderBy: Array<ToppingOptionOrderByInput> | ToppingOptionOrderByInput;
 }>;
 
 
-export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, stockQuantity: number | null, isAvailable: boolean | null, fillingsCount: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null, video: { __typename: 'FileFieldOutput', url: string } | null, fillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', url: string } | null, attribute: { __typename: 'Attribute', id: string, name: string | null, productAttributes: Array<{ __typename: 'ProductAttribute', id: string, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null, isAvailable: boolean | null }> | null }> | null, customization: { __typename: 'ProductCustomization', customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null } | null };
+export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, stockQuantity: number | null, isAvailable: boolean | null, fillingsCount: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null, video: { __typename: 'FileFieldOutput', url: string } | null, fillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', url: string } | null, attribute: { __typename: 'Attribute', id: string, name: string | null, productAttributes: Array<{ __typename: 'ProductAttribute', id: string, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null, isAvailable: boolean | null }> | null }> | null, customization: { __typename: 'ProductCustomization', customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null, topping: { __typename: 'Topping', options: Array<{ __typename: 'ToppingOption', id: string, pieces: number | null, weight: unknown | null, extraPrice: number | null }> | null } | null } | null };

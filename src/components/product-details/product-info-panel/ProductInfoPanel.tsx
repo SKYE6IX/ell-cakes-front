@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useReducer } from "react";
 import ProductFillingSelector from "../product-filling-selector/ProductFillingSelector";
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
 import ProductShape from "../product-customisations/ProductShape";
@@ -10,92 +10,24 @@ import IngredientsInfo from "../ingredients-info/IngredientsInfo";
 import ProductReviews from "../product-reviews/ProductReviews";
 import ProductFAQ from "../product-faq/ProductFAQ";
 import MixProductOption from "../mix-product-option/MixProductOption";
-import {
-  Product,
-  ProductFilling,
-  ProductVariant,
-  CustomizationInput,
-  ToppingOption,
-} from "@/types/__generated__/graphql";
+import { Product } from "@/types/__generated__/graphql";
+import { reducer } from "./productConfigurationReducer";
 import "./product-info-panel.scss";
 
 type ProductInfoPanelProps = {
   product: Product;
 };
-interface ProductConfiguration {
-  selectedProductFilling: ProductFilling;
-  selectedProductVariant: ProductVariant;
-  selectedTopping: ToppingOption | null;
-}
-export interface SetProductConfigurationArgs {
-  key: keyof ProductConfiguration;
-  configuration: Partial<ProductConfiguration>;
-}
 
 function ProductInfoPanel({ product }: ProductInfoPanelProps) {
   // Picking the first item from the fillings and the and the first item from
   // the filling variants, works also for a product that only has a single filling.
   const initialProductFilling = product.fillings![0];
-
-  const [productConfiguration, setProductConfiguration] =
-    useState<ProductConfiguration>({
-      selectedProductFilling: initialProductFilling,
-      selectedProductVariant: initialProductFilling.variants![0],
-      selectedTopping: null,
-    });
-  const handleSetProductConfiguration = useCallback(
-    ({ key, configuration }: SetProductConfigurationArgs) => {
-      setProductConfiguration((prvState) => ({
-        ...prvState,
-        [key]: configuration[key],
-      }));
-    },
-    []
-  );
-
-  const [selectedCustomization, setSelectedCustomization] = useState<
-    CustomizationInput[] | null
-  >(null);
-  const handleSetSelectedCustomization = (
-    customization: CustomizationInput
-  ) => {
-    const existCustomization = selectedCustomization?.find(
-      (cus) => cus.optionId === customization.optionId
-    );
-    if (existCustomization) {
-      setSelectedCustomization((prvState) => {
-        if (prvState) {
-          return prvState.map((obj) => {
-            if (obj.optionId === existCustomization.optionId) {
-              return { ...obj, valueId: customization.valueId };
-            }
-            return obj;
-          });
-        }
-        return prvState;
-      });
-    } else {
-      setSelectedCustomization((prvState) => {
-        if (!prvState) {
-          return [
-            {
-              optionId: customization.optionId,
-              valueId: customization.valueId,
-            },
-          ];
-        } else if (prvState) {
-          return [
-            ...prvState,
-            {
-              optionId: customization.optionId,
-              valueId: customization.valueId,
-            },
-          ];
-        }
-        return prvState;
-      });
-    }
-  };
+  const [productConfiguration, dispatch] = useReducer(reducer, {
+    selectedProductFilling: initialProductFilling,
+    selectedProductVariant: initialProductFilling.variants![0],
+    selectedTopping: null,
+    customizations: null,
+  });
 
   return (
     <div className="product-info-panel">
@@ -110,14 +42,14 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
         {Number(product.fillingsCount) > 1 && (
           <ProductFillingSelector
             fillings={product.fillings!}
-            setProductConfiguration={handleSetProductConfiguration}
+            dispatch={dispatch}
           />
         )}
 
         <ProductVariantSelector
           variants={productConfiguration.selectedProductFilling.variants!}
           variantType={product.variantType!}
-          setProductConfiguration={handleSetProductConfiguration}
+          dispatch={dispatch}
         />
 
         <div className="product-info-panel__customisations-wrapper">
@@ -125,24 +57,24 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
             <>
               <ProductShape
                 customOptions={product.customization.customOptions!}
-                setSelectedCustomization={handleSetSelectedCustomization}
+                dispatch={dispatch}
               />
-              <AddCustomisePhoto
+              {/* <AddCustomisePhoto
                 customOptions={product.customization.customOptions!}
-                setSelectedCustomization={handleSetSelectedCustomization}
-              />
+                
+              /> */}
               <AddCustomiseInscription
                 customOptions={product.customization.customOptions!}
-                setSelectedCustomization={handleSetSelectedCustomization}
+                dispatch={dispatch}
               />
             </>
           )}
-          {product.topping && (
+          {/* {product.topping && (
             <AddTopping
               toppingOptions={product.topping.options!}
               setProductConfiguration={handleSetProductConfiguration}
             />
-          )}
+          )} */}
         </div>
 
         <button className="product-info-panel__add-to-cart">

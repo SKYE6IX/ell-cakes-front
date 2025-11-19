@@ -1,9 +1,8 @@
-import {
-  CustomizationOption,
-  CustomizationInput,
-} from "@/types/__generated__/graphql";
+import { Dispatch } from "react";
+import { CustomizationOption } from "@/types/__generated__/graphql";
+import type { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 
 export type CustomiseComponentProps = {
   customOptions: CustomizationOption[];
-  setSelectedCustomization: (customization: CustomizationInput) => void;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
