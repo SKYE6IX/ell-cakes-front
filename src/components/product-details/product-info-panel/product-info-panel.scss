@@ -103,7 +103,7 @@
   }
   @include max-breakpoint("s") {
     margin-top: 30px;
-    gap: 20px;
+    @include flex-layout(column, center, center, 20px);
   }
 }
 .product-info-panel__add-to-cart {

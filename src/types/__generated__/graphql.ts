@@ -559,6 +559,77 @@ export type CustomizationOptionWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type CustomizeImage = {
+  __typename: 'CustomizeImage';
+  altText: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  image: Maybe<ImageFieldOutput>;
+  order: Maybe<Order>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type CustomizeImageCreateInput = {
+  altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  order?: InputMaybe<OrderRelateToOneForCreateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type CustomizeImageManyRelationFilter = {
+  every?: InputMaybe<CustomizeImageWhereInput>;
+  none?: InputMaybe<CustomizeImageWhereInput>;
+  some?: InputMaybe<CustomizeImageWhereInput>;
+};
+
+export type CustomizeImageOrderByInput = {
+  altText?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+};
+
+export type CustomizeImageRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
+  create?: InputMaybe<Array<CustomizeImageCreateInput>>;
+};
+
+export type CustomizeImageRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
+  create?: InputMaybe<Array<CustomizeImageCreateInput>>;
+  disconnect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
+  set?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
+};
+
+export type CustomizeImageUpdateArgs = {
+  data: CustomizeImageUpdateInput;
+  where: CustomizeImageWhereUniqueInput;
+};
+
+export type CustomizeImageUpdateInput = {
+  altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  order?: InputMaybe<OrderRelateToOneForUpdateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type CustomizeImageWhereInput = {
+  AND?: InputMaybe<Array<CustomizeImageWhereInput>>;
+  NOT?: InputMaybe<Array<CustomizeImageWhereInput>>;
+  OR?: InputMaybe<Array<CustomizeImageWhereInput>>;
+  altText?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  order?: InputMaybe<OrderWhereInput>;
+  updatedAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type CustomizeImageWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type DateTimeNullableFilter = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
   gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -934,12 +1005,12 @@ export type Mutation = {
   createCustomizationOptionValue: Maybe<CustomizationOptionValue>;
   createCustomizationOptionValues: Maybe<Array<Maybe<CustomizationOptionValue>>>;
   createCustomizationOptions: Maybe<Array<Maybe<CustomizationOption>>>;
+  createCustomizeImage: Maybe<CustomizeImage>;
+  createCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   createDelivaryAddress: Maybe<DelivaryAddress>;
   createDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   createOrder: Maybe<Order>;
-  createOrderImage: Maybe<OrderImage>;
-  createOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   createOrderItem: Maybe<OrderItem>;
   createOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   createOrders: Maybe<Array<Maybe<Order>>>;
@@ -979,11 +1050,11 @@ export type Mutation = {
   deleteCustomizationOptionValue: Maybe<CustomizationOptionValue>;
   deleteCustomizationOptionValues: Maybe<Array<Maybe<CustomizationOptionValue>>>;
   deleteCustomizationOptions: Maybe<Array<Maybe<CustomizationOption>>>;
+  deleteCustomizeImage: Maybe<CustomizeImage>;
+  deleteCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   deleteDelivaryAddress: Maybe<DelivaryAddress>;
   deleteDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   deleteOrder: Maybe<Order>;
-  deleteOrderImage: Maybe<OrderImage>;
-  deleteOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   deleteOrderItem: Maybe<OrderItem>;
   deleteOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   deleteOrders: Maybe<Array<Maybe<Order>>>;
@@ -1030,11 +1101,11 @@ export type Mutation = {
   updateCustomizationOptionValue: Maybe<CustomizationOptionValue>;
   updateCustomizationOptionValues: Maybe<Array<Maybe<CustomizationOptionValue>>>;
   updateCustomizationOptions: Maybe<Array<Maybe<CustomizationOption>>>;
+  updateCustomizeImage: Maybe<CustomizeImage>;
+  updateCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   updateDelivaryAddress: Maybe<DelivaryAddress>;
   updateDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
   updateOrder: Maybe<Order>;
-  updateOrderImage: Maybe<OrderImage>;
-  updateOrderImages: Maybe<Array<Maybe<OrderImage>>>;
   updateOrderItem: Maybe<OrderItem>;
   updateOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   updateOrders: Maybe<Array<Maybe<Order>>>;
@@ -1062,7 +1133,7 @@ export type Mutation = {
   updateToppings: Maybe<Array<Maybe<Topping>>>;
   updateUser: Maybe<User>;
   updateUsers: Maybe<Array<Maybe<User>>>;
-  uploadImageCustomization: Array<OrderImage>;
+  uploadImageCustomization: Array<CustomizeImage>;
   verifyUserByPhoneNumber: VerifyUserByPhoneNumberResponse;
 };
 
@@ -1158,6 +1229,16 @@ export type MutationCreateCustomizationOptionsArgs = {
 };
 
 
+export type MutationCreateCustomizeImageArgs = {
+  data: CustomizeImageCreateInput;
+};
+
+
+export type MutationCreateCustomizeImagesArgs = {
+  data: Array<CustomizeImageCreateInput>;
+};
+
+
 export type MutationCreateDelivaryAddressArgs = {
   data: DelivaryAddressCreateInput;
 };
@@ -1175,16 +1256,6 @@ export type MutationCreateInitialUserArgs = {
 
 export type MutationCreateOrderArgs = {
   data: OrderCreateInput;
-};
-
-
-export type MutationCreateOrderImageArgs = {
-  data: OrderImageCreateInput;
-};
-
-
-export type MutationCreateOrderImagesArgs = {
-  data: Array<OrderImageCreateInput>;
 };
 
 
@@ -1383,6 +1454,16 @@ export type MutationDeleteCustomizationOptionsArgs = {
 };
 
 
+export type MutationDeleteCustomizeImageArgs = {
+  where: CustomizeImageWhereUniqueInput;
+};
+
+
+export type MutationDeleteCustomizeImagesArgs = {
+  where: Array<CustomizeImageWhereUniqueInput>;
+};
+
+
 export type MutationDeleteDelivaryAddressArgs = {
   where: DelivaryAddressWhereUniqueInput;
 };
@@ -1395,16 +1476,6 @@ export type MutationDeleteDelivaryAddressesArgs = {
 
 export type MutationDeleteOrderArgs = {
   where: OrderWhereUniqueInput;
-};
-
-
-export type MutationDeleteOrderImageArgs = {
-  where: OrderImageWhereUniqueInput;
-};
-
-
-export type MutationDeleteOrderImagesArgs = {
-  where: Array<OrderImageWhereUniqueInput>;
 };
 
 
@@ -1643,6 +1714,17 @@ export type MutationUpdateCustomizationOptionsArgs = {
 };
 
 
+export type MutationUpdateCustomizeImageArgs = {
+  data: CustomizeImageUpdateInput;
+  where: CustomizeImageWhereUniqueInput;
+};
+
+
+export type MutationUpdateCustomizeImagesArgs = {
+  data: Array<CustomizeImageUpdateArgs>;
+};
+
+
 export type MutationUpdateDelivaryAddressArgs = {
   data: DelivaryAddressUpdateInput;
   where: DelivaryAddressWhereUniqueInput;
@@ -1657,17 +1739,6 @@ export type MutationUpdateDelivaryAddressesArgs = {
 export type MutationUpdateOrderArgs = {
   data: OrderUpdateInput;
   where: OrderWhereUniqueInput;
-};
-
-
-export type MutationUpdateOrderImageArgs = {
-  data: OrderImageUpdateInput;
-  where: OrderImageWhereUniqueInput;
-};
-
-
-export type MutationUpdateOrderImagesArgs = {
-  data: Array<OrderImageUpdateArgs>;
 };
 
 
@@ -1846,11 +1917,11 @@ export type NestedStringFilter = {
 export type Order = {
   __typename: 'Order';
   createdAt: Maybe<Scalars['DateTime']['output']>;
+  customizeImages: Maybe<Array<CustomizeImage>>;
+  customizeImagesCount: Maybe<Scalars['Int']['output']>;
   deliveryAddress: Maybe<DelivaryAddress>;
   id: Scalars['ID']['output'];
   note: Maybe<Scalars['String']['output']>;
-  orderImages: Maybe<Array<OrderImage>>;
-  orderImagesCount: Maybe<Scalars['Int']['output']>;
   orderItems: Maybe<Array<OrderItem>>;
   orderItemsCount: Maybe<Scalars['Int']['output']>;
   orderNumber: Maybe<Scalars['String']['output']>;
@@ -1864,17 +1935,17 @@ export type Order = {
 };
 
 
-export type OrderOrderImagesArgs = {
-  cursor?: InputMaybe<OrderImageWhereUniqueInput>;
-  orderBy?: Array<OrderImageOrderByInput>;
+export type OrderCustomizeImagesArgs = {
+  cursor?: InputMaybe<CustomizeImageWhereUniqueInput>;
+  orderBy?: Array<CustomizeImageOrderByInput>;
   skip?: Scalars['Int']['input'];
   take?: InputMaybe<Scalars['Int']['input']>;
-  where?: OrderImageWhereInput;
+  where?: CustomizeImageWhereInput;
 };
 
 
-export type OrderOrderImagesCountArgs = {
-  where?: OrderImageWhereInput;
+export type OrderCustomizeImagesCountArgs = {
+  where?: CustomizeImageWhereInput;
 };
 
 
@@ -1893,9 +1964,9 @@ export type OrderOrderItemsCountArgs = {
 
 export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  customizeImages?: InputMaybe<CustomizeImageRelateToManyForCreateInput>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
-  orderImages?: InputMaybe<OrderImageRelateToManyForCreateInput>;
   orderItems?: InputMaybe<OrderItemRelateToManyForCreateInput>;
   orderNumber?: InputMaybe<Scalars['String']['input']>;
   payment?: InputMaybe<PaymentRelateToOneForCreateInput>;
@@ -1911,77 +1982,6 @@ export enum OrderDirection {
   Asc = 'asc',
   Desc = 'desc'
 }
-
-export type OrderImage = {
-  __typename: 'OrderImage';
-  altText: Maybe<Scalars['String']['output']>;
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['ID']['output'];
-  image: Maybe<ImageFieldOutput>;
-  order: Maybe<Order>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-};
-
-export type OrderImageCreateInput = {
-  altText?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  image?: InputMaybe<ImageFieldInput>;
-  order?: InputMaybe<OrderRelateToOneForCreateInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type OrderImageManyRelationFilter = {
-  every?: InputMaybe<OrderImageWhereInput>;
-  none?: InputMaybe<OrderImageWhereInput>;
-  some?: InputMaybe<OrderImageWhereInput>;
-};
-
-export type OrderImageOrderByInput = {
-  altText?: InputMaybe<OrderDirection>;
-  createdAt?: InputMaybe<OrderDirection>;
-  id?: InputMaybe<OrderDirection>;
-  updatedAt?: InputMaybe<OrderDirection>;
-};
-
-export type OrderImageRelateToManyForCreateInput = {
-  connect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
-  create?: InputMaybe<Array<OrderImageCreateInput>>;
-};
-
-export type OrderImageRelateToManyForUpdateInput = {
-  connect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
-  create?: InputMaybe<Array<OrderImageCreateInput>>;
-  disconnect?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
-  set?: InputMaybe<Array<OrderImageWhereUniqueInput>>;
-};
-
-export type OrderImageUpdateArgs = {
-  data: OrderImageUpdateInput;
-  where: OrderImageWhereUniqueInput;
-};
-
-export type OrderImageUpdateInput = {
-  altText?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  image?: InputMaybe<ImageFieldInput>;
-  order?: InputMaybe<OrderRelateToOneForUpdateInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type OrderImageWhereInput = {
-  AND?: InputMaybe<Array<OrderImageWhereInput>>;
-  NOT?: InputMaybe<Array<OrderImageWhereInput>>;
-  OR?: InputMaybe<Array<OrderImageWhereInput>>;
-  altText?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeNullableFilter>;
-  id?: InputMaybe<IdFilter>;
-  order?: InputMaybe<OrderWhereInput>;
-  updatedAt?: InputMaybe<DateTimeNullableFilter>;
-};
-
-export type OrderImageWhereUniqueInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-};
 
 export type OrderItem = {
   __typename: 'OrderItem';
@@ -2127,9 +2127,9 @@ export type OrderUpdateArgs = {
 
 export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  customizeImages?: InputMaybe<CustomizeImageRelateToManyForUpdateInput>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
-  orderImages?: InputMaybe<OrderImageRelateToManyForUpdateInput>;
   orderItems?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
   orderNumber?: InputMaybe<Scalars['String']['input']>;
   payment?: InputMaybe<PaymentRelateToOneForUpdateInput>;
@@ -2146,10 +2146,10 @@ export type OrderWhereInput = {
   NOT?: InputMaybe<Array<OrderWhereInput>>;
   OR?: InputMaybe<Array<OrderWhereInput>>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
+  customizeImages?: InputMaybe<CustomizeImageManyRelationFilter>;
   deliveryAddress?: InputMaybe<DelivaryAddressWhereInput>;
   id?: InputMaybe<IdFilter>;
   note?: InputMaybe<StringFilter>;
-  orderImages?: InputMaybe<OrderImageManyRelationFilter>;
   orderItems?: InputMaybe<OrderItemManyRelationFilter>;
   orderNumber?: InputMaybe<StringFilter>;
   payment?: InputMaybe<PaymentWhereInput>;
@@ -3063,14 +3063,14 @@ export type Query = {
   customizationOptionValuesCount: Maybe<Scalars['Int']['output']>;
   customizationOptions: Maybe<Array<CustomizationOption>>;
   customizationOptionsCount: Maybe<Scalars['Int']['output']>;
+  customizeImage: Maybe<CustomizeImage>;
+  customizeImages: Maybe<Array<CustomizeImage>>;
+  customizeImagesCount: Maybe<Scalars['Int']['output']>;
   delivaryAddress: Maybe<DelivaryAddress>;
   delivaryAddresses: Maybe<Array<DelivaryAddress>>;
   delivaryAddressesCount: Maybe<Scalars['Int']['output']>;
   keystone: KeystoneMeta;
   order: Maybe<Order>;
-  orderImage: Maybe<OrderImage>;
-  orderImages: Maybe<Array<OrderImage>>;
-  orderImagesCount: Maybe<Scalars['Int']['output']>;
   orderItem: Maybe<OrderItem>;
   orderItems: Maybe<Array<OrderItem>>;
   orderItemsCount: Maybe<Scalars['Int']['output']>;
@@ -3230,6 +3230,25 @@ export type QueryCustomizationOptionsCountArgs = {
 };
 
 
+export type QueryCustomizeImageArgs = {
+  where: CustomizeImageWhereUniqueInput;
+};
+
+
+export type QueryCustomizeImagesArgs = {
+  cursor?: InputMaybe<CustomizeImageWhereUniqueInput>;
+  orderBy?: Array<CustomizeImageOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CustomizeImageWhereInput;
+};
+
+
+export type QueryCustomizeImagesCountArgs = {
+  where?: CustomizeImageWhereInput;
+};
+
+
 export type QueryDelivaryAddressArgs = {
   where: DelivaryAddressWhereUniqueInput;
 };
@@ -3251,25 +3270,6 @@ export type QueryDelivaryAddressesCountArgs = {
 
 export type QueryOrderArgs = {
   where: OrderWhereUniqueInput;
-};
-
-
-export type QueryOrderImageArgs = {
-  where: OrderImageWhereUniqueInput;
-};
-
-
-export type QueryOrderImagesArgs = {
-  cursor?: InputMaybe<OrderImageWhereUniqueInput>;
-  orderBy?: Array<OrderImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: OrderImageWhereInput;
-};
-
-
-export type QueryOrderImagesCountArgs = {
-  where?: OrderImageWhereInput;
 };
 
 

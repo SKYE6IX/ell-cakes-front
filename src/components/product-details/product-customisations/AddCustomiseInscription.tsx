@@ -8,9 +8,9 @@ function AddCustomiseInscription({
   dispatch,
 }: CustomiseComponentProps) {
   const [inscriptionInput, setInscriptionInput] = useState("");
-  const [isActive, setIsActive] = useState(false);
+  const [isAddInscription, setIsAddInscription] = useState(false);
   const handleSetIsActive = () => {
-    setIsActive(!isActive);
+    setIsAddInscription(!isAddInscription);
   };
   const addCustomInscription = customOptions.find(
     (option) => option.name?.toUpperCase() === "INSCRIPTION"
@@ -51,7 +51,7 @@ function AddCustomiseInscription({
   if (!addCustomInscription) return null;
   return (
     <div className="add-customise-insription">
-      {isActive ? (
+      {isAddInscription ? (
         <div className="add-customise-insription__input-wrapper">
           <label
             htmlFor="inscription-input"

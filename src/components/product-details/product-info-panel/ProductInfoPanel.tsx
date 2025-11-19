@@ -59,10 +59,10 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
                 customOptions={product.customization.customOptions!}
                 dispatch={dispatch}
               />
-              {/* <AddCustomisePhoto
+              <AddCustomisePhoto
                 customOptions={product.customization.customOptions!}
-                
-              /> */}
+                dispatch={dispatch}
+              />
               <AddCustomiseInscription
                 customOptions={product.customization.customOptions!}
                 dispatch={dispatch}

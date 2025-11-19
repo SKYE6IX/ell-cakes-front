@@ -4,6 +4,7 @@ import {
   ProductWhereUniqueInput,
   ProductVariantOrderByInput,
   ToppingOptionOrderByInput,
+  CustomizeImage,
 } from "@/types/__generated__/graphql";
 
 export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
@@ -97,6 +98,20 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
           extraPrice
         }
       }
+    }
+  }
+`;
+
+export const ADD_CUSTOMIZE_IMAGE: TypedDocumentNode<
+  {
+    uploadImageCustomization: CustomizeImage[];
+  },
+  { files: FileList }
+> = gql`
+  mutation UploadImageCustomization($files: [Upload!]!) {
+    uploadImageCustomization(files: $files) {
+      id
+      altText
     }
   }
 `;
