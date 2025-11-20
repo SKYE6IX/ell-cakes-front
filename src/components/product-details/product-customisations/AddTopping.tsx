@@ -1,29 +1,29 @@
-import { useState } from "react";
+import { useState, Dispatch } from "react";
 import Modal from "@/components/modal/Modal";
 import { ToppingOption } from "@/types/__generated__/graphql";
-import { SetProductConfigurationArgs } from "../product-info-panel/ProductInfoPanel";
+import { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
+
 import "./product-customisations.scss";
 
 type AddToppingProps = {
   toppingOptions: ToppingOption[];
-  setProductConfiguration: ({}: SetProductConfigurationArgs) => void;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
 
-function AddTopping({
-  toppingOptions,
-  setProductConfiguration,
-}: AddToppingProps) {
+function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
   const [showModal, setShowModal] = useState(false);
-  const [selectedToppingId, setSelectedToppingId] = useState("");
+  const [selectedToppingId, setSelectedToppingId] = useState("default");
   const handleSetShowModal = () => {
     setShowModal(!showModal);
   };
   const selectTopping = (topping: ToppingOption) => {
     setSelectedToppingId(topping.id);
-    setProductConfiguration({
-      key: "selectedTopping",
-      configuration: { selectedTopping: topping },
-    });
+    dispatch({ type: "add_topping", payload: topping });
+  };
+
+  const removeTopping = () => {
+    setSelectedToppingId("default");
+    dispatch({ type: "remove_topping" });
   };
 
   return (
@@ -37,6 +37,15 @@ function AddTopping({
         handleCloseModal={handleSetShowModal}
       >
         <ul className="add-topping__list">
+          <li
+            className={[
+              "add-topping__item",
+              selectedToppingId === "default" ? "selected" : "",
+            ].join(" ")}
+            onClick={removeTopping}
+          >
+            ничто
+          </li>
           {toppingOptions.map((option) => (
             <li
               className={[

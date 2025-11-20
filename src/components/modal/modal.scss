@@ -20,7 +20,7 @@
   background: rgba(0, 0, 0, 0.5);
 }
 .modal__content-wrapper {
-  width: 600px;
+  width: 700px;
   min-height: 600px;
   position: absolute;
   background: $neutral;
@@ -31,6 +31,7 @@
   @include max-breakpoint("s") {
     width: 100%;
     border-radius: 0px;
+    padding: 20px;
   }
 }
 .modal__content {

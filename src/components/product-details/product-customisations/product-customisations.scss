@@ -216,6 +216,11 @@
   list-style: none;
   @include flex-layout(row, none, none, 20px);
   flex-wrap: wrap;
+  @include max-breakpoint("s") {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
 }
 .add-topping__item {
   font-family: $font-uncage, sans-serif;
@@ -227,6 +232,12 @@
   border: 1px solid $dark-color;
   border-radius: 15px;
   cursor: pointer;
+  @include max-breakpoint("s") {
+    font-size: 0.75rem;
+    line-height: 16.8px;
+    border-radius: 10px;
+    text-align: center;
+  }
 }
 .add-topping__item.selected {
   background: $primary-accent;

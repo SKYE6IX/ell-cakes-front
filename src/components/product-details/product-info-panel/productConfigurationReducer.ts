@@ -28,6 +28,13 @@ export type ACTIONTYPE =
   | {
       type: "remove_customization";
       payload: { optionId: string };
+    }
+  | {
+      type: "add_topping";
+      payload: ToppingOption;
+    }
+  | {
+      type: "remove_topping";
     };
 
 export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
@@ -92,6 +99,20 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
           customizations: null,
         };
       }
+    }
+
+    case "add_topping": {
+      return {
+        ...state,
+        selectedTopping: action.payload,
+      };
+    }
+
+    case "remove_topping": {
+      return {
+        ...state,
+        selectedTopping: null,
+      };
     }
 
     default:

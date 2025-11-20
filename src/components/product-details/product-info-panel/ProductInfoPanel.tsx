@@ -69,12 +69,12 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
               />
             </>
           )}
-          {/* {product.topping && (
+          {product.topping && (
             <AddTopping
               toppingOptions={product.topping.options!}
-              setProductConfiguration={handleSetProductConfiguration}
+              dispatch={dispatch}
             />
-          )} */}
+          )}
         </div>
 
         <button className="product-info-panel__add-to-cart">

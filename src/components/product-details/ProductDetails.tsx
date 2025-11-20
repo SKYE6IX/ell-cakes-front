@@ -14,7 +14,7 @@ import "./product-details.scss";
 function ProductDetails() {
   const { data, loading, error } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
-      where: { slug: "yagodno-bananovy-milfey" },
+      where: { slug: "pryamougolny-italyansky-pirog-s-klubnikoy" },
       variantsOrderBy: [
         { weight: OrderDirection.Asc },
         { pieces: OrderDirection.Asc },
