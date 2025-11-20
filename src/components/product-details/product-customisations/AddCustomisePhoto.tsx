@@ -14,6 +14,7 @@ const initialState = {
   isAddCustomisePhoto: false,
   previewsData: [] as { id: string; name: string }[],
   customisePhotoOption: { optionId: "", valueId: "", total: "" },
+  errorMessage: "",
 };
 
 function AddCustomisePhoto({
@@ -63,11 +64,38 @@ function AddCustomisePhoto({
   };
 
   const onInputFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Reset the error message
+    setCustomisePhotoState((prvState) => ({
+      ...prvState,
+      errorMessage: "",
+    }));
     const files = e.target.files;
+    const totalImageSelected = Number(
+      customisePhotoState.customisePhotoOption.total
+    );
     if (files) {
-      addCustomizeImage({ variables: { files } });
+      if (totalImageSelected === 2 && files.length > totalImageSelected) {
+        setCustomisePhotoState((prvState) => ({
+          ...prvState,
+          errorMessage: "Максимум два изображения!",
+        }));
+        handleSetOpen();
+        return;
+      } else if (
+        totalImageSelected === 2 &&
+        files.length < totalImageSelected
+      ) {
+        setCustomisePhotoState((prvState) => ({
+          ...prvState,
+          errorMessage: "сложите два изображения!",
+        }));
+        handleSetOpen();
+        return;
+      } else {
+        addCustomizeImage({ variables: { files } });
+        handleSetOpen();
+      }
     }
-    handleSetOpen();
   };
 
   const handleSelectedCustomPhoto = (
@@ -118,6 +146,11 @@ function AddCustomisePhoto({
         </>
       ) : (
         <>
+          {customisePhotoState.errorMessage && (
+            <p className="add-customise-photo__error-message">
+              {customisePhotoState.errorMessage}
+            </p>
+          )}
           <button
             className="add-customise-photo__button"
             onClick={handleSetOpen}
