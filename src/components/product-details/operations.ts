@@ -53,23 +53,6 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
         ingredients
         protein
         carbonhydrate
-        attribute {
-          id
-          name
-          productAttributes {
-            id
-            product {
-              id
-              name
-              images {
-                id
-                image {
-                  url
-                }
-              }
-            }
-          }
-        }
         variants(orderBy: $variantsOrderBy) {
           id
           weight
@@ -96,6 +79,17 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
           pieces
           weight
           extraPrice
+        }
+      }
+      mixBoxCompositions {
+        id
+        name
+        slug
+        images {
+          id
+          image {
+            url
+          }
         }
       }
     }

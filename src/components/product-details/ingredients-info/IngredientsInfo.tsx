@@ -1,9 +1,14 @@
 import { useState } from "react";
 import ProductInfoBtn from "../product-info-btn/ProductInfoBtn";
 import Modal from "@/components/modal/Modal";
+import { ProductFilling } from "@/types/__generated__/graphql";
 import "./ingredients-info.scss";
 
-function IngredientsInfo() {
+type IngredientsInfoProp = {
+  productFilling: ProductFilling;
+};
+
+function IngredientsInfo({ productFilling }: IngredientsInfoProp) {
   const [showModal, setShowModal] = useState(false);
   const handleSetShowModal = () => {
     setShowModal(!showModal);
@@ -22,19 +27,25 @@ function IngredientsInfo() {
         <div className="ingredients-info__content">
           <div className="ingredients-info__nutrition-wrapper">
             <span className="ingredients-info__nutrition-calories">
-              Ккал 311.8
+              Ккал {String(productFilling.calories)}
             </span>
             <ul className="ingredients-info__nutrition-list">
               <li className="ingredients-info__nutrition-item">
-                <span className="ingredients-info__nutrition-metric">9.8</span>
+                <span className="ingredients-info__nutrition-metric">
+                  {String(productFilling.protein)}
+                </span>
                 <span className="ingredients-info__nutrition-name">Белки</span>
               </li>
               <li className="ingredients-info__nutrition-item">
-                <span className="ingredients-info__nutrition-metric">4.7</span>
+                <span className="ingredients-info__nutrition-metric">
+                  {String(productFilling.fat)}
+                </span>
                 <span className="ingredients-info__nutrition-name">Жиры</span>
               </li>
               <li className="ingredients-info__nutrition-item">
-                <span className="ingredients-info__nutrition-metric">56.2</span>
+                <span className="ingredients-info__nutrition-metric">
+                  {String(productFilling.carbonhydrate)}
+                </span>
                 <span className="ingredients-info__nutrition-name">
                   Углеводы
                 </span>
@@ -44,10 +55,7 @@ function IngredientsInfo() {
           <div className="ingredients-info__description">
             <h5 className="ingredients-info__description-title">Состав:</h5>
             <p className="ingredients-info__description-text">
-              Мука высшего сорта, сахар, сахарная пудра, куриные яйца, кефир
-              3,2%, сливочное масло 82,5%, сливочный сыр Cremette, натуральные
-              сливки, рафинированное подсолнечное масло, натуральные цветки
-              лаванды, ваниль в стручках, свежемороженая черника, лимонный сок.
+              {productFilling.ingredients}
             </p>
           </div>
         </div>

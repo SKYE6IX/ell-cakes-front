@@ -3,6 +3,7 @@ import {
   ProductVariant,
   ToppingOption,
   CustomizationInput,
+  CompositionOptionInput,
 } from "@/types/__generated__/graphql";
 
 export interface ProductConfiguration {
@@ -10,6 +11,7 @@ export interface ProductConfiguration {
   selectedProductVariant: ProductVariant;
   selectedTopping: ToppingOption | null;
   customizations: CustomizationInput[] | null;
+  compositions: CompositionOptionInput[] | null;
 }
 
 export type ACTIONTYPE =
@@ -35,6 +37,14 @@ export type ACTIONTYPE =
     }
   | {
       type: "remove_topping";
+    }
+  | {
+      type: "add_composition_product";
+      payload: { productId: string };
+    }
+  | {
+      type: "remove_composition_product";
+      payload: { productId: string };
     };
 
 export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
@@ -96,7 +106,7 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
       } else {
         return {
           ...state,
-          customizations: null,
+          customizations: filterCustomization,
         };
       }
     }
@@ -115,6 +125,68 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
       };
     }
 
+    case "add_composition_product": {
+      const existComposition = state.compositions?.find(
+        (product) => product.productId === action.payload.productId
+      );
+      if (existComposition) {
+        const updatedComposition = state.compositions?.map((composition) =>
+          composition.productId === existComposition.productId
+            ? {
+                ...composition,
+                quantity: existComposition.quantity + 1,
+              }
+            : composition
+        ) as CompositionOptionInput[];
+        return { ...state, compositions: updatedComposition };
+      } else {
+        const composition = {
+          productId: action.payload.productId,
+          quantity: 1,
+        };
+        const previousComposition = state.compositions ?? [];
+        const newCompositions = [...previousComposition, composition];
+        return {
+          ...state,
+          compositions: newCompositions,
+        };
+      }
+    }
+
+    case "remove_composition_product": {
+      // Check if the qty is greater than 1, and reduce it by one.
+      // If not, remove it completey from the list
+      const existComposition = state.compositions?.find(
+        (product) => product.productId === action.payload.productId
+      );
+      if (existComposition && existComposition.quantity > 1) {
+        const updatedComposition = state.compositions?.map((composition) =>
+          composition.productId === existComposition.productId
+            ? {
+                ...composition,
+                quantity: existComposition.quantity - 1,
+              }
+            : composition
+        ) as CompositionOptionInput[];
+        return { ...state, compositions: updatedComposition };
+      } else {
+        const filterCompositions =
+          state.compositions?.filter(
+            (composition) => composition.productId !== action.payload.productId
+          ) ?? [];
+        if (filterCompositions.length < 1) {
+          return {
+            ...state,
+            compositions: null,
+          };
+        } else {
+          return {
+            ...state,
+            compositions: filterCompositions,
+          };
+        }
+      }
+    }
     default:
       throw new Error();
   }

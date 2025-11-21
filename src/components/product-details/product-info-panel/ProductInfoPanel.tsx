@@ -27,6 +27,7 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
     selectedProductVariant: initialProductFilling.variants![0],
     selectedTopping: null,
     customizations: null,
+    compositions: null,
   });
 
   return (
@@ -51,6 +52,15 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
           variantType={product.variantType!}
           dispatch={dispatch}
         />
+
+        {product.type === "mixed_box" && (
+          <MixProductOption
+            selectedVariant={productConfiguration.selectedProductVariant}
+            compositionProducts={product.mixBoxCompositions!}
+            compositionsConfig={productConfiguration.compositions}
+            dispatch={dispatch}
+          />
+        )}
 
         <div className="product-info-panel__customisations-wrapper">
           {product.customization && (
@@ -85,13 +95,14 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
             {productConfiguration.selectedProductVariant.price} ₽
           </span>
         </button>
-        <MixProductOption />
       </div>
 
       <div className="product-info-panel__bottom-section">
         <StorageInfo />
 
-        <IngredientsInfo />
+        <IngredientsInfo
+          productFilling={productConfiguration.selectedProductFilling}
+        />
 
         <div className="product-info-panel__promotion-section">
           <h5 className="product-info-panel__promotion-text1">
