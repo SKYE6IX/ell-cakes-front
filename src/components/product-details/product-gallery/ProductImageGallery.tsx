@@ -1,34 +1,85 @@
-import React from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import image1 from "./mock-images/img-1.png";
-import image2 from "./mock-images/img-2.png";
-import image3 from "./mock-images/img-3.png";
-import image4 from "./mock-images/img-4.png";
+import { ProductImage } from "@/types/__generated__/graphql";
 import "./product-image-gallery.scss";
 
-const mocksImages = [image1, image2, image3, image4];
+type ProductGalleryProps = {
+  productImages: ProductImage[];
+};
 
-function ProductGallery() {
+function ProductGallery({ productImages }: ProductGalleryProps) {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const slideItemRefs = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSlide = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visibleSlide) {
+          const newIdx = slideItemRefs.current?.indexOf(
+            visibleSlide.target as HTMLDivElement
+          );
+          if (newIdx !== -1) {
+            setActiveIdx(newIdx);
+          }
+        }
+      },
+      {
+        root: containerRef.current,
+        threshold: 0.9,
+      }
+    );
+    slideItemRefs.current?.forEach((slideItem) => observer.observe(slideItem));
+    return () => observer.disconnect();
+  }, []);
+
+  const changeActiveIdx = (newIdx: number) => {
+    setActiveIdx(newIdx);
+  };
+
   return (
     <div className="product-image-gallery">
       <div className="product-image-gallery__thumbnails">
-        {mocksImages.map((img, idx) => (
-          <div key={idx} className="product-image-gallery__thumbnail">
+        {productImages.map((productImage, idx) => (
+          <div
+            key={productImage.id}
+            className={[
+              "product-image-gallery__thumbnail",
+              idx === activeIdx ? "active" : "",
+            ].join(" ")}
+            onClick={() => changeActiveIdx(idx)}
+          >
             <Image
-              src={img}
-              alt="Mock Image"
+              src={productImage.image?.url || ""}
+              alt="Product Image"
               fill={true}
               className="product-image-gallery__thumbnail-image"
             />
           </div>
         ))}
       </div>
-      <div className="product-image-gallery__main">
-        {mocksImages.map((img, idx) => (
-          <div key={idx} className="product-image-gallery__image-stack">
+
+      <div className="product-image-gallery__main" ref={containerRef}>
+        {productImages.map((productImage, idx) => (
+          <div
+            key={productImage.id}
+            className={[
+              "product-image-gallery__image-stack",
+              idx === activeIdx ? "show" : "",
+            ].join(" ")}
+            ref={(el) => {
+              if (el) {
+                slideItemRefs.current[idx] = el;
+              }
+            }}
+          >
             <div className="product-image-gallery__image-container">
               <Image
-                src={img}
+                src={productImage.image?.url || ""}
                 alt="Mock Image"
                 fill={true}
                 className="product-image-gallery__image"

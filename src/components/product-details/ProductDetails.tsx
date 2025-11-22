@@ -14,7 +14,7 @@ import "./product-details.scss";
 function ProductDetails() {
   const { data, loading, error } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
-      where: { slug: "pryamougolny-italyansky-pirog-s-klubnikoy" },
+      where: { slug: "yagodno-bananovy-milfey" },
       variantsOrderBy: [
         { weight: OrderDirection.Asc },
         { pieces: OrderDirection.Asc },
@@ -31,7 +31,7 @@ function ProductDetails() {
   if (!data) return null;
   return (
     <div className="product-details">
-      <ProductImageGallery />
+      <ProductImageGallery productImages={data.product.images!} />
       <ProductInfoPanel product={data.product} />
     </div>
   );
