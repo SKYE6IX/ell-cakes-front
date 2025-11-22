@@ -3,9 +3,18 @@
 
 .header {
   width: 100%;
-  padding: 20px 50px;
   border-bottom: 1px solid #d5d5d5;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  background: $neutral;
+}
+.header__inner-wrapper {
+  width: 100%;
+  height: 100%;
   position: relative;
+  padding: 20px 50px;
+  @include flex-layout(row, center, space-between, none);
   @include max-breakpoint("md") {
     padding: 20px 40px;
   }
@@ -13,11 +22,6 @@
     padding: 15px 20px;
   }
 }
-
-.header__inner-wrapper {
-  @include flex-layout(row, center, space-between, none);
-}
-
 .header__site-icon {
   flex-shrink: 0;
   @include max-breakpoint("s") {

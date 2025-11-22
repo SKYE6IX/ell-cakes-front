@@ -2,6 +2,7 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-image-gallery {
+  // overflow-x: hidden;
   padding-left: 50px;
   @include flex-layout(row, none, none, 20px);
   @include max-breakpoint("md") {
