@@ -56,6 +56,14 @@ function Modal({
     setIsBrowser(true);
   }, []);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showModal]);
+
   if (!isBrowser) {
     return null;
   }
