@@ -31,7 +31,7 @@ const categories = [
 const navigationMenu = [
   ...categories,
   { key: "contact", label: "КОНТАКТЫ" },
-  { key: "cooporation", label: "СОТРУДНИЧЕСТВО" },
+  { key: "colaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
 function Navigation({ isMenuOpen }: NavigationProps) {

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 import ApolloQueryProvider from "src/contexts/ApolloQueryProvider";
 import Header from "src/components/header/Header";
+import Footer from "@/components/footer/Footer";
 import "../global-styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default function RootLayout({
         <ApolloQueryProvider>
           <Header />
           {children}
+          <Footer />
         </ApolloQueryProvider>
       </body>
     </html>
