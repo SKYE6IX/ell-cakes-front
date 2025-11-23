@@ -97,7 +97,15 @@ export const mockProduct: Product = {
   fillings: [
     {
       id: "9840d7c2-75af-40ac-bb80-42414afb4236",
-      image_icon: null,
+      image_icon: {
+        id: "JD4oZqc_7tPhQ4oZ0Q_ZNS",
+        url: "https://ell-cake-images.storage.yandexcloud.net/JD4oZqc_7tPhQ4oZ0Q_ZNA.jpg",
+        __typename: "ImageFieldOutput",
+        extension: ImageExtension.Gif,
+        filesize: 0,
+        height: 0,
+        width: 0,
+      },
       name: "Ягодно-банановый мильфей",
       description:
         "Мягкие медовые коржи, сливочный крем, свежие ягоды и слайсы банана в каждом слое.",

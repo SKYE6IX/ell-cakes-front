@@ -1,7 +1,6 @@
 import { Dispatch, useState } from "react";
 import Image from "next/image";
 import { ProductFilling } from "@/types/__generated__/graphql";
-import image1 from "./mockImage/img-1.png";
 import type { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./product-filling-selector.scss";
 
@@ -41,7 +40,7 @@ function ProductFillingSelector({
           >
             <div className="product-filling-selector__image-container">
               <Image
-                src={image1}
+                src={filling.image_icon?.url || ""}
                 alt="Mock Image"
                 fill
                 className="product-filling-selector__image"

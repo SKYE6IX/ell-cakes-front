@@ -5,11 +5,6 @@ import { Variants } from "motion/react";
 import * as motion from "motion/react-client";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
-import image1 from "./mockImage/img-1.png";
-import image2 from "./mockImage/img-2.png";
-import image3 from "./mockImage/img-3.png";
-import image4 from "./mockImage/img-4.png";
-import image5 from "./mockImage/img-5.png";
 import {
   ProductVariant,
   Product,
@@ -17,14 +12,6 @@ import {
 } from "@/types/__generated__/graphql";
 import { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./mix-product-option.scss";
-
-const lists = [
-  { name: "Сникерс", image: image1, id: "mock-id-1" },
-  { name: "Шоколадные", image: image2, id: "mock-id-2" },
-  { name: "Клубничные", image: image3, id: "mock-id-3" },
-  { name: "Мятные", image: image4, id: "mock-id-4" },
-  { name: "Сливочные", image: image5, id: "mock-id-5" },
-];
 
 const plusVariant: Variants = {
   active: {
@@ -52,7 +39,11 @@ type MixProductOptionProps = {
   dispatch: Dispatch<ACTIONTYPE>;
 };
 
+// TODO:
+// Run test when created a product with mixed_box
+
 function MixProductOption({
+  compositionProducts,
   selectedVariant,
   compositionsConfig,
   dispatch,
@@ -85,31 +76,33 @@ function MixProductOption({
   return (
     <div className="mix-product-option">
       <ul className="mix-product-option__lists">
-        {lists.map((list) => {
-          const isActive = getCompositionConfig(list.id) !== undefined;
+        {compositionProducts.map((product) => {
+          const isActive = getCompositionConfig(product.id) !== undefined;
           return (
             <li
-              key={list.id}
+              key={product.id}
               className={[
                 "mix-product-option__item",
                 !isActive && maxComposition ? "disabled" : "",
               ].join(" ")}
             >
-              <Link href={list.name}>
+              <Link href={product.slug!}>
                 <div className="mix-product-option__image-wrapper">
                   <Image
-                    src={list.image}
-                    alt={list.name}
+                    src={product.images![0].image?.url || ""}
+                    alt={product.name!}
                     fill
                     className="mix-product-option__image"
                   />
                 </div>
               </Link>
-              <span className="mix-product-option__name">{list.name}</span>
+
+              <span className="mix-product-option__name">{product.name}</span>
+
               <div className="mix-product-option__action-wrapper">
                 <motion.button
                   className="mix-product-option__btn minus"
-                  onClick={() => removeComposition(list.id)}
+                  onClick={() => removeComposition(product.id)}
                   initial={false}
                   variants={minusVariant}
                   animate={isActive ? "active" : "inactive"}
@@ -119,11 +112,11 @@ function MixProductOption({
                   <MinusIcon />
                 </motion.button>
                 <span className="mix-product-option__value">
-                  {getCompositionConfig(list.id)?.quantity}
+                  {getCompositionConfig(product.id)?.quantity}
                 </span>
                 <motion.button
                   className="mix-product-option__btn plus"
-                  onClick={() => addComposition(list.id)}
+                  onClick={() => addComposition(product.id)}
                   initial={false}
                   variants={plusVariant}
                   animate={isActive ? "active" : "inactive"}
