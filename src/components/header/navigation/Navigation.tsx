@@ -1,28 +1,14 @@
 import { useState } from "react";
 import Link from "next/link";
-import { gql, TypedDocumentNode } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
 import ArrowDown from "../../icons/ArrowDown";
-import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
+import { Category } from "@/types/__generated__/graphql";
 import { getTransliteration } from "@/utils/getTransliteration";
 import "./navigation.scss";
 
 type NavigationProps = {
   isMenuOpen: boolean;
+  categories: Category[] | undefined;
 };
-
-export const GET_CATEGORIES: TypedDocumentNode<
-  { categories: Category[] },
-  { where: CategoryWhereInput }
-> = gql`
-  query GetCategories($where: CategoryWhereInput!) {
-    categories(where: $where) {
-      id
-      name
-      slug
-    }
-  }
-`;
 
 const categories = [
   { key: getTransliteration("Пироженые"), label: "Пироженые" },
@@ -34,14 +20,11 @@ const navigationMenu = [
   { key: "colaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
-function Navigation({ isMenuOpen }: NavigationProps) {
+function Navigation({ isMenuOpen, categories }: NavigationProps) {
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
   };
-  const { data } = useQuery(GET_CATEGORIES, {
-    variables: { where: { parent: { slug: { equals: "torty" } } } },
-  });
 
   return (
     <nav className={["navigation", isMenuOpen ? "active" : ""].join(" ")}>
@@ -74,10 +57,10 @@ function Navigation({ isMenuOpen }: NavigationProps) {
             <div className="navigation__widget-anchor" />
             <div className="navigation__sub-menu-wrapper">
               <div className="navigation__sub-menu">
-                {data?.categories.map((cat) => (
+                {categories?.map((cat) => (
                   <Link
                     key={cat.id}
-                    href={`cakes/${cat.slug}`}
+                    href={`/product/cakes/${cat.slug}`}
                     className="navigation__sub-menu-item"
                     data-testid="navigation-sub-menu-item"
                   >
@@ -103,10 +86,11 @@ function Navigation({ isMenuOpen }: NavigationProps) {
             </div>
           </div>
         </li>
+
         {navigationMenu.map((menu) => (
           <Link
             key={menu.key}
-            href={menu.key}
+            href={`/${menu.key}`}
             className="navigation__menu-link"
           >
             <li

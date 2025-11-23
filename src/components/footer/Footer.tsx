@@ -13,10 +13,10 @@ function Footer() {
   const navLinks = [
     { name: "Торты", href: "/" },
     { name: "Пироженые", href: "/" },
-    { name: "Доставка и оплата", href: "/" },
-    { name: "FAQ", href: "/" },
-    { name: "Сотрудничество", href: "/" },
-    { name: "Контакты", href: "/" },
+    { name: "Доставка и оплата", href: "/delivery" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Сотрудничество", href: "/colaboration" },
+    { name: "Контакты", href: "/contact" },
   ];
 
   return (

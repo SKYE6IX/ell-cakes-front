@@ -25,9 +25,9 @@
 }
 .product-details__gallery-section {
   flex-shrink: 0;
-  align-self: flex-start;
   position: sticky;
   top: 150px;
+  align-self: flex-start;
   width: calc(50% - var(--product-details-spacing));
   @include max-breakpoint("md") {
     position: relative;

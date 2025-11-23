@@ -1,7 +1,7 @@
 import Image from "next/image";
 import dessertImage from "./dessert.jpg";
-import "./colaboration.scss";
 import Button from "@/components/button/Button";
+import "./colaboration.scss";
 
 function Colaboration() {
   return (
