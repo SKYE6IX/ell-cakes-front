@@ -10,7 +10,7 @@ function Colaboration() {
         <div className="colaboration__inner-wrapper">
           <div className="colaboration__text-wrapper">
             <h2 className="colaboration__title">Сотрудничество</h2>
-            <p className="colaboration__text">
+            <p className="colaboration__text" data-testid="page-text">
               Партнерская программа EllCakes совершенно бесплатна и позволяет
               участникам получать дополнительный доход, путем размещения ссылок
               как на Наш магазин EllCakes или на отдельные товары. Каждая
@@ -31,6 +31,7 @@ function Colaboration() {
               alt="birthday cake"
               fill
               priority
+              data-testid="page-image"
             />
           </div>
         </div>

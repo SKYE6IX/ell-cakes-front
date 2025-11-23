@@ -9,10 +9,10 @@ function Delivery() {
       <div className="delivery__inner-wrapper">
         <div className="delivery__text-wrapper">
           <h2 className="delivery__title">Доставка</h2>
-          <p className="delivery__text">
+          <p className="delivery__text" data-testid="page-text">
             Курьерская доставка работает ежедневно с 10:00 до 17:00.
           </p>
-          <p className="delivery__text">
+          <p className="delivery__text" data-testid="page-text">
             Стоимость — 990 руб. по Москве в пределах МКАД, за его пределами —
             50 руб. за километр (по картам Яндекс). Если ожидание курьера
             превышает 10 минут, взимается доплата 15 руб./мин. Для заказов более
@@ -20,7 +20,6 @@ function Delivery() {
             менеджера.
           </p>
         </div>
-
         <div className="delivery__media">
           <Image
             className="delivery__image"
@@ -28,6 +27,7 @@ function Delivery() {
             alt="birthday cake"
             fill
             priority
+            data-testid="page-image"
           />
         </div>
       </div>

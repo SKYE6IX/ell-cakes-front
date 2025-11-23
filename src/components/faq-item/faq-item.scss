@@ -3,9 +3,9 @@
 .faq-item {
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #DADADA;
+  border-bottom: 1px solid #dadada;
 }
-.faq-item__header{
+.faq-item__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,6 +14,18 @@
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+.faq-item__header.expand .faq-item__icon {
+  svg {
+    transform: rotate(45deg);
+  }
+}
+.faq-item__header.collapsed .faq-item__icon {
+  svg {
+    transform: rotate(0deg);
+  }
+}
+
 .faq-item__title {
   font-family: $font-montserrat;
   font-size: 20px;
@@ -29,26 +41,29 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  svg { transition: transform 0.25s linear; }
+  svg {
+    transition: transform 0.25s linear;
+  }
 }
 
-.faq-item__icon.expand svg { transform: rotate(45deg); }
-.faq-item__icon.collapsed svg { transform: rotate(0deg); }
-
-.faq-item__panel{
+.faq-item__panel {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.3s linear;
 }
 
-.faq-item__panel.expand { grid-template-rows: 1fr; }
-.faq-item__panel.collapsed { grid-template-rows: 0fr; }
+.faq-item__panel.expand {
+  grid-template-rows: 1fr;
+}
+.faq-item__panel.collapsed {
+  grid-template-rows: 0fr;
+}
 
-.faq-item__panel-inner{
+.faq-item__panel-inner {
   overflow: hidden;
 }
 
-.faq-item__text{
+.faq-item__text {
   font-family: $font-montserrat;
   font-size: 18px;
   line-height: 1;
@@ -58,19 +73,36 @@
   user-select: none;
 
   @include max-breakpoint("s") {
-    font-size: 16px; 
+    font-size: 16px;
     padding-top: 8px;
   }
 }
 
 @keyframes accordionIn {
-  0%   { opacity: 0; transform: scale(0.9) rotateX(-60deg); transform-origin: 50% 0; }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotateX(-60deg);
+    transform-origin: 50% 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 @keyframes accordionOut {
-  0%   { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.9) rotateX(-60deg); }
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) rotateX(-60deg);
+  }
 }
 
-.faq-item__panel.animate_in  { animation: accordionIn 0.5s ease-in-out both 1; }
-.faq-item__panel.animate_out { animation: accordionOut 0.5s ease-in-out both 1; }
+.faq-item__panel.animate_in {
+  animation: accordionIn 0.5s ease-in-out both 1;
+}
+.faq-item__panel.animate_out {
+  animation: accordionOut 0.5s ease-in-out both 1;
+}
