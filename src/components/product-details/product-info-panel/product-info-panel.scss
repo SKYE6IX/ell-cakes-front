@@ -2,23 +2,15 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-info-panel {
-  @include flex-layout(column, none, none, none);
   padding-top: 40px;
   padding-right: 50px;
+  @include flex-layout(column, none, none, none);
   @include max-breakpoint("md") {
     padding: 0px 40px 0px 40px;
   }
   @include max-breakpoint("s") {
     padding: 0px 20px 0px 20px;
   }
-}
-
-// TODO:
-// These blocks is wrap around the element on product page
-// and needed to be used to adjust spacing.
-.product-info-panel__top-section {
-}
-.product-info-panel__bottom-section {
 }
 
 .product-info-panel__title-wrapper {
@@ -54,7 +46,6 @@
 }
 .product-info-panel__description {
   margin-top: 15px;
-  margin-bottom: 50px;
   font-family: $font-montserrat, sans-serif;
   font-size: 1.125rem;
   font-weight: 400;
@@ -65,7 +56,6 @@
     line-height: 19.2px;
   }
   @include max-breakpoint("md") {
-    margin-bottom: 40px;
     margin-top: 10px;
     font-size: 1.5rem;
     line-height: 31.2px;
@@ -73,42 +63,40 @@
   @include max-breakpoint("s") {
     font-size: 1rem;
     line-height: 19.2px;
-    margin-bottom: 30px;
   }
 }
 .product-info-panel__customisations-wrapper {
   margin-top: 50px;
-  width: 100%;
-  max-width: 620px;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
   row-gap: 30px;
   @include max-breakpoint("md") {
     margin-top: 40px;
-    max-width: 100%;
+    width: 100%;
   }
   @include max-breakpoint("s") {
     margin-top: 30px;
     @include flex-layout(column, center, center, 20px);
   }
 }
+
 .product-info-panel__add-to-cart {
+  width: 90%;
   margin-top: 50px;
   margin-bottom: 50px;
   background-color: $primary-accent;
   border: none;
   outline: none;
   height: 70px;
-  width: 100%;
-  max-width: 620px;
   border-radius: 15px;
   cursor: pointer;
   @include flex-layout(column, center, center, 5px);
   @include max-breakpoint("md") {
+    width: 100%;
     margin-top: 40px;
     margin-bottom: 40px;
-    max-width: 100%;
   }
   @include max-breakpoint("s") {
     margin-top: 30px;

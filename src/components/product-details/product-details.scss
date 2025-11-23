@@ -2,20 +2,28 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-details {
-  // border: 1px solid red;
+  border: 1px solid red;
   width: 100%;
   padding-top: 50px;
-  @include flex-layout(row, none, space-between, 60px);
+  --product-details-spacing: 50px;
+  @include flex-layout(
+    row,
+    none,
+    space-between,
+    var(--product-details-spacing)
+  );
+  @include max-breakpoint("lg") {
+    --product-details-spacing: 30px;
+  }
   @include max-breakpoint("md") {
-    padding-top: 40px;
+    --product-details-spacing: 40px;
     flex-direction: column;
   }
   @include max-breakpoint("s") {
+    --product-details-spacing: 20px;
     padding-top: 20px;
-    gap: 40px;
   }
 }
-
 // TODO:
 // 1. Change the width construction for both section so the width is calculated based
 // off the space and availaable space by the screen size.
@@ -25,14 +33,21 @@
 // 4. Check all the style to see what can be updated and adjust them accordingly.
 
 .product-details__gallery-section {
-  // border: 1px solid red;
+  flex-shrink: 0;
   align-self: flex-start;
   position: sticky;
   top: 150px;
-  // border: 1px solid red;
+  width: calc(50% - var(--product-details-spacing));
+  @include max-breakpoint("md") {
+    position: relative;
+    top: 0px;
+    width: 100%;
+  }
 }
 .product-details__product-info-section {
-  // border: 1px solid red;
-  // overflow-y: scroll;
-  // border: 1px solid red;
+  flex-shrink: 0;
+  width: calc(50% - var(--product-details-spacing));
+  @include max-breakpoint("md") {
+    width: 100%;
+  }
 }

@@ -32,91 +32,85 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
 
   return (
     <div className="product-info-panel">
-      <div className="product-info-panel__top-section">
-        <div className="product-info-panel__title-wrapper">
-          <h3 className="product-info-panel__title">{product.name}</h3>
-        </div>
-        <p className="product-info-panel__description">
-          {product.baseDescription}
-        </p>
+      <div className="product-info-panel__title-wrapper">
+        <h3 className="product-info-panel__title">{product.name}</h3>
+      </div>
+      <p className="product-info-panel__description">
+        {product.baseDescription}
+      </p>
 
-        {Number(product.fillingsCount) > 1 && (
-          <ProductFillingSelector
-            fillings={product.fillings!}
-            dispatch={dispatch}
-          />
-        )}
-
-        <ProductVariantSelector
-          variants={productConfiguration.selectedProductFilling.variants!}
-          variantType={product.variantType!}
+      {Number(product.fillingsCount) > 1 && (
+        <ProductFillingSelector
+          fillings={product.fillings!}
           dispatch={dispatch}
         />
+      )}
 
-        {product.type === "mixed_box" && (
-          <MixProductOption
-            selectedVariant={productConfiguration.selectedProductVariant}
-            compositionProducts={product.mixBoxCompositions!}
-            compositionsConfig={productConfiguration.compositions}
+      <ProductVariantSelector
+        variants={productConfiguration.selectedProductFilling.variants!}
+        variantType={product.variantType!}
+        dispatch={dispatch}
+      />
+
+      {product.type === "mixed_box" && (
+        <MixProductOption
+          selectedVariant={productConfiguration.selectedProductVariant}
+          compositionProducts={product.mixBoxCompositions!}
+          compositionsConfig={productConfiguration.compositions}
+          dispatch={dispatch}
+        />
+      )}
+
+      <div className="product-info-panel__customisations-wrapper">
+        {product.customization && (
+          <>
+            <ProductShape
+              customOptions={product.customization.customOptions!}
+              dispatch={dispatch}
+            />
+            <AddCustomisePhoto
+              customOptions={product.customization.customOptions!}
+              dispatch={dispatch}
+            />
+            <AddCustomiseInscription
+              customOptions={product.customization.customOptions!}
+              dispatch={dispatch}
+            />
+          </>
+        )}
+        {product.topping && (
+          <AddTopping
+            toppingOptions={product.topping.options!}
             dispatch={dispatch}
           />
         )}
-
-        <div className="product-info-panel__customisations-wrapper">
-          {product.customization && (
-            <>
-              <ProductShape
-                customOptions={product.customization.customOptions!}
-                dispatch={dispatch}
-              />
-              <AddCustomisePhoto
-                customOptions={product.customization.customOptions!}
-                dispatch={dispatch}
-              />
-              <AddCustomiseInscription
-                customOptions={product.customization.customOptions!}
-                dispatch={dispatch}
-              />
-            </>
-          )}
-          {product.topping && (
-            <AddTopping
-              toppingOptions={product.topping.options!}
-              dispatch={dispatch}
-            />
-          )}
-        </div>
-
-        <button className="product-info-panel__add-to-cart">
-          <span className="product-info-panel__add-to-cart-text">
-            Добавить в корзину
-          </span>
-          <span className="product-info-panel__unit-price">
-            {productConfiguration.selectedProductVariant.price} ₽
-          </span>
-        </button>
       </div>
 
-      <div className="product-info-panel__bottom-section">
-        <StorageInfo />
+      <button className="product-info-panel__add-to-cart">
+        <span className="product-info-panel__add-to-cart-text">
+          Добавить в корзину
+        </span>
+        <span className="product-info-panel__unit-price">
+          {productConfiguration.selectedProductVariant.price} ₽
+        </span>
+      </button>
 
-        <IngredientsInfo
-          productFilling={productConfiguration.selectedProductFilling}
-        />
+      <StorageInfo />
 
-        <div className="product-info-panel__promotion-section">
-          <h5 className="product-info-panel__promotion-text1">
-            Первая покупка — еще вкуснее 
-          </h5>
-          <h5 className="product-info-panel__promotion-text2">
-            с 15% скидкой!
-          </h5>
-        </div>
+      <IngredientsInfo
+        productFilling={productConfiguration.selectedProductFilling}
+      />
 
-        <ProductReviews />
-
-        <ProductFAQ />
+      <div className="product-info-panel__promotion-section">
+        <h5 className="product-info-panel__promotion-text1">
+          Первая покупка — еще вкуснее 
+        </h5>
+        <h5 className="product-info-panel__promotion-text2">с 15% скидкой!</h5>
       </div>
+
+      <ProductReviews />
+
+      <ProductFAQ />
     </div>
   );
 }

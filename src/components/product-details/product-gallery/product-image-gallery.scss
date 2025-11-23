@@ -2,8 +2,9 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-image-gallery {
-  // overflow-x: hidden;
-  padding-left: 50px;
+  width: 100%;
+  --left-gutter: 50px;
+  padding-left: var(--left-gutter);
   @include flex-layout(row, none, none, 20px);
   @include max-breakpoint("md") {
     flex-direction: column-reverse;
@@ -12,22 +13,14 @@
 }
 
 .product-image-gallery__main {
-  width: 600px;
+  width: 100%;
   position: relative;
-  @include max-breakpoint("1300px") {
-    width: 500px;
-  }
-  @include max-breakpoint("lg") {
-    width: 450px;
-  }
   @include max-breakpoint("md") {
     --vertical-spacing: 40px;
     --left-gutter: 40px;
-    width: 100%;
     padding-left: var(--left-gutter);
     padding-right: var(--left-gutter);
     @include flex-layout(row, center, none, var(--vertical-spacing));
-    position: relative;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none;
@@ -41,7 +34,6 @@
 .product-image-gallery__main::-webkit-scrollbar {
   display: none;
 }
-
 .product-image-gallery__image-stack {
   flex-shrink: 0;
   width: 100%;
@@ -58,7 +50,6 @@
 .product-image-gallery__image-stack.show {
   z-index: 1;
 }
-
 .product-image-gallery__image-container {
   width: 100%;
   height: auto;
@@ -66,12 +57,10 @@
   position: relative;
   border-radius: 15px;
 }
-
 .product-image-gallery__image {
   border-radius: inherit;
   object-fit: cover;
 }
-
 .product-image-gallery__thumbnails {
   flex-shrink: 0;
   padding-top: 15px;

@@ -4,15 +4,14 @@
 .product-variant-selector {
   margin-top: 50px;
   height: 70px;
-  width: 100%;
-  max-width: 620px;
+  width: 90%;
   padding: 0px 80px;
   border-radius: 15px;
   background-color: $primary-accent;
   @include flex-layout(row, center, space-between, none);
   @include max-breakpoint("md") {
     margin-top: 40px;
-    max-width: 100%;
+    width: 100%;
   }
   @include max-breakpoint("s") {
     margin-top: 30px;
