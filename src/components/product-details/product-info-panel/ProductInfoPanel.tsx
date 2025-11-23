@@ -33,9 +33,14 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
   return (
     <div className="product-info-panel">
       <div className="product-info-panel__title-wrapper">
-        <h3 className="product-info-panel__title">{product.name}</h3>
+        <h3 className="product-info-panel__title" data-testid="product-title">
+          {product.name}
+        </h3>
       </div>
-      <p className="product-info-panel__description">
+      <p
+        className="product-info-panel__description"
+        data-testid="product-description"
+      >
         {product.baseDescription}
       </p>
 
@@ -90,7 +95,10 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
         <span className="product-info-panel__add-to-cart-text">
           Добавить в корзину
         </span>
-        <span className="product-info-panel__unit-price">
+        <span
+          className="product-info-panel__unit-price"
+          data-testid="product-initial-price"
+        >
           {productConfiguration.selectedProductVariant.price} ₽
         </span>
       </button>

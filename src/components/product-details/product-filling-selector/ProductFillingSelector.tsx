@@ -10,51 +10,6 @@ type ProductFillingSelectorProps = {
   dispatch: Dispatch<ACTIONTYPE>;
 };
 
-// const mockFillings = [
-//   {
-//     id: "uuid-1",
-//     name: "мильфей",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом",
-//   },
-//   {
-//     id: "uuid-2",
-//     name: "медовик",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом 22",
-//   },
-//   {
-//     id: "uuid-3",
-//     name: "Красный бархат",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом 33",
-//   },
-//   {
-//     id: "uuid-4",
-//     name: "Чернично-лавандовый",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом 44",
-//   },
-//   {
-//     id: "uuid-5",
-//     name: "прага",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом 55",
-//   },
-//   {
-//     id: "uuid-6",
-//     name: "Сникерс",
-//     image: image1,
-//     description:
-//       "Тоненькие медовые коржи, промазанные сметанно-карамельным кремом",
-//   },
-// ];
-
 function ProductFillingSelector({
   fillings,
   dispatch,
@@ -79,9 +34,10 @@ function ProductFillingSelector({
             key={filling.id}
             className={[
               "product-filling-selector__item",
-              selectedFillingId === filling.id ? "selected" : "",
+              selectedFillingId === filling.id ? "selected" : " ",
             ].join(" ")}
             onClick={() => handleSetSelectedFilling(filling)}
+            data-testid="product-filling-item"
           >
             <div className="product-filling-selector__image-container">
               <Image
@@ -89,6 +45,7 @@ function ProductFillingSelector({
                 alt="Mock Image"
                 fill
                 className="product-filling-selector__image"
+                data-testid="product-filling-image"
               />
             </div>
             <h5 className="product-filling-selector__name">{filling.name}</h5>

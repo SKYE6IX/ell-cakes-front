@@ -9,7 +9,6 @@ type ProductGalleryProps = {
 
 function ProductGallery({ productImages }: ProductGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const slideItemRefs = useRef<HTMLDivElement[]>([]);
 
@@ -58,6 +57,7 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
               alt="Product Image"
               fill={true}
               className="product-image-gallery__thumbnail-image"
+              data-testid="product-image-thumbnail"
             />
           </div>
         ))}
@@ -84,6 +84,7 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
                 fill={true}
                 className="product-image-gallery__image"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                data-testid="product-image-view"
               />
             </div>
           </div>

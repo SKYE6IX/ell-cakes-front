@@ -66,7 +66,10 @@ function ProductVariantSelector({
       </button>
       <div className="product-variant-selector__details">
         {variantType === "weight" && (
-          <span className="product-variant-selector__metric">
+          <span
+            className="product-variant-selector__metric"
+            data-testid="product-variant-weight"
+          >
             {selectedVariant.weight as string} кг
           </span>
         )}
@@ -75,7 +78,10 @@ function ProductVariantSelector({
             {selectedVariant.pieces} шт
           </span>
         )}
-        <span className="product-variant-selector__price">
+        <span
+          className="product-variant-selector__price"
+          data-testid="product-variant-price"
+        >
           {selectedVariant.price} ₽
         </span>
       </div>
@@ -85,6 +91,7 @@ function ProductVariantSelector({
           isLastVariant ? "disabled" : "",
         ].join(" ")}
         onClick={() => changeVariant("increase")}
+        data-testid="product-variant-increase-btn"
       >
         <PlusIcon />
       </button>
