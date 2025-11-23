@@ -2,7 +2,6 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-details {
-  border: 1px solid red;
   width: 100%;
   padding-top: 50px;
   --product-details-spacing: 50px;
@@ -24,14 +23,6 @@
     padding-top: 20px;
   }
 }
-// TODO:
-// 1. Change the width construction for both section so the width is calculated based
-// off the space and availaable space by the screen size.
-// 2. Make sure to confirm on mobile on how it react and readjust the position on it.
-// 3. Set the correct top for the sticky element and check how it work on all screen where
-// it needed to be sticky.
-// 4. Check all the style to see what can be updated and adjust them accordingly.
-
 .product-details__gallery-section {
   flex-shrink: 0;
   align-self: flex-start;
