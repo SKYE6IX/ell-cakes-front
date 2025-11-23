@@ -1,0 +1,48 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-variant-selector {
+  margin-top: 50px;
+  height: 70px;
+  width: 90%;
+  padding: 0px 80px;
+  border-radius: 15px;
+  background-color: $primary-accent;
+  @include flex-layout(row, center, space-between, none);
+  @include max-breakpoint("md") {
+    margin-top: 40px;
+    width: 100%;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 30px;
+    padding: 0px 40px;
+  }
+}
+.product-variant-selector__button {
+  height: 100%;
+  @include flex-layout(row, center, center, none);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in;
+}
+.product-variant-selector__button.disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+.product-variant-selector__details {
+  @include flex-layout(row, center, none, 10px);
+}
+.product-variant-selector__metric,
+.product-variant-selector__price {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.5rem;
+  line-height: 26.4px;
+  font-weight: 500;
+  color: $neutral;
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 21.6px;
+  }
+}

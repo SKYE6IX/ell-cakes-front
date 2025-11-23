@@ -1,0 +1,44 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-details {
+  width: 100%;
+  padding-top: 50px;
+  --product-details-spacing: 50px;
+  @include flex-layout(
+    row,
+    none,
+    space-between,
+    var(--product-details-spacing)
+  );
+  @include max-breakpoint("lg") {
+    --product-details-spacing: 30px;
+  }
+  @include max-breakpoint("md") {
+    --product-details-spacing: 40px;
+    flex-direction: column;
+  }
+  @include max-breakpoint("s") {
+    --product-details-spacing: 20px;
+    padding-top: 20px;
+  }
+}
+.product-details__gallery-section {
+  flex-shrink: 0;
+  align-self: flex-start;
+  position: sticky;
+  top: 150px;
+  width: calc(50% - var(--product-details-spacing));
+  @include max-breakpoint("md") {
+    position: relative;
+    top: 0px;
+    width: 100%;
+  }
+}
+.product-details__product-info-section {
+  flex-shrink: 0;
+  width: calc(50% - var(--product-details-spacing));
+  @include max-breakpoint("md") {
+    width: 100%;
+  }
+}
