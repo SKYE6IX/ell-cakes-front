@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MockedProvider } from "@apollo/client/testing/react";
 import Header from "../Header";
-import { GET_CATEGORIES } from "../navigation/Navigation";
+import { GET_CATEGORIES } from "../Header";
 
 const mocks = [
   {

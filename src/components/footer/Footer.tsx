@@ -32,7 +32,9 @@ function Footer() {
               <ul className="footer__link-list">
                 {navLinks.map((nav) => (
                   <li key={nav.name} className="footer__link-list-item">
-                    <Link href={nav.href}>{nav.name}</Link>
+                    <Link href={nav.href} data-testid="footer-nav">
+                      {nav.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -68,12 +70,13 @@ function Footer() {
               className="footer__social-media-logo"
               src={logo}
               alt="EllCakes logo"
+              data-testid="footer-logo"
             />
           </div>
         </div>
         <div className="footer__line"></div>
         <div className="footer__bottom-section">
-          <div className="footer__bottom-title">EllCakes</div>
+          <h2 className="footer__bottom-title">EllCakes</h2>
           <Link href="/privacy-policy" className="footer__bottom-text">
             Политика конфиденциальности
           </Link>
