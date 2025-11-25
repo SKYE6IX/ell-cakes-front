@@ -2,23 +2,187 @@
 @use "@/global-styles/shared-styles" as *;
 
 .hero {
+  width: 100%;
+  --hero-gutter: 50px;
+  --hero-spacing: 60px;
+  @include flex-layout(row, center, space-between, var(--hero-spacing));
+  margin-top: var(--hero-gutter);
+  padding-bottom: 100px; // Used to create space to place the dot navigation for the carousel
+  position: relative;
+  @include max-breakpoint("md") {
+    --hero-gutter: 40px;
+    --hero-spacing: 40px;
+    padding-bottom: 80px;
+  }
+  @include max-breakpoint("sm") {
+    --hero-gutter: 20px;
+    --hero-spacing: 20px;
+  }
+  @include max-breakpoint("768px") {
+    --hero-spacing: 40px;
+    flex-direction: column;
+    padding-bottom: 0px;
+  }
+  @include max-breakpoint("s") {
+    --hero-gutter: 20px;
+  }
 }
 
 .hero__media {
+  list-style: none;
+  position: relative;
+  margin-left: var(--hero-gutter);
+  width: 55%;
+  height: auto;
+  aspect-ratio: 3 / 2.2;
+  @include flex-layout(row, center, center, none);
+  overflow-x: clip;
+  @include max-breakpoint("768px") {
+    width: 100%;
+    margin-right: var(--hero-gutter);
+  }
 }
+
 .hero__images-wrapper {
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  --images-wrapper-spacing: 20px;
+  @include flex-layout(row, center, center, var(--images-wrapper-spacing));
+  @include max-breakpoint("md") {
+    --images-wrapper-spacing: 10px;
+  }
 }
+
 .hero__image-container {
+  border-radius: 15px;
+  width: calc(50% - 20px);
+  height: auto;
+  aspect-ratio: 2 / 3;
+  position: relative;
+}
+.hero__product-image {
+  border-radius: inherit;
 }
 .hero__info {
+  width: 45%;
+  height: 100%;
+  @include flex-layout(column, center, center, 20px);
+  padding-right: var(--hero-gutter);
+  align-self: baseline;
+  padding-top: 20px;
+  @include max-breakpoint("md") {
+    gap: 15px;
+  }
+  @include max-breakpoint("768px") {
+    width: 100%;
+    padding-left: var(--hero-gutter);
+    padding-top: 0px;
+  }
 }
-.hero__product-badge {
+.hero__product-badge,
+.hero__product-description {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 24px;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("md") {
+    font-size: 1rem;
+    line-height: 19.2px;
+  }
+  @include max-breakpoint("768px") {
+    font-size: 1.25rem;
+    line-height: 24px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1rem;
+    line-height: 19.2px;
+  }
 }
+
 .hero__product-name {
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.75rem;
+  line-height: 48.4px;
+  font-weight: 500;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("md") {
+    font-size: 2rem;
+    line-height: 38.4px;
+  }
+  @include max-breakpoint("768px") {
+    font-size: 2.75rem;
+    line-height: 48.4px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 2.25rem;
+    line-height: 43.2px;
+  }
 }
 .hero__product-description {
+  max-width: 500px;
+  @include max-breakpoint("md") {
+    max-width: 100%;
+  }
 }
+
 .hero__carousel-control {
+  width: 100%;
+  @include flex-layout(row, center, center, 20px);
+  margin-top: 80px;
+  @include max-breakpoint("lg") {
+    margin-top: 60px;
+  }
+  @include max-breakpoint("md") {
+    margin-top: 20px;
+  }
 }
 .hero__carousel-btn {
+  border: none;
+  background: $primary;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  @include flex-layout(row, center, center, none);
+  cursor: pointer;
+  @include max-breakpoint("lg") {
+    width: 60px;
+    height: 60px;
+  }
+  @include max-breakpoint("md") {
+    width: 50px;
+    height: 50px;
+  }
+}
+.hero__pagination-list {
+  position: absolute;
+  list-style: none;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+  @include flex-layout(row, center, center, 20px);
+  @include max-breakpoint("md") {
+    bottom: 30px;
+  }
+  @include max-breakpoint("768px") {
+    display: none;
+  }
+}
+.hero__pagination-item {
+  border: 2px solid $primary;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.3s ease-out;
+  @include max-breakpoint("md") {
+    width: 20px;
+    height: 20px;
+  }
+}
+.hero__pagination-item.active {
+  background-color: $primary;
 }
