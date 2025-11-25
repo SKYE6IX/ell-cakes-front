@@ -1,5 +1,5 @@
 import React from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import "./button.scss";
 
 interface ButtonProps {
@@ -38,4 +38,5 @@ function Button({
       </button>
    );
 }
+
 export default Button;

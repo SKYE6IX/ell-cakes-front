@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/button/Button";
-import Footer from "@/components/footer/Footer";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import "./confirm-phone.scss";
 
@@ -116,7 +115,6 @@ function ConfirmPhonePage({
   };
 
   return (
-    <>
     <section className="confirm-phone">
       <div className="confirm-phone__inner-wrapper">
       <HelpSidebar active="register"/>
@@ -185,8 +183,6 @@ function ConfirmPhonePage({
         </div>
       </div>
     </section>
-    <Footer />
-    </>
   );
 }
 

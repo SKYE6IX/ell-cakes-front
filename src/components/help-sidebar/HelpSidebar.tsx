@@ -41,7 +41,7 @@ function HelpSidebar({
           <div className="help-sidebar__bottom-title">Нужна помощь?</div>
 
           <div className="help-sidebar__bottom-links">
-           <Link href="/" className="help-sidebar__bottom-link">Контакты</Link>
+           <Link href="/contact" className="help-sidebar__bottom-link">Контакты</Link>
 
             <Link href="/faq" className="help-sidebar__bottom-link">FAQ</Link>
           </div>

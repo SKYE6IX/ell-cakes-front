@@ -1,0 +1,73 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.header {
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  border-bottom: 1px solid #d5d5d5;
+  background: $neutral;
+}
+.header__inner-wrapper {
+  width: 100%;
+  position: relative;
+  padding: 20px 50px;
+  @include flex-layout(row, center, space-between, none);
+  @include max-breakpoint("md") {
+    padding: 20px 40px;
+  }
+  @include max-breakpoint("s") {
+    padding: 15px 20px;
+  }
+}
+.header__site-icon {
+  flex-shrink: 0;
+  @include max-breakpoint("s") {
+    img {
+      width: 67px;
+      height: 43px;
+    }
+  }
+}
+
+.header__user-action-wrapper {
+  @include flex-layout(row, center, center, 30px);
+  @include max-breakpoint("s") {
+    gap: 20px;
+  }
+}
+
+.header__menu-button {
+  background: none;
+  border: none;
+  outline: none;
+  @include min-breakpoint("1100px") {
+    display: none;
+  }
+}
+
+.header__menu-button .menu-bar {
+  @include max-breakpoint("s") {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.header__menu-button .menu-bar__top,
+.header__menu-button .menu-bar__bottom,
+.header__menu-button .menu-bar__middle {
+  transform-origin: left center;
+  transform-box: fill-box;
+  transition: transform 0.2s linear, opacity 0.2s ease-in;
+}
+
+.header__menu-button.active .menu-bar__top {
+  transform: rotate(43deg);
+}
+.header__menu-button.active .menu-bar__middle {
+  opacity: 0;
+}
+.header__menu-button.active .menu-bar__bottom {
+  transform: rotate(-43deg);
+}

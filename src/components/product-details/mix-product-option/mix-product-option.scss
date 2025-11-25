@@ -1,0 +1,117 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.mix-product-option {
+  width: 100%;
+  margin-top: 50px;
+}
+.mix-product-option__lists {
+  list-style: none;
+  @include flex-layout(row, none, none, 30px);
+  flex-wrap: wrap;
+  @include max-breakpoint("md") {
+    justify-content: center;
+  }
+  @include max-breakpoint("s") {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    row-gap: 30px;
+  }
+}
+.mix-product-option__item {
+  width: 100px;
+  @include flex-layout(column, center, center, 10px);
+  @include max-breakpoint("md") {
+    width: 140px;
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+    a {
+      width: 100%;
+    }
+  }
+}
+.mix-product-option__item.disabled .mix-product-option__image,
+.mix-product-option__item.disabled .mix-product-option__btn {
+  filter: grayscale(1);
+  transition: filter 0.2s ease;
+}
+
+.mix-product-option__image-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  @include max-breakpoint("md") {
+    width: 100px;
+    height: 100px;
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+.mix-product-option__image {
+  object-fit: cover;
+  border-radius: inherit;
+}
+.mix-product-option__name {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.875rem;
+  line-height: 16.8px;
+  font-weight: 400;
+  color: $text-color-mute;
+  text-align: center;
+  @include max-breakpoint("md") {
+    font-size: 1rem;
+    line-height: 19.2px;
+  }
+  @include max-breakpoint("s") {
+    width: 100px;
+  }
+}
+.mix-product-option__action-wrapper {
+  @include flex-layout(row, center, center, 15px);
+}
+.mix-product-option__btn {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  svg {
+    width: 15px;
+    height: 15px;
+    path {
+      fill: $primary-accent;
+    }
+  }
+  @include max-breakpoint("md") {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  @include max-breakpoint("s") {
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+.mix-product-option__value {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 18px;
+  font-weight: 500;
+  color: $text-color-mute;
+  @include max-breakpoint("md") {
+    font-size: 1.2rem;
+    line-height: 23px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 0.9375rem;
+    line-height: 18px;
+  }
+}
