@@ -1,8 +1,10 @@
 import React from "react";
 import { gql, TypedDocumentNode } from "@apollo/client";
 import { ProductHomeBanner } from "@/types/__generated__/graphql";
-import Hero from "./hero-section/Hero";
 import { createServerApolloClient } from "@/lib/apolloServer";
+import Hero from "./hero-section/Hero";
+import FeaturedSection from "./featured-section/FeaturedSection";
+
 const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
   {
     productHomeBanners: ProductHomeBanner[];
@@ -37,6 +39,7 @@ async function Home() {
   return (
     <div className="home">
       <Hero banners={data.productHomeBanners} />
+      <FeaturedSection />
     </div>
   );
 }
