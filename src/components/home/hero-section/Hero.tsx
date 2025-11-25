@@ -3,38 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { wrap, useMotionValue, useMotionValueEvent } from "motion/react";
+import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
-import mockImage from "./mock-image.jpg";
 import Button from "@/components/button/Button";
 import "./hero-section.scss";
-
-const mockData = [
-  {
-    id: "mock-id-1",
-    name: "Chocolate Cake",
-    badge: "Хит продаж",
-    description:
-      " Воздушное сливочное суфле со свежей клубникой или малиной внутри, тонкие прослойки фирменного бисквита и вкуснейший молочный шоколад.",
-    images: [mockImage, mockImage],
-  },
-  {
-    id: "mock-id-2",
-    name: "Fluffy Cake",
-    badge: "Хит продаж",
-    description:
-      " Воздушное сливочное суфле со свежей клубникой или малиной внутри, тонкие прослойки фирменного бисквита и вкуснейший молочный шоколад.",
-    images: [mockImage, mockImage],
-  },
-  {
-    id: "mock-id-3",
-    name: "Strawberry Cake",
-    badge: "Хит продаж",
-    description:
-      " Воздушное сливочное суфле со свежей клубникой или малиной внутри, тонкие прослойки фирменного бисквита и вкуснейший молочный шоколад.",
-    images: [mockImage, mockImage],
-  },
-];
 
 interface HeroState {
   direction: 1 | -1;
@@ -42,8 +15,12 @@ interface HeroState {
   positions: number[];
 }
 
-function Hero() {
-  const SLIDES_LENGHT = mockData.length;
+type HeroProps = {
+  banners: ProductHomeBanner[];
+};
+
+function Hero({ banners }: HeroProps) {
+  const SLIDES_LENGHT = banners.length;
   const DRAG_THRESSHOLD = 50;
   const dragX = useMotionValue(0);
   const dragXProgress = useMotionValue(0);
@@ -79,7 +56,7 @@ function Hero() {
   const changeSlide = (newDirection: 1 | -1) => {
     const nextIdx = wrap(
       0,
-      mockData.length,
+      SLIDES_LENGHT,
       heroState.currentIndex + newDirection
     );
     setHeroState((prvState) => ({
@@ -114,12 +91,12 @@ function Hero() {
         }}
         onDragEnd={onDragEnd}
       >
-        {mockData.map((mock, i) => {
+        {banners.map((banner, i) => {
           const positonIndex = (i + heroState.currentIndex) % SLIDES_LENGHT;
           return (
             <motion.li
               className="hero__images-wrapper"
-              key={mock.id}
+              key={banner.id}
               ref={(el) => {
                 if (el) {
                   slideItemsRef.current[i] = el;
@@ -139,31 +116,34 @@ function Hero() {
             >
               <div className="hero__image-container">
                 <Image
-                  src={mock.images[0]}
+                  src={banner.product?.images![0].image?.url || ""}
                   alt="Mock Image"
                   fill
                   className="hero__product-image"
+                  data-testid="hero-banner-image"
                 />
               </div>
               <div className="hero__image-container">
                 <Image
-                  src={mock.images[1]}
+                  src={banner.product?.images![1].image?.url || ""}
                   alt="Mock Image"
                   fill
                   className="hero__product-image"
+                  data-testid="hero-banner-image"
                 />
               </div>
             </motion.li>
           );
         })}
       </motion.ul>
+
       <div className="hero__info">
         <h5 className="hero__product-badge">Хит продаж</h5>
         <h3 className="hero__product-name">
-          {mockData[heroState.currentIndex].name}
+          {banners[heroState.currentIndex].product?.name}
         </h3>
-        <p className="hero__product-description">
-          {mockData[heroState.currentIndex].description}
+        <p className="hero__product-description" data-testid="hero-banner-text">
+          {banners[heroState.currentIndex].bannerText}
         </p>
         <Button textKey="ЗАказать" />
         <div className="hero__carousel-control">
@@ -179,7 +159,7 @@ function Hero() {
         </div>
       </div>
       <ul className="hero__pagination-list">
-        {mockData.map((_, idx) => (
+        {banners.map((_, idx) => (
           <li
             key={idx}
             className={[
