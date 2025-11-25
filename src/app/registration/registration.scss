@@ -1,0 +1,170 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/globals.scss" as *;
+
+.registration {
+  overflow: hidden;
+  width: 100%;
+  background-color: $primary-mute;
+  padding: 100px 100px 50px 100px;
+
+  @include max-breakpoint("lg") {
+    padding: 50px;
+  }
+  @include max-breakpoint("md") {
+    padding: 50px 40px;
+  }
+  @include max-breakpoint("s") {
+    padding: 20px;
+  }
+}
+
+.registration__inner-wrapper {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  gap: 100px;
+
+  @include max-breakpoint("lg") {
+    gap: 60px;
+  }
+  @include max-breakpoint("sm") {
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+}
+
+/* RIGHT card */
+.registration-right {
+  flex: 1;
+  background: #fff;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 14px;
+
+  @include max-breakpoint("md") {
+    padding: 60px;
+  }
+  @include max-breakpoint("s") {
+    padding: 40px 20px;
+  }
+
+  &__title {
+    font-family: $font-uncage;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 60px 0;
+
+    @include max-breakpoint("md") {
+      font-size: 32px;
+    }
+    @include max-breakpoint("s") {
+      font-size: 24px;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+.registration-form {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include max-breakpoint("s") {
+    max-width: 320px;
+  }
+}
+
+.registration-form__fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  @include max-breakpoint("s") {
+    gap: 16px;
+  }
+}
+
+/* checkbox */
+.registration-checkbox {
+  margin-top: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__box {
+    width: 28px;
+    height: 28px;
+    border: 1px solid $text-color;
+    border-radius: 8px;
+    background: #fff;
+    display: inline-block;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  input:checked + &__box::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    background: $text-color;
+    border-radius: 4px;
+  }
+
+  &__label {
+    font-family: $font-uncage;
+    font-size: 16px;
+    color: $text-color;
+
+    @include max-breakpoint("s") {
+      font-size: 14px;
+    }
+  }
+}
+
+.registration-form__submit {
+  margin-top: 36px;
+  width: 100%;
+
+  &.is-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.registration-form__policy {
+  margin-top: 18px;
+  font-family: $font-uncage;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $text-color;
+  text-align: center;
+  max-width: 520px;
+}
+
+.registration__divider {
+  width: 100%;
+  height: 1px;
+  background: #e6e6e6;
+  margin: 26px 0;
+}
+
+.registration-form__login {
+  width: 100%;
+}

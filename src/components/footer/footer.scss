@@ -3,7 +3,6 @@
 .footer {
    width: 100%;
    background-color: $secondary;
-   margin-top: 100px;
 }
 .footer__inner-wrapper {
    display: flex;
@@ -17,7 +16,6 @@
       padding: 40px 40px 50px 40px;
    }
    @include max-breakpoint("s") {
-      margin-top: 40px;
       padding: 20px;
    }
 }

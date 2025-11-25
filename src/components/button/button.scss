@@ -6,9 +6,9 @@
   align-items: center;
   justify-content: center;
 
+  height: 44px;
   width: 160px;
-  height: 40px;
-  padding: 0;
+  padding: 0 40px;
 
   background: $text-color;
   color: $neutral;
@@ -20,11 +20,36 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 1;
+  transition: opacity .2s ease;
+
+  &:disabled {
+    opacity: .6;
+    cursor: default;
+  }
 }
+
+/* FULL WIDTH */
+.button--full {
+  width: 100%;
+  padding: 0 16px;
+}
+
+/* PRIMARY (black) */
+.button--primary {
+  background: $text-color;
+  color: $neutral;
+  border: none;
+}
+
+/* OUTLINE (border) */
+.button--outline {
+ background: transparent;
+  color: $primary;
+  border: 1.5px solid $primary;
+}
+
 .button__text {
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
 }
-
-

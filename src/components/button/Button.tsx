@@ -8,25 +8,28 @@ interface ButtonProps {
    handleClick?: () => void;
    disabled?: boolean;
    target?: boolean;
+   fullWidth?: boolean;
+   variant?: "primary" | "outline";
 }
 
 function Button({
    textKey,
    href,
-   handleClick,
    disabled,
    target,
+   fullWidth = false,
+   variant = "primary",
 }: ButtonProps) {
    return ( 
       <button
-         className="button"
-         onClick={handleClick}
+         className={`button button--${variant} ${fullWidth ? "button--full" : ""}`}
          disabled={disabled}
       >
          <Link
             href={href ? href : ""}
             className="button__link"
             target={target ? "_blank" : ""}
+            aria-disabled={disabled}
          >
             <span className="button__text">
                {textKey}
