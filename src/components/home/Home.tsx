@@ -3,6 +3,7 @@ import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import { createServerApolloClient } from "@/lib/apolloServer";
 import Hero from "./hero-section/Hero";
 import FeaturedSection from "./featured-section/FeaturedSection";
+import CraftDescription from "./craft-description-section/CraftDescription";
 
 const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
   {
@@ -41,6 +42,7 @@ async function Home() {
         <Hero banners={data.productHomeBanners} />
       )}
       <FeaturedSection />
+      <CraftDescription />
     </div>
   );
 }
