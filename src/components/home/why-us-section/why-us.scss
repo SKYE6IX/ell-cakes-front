@@ -1,0 +1,68 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.why-us {
+  margin-top: 100px;
+  width: 100%;
+  padding: 50px;
+  background-color: $secondary;
+  @include flex-layout(column, center, center, 100px);
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+    padding: 40px;
+    gap: 50px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+    padding: 40px 20px 40px 20px;
+  }
+}
+.why-us__heading {
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.5rem;
+  line-height: 44px;
+  font-weight: 500;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("s") {
+    font-size: 1.5rem;
+    line-height: 28px;
+  }
+}
+.why-us__lists {
+  list-style: none;
+  @include flex-layout(row, center, none, 100px);
+  @include max-breakpoint("md") {
+    gap: 50px;
+  }
+  @include max-breakpoint("sm") {
+    flex-direction: column;
+  }
+}
+.why-us__item {
+  @include flex-layout(column, center, center, none);
+}
+.why-us__item-heading {
+  margin-top: 30px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.25rem;
+  line-height: 22px;
+  font-weight: 500;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("md") {
+  }
+}
+.why-us__item-text {
+  margin-top: 10px;
+  width: 300px;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 400;
+  text-align: center;
+  color: $text-color;
+  @include max-breakpoint("md") {
+    max-width: 100%;
+  }
+}

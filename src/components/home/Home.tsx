@@ -4,6 +4,8 @@ import { createServerApolloClient } from "@/lib/apolloServer";
 import Hero from "./hero-section/Hero";
 import FeaturedSection from "./featured-section/FeaturedSection";
 import CraftDescription from "./craft-description-section/CraftDescription";
+import WhyUs from "./why-us-section/WhyUs";
+import "./home.scss";
 
 const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
   {
@@ -43,6 +45,7 @@ async function Home() {
       )}
       <FeaturedSection />
       <CraftDescription />
+      <WhyUs />
     </div>
   );
 }
