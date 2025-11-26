@@ -7,7 +7,6 @@
   display: grid;
   grid-template-columns: repeat(var(--items-per-column), 1fr);
   gap: 40px;
-
   @include max-breakpoint("lg") {
     gap: 30px;
   }
@@ -20,9 +19,9 @@
   }
 }
 .product-card {
-  width: 100%;
   position: relative;
-  @include flex-layout(column, center, center, 20px);
+  width: 100%;
+  @include flex-layout(column, center, none, 20px);
   @include max-breakpoint("s") {
     gap: 15px;
   }
@@ -52,18 +51,25 @@
 }
 .product-card__name {
   font-family: $font-uncage, sans-serif;
-  font-size: 1.375rem;
-  line-height: 26.4px;
+  font-size: 1rem;
+  line-height: 19px;
   font-weight: 500;
   color: $text-color;
   text-align: center;
   margin-top: 20px;
-  @include max-breakpoint("768px") {
-    font-size: 1rem;
-    line-height: 19.2px;
+  padding: 0px 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  overflow: hidden;
+  @include max-breakpoint("md") {
+    padding: 0px 5px;
   }
   @include max-breakpoint("s") {
     margin-top: 15px;
+    font-size: 0.875rem;
+    line-height: 16px;
   }
 }
 .product-card__description {
@@ -86,6 +92,7 @@
 }
 .product-card__btn-container {
   width: 100%;
+  position: relative;
 }
 .product-card__cart-btn {
   width: 100%;
@@ -116,6 +123,52 @@
   line-height: 19.2px;
   font-weight: 600;
   color: $text-color;
+}
+
+.product-card__cart-active {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0px;
+  background-color: $primary-accent;
+  border-radius: 15px;
+  padding: 0px 20px;
+  @include flex-layout(row, center, space-between, none);
+  display: none;
+  @include max-breakpoint("768px") {
+    padding: 0px 15px;
+  }
+}
+.product-card__cart-active-btn {
+  height: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  @include flex-layout(row, center, center, none);
+  cursor: pointer;
+  svg {
+    width: 20px;
+  }
+  @include max-breakpoint("768px") {
+    svg {
+      width: 18px;
+    }
+  }
+}
+.product-card__cart-value {
+  @include flex-layout(row, center, center, 5px);
+}
+.product-card__cart-qty,
+.product-card__cart-price {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  font-weight: 500;
+  color: $neutral;
+  @include max-breakpoint("768px") {
+    font-size: 0.875rem;
+    line-height: 16px;
+  }
 }
 .product-card__banners {
   width: 100%;
@@ -151,7 +204,7 @@
     font-size: 0.6875rem;
   }
 }
-//
+
 .product-card__metric {
   background-color: $primary-accent;
   color: $neutral;

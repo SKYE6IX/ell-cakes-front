@@ -689,6 +689,51 @@ export type DelivaryAddressWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type FeaturedProduct = {
+  __typename: 'FeaturedProduct';
+  createdAt: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  product: Maybe<Product>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type FeaturedProductCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type FeaturedProductOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+};
+
+export type FeaturedProductUpdateArgs = {
+  data: FeaturedProductUpdateInput;
+  where: FeaturedProductWhereUniqueInput;
+};
+
+export type FeaturedProductUpdateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type FeaturedProductWhereInput = {
+  AND?: InputMaybe<Array<FeaturedProductWhereInput>>;
+  NOT?: InputMaybe<Array<FeaturedProductWhereInput>>;
+  OR?: InputMaybe<Array<FeaturedProductWhereInput>>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  updatedAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type FeaturedProductWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type FileFieldInput = {
   upload: Scalars['Upload']['input'];
 };
@@ -926,6 +971,8 @@ export type Mutation = {
   createCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   createDelivaryAddress: Maybe<DelivaryAddress>;
   createDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
+  createFeaturedProduct: Maybe<FeaturedProduct>;
+  createFeaturedProducts: Maybe<Array<Maybe<FeaturedProduct>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   createOrder: Maybe<Order>;
   createOrderItem: Maybe<OrderItem>;
@@ -967,6 +1014,8 @@ export type Mutation = {
   deleteCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   deleteDelivaryAddress: Maybe<DelivaryAddress>;
   deleteDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
+  deleteFeaturedProduct: Maybe<FeaturedProduct>;
+  deleteFeaturedProducts: Maybe<Array<Maybe<FeaturedProduct>>>;
   deleteOrder: Maybe<Order>;
   deleteOrderItem: Maybe<OrderItem>;
   deleteOrderItems: Maybe<Array<Maybe<OrderItem>>>;
@@ -1014,6 +1063,8 @@ export type Mutation = {
   updateCustomizeImages: Maybe<Array<Maybe<CustomizeImage>>>;
   updateDelivaryAddress: Maybe<DelivaryAddress>;
   updateDelivaryAddresses: Maybe<Array<Maybe<DelivaryAddress>>>;
+  updateFeaturedProduct: Maybe<FeaturedProduct>;
+  updateFeaturedProducts: Maybe<Array<Maybe<FeaturedProduct>>>;
   updateOrder: Maybe<Order>;
   updateOrderItem: Maybe<OrderItem>;
   updateOrderItems: Maybe<Array<Maybe<OrderItem>>>;
@@ -1143,6 +1194,16 @@ export type MutationCreateDelivaryAddressArgs = {
 
 export type MutationCreateDelivaryAddressesArgs = {
   data: Array<DelivaryAddressCreateInput>;
+};
+
+
+export type MutationCreateFeaturedProductArgs = {
+  data: FeaturedProductCreateInput;
+};
+
+
+export type MutationCreateFeaturedProductsArgs = {
+  data: Array<FeaturedProductCreateInput>;
 };
 
 
@@ -1348,6 +1409,16 @@ export type MutationDeleteDelivaryAddressArgs = {
 
 export type MutationDeleteDelivaryAddressesArgs = {
   where: Array<DelivaryAddressWhereUniqueInput>;
+};
+
+
+export type MutationDeleteFeaturedProductArgs = {
+  where: FeaturedProductWhereUniqueInput;
+};
+
+
+export type MutationDeleteFeaturedProductsArgs = {
+  where: Array<FeaturedProductWhereUniqueInput>;
 };
 
 
@@ -1589,6 +1660,17 @@ export type MutationUpdateDelivaryAddressArgs = {
 
 export type MutationUpdateDelivaryAddressesArgs = {
   data: Array<DelivaryAddressUpdateArgs>;
+};
+
+
+export type MutationUpdateFeaturedProductArgs = {
+  data: FeaturedProductUpdateInput;
+  where: FeaturedProductWhereUniqueInput;
+};
+
+
+export type MutationUpdateFeaturedProductsArgs = {
+  data: Array<FeaturedProductUpdateArgs>;
 };
 
 
@@ -2150,7 +2232,6 @@ export type Product = {
   images: Maybe<Array<ProductImage>>;
   imagesCount: Maybe<Scalars['Int']['output']>;
   isAvailable: Maybe<Scalars['Boolean']['output']>;
-  isFeatured: Maybe<Scalars['Boolean']['output']>;
   mixBoxCompositions: Maybe<Array<Product>>;
   mixBoxCompositionsCount: Maybe<Scalars['Int']['output']>;
   name: Maybe<Scalars['String']['output']>;
@@ -2268,7 +2349,6 @@ export type ProductCreateInput = {
   fillings?: InputMaybe<ProductFillingRelateToManyForCreateInput>;
   images?: InputMaybe<ProductImageRelateToManyForCreateInput>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
-  isFeatured?: InputMaybe<Scalars['Boolean']['input']>;
   mixBoxCompositions?: InputMaybe<ProductRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2641,7 +2721,6 @@ export type ProductOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   isAvailable?: InputMaybe<OrderDirection>;
-  isFeatured?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   slug?: InputMaybe<OrderDirection>;
   stockQuantity?: InputMaybe<OrderDirection>;
@@ -2687,7 +2766,6 @@ export type ProductUpdateInput = {
   fillings?: InputMaybe<ProductFillingRelateToManyForUpdateInput>;
   images?: InputMaybe<ProductImageRelateToManyForUpdateInput>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
-  isFeatured?: InputMaybe<Scalars['Boolean']['input']>;
   mixBoxCompositions?: InputMaybe<ProductRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2811,7 +2889,6 @@ export type ProductWhereInput = {
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ProductImageManyRelationFilter>;
   isAvailable?: InputMaybe<BooleanFilter>;
-  isFeatured?: InputMaybe<BooleanFilter>;
   mixBoxCompositions?: InputMaybe<ProductManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
   slug?: InputMaybe<StringFilter>;
@@ -2853,6 +2930,9 @@ export type Query = {
   delivaryAddress: Maybe<DelivaryAddress>;
   delivaryAddresses: Maybe<Array<DelivaryAddress>>;
   delivaryAddressesCount: Maybe<Scalars['Int']['output']>;
+  featuredProduct: Maybe<FeaturedProduct>;
+  featuredProducts: Maybe<Array<FeaturedProduct>>;
+  featuredProductsCount: Maybe<Scalars['Int']['output']>;
   keystone: KeystoneMeta;
   order: Maybe<Order>;
   orderItem: Maybe<OrderItem>;
@@ -3027,6 +3107,25 @@ export type QueryDelivaryAddressesArgs = {
 
 export type QueryDelivaryAddressesCountArgs = {
   where?: DelivaryAddressWhereInput;
+};
+
+
+export type QueryFeaturedProductArgs = {
+  where: FeaturedProductWhereUniqueInput;
+};
+
+
+export type QueryFeaturedProductsArgs = {
+  cursor?: InputMaybe<FeaturedProductWhereUniqueInput>;
+  orderBy?: Array<FeaturedProductOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: FeaturedProductWhereInput;
+};
+
+
+export type QueryFeaturedProductsCountArgs = {
+  where?: FeaturedProductWhereInput;
 };
 
 
@@ -3720,6 +3819,11 @@ export type GetCategoriesQueryVariables = Exact<{
 
 
 export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null }> | null };
+
+export type ProductHomeBannersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;

@@ -2,8 +2,15 @@
 @use "@/global-styles/shared-styles" as *;
 
 .featured-section {
+  margin-top: 100px;
   width: 100%;
   @include flex-layout(column, center, center, none);
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+  }
 }
 .featured__title {
   padding: 0px 50px;

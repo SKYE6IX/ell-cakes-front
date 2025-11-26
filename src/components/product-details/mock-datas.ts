@@ -591,7 +591,6 @@ export const mockProduct: Product = {
   customization: null,
   fillingsCount: null,
   imagesCount: null,
-  isFeatured: null,
   mixBoxCompositions: null,
   mixBoxCompositionsCount: null,
   slug: null,

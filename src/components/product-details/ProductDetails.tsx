@@ -7,14 +7,10 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import { GET_PRODUCT_DETAILS_QUERY } from "./operations";
 import "./product-details.scss";
 
-// yagodno-bananovy-milfey
-// tort-lego
-// pryamougolny-italyansky-pirog-s-klubnikoy
-
-function ProductDetails() {
+function ProductDetails({ productSlug }: { productSlug: string }) {
   const { data, loading, error } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
-      where: { slug: "yagodno-bananovy-milfey" },
+      where: { slug: productSlug },
       variantsOrderBy: [
         { weight: OrderDirection.Asc },
         { pieces: OrderDirection.Asc },
@@ -29,7 +25,6 @@ function ProductDetails() {
   if (loading) return <p>Loading.....</p>;
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
-
   return (
     <div className="product-details">
       <section className="product-details__gallery-section">

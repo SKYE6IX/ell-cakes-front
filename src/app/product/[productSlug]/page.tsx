@@ -1,10 +1,11 @@
 import React from "react";
 import ProductDetails from "@/components/product-details/ProductDetails";
 
-function page() {
+async function page({ params }: { params: Promise<{ productSlug: string }> }) {
+  const { productSlug } = await params;
   return (
     <div>
-      <ProductDetails />
+      <ProductDetails productSlug={productSlug} />
     </div>
   );
 }

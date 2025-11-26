@@ -1,4 +1,3 @@
-import React from "react";
 import { gql, TypedDocumentNode } from "@apollo/client";
 import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import { createServerApolloClient } from "@/lib/apolloServer";
@@ -35,10 +34,12 @@ async function Home() {
   const { data } = await client.query({
     query: GET_PRODUCT_HOME_BANNERS_QUERY,
   });
-  if (!data) return null;
+
   return (
     <div className="home">
-      <Hero banners={data.productHomeBanners} />
+      {data && data.productHomeBanners.length !== 0 && (
+        <Hero banners={data.productHomeBanners} />
+      )}
       <FeaturedSection />
     </div>
   );

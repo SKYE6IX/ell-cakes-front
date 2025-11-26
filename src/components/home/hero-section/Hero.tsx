@@ -9,6 +9,10 @@ import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
 import Button from "@/components/button/Button";
 import "./hero-section.scss";
 
+// TODO:
+// Have static banner that will always shown if getting an image failed
+// Update query to only take 3 out of all hero banner text
+
 interface HeroState {
   direction: 1 | -1;
   currentIndex: number;
