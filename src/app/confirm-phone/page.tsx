@@ -126,10 +126,18 @@ function ConfirmPhonePage({
 
         {/* RIGHT */}
         <div className="confirm-phone-right">
-          <h1 className="confirm-phone-right__title">Подтвердите номер</h1>
-          <p className="confirm-phone-right__subtitle">
+          <h3
+            className="confirm-phone-right__title"
+            data-testid="confirm-phone-page-title"
+          >
+            Подтвердите номер
+          </h3>
+          <h5
+            className="confirm-phone-right__subtitle"
+            data-testid="confirm-phone-page-sub-title"
+          >
             Мы отправили 6-значный код на {phone}
-          </p>
+          </h5>
 
           <div className="confirm-phone-form">
             <div className="confirm-phone-otp">

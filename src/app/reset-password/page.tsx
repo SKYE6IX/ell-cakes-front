@@ -21,8 +21,7 @@ export default function ResetPasswordPage() {
     <section className="reset-password">
       <div className="reset-password__inner-wrapper">
         <div className="reset-password-card">
-          <h1 className="reset-password-card__title">Смена пароля</h1>
-
+          <h3 className="reset-password-card__title">Смена пароля</h3>
           <form className="reset-password-form" onSubmit={handleSubmit}>
             <Input
               initialValue={email}
@@ -33,7 +32,6 @@ export default function ResetPasswordPage() {
               required
               onInputChange={onInputChange}
             />
-
             <div
               className={`reset-password-form__submit ${
                 !isComplete ? "is-disabled" : ""
