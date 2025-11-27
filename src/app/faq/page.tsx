@@ -21,10 +21,10 @@ function Faq() {
             <Link href="/" className="faq-help__link" target="_target">
               Условия доставки
             </Link>
-            <Link href="/" className="faq-help__link" target="_target">
+            <Link href="/colaboration" className="faq-help__link" target="_target">
               Сотрудничество
             </Link>
-            <Link href="/" className="faq-help__link" target="_target">
+            <Link href="/contact" className="faq-help__link" target="_target">
               Контакты
             </Link>
           </div>
