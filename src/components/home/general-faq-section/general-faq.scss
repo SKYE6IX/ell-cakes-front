@@ -1,0 +1,39 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.general-faq {
+  margin-top: 100px;
+  width: 100%;
+  @include flex-layout(column, center, center, 20px);
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+    padding: 0px 20px;
+  }
+}
+.general-faq__heading {
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.25rem;
+  line-height: 39.6px;
+  color: $primary;
+  font-weight: 500;
+  @include max-breakpoint("md") {
+    font-size: 1.75rem;
+    line-height: 30.8px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1.5rem;
+    line-height: 26.4px;
+  }
+}
+.general-faq__list {
+  width: 50%;
+  @include max-breakpoint("md") {
+    width: 70%;
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
+}

@@ -7,6 +7,7 @@ import CraftDescription from "./craft-description-section/CraftDescription";
 import WhyUs from "./why-us-section/WhyUs";
 import AboutUs from "./about-us-section/AboutUs";
 import CustomizeInfo from "./customize-info-section/CustomizeInfo";
+import GeneralFaq from "./general-faq-section/GeneralFaq";
 import "./home.scss";
 
 const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
@@ -50,6 +51,7 @@ async function Home() {
       <WhyUs />
       <CustomizeInfo />
       <AboutUs />
+      <GeneralFaq />
     </div>
   );
 }

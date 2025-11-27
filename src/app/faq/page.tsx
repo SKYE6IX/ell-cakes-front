@@ -1,11 +1,8 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
 import FaqItem from "@/components/faq-item/FaqItem";
 import { faqList, faqDeliveryList, faqIngredientList } from "./faqList";
 import "./faq-page.scss";
 
-// Section identifiers (to build unique keys)
 type SectionKey = "frequently" | "delivery" | "ingredients";
 
 const sections: { key: SectionKey; title: string; items: typeof faqList }[] = [
@@ -15,12 +12,6 @@ const sections: { key: SectionKey; title: string; items: typeof faqList }[] = [
 ];
 
 function Faq() {
-  const [IsExpandKey, setIsExpandKey] = useState<string | null>(null);
-
-  // Open clicked item, or close if it's already open
-  const toggleExpand = (key: string) =>
-    setIsExpandKey((prev) => (prev === key ? null : key));
-
   return (
     <section className="faq">
       <div className="faq__inner-wrapper">
@@ -42,15 +33,13 @@ function Faq() {
           {sections.map((section) => (
             <div className="faq__section" key={section.key}>
               <h2 className="faq__title">{section.title}</h2>
-              {section.items.map((item, idx) => {
-                const key = `${section.key}-${idx}`;
+              {section.items.map((item) => {
                 return (
                   <FaqItem
-                    key={key}
+                    key={item.key}
+                    expandKey={item.key}
                     question={item.question}
                     answer={item.answer}
-                    isOpen={IsExpandKey === key}
-                    onToggle={() => toggleExpand(key)}
                   />
                 );
               })}

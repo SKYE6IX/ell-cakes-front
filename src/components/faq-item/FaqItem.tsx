@@ -1,23 +1,36 @@
 "use client";
+import { useState } from "react";
 import Plus from "../icons/Plus";
 import "./faq-item.scss";
 
-interface FaqProps {
+type FaqProps = {
+  expandKey: string;
   question: string;
   answer: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}
+};
 
-function FaqItem({ question, answer, isOpen, onToggle }: FaqProps) {
+function FaqItem({ question, answer, expandKey }: FaqProps) {
+  const [isExpandKey, setIsExpandKey] = useState<string | null>(null);
+
+  const handleSetExpandKey = (key: string) => {
+    setIsExpandKey((prvState) => {
+      if (prvState === key) {
+        return null;
+      } else {
+        return key;
+      }
+    });
+  };
+
   return (
     <div className="faq-item">
       <div
-        className={["faq-item__header", isOpen ? "expand" : "collapsed"].join(
-          " "
-        )}
-        onClick={onToggle}
-        aria-expanded={isOpen}
+        className={[
+          "faq-item__header",
+          isExpandKey === expandKey ? "expand" : "collapsed",
+        ].join(" ")}
+        onClick={() => handleSetExpandKey(expandKey)}
+        aria-expanded={isExpandKey === expandKey}
         data-testid="faq-trigger"
       >
         <h4 className="faq-item__title">{question}</h4>
@@ -28,7 +41,9 @@ function FaqItem({ question, answer, isOpen, onToggle }: FaqProps) {
       <div
         className={[
           "faq-item__panel",
-          isOpen ? "expand animate_in" : "collapsed animate_out",
+          isExpandKey === expandKey
+            ? "expand animate_in"
+            : "collapsed animate_out",
         ].join(" ")}
       >
         <div className="faq-item__panel-inner">

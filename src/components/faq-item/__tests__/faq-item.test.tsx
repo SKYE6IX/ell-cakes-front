@@ -5,8 +5,6 @@ import FaqItem from "../FaqItem";
 const mockFaq = {
   question: "What is the test about?",
   answer: "Testing whatever whatever!",
-  isOpen: true,
-  onToggle: jest.fn(),
 };
 
 describe("FAQ Item component", () => {
@@ -18,8 +16,7 @@ describe("FAQ Item component", () => {
       <FaqItem
         question={mockFaq.question}
         answer={mockFaq.answer}
-        isOpen={mockFaq.isOpen}
-        onToggle={mockFaq.onToggle}
+        expandKey="mock-key"
       />
     );
 
