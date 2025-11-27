@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo, useState } from "react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
@@ -9,12 +8,13 @@ export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");
 
   const isComplete = useMemo(() => email.trim().length > 0, [email]);
+  const onInputChange = ({ value }: { name: string; value: string }) => {
+    setEmail(value);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isComplete) return;
-
-    console.log({ email });
   };
 
   return (
@@ -25,12 +25,13 @@ export default function ResetPasswordPage() {
 
           <form className="reset-password-form" onSubmit={handleSubmit}>
             <Input
+              initialValue={email}
+              name="email"
               placeholder="ПОЧТА"
               type="email"
-              value={email}
-              onChange={setEmail}
               autoComplete="email"
               required
+              onInputChange={onInputChange}
             />
 
             <div

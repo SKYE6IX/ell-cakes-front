@@ -1,5 +1,4 @@
-"use client";
-
+import React from "react";
 import Link from "next/link";
 import "./help-sidebar.scss";
 
@@ -17,12 +16,14 @@ function HelpSidebar({
   return (
     <div className="help-sidebar">
       <div className="help-sidebar__box">
-        <h2 className="help-sidebar__title">Добро пожаловать!</h2>
-
+        <h3 className="help-sidebar__title">Добро пожаловать!</h3>
         <div className="help-sidebar__links">
           <Link
             href="/login"
-            className={`help-sidebar__link ${active === "login" ? "help-sidebar__link--accent" : ""}`}
+            aria-current="page"
+            className={`help-sidebar__link ${
+              active === "login" ? "help-sidebar__link--accent" : ""
+            }`}
             onClick={onLoginClick}
           >
             Войти
@@ -30,7 +31,10 @@ function HelpSidebar({
 
           <Link
             href="/registration"
-            className={`help-sidebar__link  ${active === "register" ? "help-sidebar__link--accent" : ""}`}
+            aria-current="page"
+            className={`help-sidebar__link  ${
+              active === "register" ? "help-sidebar__link--accent" : ""
+            }`}
             onClick={onRegisterClick}
           >
             Зарегистрироваться
@@ -38,12 +42,24 @@ function HelpSidebar({
         </div>
 
         <div className="help-sidebar__bottom">
-          <div className="help-sidebar__bottom-title">Нужна помощь?</div>
+          <h5 className="help-sidebar__bottom-title">Нужна помощь?</h5>
 
           <div className="help-sidebar__bottom-links">
-           <Link href="/contact" className="help-sidebar__bottom-link">Контакты</Link>
+            <Link
+              href="/contact"
+              aria-current="page"
+              className="help-sidebar__bottom-link"
+            >
+              Контакты
+            </Link>
 
-            <Link href="/faq" className="help-sidebar__bottom-link">FAQ</Link>
+            <Link
+              href="/faq"
+              aria-current="page"
+              className="help-sidebar__bottom-link"
+            >
+              FAQ
+            </Link>
           </div>
         </div>
       </div>

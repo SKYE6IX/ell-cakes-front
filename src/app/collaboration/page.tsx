@@ -1,9 +1,9 @@
 import Image from "next/image";
 import dessertImage from "./dessert.jpg";
 import Button from "@/components/button/Button";
-import "./colaboration.scss";
+import "./collaboration.scss";
 
-function Colaboration() {
+function Collaboration() {
   return (
     <>
       <section className="colaboration">
@@ -39,4 +39,4 @@ function Colaboration() {
     </>
   );
 }
-export default Colaboration;
+export default Collaboration;

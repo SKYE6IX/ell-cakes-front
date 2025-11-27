@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/button/Button";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
@@ -9,9 +8,9 @@ interface ConfirmPhonePageProps {
   phone?: string;
   onConfirm?: (code: string) => void;
   onResend?: () => void;
-  onChangePhoneClick?: () => void; 
-  confirmHref?: string;          
-  changePhoneHref?: string;       
+  onChangePhoneClick?: () => void;
+  confirmHref?: string;
+  changePhoneHref?: string;
 }
 
 function ConfirmPhonePage({
@@ -28,6 +27,7 @@ function ConfirmPhonePage({
   const [secondsLeft, setSecondsLeft] = useState(60);
 
   const code = useMemo(() => codeArr.join(""), [codeArr]);
+
   const isComplete = useMemo(
     () => code.replace(/\D/g, "").length === LEN,
     [code]
@@ -49,14 +49,16 @@ function ConfirmPhonePage({
     const next = [...codeArr];
     next[i] = digit;
     setCodeArr(next);
-
     if (digit) {
       const inputs = getInputs(el);
       inputs[i + 1]?.focus();
     }
   };
 
-  const handleKeyDown = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    i: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     const el = e.currentTarget;
     const inputs = getInputs(el);
 
@@ -84,7 +86,10 @@ function ConfirmPhonePage({
     }
   };
 
-  const handlePaste = (i: number, e: React.ClipboardEvent<HTMLInputElement>) => {
+  const handlePaste = (
+    i: number,
+    e: React.ClipboardEvent<HTMLInputElement>
+  ) => {
     const pasted = e.clipboardData.getData("text").replace(/\D/g, "");
     if (!pasted) return;
 
@@ -117,7 +122,7 @@ function ConfirmPhonePage({
   return (
     <section className="confirm-phone">
       <div className="confirm-phone__inner-wrapper">
-      <HelpSidebar active="register"/>
+        <HelpSidebar active="register" />
 
         {/* RIGHT */}
         <div className="confirm-phone-right">
@@ -147,7 +152,6 @@ function ConfirmPhonePage({
                 />
               ))}
             </div>
-
             {/* confirm button */}
             <div
               className={`confirm-phone-form__submit ${
@@ -155,15 +159,19 @@ function ConfirmPhonePage({
               }`}
               onClick={handleConfirmClick}
             >
-              <Button textKey="Подтвердить" href="/" fullWidth/>
+              <Button textKey="Подтвердить" href="/" fullWidth />
             </div>
 
             {/* resend */}
             <div className="confirm-phone-resend">
-              <span className="confirm-phone-resend__label">Не пришёл код?</span>
+              <span className="confirm-phone-resend__label">
+                Не пришёл код?
+              </span>
               <button
                 type="button"
-                className={`confirm-phone-resend__btn ${secondsLeft > 0 ? "is-disabled" : ""}`}
+                className={`confirm-phone-resend__btn ${
+                  secondsLeft > 0 ? "is-disabled" : ""
+                }`}
                 onClick={handleResend}
                 disabled={secondsLeft > 0}
               >
@@ -177,7 +185,12 @@ function ConfirmPhonePage({
 
             {/* change phone button */}
             <div className="confirm-phone__change" onClick={onChangePhoneClick}>
-              <Button textKey="Изменить номер" href="/" fullWidth variant="outline" />
+              <Button
+                textKey="Изменить номер"
+                href="/"
+                fullWidth
+                variant="outline"
+              />
             </div>
           </div>
         </div>

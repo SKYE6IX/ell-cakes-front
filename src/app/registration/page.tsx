@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo, useState } from "react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
@@ -7,27 +6,37 @@ import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import "./registration.scss";
 import Link from "next/link";
 
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  phone: "",
+};
+
 function RegistrationPage() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [formState, setFormState] = useState(initialState);
   const [subscribe, setSubscribe] = useState(false);
 
   const isComplete = useMemo(() => {
+    const { name, phone, email, password } = formState;
     return (
       name.trim().length > 0 &&
       phone.trim().length > 0 &&
       email.trim().length > 0 &&
-      pass.trim().length > 0
+      password.trim().length > 0
     );
-  }, [name, phone, email, pass]);
+  }, [formState]);
+  const onInputChange = ({ name, value }: { name: string; value: string }) => {
+    setFormState((prvState) => ({
+      ...prvState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isComplete) return;
-
-    console.log({ name, phone, email, pass, subscribe });
+    // if (!isComplete) return;
+    // console.log({ name, phone, email, pass, subscribe });
   };
 
   return (
@@ -36,43 +45,49 @@ function RegistrationPage() {
         <HelpSidebar active="register" />
 
         <div className="registration-right">
-          <h1 className="registration-right__title">Регистрация</h1>
+          <h1
+            className="registration-right__title"
+            data-testid="registration-page-heading"
+          >
+            Регистрация
+          </h1>
 
           <form className="registration-form" onSubmit={handleSubmit}>
             <div className="registration-form__fields">
               <Input
+                initialValue={formState.name}
+                name="name"
                 placeholder="имя"
-                value={name}
-                onChange={setName}
                 autoComplete="given-name"
                 required
+                onInputChange={onInputChange}
               />
-
               <Input
+                initialValue={formState.phone}
+                name="phone"
                 placeholder="ТЕЛЕФОН"
                 type="tel"
-                value={phone}
-                onChange={setPhone}
                 autoComplete="tel"
                 required
+                onInputChange={onInputChange}
               />
-
               <Input
+                initialValue={formState.email}
+                name="email"
                 placeholder="ПОЧТА"
                 type="email"
-                value={email}
-                onChange={setEmail}
                 autoComplete="email"
                 required
+                onInputChange={onInputChange}
               />
-
               <Input
+                initialValue={formState.password}
+                name="password"
                 placeholder="ПАРОЛЬ"
                 type="password"
-                value={pass}
-                onChange={setPass}
                 autoComplete="new-password"
                 required
+                onInputChange={onInputChange}
               />
             </div>
 
@@ -96,9 +111,14 @@ function RegistrationPage() {
               <Button textKey="Зарегистрироваться" href="/" fullWidth />
             </div>
 
-            <p className="registration-form__policy">
+            <p
+              className="registration-form__policy"
+              data-testid="registration-page-policy"
+            >
               нажимая кнопку вы соглашаетесь{" "}
-              <Link href="/policy">с согласием на обработку персональных данных</Link>
+              <Link href="/policy" data-testid="registration-page-policy-link">
+                с согласием на обработку персональных данных
+              </Link>
             </p>
 
             <div className="registration__divider" />

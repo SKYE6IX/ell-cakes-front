@@ -1,26 +1,34 @@
-"use client";
-
+import { useState } from "react";
 import "./input.scss";
 
 interface InputProps {
+  name: string;
   placeholder: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  initialValue: string;
+  onInputChange: ({}: { name: string; value: string }) => void;
   type?: "text" | "email" | "password" | "tel";
-  name?: string;
   autoComplete?: string;
   required?: boolean;
 }
 
 export default function Input({
-  placeholder,
-  value = "",
-  onChange,
-  type = "text",
   name,
+  placeholder,
+  initialValue,
+  onInputChange,
+  type = "text",
   autoComplete,
   required,
 }: InputProps) {
+  const [inputValue, setInputValue] = useState(initialValue);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setInputValue(value);
+    onInputChange({ name, value });
+  };
+
   return (
     <input
       className="input"
@@ -29,8 +37,8 @@ export default function Input({
       autoComplete={autoComplete}
       required={required}
       placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange?.(e.target.value)}
+      value={inputValue}
+      onChange={handleChange}
     />
   );
 }

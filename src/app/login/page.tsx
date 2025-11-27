@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Button from "@/components/button/Button";
@@ -7,19 +6,30 @@ import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import "./login.scss";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+const initialState = {
+  email: "",
+  password: "",
+};
 
+function Login() {
+  const [formState, setFormState] = useState(initialState);
+
+  // I need to undderstand why this ?
   const isComplete = useMemo(() => {
-    return email.trim().length > 0 && pass.trim().length > 0;
-  }, [email, pass]);
+    const { email, password } = formState;
+    return email.trim().length > 0 && password.trim().length > 0;
+  }, [formState]);
+
+  const onInputChange = ({ name, value }: { name: string; value: string }) => {
+    setFormState((prvState) => ({
+      ...prvState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isComplete) return;
-
-    console.log({ email, pass });
   };
 
   return (
@@ -28,26 +38,30 @@ function Login() {
         <HelpSidebar active="login" />
 
         <div className="login-right">
-          <h1 className="login-right__title">Авторизация</h1>
+          <h3 className="login-right__title" data-testid="login-page-heading">
+            Авторизация
+          </h3>
 
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="login-form__fields">
               <Input
+                initialValue={formState.email}
+                name="email"
                 placeholder="почта"
                 type="email"
-                value={email}
-                onChange={setEmail}
                 autoComplete="email"
                 required
+                onInputChange={onInputChange}
               />
 
               <Input
+                initialValue={formState.password}
+                name="password"
                 placeholder="пароль"
                 type="password"
-                value={pass}
-                onChange={setPass}
                 autoComplete="current-password"
                 required
+                onInputChange={onInputChange}
               />
             </div>
 
@@ -59,20 +73,31 @@ function Login() {
               <Button textKey="Войти" href="/" fullWidth />
             </div>
 
-            <Link href="/forgot-password" className="login-form__forgot">
+            <Link
+              href="/reset-password"
+              aria-current="page"
+              className="login-form__forgot"
+              data-testid="login-page-link"
+            >
               Забыли свой пароль?
             </Link>
 
             <div className="login__divider" />
 
             <div className="login-register">
-              <h2 className="login-register__title">
+              <h4
+                className="login-register__title"
+                data-testid="login-page-title"
+              >
                 Зарегистрироваться
-              </h2>
+              </h4>
 
-              <p className="login-register__subtitle">
+              <h5
+                className="login-register__subtitle"
+                data-testid="login-page-sub-title"
+              >
                 зарегистрируйтесь и получите скидку 15% на первую покупку!
-              </p>
+              </h5>
 
               <div className="login-register__btn">
                 <Button
