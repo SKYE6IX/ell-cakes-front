@@ -1,34 +1,33 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/shared-styles" as *;
 
-// TODO:
-// Adjust the info section to avoid layout shift when animation changes and it has diffrent width
-// text and title. The change button should stay down and not to move up and down.
-
 .hero {
   width: 100%;
   --hero-gutter: 50px;
-  --hero-spacing: 60px;
+  --hero-spacing: 40px;
   @include flex-layout(row, center, space-between, var(--hero-spacing));
   margin-top: var(--hero-gutter);
   padding-bottom: 100px; // Used to create space to place the dot navigation for the carousel
   position: relative;
+  @include max-breakpoint("lg") {
+    --hero-spacing: 30px;
+    --hero-gutter: 30px;
+    padding-bottom: 50px;
+  }
   @include max-breakpoint("md") {
     --hero-gutter: 40px;
     --hero-spacing: 40px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
   }
   @include max-breakpoint("sm") {
     --hero-gutter: 20px;
     --hero-spacing: 20px;
   }
-  @include max-breakpoint("768px") {
+  @include max-breakpoint("820px") {
     --hero-spacing: 40px;
     flex-direction: column;
     padding-bottom: 0px;
-  }
-  @include max-breakpoint("s") {
-    --hero-gutter: 20px;
+    padding: 0px var(--hero-gutter);
   }
 }
 
@@ -42,9 +41,9 @@
   aspect-ratio: 3 / 2.2;
   @include flex-layout(row, center, center, none);
   overflow-x: clip;
-  @include max-breakpoint("768px") {
+  @include max-breakpoint("820px") {
     width: 100%;
-    margin-right: var(--hero-gutter);
+    margin-left: 0px;
   }
 }
 
@@ -52,6 +51,7 @@
   width: 100%;
   position: absolute;
   left: 0px;
+  right: 0px;
   --images-wrapper-spacing: 20px;
   @include flex-layout(row, center, center, var(--images-wrapper-spacing));
   @include max-breakpoint("md") {
@@ -61,29 +61,38 @@
 
 .hero__image-container {
   border-radius: 15px;
-  width: calc(50% - 20px);
+  width: calc(50% - var(--images-wrapper-spacing));
   height: auto;
   aspect-ratio: 2 / 3;
   position: relative;
+  @include max-breakpoint("sm") {
+    border-radius: 10px;
+  }
 }
+
 .hero__product-image {
   border-radius: inherit;
 }
 .hero__info {
   align-self: flex-start;
   width: 45%;
-  height: 600px;
+  height: 570px;
   @include flex-layout(column, center, center, 20px);
-  padding-right: var(--hero-gutter);
-
   padding-top: 20px;
+  padding-right: var(--hero-gutter);
+  @include max-breakpoint("lg") {
+    height: 450px;
+  }
   @include max-breakpoint("md") {
+    height: 380px;
     gap: 15px;
   }
-  @include max-breakpoint("768px") {
+  @include max-breakpoint("820px") {
+    padding: 0px;
     width: 100%;
-    padding-left: var(--hero-gutter);
-    padding-top: 0px;
+  }
+  @include max-breakpoint("s") {
+    height: 360px;
   }
 }
 .hero__product-badge,
@@ -94,11 +103,11 @@
   line-height: 24px;
   color: $text-color;
   text-align: center;
-  @include max-breakpoint("md") {
+  @include max-breakpoint("lg") {
     font-size: 1rem;
     line-height: 19.2px;
   }
-  @include max-breakpoint("768px") {
+  @include max-breakpoint("820px") {
     font-size: 1.25rem;
     line-height: 24px;
   }
@@ -109,58 +118,60 @@
 }
 
 .hero__product-name {
+  width: 100%;
   font-family: $font-uncage, sans-serif;
   font-size: 2.75rem;
   line-height: 48.4px;
   font-weight: 500;
   color: $text-color;
   text-align: center;
-  @include max-breakpoint("md") {
+  @include max-breakpoint("lg") {
     font-size: 2rem;
     line-height: 38.4px;
   }
+  @include max-breakpoint("md") {
+    font-size: 1.75rem;
+    line-height: 30.8px;
+  }
+  @include max-breakpoint("820px") {
+    width: 600px;
+  }
   @include max-breakpoint("768px") {
-    font-size: 2.75rem;
-    line-height: 48.4px;
+    width: 100%;
   }
   @include max-breakpoint("s") {
-    font-size: 2.25rem;
-    line-height: 43.2px;
+    font-size: 1.5rem;
+    line-height: 26.4px;
   }
 }
 .hero__product-description {
-  max-width: 500px;
-  @include max-breakpoint("md") {
-    max-width: 100%;
-  }
+  width: 100%;
 }
 
 .hero__carousel-control {
+  margin-top: auto;
   width: 100%;
   @include flex-layout(row, center, center, 20px);
-  margin-top: 80px;
-  @include max-breakpoint("lg") {
-    margin-top: 60px;
-  }
-  @include max-breakpoint("md") {
-    margin-top: 20px;
-  }
 }
 .hero__carousel-btn {
   border: none;
   background: $primary;
-  width: 80px;
-  height: 80px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   @include flex-layout(row, center, center, none);
   cursor: pointer;
   @include max-breakpoint("lg") {
-    width: 60px;
-    height: 60px;
-  }
-  @include max-breakpoint("md") {
     width: 50px;
     height: 50px;
+  }
+  @include max-breakpoint("md") {
+    width: 40px;
+    height: 40px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 .hero__pagination-list {
@@ -170,23 +181,26 @@
   transform: translateX(-50%);
   bottom: 50px;
   @include flex-layout(row, center, center, 20px);
-  @include max-breakpoint("md") {
-    bottom: 30px;
+  @include max-breakpoint("lg") {
+    bottom: 15px;
   }
-  @include max-breakpoint("768px") {
+  @include max-breakpoint("md") {
+    bottom: 5px;
+  }
+  @include max-breakpoint("820px") {
     display: none;
   }
 }
 .hero__pagination-item {
   border: 2px solid $primary;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: transparent;
   transition: background-color 0.3s ease-out;
   @include max-breakpoint("md") {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
   }
 }
 .hero__pagination-item.active {

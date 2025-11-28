@@ -7,24 +7,21 @@ import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
 import Button from "@/components/button/Button";
+import FallBackBanner from "./FallBackBanner";
 import "./hero-section.scss";
 
-// TODO:
-// Have static banner that will always shown if getting an image failed
-// Update query to only take 3 out of all hero banner text
-
+type HeroProps = {
+  banners: ProductHomeBanner[] | undefined;
+};
 interface HeroState {
   direction: 1 | -1;
   currentIndex: number;
   positions: number[];
 }
 
-type HeroProps = {
-  banners: ProductHomeBanner[];
-};
-
 function Hero({ banners }: HeroProps) {
-  const SLIDES_LENGHT = banners.length;
+  const isBannerData = banners && banners.length === 0;
+  const SLIDES_LENGHT = banners?.length ?? 0;
   const DRAG_THRESSHOLD = 50;
   const dragX = useMotionValue(0);
   const dragXProgress = useMotionValue(0);
@@ -34,20 +31,23 @@ function Hero({ banners }: HeroProps) {
     currentIndex: 0,
     positions: [],
   });
+
   useEffect(() => {
     const setSlidePosition = () => {
-      const slideWidth = slideItemsRef.current[0].offsetWidth;
-      const positionSlot = [
-        1,
-        slideWidth,
-        -(slideItemsRef.current.length - 1) * slideWidth,
-      ];
-      setHeroState((prvState) => ({ ...prvState, positions: positionSlot }));
+      if (!isBannerData) {
+        const slideWidth = slideItemsRef.current[0].offsetWidth;
+        const positionSlot = [
+          1,
+          slideWidth,
+          -(slideItemsRef.current.length - 1) * slideWidth,
+        ];
+        setHeroState((prvState) => ({ ...prvState, positions: positionSlot }));
+      }
     };
     setSlidePosition();
     window.addEventListener("resize", setSlidePosition);
     return () => window.removeEventListener("resize", setSlidePosition);
-  }, []);
+  }, [isBannerData]);
 
   useMotionValueEvent(dragX, "change", (latest) => {
     if (typeof latest === "number") {
@@ -83,6 +83,7 @@ function Hero({ banners }: HeroProps) {
     }
   };
 
+  if (isBannerData || banners === undefined) return <FallBackBanner />;
   return (
     <section className="hero">
       <motion.ul
@@ -162,6 +163,7 @@ function Hero({ banners }: HeroProps) {
           </button>
         </div>
       </div>
+
       <ul className="hero__pagination-list">
         {banners.map((_, idx) => (
           <li

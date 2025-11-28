@@ -14,10 +14,10 @@ const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
   {
     productHomeBanners: ProductHomeBanner[];
   },
-  Record<string, never>
+  { take: number }
 > = gql`
-  query ProductHomeBanners {
-    productHomeBanners {
+  query ProductHomeBanners($take: Int) {
+    productHomeBanners(take: $take) {
       id
       bannerText
       product {
@@ -35,17 +35,18 @@ const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
     }
   }
 `;
+
 async function Home() {
+  const BANNER_NUM = 3;
   const client = createServerApolloClient();
   const { data } = await client.query({
     query: GET_PRODUCT_HOME_BANNERS_QUERY,
+    variables: { take: BANNER_NUM },
   });
 
   return (
     <div className="home">
-      {data && data.productHomeBanners.length !== 0 && (
-        <Hero banners={data.productHomeBanners} />
-      )}
+      <Hero banners={data?.productHomeBanners} />
       <FeaturedSection />
       <CraftDescription />
       <WhyUs />
