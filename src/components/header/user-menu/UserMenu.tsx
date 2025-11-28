@@ -5,8 +5,8 @@ import "./user-menu.scss";
 
 function UserMenu() {
   return (
-    <Link href="/dashboard" className="user-menu">
-      <span className="user-menu__text">User</span>
+    <Link href="/login" className="user-menu">
+      <span className="user-menu__text">войти</span>
       <PersonIcon />
     </Link>
   );
