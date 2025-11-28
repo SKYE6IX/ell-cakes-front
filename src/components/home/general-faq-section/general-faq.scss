@@ -3,16 +3,13 @@
 
 .general-faq {
   margin-top: 100px;
-  margin-bottom: 100px;
   width: 100%;
   @include flex-layout(column, center, center, 20px);
   @include max-breakpoint("md") {
     margin-top: 80px;
-    margin-bottom: 80px;
   }
   @include max-breakpoint("s") {
     margin-top: 40px;
-    margin-bottom: 40px;
     padding: 0px 20px;
   }
 }

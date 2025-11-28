@@ -39,13 +39,21 @@ function ProductFillingSelector({
             data-testid="product-filling-item"
           >
             <div className="product-filling-selector__image-container">
-              <Image
-                src={filling.image_icon?.url || ""}
-                alt="Mock Image"
-                fill
-                className="product-filling-selector__image"
-                data-testid="product-filling-image"
-              />
+              {filling.image_icon?.url === undefined ? (
+                <div className="product-filling-selector__fallback-icon-wrapper">
+                  <span className="product-filling-selector__fallback-icon">
+                    {filling.name?.substring(0, 2)}
+                  </span>
+                </div>
+              ) : (
+                <Image
+                  src={filling.image_icon.url}
+                  alt="Mock Image"
+                  fill
+                  className="product-filling-selector__image"
+                  data-testid="product-filling-image"
+                />
+              )}
             </div>
             <h5 className="product-filling-selector__name">{filling.name}</h5>
           </li>

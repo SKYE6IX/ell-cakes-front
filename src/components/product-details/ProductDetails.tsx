@@ -5,6 +5,7 @@ import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import { GET_PRODUCT_DETAILS_QUERY } from "./operations";
+import ProductDetailsSkeleton from "./skeleton/ProductDetailsSkeleton";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
@@ -22,7 +23,7 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
       ],
     },
   });
-  if (loading) return <p>Loading.....</p>;
+  if (loading) return <ProductDetailsSkeleton />;
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
   return (
