@@ -4,7 +4,10 @@ import { Montserrat } from "next/font/google";
 import ApolloQueryProvider from "src/contexts/ApolloQueryProvider";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import { createServerApolloClient } from "@/lib/apolloServer";
 import "../global-styles/globals.scss";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
 
 export const metadata: Metadata = {
   title: "Ell Cakes",
@@ -42,16 +45,34 @@ const montserrat = Montserrat({
   preload: true,
 });
 
-export default function RootLayout({
+const GET_CATEGORIES: TypedDocumentNode<
+  { categories: Category[] },
+  { where: CategoryWhereInput }
+> = gql`
+  query GetCategories($where: CategoryWhereInput!) {
+    categories(where: $where) {
+      id
+      name
+      slug
+    }
+  }
+`;
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const client = createServerApolloClient();
+  const { data } = await client.query({
+    query: GET_CATEGORIES,
+    variables: { where: { parent: { slug: { equals: "torty" } } } },
+  });
   return (
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
         <ApolloQueryProvider>
-          <Header />
+          <Header categories={data?.categories} />
           {children}
           <Footer />
         </ApolloQueryProvider>

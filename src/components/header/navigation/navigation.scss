@@ -164,21 +164,18 @@
 
 .navigation__sub-menu {
   padding-top: 20px;
-  width: 470px;
-  height: 172px;
-  @include flex-layout(column, none, none, 18px);
-  flex-wrap: wrap;
-  column-gap: 60px;
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   @include max-breakpoint("md") {
     padding-top: 15px;
     margin-top: 15px;
     border-top: 1px solid #d5d5d5;
-    width: 500px;
-    height: 200px;
   }
   @include max-breakpoint("s") {
     width: 100%;
-    column-gap: 20px;
+    gap: 16px;
   }
 }
 

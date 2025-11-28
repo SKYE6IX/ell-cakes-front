@@ -1,6 +1,12 @@
 @use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
 
 .cart-menu {
+  background: none;
+  border: none;
+  outline: none;
+  @include flex-layout(row, center, center, none);
+  cursor: pointer;
   @include max-breakpoint("md") {
     svg {
       width: 28px;

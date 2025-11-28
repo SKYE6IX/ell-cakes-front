@@ -8,11 +8,15 @@ import "./navigation.scss";
 type NavigationProps = {
   isMenuOpen: boolean;
   categories: Category[] | undefined;
+  closeMenu: () => void;
 };
 
 const categories = [
-  { key: getTransliteration("Пироженые"), label: "Пироженые" },
-  { key: getTransliteration("Свадебные торты"), label: "ДЕНЬ РОЖДЕНИЯ" },
+  { key: `product/${getTransliteration("Пироженые")}`, label: "Пироженые" },
+  {
+    key: `product/cakes/${getTransliteration("Свадебные торты")}`,
+    label: "ДЕНЬ РОЖДЕНИЯ",
+  },
 ];
 const navigationMenu = [
   ...categories,
@@ -20,7 +24,7 @@ const navigationMenu = [
   { key: "collaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
-function Navigation({ isMenuOpen, categories }: NavigationProps) {
+function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
@@ -37,6 +41,7 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
           >
             ТОрты
           </span>
+
           <span
             className={[
               "navigation__sub-menu-trigger",
@@ -47,6 +52,7 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
           >
             <ArrowDown />
           </span>
+
           <div
             className={[
               "navigation__widget",
@@ -55,6 +61,7 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
             data-testid="navigation-widget"
           >
             <div className="navigation__widget-anchor" />
+
             <div className="navigation__sub-menu-wrapper">
               <div className="navigation__sub-menu">
                 {categories?.map((cat) => (
@@ -63,12 +70,14 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
                     href={`/product/cakes/${cat.slug}`}
                     className="navigation__sub-menu-item"
                     data-testid="navigation-sub-menu-item"
+                    onClick={closeMenu}
                   >
                     {cat.name}
                   </Link>
                 ))}
               </div>
             </div>
+
             <div className="navigation__banner-wrapper">
               <div className="navigation__banner">
                 <h5 className="navigation__banner-text">
@@ -79,7 +88,7 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
                 <h5 className="navigation__banner-text">
                   скидка на первый заказ 15 %
                 </h5>
-                <Link href="/" className="navigation__banner-link">
+                <Link href="/registration" className="navigation__banner-link">
                   регистрация
                 </Link>
               </div>
@@ -96,6 +105,7 @@ function Navigation({ isMenuOpen, categories }: NavigationProps) {
             <li
               className="navigation__menu-item"
               data-testid="navigation-menu-item"
+              onClick={closeMenu}
             >
               {menu.label}
             </li>

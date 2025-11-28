@@ -5,7 +5,7 @@ import "./user-menu.scss";
 
 function UserMenu() {
   return (
-    <Link href="" className="user-menu">
+    <Link href="/dashboard" className="user-menu">
       <span className="user-menu__text">User</span>
       <PersonIcon />
     </Link>

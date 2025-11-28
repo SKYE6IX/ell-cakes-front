@@ -1,45 +1,37 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MockedProvider } from "@apollo/client/testing/react";
 import Header from "../Header";
-import { GET_CATEGORIES } from "../Header";
+import { Category } from "@/types/__generated__/graphql";
 
-const mocks = [
+const mockCategories: Category[] = [
   {
-    request: {
-      query: GET_CATEGORIES,
-      variables: {
-        where: { parent: { slug: { equals: "torty" } } },
-      },
-    },
-    result: () => {
-      const categoriesData: { id: string; name: string; slug: string }[] = [];
-      Array.from({ length: 8 }).map((data, idx) => {
-        const categoryObj = {
-          id: "mock-id-" + idx,
-          name: "mock-name",
-          slug: "muck-slug",
-        };
-        categoriesData.push(categoryObj);
-      });
-      return {
-        data: {
-          categories: categoriesData,
-        },
-      };
-    },
-    maxUsageCount: Number.POSITIVE_INFINITY,
+    id: "36029e99-3127-4729-a08f-97c1aa335869",
+    name: "Торты на День рождения",
+    slug: "torty-na-den-rozhdeniya",
+    __typename: "Category",
+    createdAt: undefined,
+    parent: null,
+    products: null,
+    productsCount: null,
+    updatedAt: undefined,
+  },
+  {
+    id: "6a46fca0-e2cc-4954-8bf7-9e92600d5b70",
+    name: "Корпоративные Торты",
+    slug: "korporativnye-torty",
+    __typename: "Category",
+    createdAt: undefined,
+    parent: null,
+    products: null,
+    productsCount: null,
+    updatedAt: undefined,
   },
 ];
 
 describe("Header component", () => {
   it("render site icon", () => {
     // Arrange
-    render(
-      <MockedProvider mocks={mocks}>
-        <Header />
-      </MockedProvider>
-    );
+    render(<Header categories={mockCategories} />);
 
     // Act
     const headerSiteIcon = screen.getByTestId("header-site-icon");
@@ -51,12 +43,7 @@ describe("Header component", () => {
   it("add active class to menubar button", async () => {
     // Arrange
     const user = userEvent.setup();
-    render(
-      <MockedProvider mocks={mocks}>
-        <Header />
-      </MockedProvider>
-    );
-
+    render(<Header categories={mockCategories} />);
     // Act
     const headerMenuButton = screen.getByTestId("header-menu-button");
 
