@@ -9,24 +9,24 @@ import { createServerApolloClient } from "@/lib/apolloServer";
 import ProductList from "@/components/product-list/ProductList";
 import "./feature-section.scss";
 
-// TODO:
-// Update featured query to only take up 8 items only
 const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
   {
     featuredProducts: FeaturedProduct[];
   },
   {
+    takeFeaturedProducts: number;
     takeFillings: number;
     takeVariants: number;
     variantsOrderBy: ProductVariantOrderByInput[];
   }
 > = gql`
   query FeaturedProducts(
+    $takeFeaturedProducts: Int
     $takeFillings: Int
     $takeVariants: Int
     $variantsOrderBy: [ProductVariantOrderByInput!]!
   ) {
-    featuredProducts {
+    featuredProducts(take: $takeFeaturedProducts) {
       id
       product {
         id
@@ -57,10 +57,12 @@ const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
 async function FeaturedSection() {
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
+  const TAKE_FEATURED_PRODUCTS = 8;
   const client = createServerApolloClient();
   const { data } = await client.query({
     query: GET_FEATURED_PRODUCTS_QUERY,
     variables: {
+      takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
       takeFillings: TAKE_FILLINGS_NUM,
       takeVariants: TAKE_VARIANTS_NUM,
       variantsOrderBy: [
