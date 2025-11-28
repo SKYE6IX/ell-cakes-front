@@ -72,6 +72,7 @@ async function FeaturedSection() {
     },
   });
   const products = data?.featuredProducts.map((featured) => featured.product!);
+
   return (
     <section className="featured-section">
       <h3 className="featured__title">

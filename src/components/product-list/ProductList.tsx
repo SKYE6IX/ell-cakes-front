@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useLazyQuery } from "@apollo/client/react";
 import { Product } from "@/types/__generated__/graphql";
 import CartIcon from "../icons/CartIcon";
 import PlusIcon from "../icons/PlusIcon";
 import MinusIcon from "../icons/MinusIcon";
+import { GET_PRODUCT_DETAILS_QUERY } from "@/components/product-details/operations";
+import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-list.scss";
 
 // Update the component to render a message if there if there is not product available,
@@ -14,11 +17,31 @@ type ProductListProps = {
 };
 
 function ProductList({ products }: ProductListProps) {
+  const [getProductsDetails] = useLazyQuery(GET_PRODUCT_DETAILS_QUERY);
+  const prefetchProductDetails = (productSlug: string) => {
+    getProductsDetails({
+      variables: {
+        where: { slug: productSlug },
+        variantsOrderBy: [
+          { weight: OrderDirection.Asc },
+          { pieces: OrderDirection.Asc },
+        ],
+        toppingOptionOrderBy: [
+          {
+            weight: OrderDirection.Asc,
+          },
+        ],
+      },
+    });
+  };
   return (
     <div className="product-list">
       {products.map((product) => (
         <div className="product-card" key={product.id}>
-          <Link href={`/product/${product.slug}`}>
+          <Link
+            href={`/product/${product.slug}`}
+            onMouseOver={() => prefetchProductDetails(product.slug!)}
+          >
             <div className="product-card__info">
               <div className="product-card__image-container">
                 <Image

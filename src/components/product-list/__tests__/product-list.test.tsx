@@ -1,11 +1,16 @@
 import { render, screen } from "@testing-library/react";
+import { MockedProvider } from "@apollo/client/testing/react";
 import ProductList from "../ProductList";
 import { mockProducts } from "../mock-data";
 
 describe("Product List Component", () => {
   it("render product images", () => {
     // Arrange
-    render(<ProductList products={mockProducts} />);
+    render(
+      <MockedProvider>
+        <ProductList products={mockProducts} />
+      </MockedProvider>
+    );
 
     // Assert
     const productCardImages = screen.getAllByTestId("product-card-image");
@@ -19,7 +24,11 @@ describe("Product List Component", () => {
 
   it("render product text content", () => {
     // Arrange
-    render(<ProductList products={mockProducts} />);
+    render(
+      <MockedProvider>
+        <ProductList products={mockProducts} />
+      </MockedProvider>
+    );
 
     // Assert
     const productCardNames = screen.getAllByRole("heading", { level: 3 });
@@ -38,7 +47,11 @@ describe("Product List Component", () => {
 
   it("render product price and weight", () => {
     // Arrange
-    render(<ProductList products={mockProducts} />);
+    render(
+      <MockedProvider>
+        <ProductList products={mockProducts} />
+      </MockedProvider>
+    );
 
     // Assert
     const productCardPrices = screen.getAllByTestId("product-card-price");
