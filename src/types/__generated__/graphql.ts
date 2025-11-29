@@ -3820,10 +3820,22 @@ export type GetCategoriesQueryVariables = Exact<{
 
 export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null }> | null };
 
-export type ProductHomeBannersQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductHomeBannersQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
 export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
+
+export type FeaturedProductsQueryVariables = Exact<{
+  takeFeaturedProducts?: InputMaybe<Scalars['Int']['input']>;
+  takeFillings?: InputMaybe<Scalars['Int']['input']>;
+  takeVariants?: InputMaybe<Scalars['Int']['input']>;
+  variantsOrderBy: Array<ProductVariantOrderByInput> | ProductVariantOrderByInput;
+}>;
+
+
+export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, product: { __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
