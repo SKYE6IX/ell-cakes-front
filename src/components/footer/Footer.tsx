@@ -15,7 +15,7 @@ function Footer() {
     { name: "Пироженые", href: "/" },
     { name: "Доставка и оплата", href: "/delivery" },
     { name: "FAQ", href: "/faq" },
-    { name: "Сотрудничество", href: "/colaboration" },
+    { name: "Сотрудничество", href: "/collaboration" },
     { name: "Контакты", href: "/contact" },
   ];
 
