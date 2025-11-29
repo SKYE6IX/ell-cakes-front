@@ -1,0 +1,13 @@
+services:
+  ellcakes_front:
+    container_name: ellcakes-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        - SERVER_URL=https://api.ellcakes.ru/api/graphql
+    environment: 
+      - NEXT_PUBLIC_SERVER_URL=https://api.ellcakes.ru/api/graphql
+    restart: always
+    ports:
+        - 3000:3000

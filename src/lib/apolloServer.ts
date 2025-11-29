@@ -4,7 +4,7 @@ export function createServerApolloClient() {
   return new ApolloClient({
     ssrMode: true,
     link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_SERVER_URL,
+      uri: process.env.SERVER_URL,
       fetch,
     }),
     cache: new InMemoryCache(),

@@ -68,6 +68,7 @@ export default async function RootLayout({
     query: GET_CATEGORIES,
     variables: { where: { parent: { slug: { equals: "torty" } } } },
   });
+
   return (
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
