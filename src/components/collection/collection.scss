@@ -1,0 +1,90 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.collection {
+  width: 100%;
+  --gutter: 50px;
+  margin-top: var(--gutter);
+  @include max-breakpoint("lg") {
+    --gutter: 30px;
+  }
+  @include max-breakpoint("md") {
+    --gutter: 40px;
+  }
+  @include max-breakpoint("sm") {
+    --gutter: 20px;
+  }
+}
+
+.collection__hero-section {
+  width: 100%;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  @include flex-layout(row, center, space-between, 50px);
+  @include max-breakpoint("md") {
+    gap: 40px;
+  }
+  @include max-breakpoint("s") {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.collection__media {
+  width: 55%;
+  @include flex-layout(row, center, center, 20px);
+  @include max-breakpoint("md") {
+    gap: 10px;
+  }
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
+}
+
+.collection__hero-image-container {
+  border-radius: 15px;
+  width: calc(100% - var(--gutter));
+  height: auto;
+  position: relative;
+  aspect-ratio: 2 / 3;
+  @include max-breakpoint("sm") {
+    border-radius: 10px;
+  }
+}
+.collection__hero-image {
+  border-radius: inherit;
+}
+.collection__text-wrapper {
+  width: 45%;
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
+}
+.collection__hero-heading {
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.75rem;
+  line-height: 48.4px;
+  font-weight: 500;
+  color: $primary;
+  text-align: center;
+  @include max-breakpoint("md") {
+    font-size: 1.75rem;
+    line-height: 30.8px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1.5rem;
+    line-height: 26.4px;
+  }
+}
+.collection__hero-text {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 24px;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("s") {
+    font-size: 1rem;
+    line-height: 19.2px;
+  }
+}

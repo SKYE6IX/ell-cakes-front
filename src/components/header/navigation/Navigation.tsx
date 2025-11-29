@@ -12,9 +12,9 @@ type NavigationProps = {
 };
 
 const categories = [
-  { key: `product/${getTransliteration("Пироженые")}`, label: "Пироженые" },
+  { key: `collections/${getTransliteration("Пироженые")}`, label: "Пироженые" },
   {
-    key: `product/cakes/${getTransliteration("Свадебные торты")}`,
+    key: `collections/${getTransliteration("Свадебные торты")}`,
     label: "ДЕНЬ РОЖДЕНИЯ",
   },
 ];
@@ -67,7 +67,7 @@ function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
                 {categories?.map((cat) => (
                   <Link
                     key={cat.id}
-                    href={`/product/cakes/${cat.slug}`}
+                    href={`/collections/${cat.slug}`}
                     className="navigation__sub-menu-item"
                     data-testid="navigation-sub-menu-item"
                     onClick={closeMenu}
