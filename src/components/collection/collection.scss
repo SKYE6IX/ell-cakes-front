@@ -11,7 +11,7 @@
   @include max-breakpoint("md") {
     --gutter: 40px;
   }
-  @include max-breakpoint("sm") {
+  @include max-breakpoint("s") {
     --gutter: 20px;
   }
 }
@@ -87,4 +87,124 @@
     font-size: 1rem;
     line-height: 19.2px;
   }
+}
+.collection__product-list {
+  margin-top: 100px;
+  padding: 0px var(--gutter);
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+  }
+}
+
+.collection__delivery-process {
+  width: 100%;
+  margin-top: 100px;
+  padding: 0px var(--gutter);
+  @include flex-layout(row, center, none, 100px);
+  @include max-breakpoint("lg") {
+    gap: 50px;
+  }
+  @include max-breakpoint("md") {
+    margin-top: 80px;
+    gap: 40px;
+  }
+  @include max-breakpoint("sm") {
+    flex-direction: column-reverse;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 40px;
+  }
+}
+.collection__delivery-info-text-wrapper {
+  width: 50%;
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+.collection__delivery-info-heading {
+  max-width: 530px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 2.25rem;
+  line-height: 39.6px;
+  color: $text-color;
+  font-weight: 500;
+  @include max-breakpoint("md") {
+    font-size: 1.75rem;
+    line-height: 30.8px;
+  }
+  @include max-breakpoint("s") {
+    max-width: 100%;
+    font-size: 1.5rem;
+    line-height: 26.4px;
+  }
+}
+.collection__delivery-info-list {
+  list-style: none;
+  margin-top: 50px;
+  @include flex-layout(column, none, none, 30px);
+  @include max-breakpoint("md") {
+    gap: 20px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 30px;
+  }
+}
+.collection__delivery-info-item {
+  @include flex-layout(row, center, none, 30px);
+  @include max-breakpoint("md") {
+    gap: 20px;
+  }
+  @include max-breakpoint("s") {
+    gap: 15px;
+  }
+}
+.collection__delivery-info-icon {
+  @include flex-layout(row, center, center, none);
+}
+.collection__delivery-info-item-inner {
+  @include flex-layout(column, none, none, 20px);
+  @include max-breakpoint("s") {
+    gap: 10px;
+  }
+}
+.collection__delivery-info-item-heading {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.125rem;
+  line-height: 19.8px;
+  color: $text-color;
+  font-weight: 500;
+}
+.collection__delivery-info-item-text {
+  max-width: 400px;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 400;
+  color: $text-color;
+  @include max-breakpoint("s") {
+    max-width: 100%;
+  }
+}
+.collection__delivery-info-image-container {
+  border-radius: 15px;
+  position: relative;
+  width: calc(50% - 100px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  @include max-breakpoint("lg") {
+    width: calc(50% - 50px);
+  }
+  @include max-breakpoint("md") {
+    width: calc(50% - 40px);
+  }
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+.collection__delivery-info-image {
+  border-radius: inherit;
+  object-fit: cover;
 }

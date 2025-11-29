@@ -14,7 +14,7 @@ type NavigationProps = {
 const categories = [
   { key: `collections/${getTransliteration("Пироженые")}`, label: "Пироженые" },
   {
-    key: `collections/${getTransliteration("Свадебные торты")}`,
+    key: `collections/${getTransliteration("Торты на День рождения")}`,
     label: "ДЕНЬ РОЖДЕНИЯ",
   },
 ];
