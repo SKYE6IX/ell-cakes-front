@@ -148,6 +148,18 @@
   width: 100%;
 }
 
+.hero__product-link {
+  height: 44px;
+  background: $text-color;
+  color: $neutral;
+  border-radius: 10px;
+  font-family: $font-uncage;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 0 30px;
+  @include flex-layout(row, center, center, none);
+}
+
 .hero__carousel-control {
   margin-top: auto;
   width: 100%;

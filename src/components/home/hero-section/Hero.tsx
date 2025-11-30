@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import * as motion from "motion/react-client";
 import { wrap, useMotionValue, useMotionValueEvent } from "motion/react";
 import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
-import Button from "@/components/button/Button";
 import FallBackBanner from "./FallBackBanner";
 import "./hero-section.scss";
 
@@ -150,7 +150,14 @@ function Hero({ banners }: HeroProps) {
         <p className="hero__product-description" data-testid="hero-banner-text">
           {banners[heroState.currentIndex].bannerText}
         </p>
-        <Button textKey="ЗАказать" />
+
+        <Link
+          href={`/product/${banners[heroState.currentIndex].product?.slug}`}
+          className="hero__product-link"
+        >
+          ЗАказать
+        </Link>
+
         <div className="hero__carousel-control">
           <button
             className="hero__carousel-btn"

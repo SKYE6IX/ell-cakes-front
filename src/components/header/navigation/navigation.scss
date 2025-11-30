@@ -60,6 +60,11 @@
   }
 }
 
+.navigation__menu-item.active {
+  color: $primary;
+}
+
+// Label item inside the sub-menu
 .navigation__menu-item .navigation__menu-item-label {
   cursor: pointer;
   transition: color 0.2s ease-in;

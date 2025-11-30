@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ArrowDown from "../../icons/ArrowDown";
 import { Category } from "@/types/__generated__/graphql";
@@ -12,19 +13,23 @@ type NavigationProps = {
 };
 
 const categories = [
-  { key: `collections/${getTransliteration("Пироженые")}`, label: "Пироженые" },
   {
-    key: `collections/${getTransliteration("Торты на День рождения")}`,
+    href: `/collections/${getTransliteration("Пироженые")}`,
+    label: "Пироженые",
+  },
+  {
+    href: `/collections/${getTransliteration("Торты на День рождения")}`,
     label: "ДЕНЬ РОЖДЕНИЯ",
   },
 ];
 const navigationMenu = [
   ...categories,
-  { key: "contact", label: "КОНТАКТЫ" },
-  { key: "collaboration", label: "СОТРУДНИЧЕСТВО" },
+  { href: "/contact", label: "КОНТАКТЫ" },
+  { href: "/collaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
 function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
+  const pathname = usePathname();
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
@@ -96,14 +101,17 @@ function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
           </div>
         </li>
 
-        {navigationMenu.map((menu) => (
+        {navigationMenu.map((menu, i) => (
           <Link
-            key={menu.key}
-            href={`/${menu.key}`}
+            key={i + menu.href}
+            href={menu.href}
             className="navigation__menu-link"
           >
             <li
-              className="navigation__menu-item"
+              className={[
+                "navigation__menu-item",
+                pathname === menu.href ? "active" : "",
+              ].join(" ")}
               data-testid="navigation-menu-item"
               onClick={closeMenu}
             >
