@@ -29,17 +29,25 @@
   padding: 30px;
   border-bottom-left-radius: 20px;
   @include max-breakpoint("s") {
-    width: 100%;
+    width: 90%;
     border-radius: 0px;
     padding: 20px;
   }
 }
+.modal__content-wrapper:has(.full-height) {
+  height: 100dvh;
+  padding-bottom: 0px;
+  border-bottom-left-radius: 0px;
+}
 .modal__content {
+  position: relative;
   width: 100%;
+  height: 100%;
+  @include flex-layout(column, none, none, none);
 }
 .modal__content-header {
-  @include flex-layout(column, none, none, 20px);
-  margin-bottom: 30px;
+  @include flex-layout(column, none, none, 10px);
+  margin-bottom: 15px;
 }
 .modal__close-button {
   width: 40px;

@@ -26,6 +26,7 @@ function RegistrationPage() {
       password.trim().length > 0
     );
   }, [formState]);
+
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
     setFormState((prvState) => ({
       ...prvState,

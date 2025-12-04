@@ -10,7 +10,8 @@ import IngredientsInfo from "../ingredients-info/IngredientsInfo";
 import ProductReviews from "../product-reviews/ProductReviews";
 import ProductFAQ from "../product-faq/ProductFAQ";
 import MixProductOption from "../mix-product-option/MixProductOption";
-import { Product } from "@/types/__generated__/graphql";
+import AddToCartButton from "@/components/add-to-cart-btn/AddToCartButton";
+import { Product, OrderDirection } from "@/types/__generated__/graphql";
 import { reducer } from "./productConfigurationReducer";
 import "./product-info-panel.scss";
 
@@ -22,6 +23,7 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
   // Picking the first item from the fillings and the and the first item from
   // the filling variants, works also for a product that only has a single filling.
   const initialProductFilling = product.fillings![0];
+
   const [productConfiguration, dispatch] = useReducer(reducer, {
     selectedProductFilling: initialProductFilling,
     selectedProductVariant: initialProductFilling.variants![0],
@@ -91,17 +93,19 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
         )}
       </div>
 
-      <button className="product-info-panel__add-to-cart">
-        <span className="product-info-panel__add-to-cart-text">
-          Добавить в корзину
-        </span>
-        <span
-          className="product-info-panel__unit-price"
-          data-testid="product-initial-price"
-        >
-          {productConfiguration.selectedProductVariant.price} ₽
-        </span>
-      </button>
+      <AddToCartButton
+        parentComponent="product-details"
+        productPrice={productConfiguration.selectedProductVariant.price!}
+        addToCartArgs={{
+          productId: product.id,
+          variantId: productConfiguration.selectedProductVariant.id,
+          takeProductImage: 1,
+          customizations: productConfiguration.customizations,
+          compositionOptions: productConfiguration.compositions,
+          toppingOptionId: productConfiguration.selectedTopping?.id ?? null,
+          cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+        }}
+      />
 
       <StorageInfo />
 

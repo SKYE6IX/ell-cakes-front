@@ -1,46 +1,49 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useLazyQuery } from "@apollo/client/react";
+import { useApolloClient } from "@apollo/client/react";
 import { Product } from "@/types/__generated__/graphql";
-import CartIcon from "../icons/CartIcon";
-import PlusIcon from "../icons/PlusIcon";
-import MinusIcon from "../icons/MinusIcon";
+import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
 import { GET_PRODUCT_DETAILS_QUERY } from "@/components/product-details/operations";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-list.scss";
 
-// Update the component to render a message if there if there is not product available,
-// By render We out of stocks for these product, please check back later
 type ProductListProps = {
   products: Product[];
 };
 
+const debounce = (fn: (productSlug: string) => void, delay: number) => {
+  let timer: NodeJS.Timeout;
+  return (productSlug: string) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(productSlug), delay);
+  };
+};
+
 function ProductList({ products }: ProductListProps) {
-  const [getProductsDetails] = useLazyQuery(GET_PRODUCT_DETAILS_QUERY);
+  const client = useApolloClient();
   const prefetchProductDetails = (productSlug: string) => {
-    getProductsDetails({
+    client.query({
+      query: GET_PRODUCT_DETAILS_QUERY,
       variables: {
         where: { slug: productSlug },
         variantsOrderBy: [
           { weight: OrderDirection.Asc },
           { pieces: OrderDirection.Asc },
         ],
-        toppingOptionOrderBy: [
-          {
-            weight: OrderDirection.Asc,
-          },
-        ],
+        toppingOptionOrderBy: [{ weight: OrderDirection.Asc }],
       },
     });
   };
+
+  const debouncedPrefetch = debounce(prefetchProductDetails, 150);
   return (
     <div className="product-list">
       {products.map((product) => (
         <div className="product-card" key={product.id}>
           <Link
             href={`/product/${product.slug}`}
-            onMouseOver={() => prefetchProductDetails(product.slug!)}
+            onMouseOver={() => debouncedPrefetch(product.slug!)}
           >
             <div className="product-card__info">
               <div className="product-card__image-container">
@@ -62,32 +65,19 @@ function ProductList({ products }: ProductListProps) {
             </div>
           </Link>
 
-          <div className="product-card__btn-container">
-            <button className="product-card__cart-btn">
-              <span className="product-card__cart-icon">
-                <CartIcon />
-              </span>
-              <span
-                className="product-card__price"
-                data-testid="product-card-price"
-              >
-                {product.fillings![0].variants![0].price} ₽
-              </span>
-            </button>
-
-            <div className="product-card__cart-active">
-              <button className="product-card__cart-active-btn remove">
-                <MinusIcon />
-              </button>
-              <div className="product-card__cart-value">
-                <span className="product-card__cart-qty">1X</span>
-                <span className="product-card__cart-price">3200 ₽</span>
-              </div>
-              <button className="product-card__cart-active-btn add">
-                <PlusIcon />
-              </button>
-            </div>
-          </div>
+          <AddToCartButton
+            parentComponent="product-list"
+            productPrice={product.fillings![0].variants![0].price!}
+            addToCartArgs={{
+              productId: product.id,
+              variantId: product.fillings![0].variants![0].id,
+              takeProductImage: 1,
+              customizations: null,
+              compositionOptions: null,
+              toppingOptionId: null,
+              cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+            }}
+          />
 
           <div className="product-card__banners">
             <ul className="product-card__banners-list">

@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 import ApolloQueryProvider from "src/contexts/ApolloQueryProvider";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import Cart from "@/components/cart/Cart";
 import { createServerApolloClient } from "@/lib/apolloServer";
 import "../global-styles/globals.scss";
 import { gql, TypedDocumentNode } from "@apollo/client";
@@ -74,6 +75,7 @@ export default async function RootLayout({
       <body>
         <ApolloQueryProvider>
           <Header categories={data?.categories} />
+          <Cart />
           {children}
           <Footer />
         </ApolloQueryProvider>

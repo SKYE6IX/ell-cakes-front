@@ -40,7 +40,6 @@ $breakpoints: (
     }
   }
 }
-
 @mixin max-breakpoint($breakpoint) {
   @if map.has-key($breakpoints, $breakpoint) {
     @media only screen and (max-width: map.get($breakpoints, $breakpoint)) {

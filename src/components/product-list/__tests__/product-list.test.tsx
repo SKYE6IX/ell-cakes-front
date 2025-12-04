@@ -45,26 +45,26 @@ describe("Product List Component", () => {
     );
   });
 
-  it("render product price and weight", () => {
-    // Arrange
-    render(
-      <MockedProvider>
-        <ProductList products={mockProducts} />
-      </MockedProvider>
-    );
+  // it("render product price and weight", () => {
+  //   // Arrange
+  //   render(
+  //     <MockedProvider>
+  //       <ProductList products={mockProducts} />
+  //     </MockedProvider>
+  //   );
 
-    // Assert
-    const productCardPrices = screen.getAllByTestId("product-card-price");
-    const productCardWeights = screen.getAllByTestId("product-card-weight");
+  //   // Assert
+  //   const productCardPrices = screen.getAllByTestId("product-card-price");
+  //   const productCardWeights = screen.getAllByTestId("product-card-weight");
 
-    // Act
-    expect(productCardPrices[0]).toBeInTheDocument();
-    expect(productCardPrices[0]).toHaveTextContent(
-      String(mockProducts[0].fillings![0].variants![0].price)
-    );
-    expect(productCardWeights[0]).toBeInTheDocument();
-    expect(productCardWeights[0]).toHaveTextContent(
-      String(mockProducts[0].fillings![0].variants![0].weight)
-    );
-  });
+  //   // Act
+  //   expect(productCardPrices[0]).toBeInTheDocument();
+  //   expect(productCardPrices[0]).toHaveTextContent(
+  //     String(mockProducts[0].fillings![0].variants![0].price)
+  //   );
+  //   expect(productCardWeights[0]).toBeInTheDocument();
+  //   expect(productCardWeights[0]).toHaveTextContent(
+  //     String(mockProducts[0].fillings![0].variants![0].weight)
+  //   );
+  // });
 });

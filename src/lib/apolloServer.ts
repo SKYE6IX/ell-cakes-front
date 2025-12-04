@@ -6,6 +6,7 @@ export function createServerApolloClient() {
     link: new HttpLink({
       uri: process.env.SERVER_URL,
       fetch,
+      credentials: "include",
     }),
     cache: new InMemoryCache(),
   });

@@ -23,10 +23,10 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
       ],
     },
   });
+
   if (loading) return <ProductDetailsSkeleton />;
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
-
   return (
     <div className="product-details">
       <section className="product-details__gallery-section">

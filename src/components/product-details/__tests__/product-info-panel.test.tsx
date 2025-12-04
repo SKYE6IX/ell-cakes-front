@@ -1,11 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import ProductInfoPanel from "../product-info-panel/ProductInfoPanel";
+import { MockedProvider } from "@apollo/client/testing/react";
 import { mockProduct } from "../mock-datas";
 
 describe("Product Info Panel", () => {
   it("render product title", () => {
     // Arrange
-    render(<ProductInfoPanel product={mockProduct} />);
+    render(
+      <MockedProvider>
+        <ProductInfoPanel product={mockProduct} />
+      </MockedProvider>
+    );
 
     // Assert
     const productTitle = screen.getByTestId("product-title");
@@ -17,7 +22,11 @@ describe("Product Info Panel", () => {
 
   it("render product description", () => {
     // Arrange
-    render(<ProductInfoPanel product={mockProduct} />);
+    render(
+      <MockedProvider>
+        <ProductInfoPanel product={mockProduct} />
+      </MockedProvider>
+    );
 
     // Assert
     const productDescription = screen.getByTestId("product-description");
@@ -26,20 +35,6 @@ describe("Product Info Panel", () => {
     expect(productDescription).toBeInTheDocument();
     expect(productDescription).toHaveTextContent(
       String(mockProduct.baseDescription)
-    );
-  });
-
-  it("render product initial price", () => {
-    // Arrange
-    render(<ProductInfoPanel product={mockProduct} />);
-
-    // Assert
-    const productInitialPrice = screen.getByTestId("product-initial-price");
-
-    // Act
-    expect(productInitialPrice).toBeInTheDocument();
-    expect(productInitialPrice).toHaveTextContent(
-      String(mockProduct.fillings![0].variants![0].price)
     );
   });
 });

@@ -21,6 +21,7 @@ export default function Input({
   required,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(initialValue);
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
