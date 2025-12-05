@@ -28,8 +28,7 @@ export default function ResetPasswordPage() {
               name="email"
               placeholder="ПОЧТА"
               type="email"
-              autoComplete="email"
-              required
+              hasError={false}
               onInputChange={onInputChange}
             />
             <div
