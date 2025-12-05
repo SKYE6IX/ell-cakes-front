@@ -1,12 +1,16 @@
 "use client";
-
 import { useState } from "react";
+import { useReactiveVar } from "@apollo/client/react";
 import DashboardPen from "@/components/icons/DashboardPen";
 import UserSidebar from "@/components/user-sidebar/UserSidebar";
+import { userVar } from "@/lib/cache";
 import "./dashboard.scss";
 
 export default function Dashboard() {
-  const [editing, setEditing] = useState<"none" | "profile" | "address">("none");
+  const user = useReactiveVar(userVar);
+  const [editing, setEditing] = useState<"none" | "profile" | "address">(
+    "none"
+  );
 
   const profile = {
     firstName: "Ann",
@@ -21,13 +25,13 @@ export default function Dashboard() {
   };
 
   const toggleEditing = (section: "profile" | "address") => {
-    setEditing(prev => (prev === section ? "none" : section));
+    setEditing((prev) => (prev === section ? "none" : section));
   };
 
   const [subscription, setSubscription] = useState({ active: true });
 
   const toggleSubscription = () => {
-    setSubscription(prev => ({ active: !prev.active }));
+    setSubscription((prev) => ({ active: !prev.active }));
   };
 
   return (
@@ -61,44 +65,45 @@ export default function Dashboard() {
                   <>
                     <div className="dashboard__card-row dashboard__card-row--editable">
                       <div className="dashboard__card-label">Имя</div>
-                      <input className="dashboard__card-input" defaultValue={profile.firstName} />
-                    </div>
-
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Фамилия</div>
-                      <input className="dashboard__card-input" defaultValue={profile.lastName} />
+                      <input
+                        className="dashboard__card-input"
+                        defaultValue={profile.firstName}
+                      />
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
                       <div className="dashboard__card-label">Почта</div>
-                      <input className="dashboard__card-input" defaultValue={profile.email} />
+                      <input
+                        className="dashboard__card-input"
+                        defaultValue={profile.email}
+                      />
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
                       <div className="dashboard__card-label">Телефон</div>
-                      <input className="dashboard__card-input" defaultValue={profile.phone} />
+                      <input
+                        className="dashboard__card-input"
+                        defaultValue={profile.phone}
+                      />
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="dashboard__card-row">
                       <div className="dashboard__card-label">Имя</div>
-                      <div className="dashboard__card-value">{profile.firstName}</div>
-                    </div>
-
-                    <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Фамилия</div>
-                      <div className="dashboard__card-value">{profile.lastName}</div>
+                      <div className="dashboard__card-value">{user?.name}</div>
                     </div>
 
                     <div className="dashboard__card-row">
                       <div className="dashboard__card-label">Почта</div>
-                      <div className="dashboard__card-value">{profile.email}</div>
+                      <div className="dashboard__card-value">{user?.email}</div>
                     </div>
 
                     <div className="dashboard__card-row">
                       <div className="dashboard__card-label">Телефон</div>
-                      <div className="dashboard__card-value">{profile.phone}</div>
+                      <div className="dashboard__card-value">
+                        {user?.phoneNumber}
+                      </div>
                     </div>
                   </>
                 )}
@@ -111,7 +116,7 @@ export default function Dashboard() {
               }`}
             >
               <div className="dashboard__card-head">
-                <h2 className="dashboard__card-title">Адрес доставки</h2>
+                <h3 className="dashboard__card-title">Адрес доставки</h3>
 
                 <button
                   type="button"
@@ -127,24 +132,36 @@ export default function Dashboard() {
                   <>
                     <div className="dashboard__card-row dashboard__card-row--editable">
                       <div className="dashboard__card-label">Город</div>
-                      <input className="dashboard__card-input" defaultValue={address.city} />
+                      <input
+                        className="dashboard__card-input"
+                        defaultValue={address.city}
+                      />
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Адрес доставки</div>
-                      <input className="dashboard__card-input" defaultValue={address.address} />
+                      <div className="dashboard__card-label">
+                        Адрес доставки
+                      </div>
+                      <input
+                        className="dashboard__card-input"
+                        defaultValue={address.address}
+                      />
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="dashboard__card-row">
                       <div className="dashboard__card-label">Город</div>
-                      <div className="dashboard__card-value">{address.city}</div>
+                      <div className="dashboard__card-value">Mosocow</div>
                     </div>
 
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Адрес доставки</div>
-                      <div className="dashboard__card-value">{address.address}</div>
+                      <div className="dashboard__card-label">
+                        Адрес доставки
+                      </div>
+                      <div className="dashboard__card-value">
+                        {user?.delivaryAddress![0]?.street}
+                      </div>
                     </div>
                   </>
                 )}

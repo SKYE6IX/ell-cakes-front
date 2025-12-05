@@ -12,6 +12,7 @@ import {
   IS_PHONE_NUMBER_IN_USE,
 } from "./operation";
 import { validateRegistrationFields } from "@/utils/validations";
+import { userVar } from "@/lib/cache";
 import "./registration.scss";
 
 const initialState = {
@@ -55,8 +56,9 @@ function RegistrationPage() {
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     variables: { registerData: formState },
-    onCompleted() {
+    onCompleted(data) {
       router.push("/confirm-phone");
+      userVar(data.registerUser);
     },
   });
 

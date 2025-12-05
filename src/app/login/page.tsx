@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import { validateLoginFields } from "@/utils/validations";
 import { AUTHORIZED_USER } from "./operation";
+import { userVar } from "@/lib/cache";
 import "./login.scss";
 
 const initialState = {
@@ -15,13 +17,17 @@ const initialState = {
 };
 
 function Login() {
+  const router = useRouter();
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
 
   const [authorizeUser, { loading, error }] = useMutation(AUTHORIZED_USER, {
     variables: formState,
     onCompleted(data) {
-      console.log("Here is the return data", data.authorizedUser);
+      if (data.authorizedUser) {
+        userVar(data.authorizedUser);
+        router.push("/dashboard");
+      }
     },
   });
 

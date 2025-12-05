@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/button/Button";
-import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import "./confirm-phone.scss";
 
 interface ConfirmPhonePageProps {
@@ -122,8 +121,6 @@ function ConfirmPhonePage({
   return (
     <section className="confirm-phone">
       <div className="confirm-phone__inner-wrapper">
-        <HelpSidebar active="register" />
-
         {/* RIGHT */}
         <div className="confirm-phone-right">
           <h3

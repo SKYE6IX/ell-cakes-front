@@ -18,7 +18,7 @@
   }
 
   &__title {
-    font-family: $font-montserrat;
+    font-family: $font-montserrat, sans-serif;
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 18px;
@@ -32,7 +32,7 @@
   }
 
   &__link {
-    font-family: $font-montserrat;
+    font-family: $font-montserrat, sans-serif;
     background: transparent;
     text-align: left;
     border: none;
@@ -57,7 +57,7 @@
   }
 
   &__help-title {
-    font-family: $font-montserrat;
+    font-family: $font-montserrat, sans-serif;
     font-size: 13px;
     font-weight: 700;
     margin-bottom: 8px;
@@ -72,7 +72,7 @@
   }
 
   &__help-link {
-    font-family: $font-montserrat;
+    font-family: $font-montserrat, sans-serif;
     background: transparent;
     border: none;
     padding: 0;

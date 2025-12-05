@@ -10,15 +10,17 @@
     padding: 50px;
   }
   @include max-breakpoint("md") {
-    padding: 50px 40px ;
+    padding: 50px 40px;
   }
   @include max-breakpoint("s") {
     padding: 20px;
   }
 }
 
-.confirm-phone__inner-wrapper{
+.confirm-phone__inner-wrapper {
   width: 100%;
+  max-width: 800px;
+  margin: 0px auto;
   display: flex;
   overflow: hidden;
   gap: 90px;
@@ -131,7 +133,7 @@
 
 .confirm-phone-form__submit.is-disabled {
   opacity: 0.6;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 /* resend */
@@ -143,8 +145,8 @@
   gap: 8px;
   align-items: center;
   @include max-breakpoint("s") {
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
   }
 
   &__label {
@@ -159,7 +161,7 @@
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    padding: 0; 
+    padding: 0;
 
     &.is-disabled,
     &:disabled {
@@ -179,4 +181,3 @@
 .confirm-phone__change {
   width: 100%;
 }
-

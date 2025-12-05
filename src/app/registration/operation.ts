@@ -8,6 +8,27 @@ export const REGISTER_USER: TypedDocumentNode<
   mutation RegisterUser($registerData: RegisterUserInput!) {
     registerUser(registerData: $registerData) {
       id
+      name
+      email
+      phoneNumber
+      isPhoneNumberVerified
+      delivaryAddress {
+        id
+        street
+      }
+      orders {
+        id
+        createdAt
+        orderNumber
+        totalAmount
+        status
+        orderItems {
+          id
+          product {
+            name
+          }
+        }
+      }
     }
   }
 `;

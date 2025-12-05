@@ -176,7 +176,7 @@
 .dashboard__card-body {
   display: flex;
   flex-direction: column;
-  gap: 14px; 
+  gap: 14px;
 
   @include max-breakpoint("s") {
     gap: 12px;
@@ -297,9 +297,9 @@
 .dashboard__subscribe-box--active {
   background: $secondary;
 
-  &:active {
-    background: darken($secondary, 10%);
-  }
+  // &:active {
+  //   background: darken($secondary, 10%);
+  // }
 }
 
 /* inactive */

@@ -41,6 +41,10 @@ const mocks = [
   },
 ];
 
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 describe("Login page component", () => {
   it("render page contnent", () => {
     // Arrange

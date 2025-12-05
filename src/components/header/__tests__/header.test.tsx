@@ -1,7 +1,23 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MockedProvider } from "@apollo/client/testing/react";
 import Header from "../Header";
 import { Category } from "@/types/__generated__/graphql";
+import { AUTHORIZED_USER_QUERY } from "../user-menu/operation";
+
+const mocks = [
+  {
+    request: {
+      query: AUTHORIZED_USER_QUERY,
+      variables: {},
+    },
+    result: {
+      data: {
+        queryAuthorizedUser: {},
+      },
+    },
+  },
+];
 
 const mockCategories: Category[] = [
   {
@@ -31,7 +47,11 @@ const mockCategories: Category[] = [
 describe("Header component", () => {
   it("render site icon", () => {
     // Arrange
-    render(<Header categories={mockCategories} />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Header categories={mockCategories} />
+      </MockedProvider>
+    );
 
     // Act
     const headerSiteIcon = screen.getByTestId("header-site-icon");
@@ -43,7 +63,11 @@ describe("Header component", () => {
   it("add active class to menubar button", async () => {
     // Arrange
     const user = userEvent.setup();
-    render(<Header categories={mockCategories} />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Header categories={mockCategories} />
+      </MockedProvider>
+    );
     // Act
     const headerMenuButton = screen.getByTestId("header-menu-button");
 

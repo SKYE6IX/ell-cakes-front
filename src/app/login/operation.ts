@@ -8,6 +8,27 @@ export const AUTHORIZED_USER: TypedDocumentNode<
   mutation AuthorizedUser($email: String!, $password: String!) {
     authorizedUser(email: $email, password: $password) {
       id
+      name
+      email
+      phoneNumber
+      isPhoneNumberVerified
+      delivaryAddress {
+        id
+        street
+      }
+      orders {
+        id
+        createdAt
+        orderNumber
+        totalAmount
+        status
+        orderItems {
+          id
+          product {
+            name
+          }
+        }
+      }
     }
   }
 `;
