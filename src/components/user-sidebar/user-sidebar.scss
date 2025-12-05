@@ -1,0 +1,88 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/globals.scss" as *;
+
+.user-sidebar {
+  width: 340px;
+  display: flex;
+  align-items: flex-start;
+
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+
+  &__box {
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+  }
+
+  &__title {
+    font-family: $font-montserrat;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: $text-color;
+  }
+
+  &__links {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+
+  &__link {
+    font-family: $font-montserrat;
+    background: transparent;
+    text-align: left;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    color: $text-color;
+    position: relative;
+    text-decoration: none;
+    &:hover {
+      color: $primary;
+    }
+
+    &--accent {
+      color: $primary;
+    }
+  }
+
+  &__help {
+    margin-top: 6px;
+  }
+
+  &__help-title {
+    font-family: $font-montserrat;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  &__help-links {
+    display: flex;
+    gap: 14px;
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  &__help-link {
+    font-family: $font-montserrat;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 12px;
+    color: $text-color;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}

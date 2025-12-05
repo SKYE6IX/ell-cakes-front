@@ -1,0 +1,322 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/globals.scss" as *;
+
+/* ------------------------------
+   СТРАНИЦА
+--------------------------------*/
+
+.dashboard {
+  width: 100%;
+  background: $primary-mute;
+  padding: 100px 100px 50px;
+
+  @include max-breakpoint("lg") {
+    padding: 60px;
+  }
+
+  @include max-breakpoint("md") {
+    padding: 50px 40px;
+  }
+
+  @include max-breakpoint("s") {
+    padding: 20px;
+  }
+}
+
+.dashboard__inner {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+
+  @include max-breakpoint("sm") {
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+}
+
+/* ------------------------------
+   ПРАВАЯ КОЛОНКА — БЕЛЫЙ БЛОК
+--------------------------------*/
+
+.dashboard__right {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 32px 36px 30px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+
+  @include max-breakpoint("md") {
+    padding: 28px 24px 24px;
+    border-radius: 18px;
+  }
+
+  @include max-breakpoint("s") {
+    padding: 20px 16px 20px;
+    border-radius: 14px;
+  }
+}
+
+/* ------------------------------
+   ЗАГОЛОВОК
+--------------------------------*/
+
+.dashboard__title {
+  font-family: $font-uncage;
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0 0 22px;
+
+  @include max-breakpoint("sm") {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+}
+
+/* ------------------------------
+   СЕТКА КАРТОЧЕК
+--------------------------------*/
+
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+
+  @include max-breakpoint("md") {
+    grid-template-columns: 1fr;
+  }
+
+  @include max-breakpoint("s") {
+    gap: 18px;
+  }
+}
+
+/* ------------------------------
+   КАРТОЧКИ
+--------------------------------*/
+
+.dashboard__card {
+  background: #fcfcfc;
+  border-radius: 18px;
+  padding: 22px 24px 24px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  @include max-breakpoint("sm") {
+    padding: 18px 16px 20px;
+    border-radius: 14px;
+  }
+
+  @include max-breakpoint("md") {
+    &:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* модификатор, когда карточка в режиме редактирования */
+
+.dashboard__card--editing {
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------
+   ШАПКА КАРТОЧКИ
+--------------------------------*/
+
+.dashboard__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dashboard__card-title {
+  font-family: $font-montserrat;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  @include max-breakpoint("sm") {
+    font-size: 15px;
+  }
+}
+
+.dashboard__card-edit {
+  background: transparent;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  @include max-breakpoint("s") {
+    padding: 4px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.dashboard__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px; 
+
+  @include max-breakpoint("s") {
+    gap: 12px;
+  }
+}
+
+.dashboard__card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 32px;
+
+  @include max-breakpoint("s") {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    min-height: unset;
+  }
+}
+
+.dashboard__card-row--editable {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.dashboard__card-label {
+  font-family: $font-uncage;
+  font-size: 15px;
+  color: $text-color;
+  opacity: 0.85;
+
+  @include max-breakpoint("s") {
+    font-size: 13px;
+  }
+}
+
+.dashboard__card-value {
+  font-family: $font-uncage;
+  font-size: 16px;
+  color: $text-color;
+
+  @include max-breakpoint("s") {
+    font-size: 14px;
+  }
+}
+
+.dashboard__card-input {
+  width: 100%;
+  font-family: $font-uncage;
+  font-size: 16px;
+  color: $text-color;
+  padding: 4px 0 6px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  background: transparent;
+  outline: none;
+
+  @include max-breakpoint("s") {
+    font-size: 14px;
+    padding: 3px 0 5px;
+  }
+
+  &:focus {
+    border-bottom-color: $primary-accent;
+    border-bottom-width: 2px;
+  }
+}
+
+.dashboard__card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+
+  @include max-breakpoint("s") {
+    gap: 10px;
+    margin-top: 6px;
+  }
+}
+
+.dashboard__subscribe {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  @include max-breakpoint("s") {
+    gap: 10px;
+  }
+}
+
+.dashboard__subscribe--button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dashboard__subscribe-box {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-block;
+  transition: background-color 0.25s ease, transform 0.15s ease;
+
+  @include max-breakpoint("s") {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+/* active */
+.dashboard__subscribe-box--active {
+  background: $secondary;
+
+  &:active {
+    background: darken($secondary, 10%);
+  }
+}
+
+/* inactive */
+.dashboard__subscribe-box--inactive {
+  background: #e3e3e3;
+
+  &:active {
+    background: #c9c9c9;
+  }
+}
+
+.dashboard__subscribe-label {
+  font-family: $font-uncage;
+  font-size: 16px;
+  color: $text-color;
+
+  @include max-breakpoint("s") {
+    font-size: 14px;
+  }
+}
