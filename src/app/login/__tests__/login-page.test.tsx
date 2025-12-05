@@ -1,10 +1,54 @@
 import { render, screen } from "@testing-library/react";
+import { MockedProvider } from "@apollo/client/testing/react";
+import { User } from "@/types/__generated__/graphql";
+import { AUTHORIZED_USER } from "../operation";
 import Login from "../page";
+const returnUser: User = {
+  __typename: "User",
+  cart: null,
+  createdAt: undefined,
+  delivaryAddress: null,
+  delivaryAddressCount: null,
+  email: null,
+  firstOrderDiscountEligible: null,
+  id: "",
+  isPhoneNumberVerified: null,
+  lastLogin: undefined,
+  name: null,
+  orders: null,
+  ordersCount: null,
+  password: null,
+  passwordResetIssuedAt: undefined,
+  passwordResetRedeemedAt: undefined,
+  passwordResetToken: null,
+  payments: null,
+  paymentsCount: null,
+  phoneNumber: null,
+  phoneNumberToken: null,
+  phoneNumberVerificationIssuedAt: undefined,
+  phoneNumberVerificationRedeemedAt: undefined,
+  role: null,
+  updatedAt: undefined,
+};
+
+const mocks = [
+  {
+    request: {
+      query: AUTHORIZED_USER,
+      variables: { email: "Buck", password: "123456789" },
+    },
+    result: { data: { authorizedUser: returnUser } },
+  },
+];
 
 describe("Login page component", () => {
   it("render page contnent", () => {
     // Arrange
-    render(<Login />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Login />
+      </MockedProvider>
+    );
 
     // Assert
     const pageHeading = screen.getByTestId("login-page-heading");

@@ -1,9 +1,12 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useMutation } from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
+import { validateLoginFields } from "@/utils/validations";
+import { AUTHORIZED_USER } from "./operation";
 import "./login.scss";
 
 const initialState = {
@@ -13,23 +16,35 @@ const initialState = {
 
 function Login() {
   const [formState, setFormState] = useState(initialState);
+  const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
 
-  // I need to undderstand why this ?
-  const isComplete = useMemo(() => {
-    const { email, password } = formState;
-    return email.trim().length > 0 && password.trim().length > 0;
-  }, [formState]);
+  const [authorizeUser, { loading, error }] = useMutation(AUTHORIZED_USER, {
+    variables: formState,
+    onCompleted(data) {
+      console.log("Here is the return data", data.authorizedUser);
+    },
+  });
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
     setFormState((prvState) => ({
       ...prvState,
       [name]: value,
     }));
+    if (errorFeilds.includes(name)) {
+      setErrorFeilds((prevState) => prevState.filter((prev) => prev !== name));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isComplete) return;
+    const validatedFields = validateLoginFields(formState);
+    if (validatedFields.error) {
+      validatedFields.error.issues.forEach((issue) => {
+        setErrorFeilds((prevState) => [...prevState, issue.path[0].toString()]);
+      });
+      return;
+    }
+    authorizeUser();
   };
 
   return (
@@ -49,9 +64,8 @@ function Login() {
                 name="email"
                 placeholder="почта"
                 type="email"
-                autoComplete="email"
-                required
                 onInputChange={onInputChange}
+                hasError={errorFeilds.includes("email")}
               />
 
               <Input
@@ -59,19 +73,20 @@ function Login() {
                 name="password"
                 placeholder="пароль"
                 type="password"
-                autoComplete="current-password"
-                required
                 onInputChange={onInputChange}
+                hasError={errorFeilds.includes("password")}
               />
+
+              {error && (
+                <span className="login-form__error-message">
+                  Неверный почты или пароль
+                </span>
+              )}
             </div>
 
-            <div
-              className={`login-form__submit ${
-                !isComplete ? "is-disabled" : ""
-              }`}
-            >
-              <Button textKey="Войти" href="/" fullWidth />
-            </div>
+            <button type="submit" className="login-form__submit-button">
+              {loading ? <div className="loader"></div> : <span>Войти</span>}
+            </button>
 
             <Link
               href="/reset-password"

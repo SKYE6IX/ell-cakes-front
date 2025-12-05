@@ -10,23 +10,13 @@
   border-radius: 12px;
   background: #fff;
 
-  font-family: $font-uncage;
+  font-family: $font-montserrat, sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: $text-color;
 
   outline: none;
-  transition: border-color .2s ease;
-
-  &::placeholder {
-    color: $text-color;
-    opacity: 1;
-    font-weight: 500;
-  }
-
-  &:focus {
-    border-color: $primary;
-  }
+  transition: border-color 0.2s ease;
 
   @include max-breakpoint("s") {
     height: 48px;
@@ -34,4 +24,17 @@
     border-radius: 10px;
     padding: 0 16px;
   }
+}
+.input::placeholder {
+  font-family: $font-uncage, sans-serif;
+  color: $text-color;
+  opacity: 1;
+  font-weight: 500;
+}
+.input:focus {
+  border-color: $primary;
+}
+
+.input.error {
+  border-color: red;
 }

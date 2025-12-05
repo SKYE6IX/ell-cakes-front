@@ -1,43 +1,92 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useMutation, useLazyQuery } from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
+import {
+  REGISTER_USER,
+  IS_EMAIL_IN_USE,
+  IS_PHONE_NUMBER_IN_USE,
+} from "./operation";
+import { validateRegistrationFields } from "@/utils/validations";
 import "./registration.scss";
-import Link from "next/link";
 
 const initialState = {
   name: "",
   email: "",
   password: "",
-  phone: "",
+  phoneNumber: "",
+};
+
+const debounce = (fn: (arg: string) => void, delay: number) => {
+  let timer: NodeJS.Timeout;
+  return (arg: string) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(arg), delay);
+  };
 };
 
 function RegistrationPage() {
+  const router = useRouter();
   const [formState, setFormState] = useState(initialState);
+  const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
   const [subscribe, setSubscribe] = useState(false);
 
-  const isComplete = useMemo(() => {
-    const { name, phone, email, password } = formState;
-    return (
-      name.trim().length > 0 &&
-      phone.trim().length > 0 &&
-      email.trim().length > 0 &&
-      password.trim().length > 0
-    );
-  }, [formState]);
+  const [isEmailInUse, { data: emailValidation }] = useLazyQuery(
+    IS_EMAIL_IN_USE,
+    { fetchPolicy: "network-only" }
+  );
+  const [isPhoneInUse, { data: phoneValidation }] = useLazyQuery(
+    IS_PHONE_NUMBER_IN_USE,
+    { fetchPolicy: "network-only" }
+  );
+
+  const executeEmailInUse = (email: string) => {
+    isEmailInUse({ variables: { email } });
+  };
+  const executePhoneInUse = (phoneNumber: string) => {
+    isPhoneInUse({ variables: { phoneNumber } });
+  };
+  const debounceEmailInUse = debounce(executeEmailInUse, 500);
+  const debouncePhoneInUser = debounce(executePhoneInUse, 500);
+
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+    variables: { registerData: formState },
+    onCompleted() {
+      router.push("/confirm-phone");
+    },
+  });
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
-    setFormState((prvState) => ({
-      ...prvState,
-      [name]: value,
-    }));
+    setFormState((prvState) => ({ ...prvState, [name]: value }));
+
+    // Check for exising data
+    if (name === "email") {
+      debounceEmailInUse(value);
+    }
+    if (name === "phoneNumber") {
+      debouncePhoneInUser(value);
+    }
+
+    if (errorFeilds.includes(name)) {
+      // Field sanitize and validation
+      setErrorFeilds((prevState) => prevState.filter((prev) => prev !== name));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!isComplete) return;
-    // console.log({ name, phone, email, pass, subscribe });
+    const validatedFields = validateRegistrationFields(formState);
+    if (validatedFields.error) {
+      validatedFields.error.issues.forEach((issue) => {
+        setErrorFeilds((prevState) => [...prevState, issue.path[0].toString()]);
+      });
+      return;
+    }
+    registerUser();
   };
 
   return (
@@ -46,12 +95,12 @@ function RegistrationPage() {
         <HelpSidebar active="register" />
 
         <div className="registration-right">
-          <h1
+          <h3
             className="registration-right__title"
             data-testid="registration-page-heading"
           >
             Регистрация
-          </h1>
+          </h3>
 
           <form className="registration-form" onSubmit={handleSubmit}>
             <div className="registration-form__fields">
@@ -59,36 +108,43 @@ function RegistrationPage() {
                 initialValue={formState.name}
                 name="name"
                 placeholder="имя"
-                autoComplete="given-name"
-                required
                 onInputChange={onInputChange}
+                type="text"
+                hasError={errorFeilds.includes("name")}
               />
               <Input
-                initialValue={formState.phone}
-                name="phone"
+                initialValue={formState.phoneNumber}
+                name="phoneNumber"
                 placeholder="ТЕЛЕФОН"
                 type="tel"
-                autoComplete="tel"
-                required
                 onInputChange={onInputChange}
+                hasError={errorFeilds.includes("phoneNumber")}
               />
+              {phoneValidation?.isPhoneNumberInUse && (
+                <span className="registration__field-validation">
+                  ТЕЛЕФОН используется
+                </span>
+              )}
               <Input
                 initialValue={formState.email}
                 name="email"
                 placeholder="ПОЧТА"
                 type="email"
-                autoComplete="email"
-                required
                 onInputChange={onInputChange}
+                hasError={errorFeilds.includes("email")}
               />
+              {emailValidation?.isEmailInUse && (
+                <span className="registration__field-validation">
+                  почта используется
+                </span>
+              )}
               <Input
                 initialValue={formState.password}
                 name="password"
                 placeholder="ПАРОЛЬ"
                 type="password"
-                autoComplete="new-password"
-                required
                 onInputChange={onInputChange}
+                hasError={errorFeilds.includes("password")}
               />
             </div>
 
@@ -104,13 +160,17 @@ function RegistrationPage() {
               </span>
             </label>
 
-            <div
-              className={`registration-form__submit ${
-                !isComplete ? "is-disabled" : ""
-              }`}
+            <button
+              className="registration-form__submit-btn"
+              type="submit"
+              disabled={loading}
             >
-              <Button textKey="Зарегистрироваться" href="/" fullWidth />
-            </div>
+              {loading ? (
+                <div className="loader"></div>
+              ) : (
+                <span>Зарегистрироваться</span>
+              )}
+            </button>
 
             <p
               className="registration-form__policy"
@@ -126,8 +186,8 @@ function RegistrationPage() {
 
             <div className="registration-form__login">
               <Button
-                textKey="Уже есть аккаунт"
                 href="/login"
+                textKey="Уже есть аккаунт"
                 fullWidth
                 variant="outline"
               />

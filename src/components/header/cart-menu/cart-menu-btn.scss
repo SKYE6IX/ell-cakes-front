@@ -2,6 +2,7 @@
 @use "@/global-styles/shared-styles" as *;
 
 .cart-menu {
+  position: relative;
   background: none;
   border: none;
   outline: none;
@@ -19,4 +20,14 @@
       height: 20px;
     }
   }
+}
+
+.cart-menu__notification {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: $primary;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }

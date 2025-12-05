@@ -13,6 +13,8 @@ describe("Input component", () => {
         placeholder="mock-placeholder"
         onInputChange={mockOnchange}
         name="mock"
+        hasError={false}
+        type="text"
       />
     );
     // Assert
