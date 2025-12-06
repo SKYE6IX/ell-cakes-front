@@ -20,6 +20,22 @@ export const client = new ApolloClient({
           },
         },
       },
+      Product: {
+        merge(existing, incoming) {
+          if (existing) {
+            return existing;
+          }
+          return incoming;
+        },
+        fields: {
+          images: {
+            keyArgs: false,
+            merge(existing, incoming) {
+              return existing ?? incoming;
+            },
+          },
+        },
+      },
     },
   }),
   localState: new LocalState(),
