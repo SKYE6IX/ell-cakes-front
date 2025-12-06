@@ -12,8 +12,9 @@ import "./cart.scss";
 function Cart() {
   const { data } = useQuery(GET_CART_QUERY, {
     variables: {
-      productImageTake: 1,
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+      takeImage: 1,
     },
   });
 

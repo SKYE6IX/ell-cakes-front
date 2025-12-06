@@ -11,7 +11,7 @@ import ProductReviews from "../product-reviews/ProductReviews";
 import ProductFAQ from "../product-faq/ProductFAQ";
 import MixProductOption from "../mix-product-option/MixProductOption";
 import AddToCartButton from "@/components/add-to-cart-btn/AddToCartButton";
-import { Product, OrderDirection } from "@/types/__generated__/graphql";
+import { Product } from "@/types/__generated__/graphql";
 import { reducer } from "./productConfigurationReducer";
 import "./product-info-panel.scss";
 
@@ -99,11 +99,9 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
         addToCartArgs={{
           productId: product.id,
           variantId: productConfiguration.selectedProductVariant.id,
-          takeProductImage: 1,
           customizations: productConfiguration.customizations,
           compositionOptions: productConfiguration.compositions,
           toppingOptionId: productConfiguration.selectedTopping?.id ?? null,
-          cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
         }}
       />
 

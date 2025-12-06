@@ -37,7 +37,7 @@ export const IS_EMAIL_IN_USE: TypedDocumentNode<
   { isEmailInUse: boolean },
   { email: string }
 > = gql`
-  query Query($email: String!) {
+  query IsEmailInUse($email: String!) {
     isEmailInUse(email: $email)
   }
 `;
@@ -46,7 +46,7 @@ export const IS_PHONE_NUMBER_IN_USE: TypedDocumentNode<
   { isPhoneNumberInUse: boolean },
   { phoneNumber: string }
 > = gql`
-  query Query($phoneNumber: String!) {
+  query IsPhoneNumberInUse($phoneNumber: String!) {
     isPhoneNumberInUse(phoneNumber: $phoneNumber)
   }
 `;

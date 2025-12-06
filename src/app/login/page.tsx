@@ -2,13 +2,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@apollo/client/react";
+import { useMutation, useReactiveVar } from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import { validateLoginFields } from "@/utils/validations";
 import { AUTHORIZED_USER } from "./operation";
-import { userVar } from "@/lib/cache";
+import { CONNECT_CART_TO_USER } from "@/components/cart/operations";
+import { userVar, cartVar } from "@/lib/cache";
+import { OrderDirection } from "@/types/__generated__/graphql";
 import "./login.scss";
 
 const initialState = {
@@ -21,13 +23,31 @@ function Login() {
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
 
+  const cart = useReactiveVar(cartVar);
+  const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
+    variables: {
+      takeImage: 1,
+      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+    },
+    onCompleted(data) {
+      cartVar(data.connectCartToUser);
+    },
+  });
+
   const [authorizeUser, { loading, error }] = useMutation(AUTHORIZED_USER, {
     variables: formState,
     onCompleted(data) {
-      if (data.authorizedUser) {
-        userVar(data.authorizedUser);
-        router.push("/dashboard");
+      userVar(data.authorizedUser);
+      router.push("/dashboard");
+
+      if (cart) {
+        connectCartToUser({ variables: { userId: data.authorizedUser.id } });
       }
+    },
+
+    onError(error) {
+      console.error("Error happen when log in", error);
     },
   });
 

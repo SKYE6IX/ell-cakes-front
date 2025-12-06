@@ -71,11 +71,9 @@ function ProductList({ products }: ProductListProps) {
             addToCartArgs={{
               productId: product.id,
               variantId: product.fillings![0].variants![0].id,
-              takeProductImage: 1,
               customizations: null,
               compositionOptions: null,
               toppingOptionId: null,
-              cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
             }}
           />
 

@@ -31,6 +31,7 @@ export type Cart = {
   cartItemsCount: Maybe<Scalars['Int']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
+  sessionId: Maybe<Scalars['String']['output']>;
   subTotal: Maybe<Scalars['Int']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   user: Maybe<User>;
@@ -53,6 +54,7 @@ export type CartCartItemsCountArgs = {
 export type CartCreateInput = {
   cartItems?: InputMaybe<CartItemRelateToManyForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  sessionId?: InputMaybe<Scalars['String']['input']>;
   subTotal?: InputMaybe<Scalars['Int']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
@@ -157,6 +159,7 @@ export type CartItemWhereUniqueInput = {
 export type CartOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  sessionId?: InputMaybe<OrderDirection>;
   subTotal?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
 };
@@ -180,6 +183,7 @@ export type CartUpdateArgs = {
 export type CartUpdateInput = {
   cartItems?: InputMaybe<CartItemRelateToManyForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  sessionId?: InputMaybe<Scalars['String']['input']>;
   subTotal?: InputMaybe<Scalars['Int']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
@@ -192,6 +196,7 @@ export type CartWhereInput = {
   cartItems?: InputMaybe<CartItemManyRelationFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
+  sessionId?: InputMaybe<StringFilter>;
   subTotal?: InputMaybe<IntNullableFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
@@ -199,6 +204,7 @@ export type CartWhereInput = {
 
 export type CartWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  sessionId?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserWhereUniqueInput>;
 };
 
@@ -955,8 +961,9 @@ export type Mutation = {
   __typename: 'Mutation';
   addToCart: Cart;
   authenticateUserWithPassword: Maybe<UserAuthenticationWithPasswordResult>;
-  authorizedUserWithCart: User;
+  authorizedUser: User;
   checkOut: Payment;
+  connectCartToUser: Cart;
   createCart: Maybe<Cart>;
   createCartItem: Maybe<CartItem>;
   createCartItems: Maybe<Array<Maybe<CartItem>>>;
@@ -1000,6 +1007,7 @@ export type Mutation = {
   createToppings: Maybe<Array<Maybe<Topping>>>;
   createUser: Maybe<User>;
   createUsers: Maybe<Array<Maybe<User>>>;
+  decreaseCartItem: Maybe<Cart>;
   deleteCart: Maybe<Cart>;
   deleteCartItem: Maybe<CartItem>;
   deleteCartItems: Maybe<Array<Maybe<CartItem>>>;
@@ -1043,10 +1051,10 @@ export type Mutation = {
   deleteUser: Maybe<User>;
   deleteUsers: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean']['output'];
+  increaseCartItem: Cart;
   redeemUserPasswordResetToken: Maybe<RedeemUserPasswordResetTokenResult>;
   registerUser: User;
-  registerUserWithCart: User;
-  removeFromCart: Cart;
+  removeFromCart: Maybe<Cart>;
   resendVerificationToken: Scalars['String']['output'];
   sendUserPasswordResetLink: Scalars['Boolean']['output'];
   updateCart: Maybe<Cart>;
@@ -1097,7 +1105,6 @@ export type Mutation = {
 
 
 export type MutationAddToCartArgs = {
-  cartId?: InputMaybe<Scalars['String']['input']>;
   compositionOptions?: InputMaybe<Array<CompositionOptionInput>>;
   customizations?: InputMaybe<Array<CustomizationInput>>;
   productId: Scalars['String']['input'];
@@ -1112,8 +1119,7 @@ export type MutationAuthenticateUserWithPasswordArgs = {
 };
 
 
-export type MutationAuthorizedUserWithCartArgs = {
-  cartId?: InputMaybe<Scalars['String']['input']>;
+export type MutationAuthorizedUserArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
@@ -1124,6 +1130,11 @@ export type MutationCheckOutArgs = {
   deliveryAddressId: Scalars['String']['input'];
   paymentMethod: Scalars['String']['input'];
   shippingCost: Scalars['Int']['input'];
+};
+
+
+export type MutationConnectCartToUserArgs = {
+  userId: Scalars['String']['input'];
 };
 
 
@@ -1342,6 +1353,11 @@ export type MutationCreateUsersArgs = {
 };
 
 
+export type MutationDecreaseCartItemArgs = {
+  cartItemId: Scalars['String']['input'];
+};
+
+
 export type MutationDeleteCartArgs = {
   where: CartWhereUniqueInput;
 };
@@ -1552,6 +1568,11 @@ export type MutationDeleteUsersArgs = {
 };
 
 
+export type MutationIncreaseCartItemArgs = {
+  cartItemId: Scalars['String']['input'];
+};
+
+
 export type MutationRedeemUserPasswordResetTokenArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -1564,14 +1585,7 @@ export type MutationRegisterUserArgs = {
 };
 
 
-export type MutationRegisterUserWithCartArgs = {
-  cartId: Scalars['String']['input'];
-  registerData: RegisterUserInput;
-};
-
-
 export type MutationRemoveFromCartArgs = {
-  cartId: Scalars['String']['input'];
   cartItemId: Scalars['String']['input'];
 };
 
@@ -2651,15 +2665,19 @@ export type ProductHomeBannerWhereUniqueInput = {
 export type ProductImage = {
   __typename: 'ProductImage';
   altText: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   image: Maybe<ImageFieldOutput>;
   product: Maybe<Product>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type ProductImageCreateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
   product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductImageManyRelationFilter = {
@@ -2670,7 +2688,9 @@ export type ProductImageManyRelationFilter = {
 
 export type ProductImageOrderByInput = {
   altText?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
 };
 
 export type ProductImageRelateToManyForCreateInput = {
@@ -2692,8 +2712,10 @@ export type ProductImageUpdateArgs = {
 
 export type ProductImageUpdateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
   product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ProductImageWhereInput = {
@@ -2701,8 +2723,10 @@ export type ProductImageWhereInput = {
   NOT?: InputMaybe<Array<ProductImageWhereInput>>;
   OR?: InputMaybe<Array<ProductImageWhereInput>>;
   altText?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   product?: InputMaybe<ProductWhereInput>;
+  updatedAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
 export type ProductImageWhereUniqueInput = {
@@ -2933,6 +2957,8 @@ export type Query = {
   featuredProduct: Maybe<FeaturedProduct>;
   featuredProducts: Maybe<Array<FeaturedProduct>>;
   featuredProductsCount: Maybe<Scalars['Int']['output']>;
+  isEmailInUse: Scalars['Boolean']['output'];
+  isPhoneNumberInUse: Scalars['Boolean']['output'];
   keystone: KeystoneMeta;
   order: Maybe<Order>;
   orderItem: Maybe<OrderItem>;
@@ -2964,6 +2990,8 @@ export type Query = {
   productVariantsCount: Maybe<Scalars['Int']['output']>;
   products: Maybe<Array<Product>>;
   productsCount: Maybe<Scalars['Int']['output']>;
+  queryAuthorizedUser: Maybe<User>;
+  queryCart: Maybe<Cart>;
   topping: Maybe<Topping>;
   toppingOption: Maybe<ToppingOption>;
   toppingOptions: Maybe<Array<ToppingOption>>;
@@ -3126,6 +3154,16 @@ export type QueryFeaturedProductsArgs = {
 
 export type QueryFeaturedProductsCountArgs = {
   where?: FeaturedProductWhereInput;
+};
+
+
+export type QueryIsEmailInUseArgs = {
+  email: Scalars['String']['input'];
+};
+
+
+export type QueryIsPhoneNumberInUseArgs = {
+  phoneNumber: Scalars['String']['input'];
 };
 
 
@@ -3813,12 +3851,121 @@ export type VerifyUserByPhoneNumberResponse = {
   status: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type CollectionProductsQueryVariables = Exact<{
+  where: ProductWhereInput;
+  takeFillings?: InputMaybe<Scalars['Int']['input']>;
+  takeVariants?: InputMaybe<Scalars['Int']['input']>;
+  takeImages?: InputMaybe<Scalars['Int']['input']>;
+  orderVariantsBy: Array<ProductVariantOrderByInput> | ProductVariantOrderByInput;
+}>;
+
+
+export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
+
 export type GetCategoriesQueryVariables = Exact<{
   where: CategoryWhereInput;
 }>;
 
 
 export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null }> | null };
+
+export type AuthorizedUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type AuthorizedUserMutation = { authorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
+
+export type RegisterUserMutationVariables = Exact<{
+  registerData: RegisterUserInput;
+}>;
+
+
+export type RegisterUserMutation = { registerUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
+
+export type IsEmailInUseQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type IsEmailInUseQuery = { isEmailInUse: boolean };
+
+export type IsPhoneNumberInUseQueryVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
+
+export type AddToCartMutationVariables = Exact<{
+  productId: Scalars['String']['input'];
+  variantId: Scalars['String']['input'];
+  takeProductImage?: InputMaybe<Scalars['Int']['input']>;
+  customizations?: InputMaybe<Array<CustomizationInput> | CustomizationInput>;
+  compositionOptions?: InputMaybe<Array<CompositionOptionInput> | CompositionOptionInput>;
+  toppingOptionId?: InputMaybe<Scalars['String']['input']>;
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+}>;
+
+
+export type AddToCartMutation = { addToCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } };
+
+export type CartFragmentFragment = { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null };
+
+export type QueryCartQueryVariables = Exact<{
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type QueryCartQuery = { queryCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null };
+
+export type IncreaseCartItemMutationVariables = Exact<{
+  cartItemId: Scalars['String']['input'];
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type IncreaseCartItemMutation = { increaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } };
+
+export type DecreaseCartItemMutationVariables = Exact<{
+  cartItemId: Scalars['String']['input'];
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type DecreaseCartItemMutation = { decreaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null };
+
+export type RemoveFromCartMutationVariables = Exact<{
+  cartItemId: Scalars['String']['input'];
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type RemoveFromCartMutation = { removeFromCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } | null };
+
+export type ConnectCartToUserMutationVariables = Exact<{
+  userId: Scalars['String']['input'];
+  cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ConnectCartToUserMutation = { connectCartToUser: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizationsSnapShot: unknown | null, compositionSnapShot: unknown | null, toppingOption: { __typename: 'ToppingOption', weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null } | null }> | null } };
+
+export type QueryAuthorizedUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryAuthorizedUserQuery = { queryAuthorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } | null };
 
 export type ProductHomeBannersQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3852,3 +3999,8 @@ export type UploadImageCustomizationMutationVariables = Exact<{
 
 
 export type UploadImageCustomizationMutation = { uploadImageCustomization: Array<{ __typename: 'CustomizeImage', id: string, altText: string | null }> };
+
+export type MutationMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MutationMutation = { endSession: boolean };

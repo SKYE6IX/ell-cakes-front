@@ -3,31 +3,30 @@ import {
   Cart,
   CustomizationInput,
   CompositionOptionInput,
-  CartItemOrderByInput,
 } from "@/types/__generated__/graphql";
+import { QueryCartSettings } from "../cart/operations";
 
 export interface AddToCartArgs {
   productId: string;
   variantId: string;
-  takeProductImage: number;
   customizations: CustomizationInput[] | null;
   compositionOptions: CompositionOptionInput[] | null;
   toppingOptionId: string | null;
-  cartItemsOrderBy: CartItemOrderByInput[];
 }
 
 export const ADD_TO_CART_MUTATION: TypedDocumentNode<
   { addToCart: Cart },
-  AddToCartArgs
+  AddToCartArgs & QueryCartSettings
 > = gql`
   mutation AddToCart(
     $productId: String!
     $variantId: String!
-    $takeProductImage: Int
     $customizations: [CustomizationInput!]
     $compositionOptions: [CompositionOptionInput!]
     $toppingOptionId: String
     $cartItemsOrderBy: [CartItemOrderByInput!]!
+    $orderImagesBy: [ProductImageOrderByInput!]!
+    $takeImage: Int
   ) {
     addToCart(
       productId: $productId
@@ -49,8 +48,10 @@ export const ADD_TO_CART_MUTATION: TypedDocumentNode<
           extraPrice
         }
         product {
+          id
           name
-          images(take: $takeProductImage) {
+          images(orderBy: $orderImagesBy, take: $takeImage) {
+            id
             image {
               url
             }

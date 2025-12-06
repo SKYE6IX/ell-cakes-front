@@ -9,7 +9,19 @@ export const client = new ApolloClient({
     uri: process.env.NEXT_PUBLIC_SERVER_URL,
     credentials: "include",
   }),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Cart: {
+        fields: {
+          cartItems: {
+            merge(existing, incoming) {
+              return [...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
   localState: new LocalState(),
 });
 

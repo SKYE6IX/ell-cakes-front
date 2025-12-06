@@ -30,23 +30,27 @@ const addToCart: Cart = {
   subTotal: 50000,
   updatedAt: undefined,
   user: null,
+  sessionId: null,
 };
 
 const variables: AddToCartArgs = {
   productId: "mock-product-id",
   variantId: "mock-variant-id",
-  takeProductImage: 1,
   customizations: null,
   compositionOptions: null,
   toppingOptionId: null,
-  cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
 };
 
 const mocks = [
   {
     request: {
       query: ADD_TO_CART_MUTATION,
-      variables,
+      variables: {
+        ...variables,
+        cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+        orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+        takeImage: 1,
+      },
     },
     result: { data: addToCart },
   },

@@ -3,6 +3,7 @@ import { isCartOpenVar, cartVar } from "@/lib/cache";
 import CartIcon from "../icons/CartIcon";
 import { ADD_TO_CART_MUTATION, AddToCartArgs } from "./operation";
 import "./add-to-cart-btn.scss";
+import { OrderDirection } from "@/types/__generated__/graphql";
 
 type AddToCartButtonProps = {
   productPrice: number;
@@ -16,7 +17,12 @@ function AddToCartButton({
   addToCartArgs,
 }: AddToCartButtonProps) {
   const [addToCart, { loading }] = useMutation(ADD_TO_CART_MUTATION, {
-    variables: addToCartArgs,
+    variables: {
+      ...addToCartArgs,
+      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+      takeImage: 1,
+    },
     onCompleted(data) {
       cartVar(data.addToCart);
       isCartOpenVar(true);

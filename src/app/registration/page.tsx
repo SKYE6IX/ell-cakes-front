@@ -2,7 +2,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMutation, useLazyQuery } from "@apollo/client/react";
+import {
+  useMutation,
+  useLazyQuery,
+  useReactiveVar,
+} from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
@@ -12,7 +16,9 @@ import {
   IS_PHONE_NUMBER_IN_USE,
 } from "./operation";
 import { validateRegistrationFields } from "@/utils/validations";
-import { userVar } from "@/lib/cache";
+import { userVar, cartVar } from "@/lib/cache";
+import { CONNECT_CART_TO_USER } from "@/components/cart/operations";
+import { OrderDirection } from "@/types/__generated__/graphql";
 import "./registration.scss";
 
 const initialState = {
@@ -54,11 +60,27 @@ function RegistrationPage() {
   const debounceEmailInUse = debounce(executeEmailInUse, 500);
   const debouncePhoneInUser = debounce(executePhoneInUse, 500);
 
+  const cart = useReactiveVar(cartVar);
+  const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
+    variables: {
+      takeImage: 1,
+      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+    },
+    onCompleted(data) {
+      cartVar(data.connectCartToUser);
+    },
+  });
+
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     variables: { registerData: formState },
     onCompleted(data) {
       router.push("/confirm-phone");
       userVar(data.registerUser);
+
+      if (cart) {
+        connectCartToUser({ variables: { userId: data.registerUser.id } });
+      }
     },
   });
 
