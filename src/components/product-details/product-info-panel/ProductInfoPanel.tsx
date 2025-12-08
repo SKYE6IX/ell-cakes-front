@@ -34,11 +34,9 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
 
   return (
     <div className="product-info-panel">
-      <div className="product-info-panel__title-wrapper">
-        <h3 className="product-info-panel__title" data-testid="product-title">
-          {product.name}
-        </h3>
-      </div>
+      <h3 className="product-info-panel__title" data-testid="product-title">
+        {product.name}
+      </h3>
       <p
         className="product-info-panel__description"
         data-testid="product-description"

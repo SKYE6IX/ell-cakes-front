@@ -67,9 +67,15 @@
   color: $text-color;
   @include max-breakpoint("md") {
     font-size: 22px;
+    line-height: 23px;
   }
   @include max-breakpoint("sm") {
     font-size: 20px;
+    line-height: 22px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 19.2px;
   }
 }
 .footer__link-list {

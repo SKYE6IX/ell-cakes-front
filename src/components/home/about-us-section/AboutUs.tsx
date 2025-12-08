@@ -24,7 +24,7 @@ function AboutUs() {
           </span>
         </p>
         <div className="about-us__btn-wrapper">
-          <Button textKey="Заказать" />
+          <Button textKey="Заказать" href="/collections" />
         </div>
       </div>
       <div className="about-us__image-container">

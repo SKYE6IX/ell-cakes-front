@@ -1,36 +1,22 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
-import Button from "@/components/button/Button";
+import { useState, useRef, useMemo, useEffect } from "react";
+import Input from "@/components/input/Input";
 import "./confirm-phone.scss";
 
-interface ConfirmPhonePageProps {
-  phone?: string;
-  onConfirm?: (code: string) => void;
-  onResend?: () => void;
-  onChangePhoneClick?: () => void;
-  confirmHref?: string;
-  changePhoneHref?: string;
-}
-
-function ConfirmPhonePage({
-  phone = "+7 xxx xxx-xx-xx",
-  onConfirm,
-  onResend,
-  onChangePhoneClick,
-}: ConfirmPhonePageProps) {
-  const LEN = 6;
-
-  const [codeArr, setCodeArr] = useState<string[]>(
-    Array.from({ length: LEN }, () => "")
-  );
+function ConfirmPhonePage() {
+  const inputRefs = useRef<HTMLInputElement[]>([]);
+  const [token, setToken] = useState("");
+  const [values, setValues] = useState<string[]>(new Array(6).fill(""));
   const [secondsLeft, setSecondsLeft] = useState(60);
+  const [numberChange, setNumberChange] = useState({
+    showInput: false,
+    newNumber: "",
+  });
 
-  const code = useMemo(() => codeArr.join(""), [codeArr]);
-
-  const isComplete = useMemo(
-    () => code.replace(/\D/g, "").length === LEN,
-    [code]
-  );
+  useMemo(() => {
+    const inputToken = values.join("");
+    setToken(inputToken);
+  }, [values]);
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -38,107 +24,98 @@ function ConfirmPhonePage({
     return () => clearInterval(t);
   }, [secondsLeft]);
 
-  const getInputs = (el: HTMLInputElement) =>
-    Array.from(
-      el.parentElement?.querySelectorAll<HTMLInputElement>(".otp__cell") ?? []
-    );
-
-  const handleChange = (i: number, raw: string, el: HTMLInputElement) => {
-    const digit = raw.replace(/\D/g, "").slice(-1);
-    const next = [...codeArr];
-    next[i] = digit;
-    setCodeArr(next);
-    if (digit) {
-      const inputs = getInputs(el);
-      inputs[i + 1]?.focus();
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { value } = e.target;
+    const input = inputRefs.current[index];
+    const digit = value.replace(/\D/g, "");
+    const newValues = [...values];
+    newValues[index] = digit;
+    setValues(newValues);
+    if (input.nextElementSibling) {
+      (input.nextElementSibling as HTMLInputElement).focus();
     }
   };
 
-  const handleKeyDown = (
-    i: number,
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    const el = e.currentTarget;
-    const inputs = getInputs(el);
-
-    if (e.key === "Backspace") {
-      e.preventDefault();
-      const next = [...codeArr];
-
-      if (next[i]) {
-        next[i] = "";
-        setCodeArr(next);
-      } else if (i > 0) {
-        inputs[i - 1]?.focus();
-        next[i - 1] = "";
-        setCodeArr(next);
+  const handleKeyDown = (event: React.KeyboardEvent, index: number) => {
+    if (event.key === "Backspace") {
+      event.preventDefault();
+      const input = inputRefs.current[index];
+      const newValues = [...values];
+      newValues[index] = "";
+      setValues(newValues);
+      if (input.previousElementSibling) {
+        (input.previousElementSibling as HTMLInputElement).focus();
       }
     }
-
-    if (e.key === "ArrowLeft" && i > 0) {
-      e.preventDefault();
-      inputs[i - 1]?.focus();
-    }
-    if (e.key === "ArrowRight" && i < LEN - 1) {
-      e.preventDefault();
-      inputs[i + 1]?.focus();
-    }
   };
 
-  const handlePaste = (
-    i: number,
-    e: React.ClipboardEvent<HTMLInputElement>
-  ) => {
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "");
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const pasted = event.clipboardData.getData("text/plain").replace(/\D/g, "");
     if (!pasted) return;
-
-    e.preventDefault();
-    const digits = pasted.slice(0, LEN - i).split("");
-
-    const next = [...codeArr];
-    digits.forEach((d, idx) => {
-      next[i + idx] = d;
-    });
-    setCodeArr(next);
-
-    const inputs = getInputs(e.currentTarget);
-    const lastIndex = Math.min(i + digits.length - 1, LEN - 1);
-    inputs[lastIndex]?.focus();
+    const digits = pasted.slice(0, 6).split("");
+    if (digits.length > 0) {
+      const newValues = new Array("").fill("");
+      digits.forEach((d, i) => {
+        if (i < 6) {
+          newValues[i] = d;
+        }
+      });
+      setValues(newValues);
+      inputRefs.current[5].focus();
+    }
   };
 
-  const handleConfirmClick = () => {
-    if (!isComplete) return;
-    onConfirm?.(code);
+  const onInputChange = ({ value }: { name: string; value: string }) => {
+    setNumberChange((prvState) => ({ ...prvState, newNumber: value }));
   };
 
-  const handleResend = () => {
-    if (secondsLeft > 0) return;
-    setSecondsLeft(45);
-    setCodeArr(Array.from({ length: LEN }, () => ""));
-    onResend?.();
+  const handleResend = () => {};
+
+  const handleShowChangeNumber = () => {
+    setNumberChange((prvState) => ({
+      ...prvState,
+      showInput: !prvState.showInput,
+    }));
   };
 
   return (
     <section className="confirm-phone">
       <div className="confirm-phone__inner-wrapper">
-        {/* RIGHT */}
-        <div className="confirm-phone-right">
-          <h3
-            className="confirm-phone-right__title"
-            data-testid="confirm-phone-page-title"
-          >
-            Подтвердите номер
-          </h3>
-          <h5
-            className="confirm-phone-right__subtitle"
-            data-testid="confirm-phone-page-sub-title"
-          >
-            Мы отправили 6-значный код на {phone}
-          </h5>
+        {numberChange.showInput ? (
+          <div className="confirm-phone__change-phone-wrapper">
+            <Input
+              initialValue={""}
+              name="phoneNumber"
+              placeholder="ТЕЛЕФОН"
+              type="tel"
+              onInputChange={onInputChange}
+              hasError={false}
+            />
+            <button className="confirm-phone__change-number-btn">
+              Изменить
+            </button>
+          </div>
+        ) : (
+          <div className="confirm-phone__otp-wrapper">
+            <h3
+              className="confirm-phone__otp-title"
+              data-testid="confirm-phone-page-title"
+            >
+              Подтвердите номер
+            </h3>
+            <h5
+              className="confirm-phone__otp-subtitle"
+              data-testid="confirm-phone-page-sub-title"
+            >
+              Мы отправили 6-значный код на +7 993 233 4556
+            </h5>
 
-          <div className="confirm-phone-form">
-            <div className="confirm-phone-otp">
-              {codeArr.map((v, i) => (
+            <div className="confirm-phone__otp-inputs">
+              {Array.from({ length: 6 }).map((value, i) => (
                 <input
                   key={i}
                   className="confirm-phone-otp__cell"
@@ -147,58 +124,47 @@ function ConfirmPhonePage({
                   autoComplete="one-time-code"
                   pattern="\d*"
                   maxLength={1}
-                  value={v}
+                  value={values[i]}
                   autoFocus={i === 0}
-                  onChange={(e) =>
-                    handleChange(i, e.target.value, e.currentTarget)
-                  }
-                  onKeyDown={(e) => handleKeyDown(i, e)}
-                  onPaste={(e) => handlePaste(i, e)}
+                  onChange={(e) => handleChange(e, i)}
+                  onKeyDown={(e) => handleKeyDown(e, i)}
+                  onPaste={handlePaste}
+                  ref={(el) => {
+                    if (el) {
+                      inputRefs.current[i] = el;
+                    }
+                  }}
                 />
               ))}
             </div>
-            {/* confirm button */}
-            <div
-              className={`confirm-phone-form__submit ${
-                !isComplete ? "is-disabled" : ""
-              }`}
-              onClick={handleConfirmClick}
-            >
-              <Button textKey="Подтвердить" href="/" fullWidth />
-            </div>
 
-            {/* resend */}
+            <button className="confirm-phone__submit">Подтвердить</button>
+
             <div className="confirm-phone-resend">
               <span className="confirm-phone-resend__label">
                 Не пришёл код?
               </span>
               <button
                 type="button"
-                className={`confirm-phone-resend__btn ${
-                  secondsLeft > 0 ? "is-disabled" : ""
-                }`}
-                onClick={handleResend}
+                className="confirm-phone-resend__btn"
                 disabled={secondsLeft > 0}
               >
                 Отправить ещё раз
                 {secondsLeft > 0 &&
-                  ` через 00:${String(secondsLeft).padStart(2, "0")}`}
+                  `через 00:${String(secondsLeft).padStart(2, "0")}`}
               </button>
             </div>
 
             <div className="confirm-phone__divider" />
 
-            {/* change phone button */}
-            <div className="confirm-phone__change" onClick={onChangePhoneClick}>
-              <Button
-                textKey="Изменить номер"
-                href="/"
-                fullWidth
-                variant="outline"
-              />
-            </div>
+            <button
+              className="confirm-phone__show-change-number-btn"
+              onClick={handleShowChangeNumber}
+            >
+              Изменить номер
+            </button>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

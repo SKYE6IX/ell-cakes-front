@@ -33,7 +33,7 @@ function CustomizeInfo() {
           </span>
         </p>
         <div className="customize-info__btn-wrapper">
-          <Button textKey="связаться" />
+          <Button textKey="связаться" href="/contact" />
         </div>
       </div>
     </section>

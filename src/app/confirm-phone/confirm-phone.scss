@@ -1,103 +1,68 @@
 @use "@/global-styles/variables" as *;
-@use "@/global-styles/globals.scss" as *;
+@use "@/global-styles/shared-styles" as *;
 
 .confirm-phone {
-  overflow: hidden;
   width: 100%;
   background-color: $primary-mute;
-  padding: 100px 100px 50px 100px;
-  @include max-breakpoint("lg") {
-    padding: 50px;
-  }
+  @include flex-layout(row, center, center, none);
+  padding: 50px 0px;
   @include max-breakpoint("md") {
-    padding: 50px 40px;
-  }
-  @include max-breakpoint("s") {
-    padding: 20px;
+    padding: 40px 0px;
   }
 }
 
 .confirm-phone__inner-wrapper {
+  height: 100%;
   width: 100%;
   max-width: 800px;
-  margin: 0px auto;
-  display: flex;
-  overflow: hidden;
-  gap: 90px;
-  @include max-breakpoint("lg") {
-    gap: 60px;
-  }
-  @include max-breakpoint("sm") {
-    flex-direction: column-reverse;
-    gap: 40px;
-  }
-}
-
-/* RIGHT */
-.confirm-phone-right {
-  flex: 1;
   background: #fff;
-  padding: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 14px;
+  border-radius: 15px;
+  padding: 50px 0px;
+  @include flex-layout(row, center, center, none);
+
   @include max-breakpoint("md") {
-    padding: 60px;
+    max-width: calc(100% - 80px);
   }
   @include max-breakpoint("s") {
-    padding: 40px 20px;
-  }
-
-  &__title {
-    font-family: $font-uncage;
-    font-size: 36px;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 0 0 14px 0;
-    @include max-breakpoint("md") {
-      font-size: 32px;
-    }
-    @include max-breakpoint("s") {
-      font-size: 24px;
-    }
-  }
-
-  &__subtitle {
-    font-family: $font-uncage;
-    font-size: 16px;
-    color: $text-color;
-    margin-bottom: 36px;
-    text-align: center;
-    @include max-breakpoint("md") {
-      font-size: 14px;
-    }
-    @include max-breakpoint("s") {
-      max-width: 280px;
-    }
+    max-width: calc(100% - 40px);
   }
 }
 
-.confirm-phone-form {
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.confirm-phone__otp-wrapper {
+  @include flex-layout(column, center, center, 20px);
   @include max-breakpoint("s") {
-    max-width: 320px;
+    gap: 15px;
+  }
+}
+.confirm-phone__otp-title {
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.75rem;
+  line-height: 30.8px;
+  font-weight: 500;
+  text-align: center;
+  @include max-breakpoint("s") {
+    font-size: 1.25rem;
+    line-height: 22px;
+  }
+}
+.confirm-phone__otp-subtitle {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.125rem;
+  line-height: 19.8px;
+  font-weight: 500;
+  color: $text-color;
+  text-align: center;
+  @include max-breakpoint("s") {
+    max-width: 300px;
+    font-size: 1rem;
+    line-height: 19px;
   }
 }
 
-/* OTP */
-.confirm-phone-otp {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
+.confirm-phone__otp-inputs {
+  @include flex-layout(row, center, center, 10px);
   @include max-breakpoint("s") {
-    gap: 8px;
+    gap: 5px;
   }
 }
 
@@ -119,21 +84,13 @@
     width: 38px;
     height: 38px;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 1rem;
+    line-height: 19px;
   }
 
   &:focus {
     border-color: $primary;
   }
-}
-.confirm-phone-form__submit {
-  margin-top: 40px;
-  width: 100%;
-}
-
-.confirm-phone-form__submit.is-disabled {
-  opacity: 0.6;
-  pointer-events: none;
 }
 
 /* resend */
@@ -175,9 +132,42 @@
   width: 100%;
   height: 1px;
   background: #e6e6e6;
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
-.confirm-phone__change {
+.confirm-phone__show-change-number-btn {
   width: 100%;
+  outline: none;
+  background: transparent;
+  color: $primary;
+  border: 1.5px solid $primary;
+  padding: 15px 0px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.confirm-phone__change-phone-wrapper {
+  width: 100%;
+  max-width: 400px;
+  @include flex-layout(column, center, center, 20px);
+  @include max-breakpoint("s") {
+    max-width: calc(100% - 40px);
+  }
+}
+.confirm-phone__change-number-btn,
+.confirm-phone__submit {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background: $text-color;
+  color: $neutral;
+  width: 100%;
+  padding: 15px 0px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
 }

@@ -41,7 +41,10 @@ function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
         {/* Navigation menu with sub-menu */}
         <li className="navigation__menu-item show-widget">
           <span
-            className="navigation__menu-item-label"
+            className={[
+              "navigation__menu-item-label",
+              pathname === "/collections" ? "active" : "",
+            ].join(" ")}
             data-testid="navigation-menu-item"
           >
             ТОрты

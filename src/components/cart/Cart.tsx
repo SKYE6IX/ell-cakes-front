@@ -40,7 +40,11 @@ function Cart() {
             <h4 className="cart__empty-cart-text">
               Ваша корзина пуста, начните покупки прямо сейчас!
             </h4>
-            <Link href="/" className="cart__empty-cart-link">
+            <Link
+              href="/collections"
+              className="cart__empty-cart-link"
+              onClick={handleCloseModal}
+            >
               Заказ!
             </Link>
           </div>

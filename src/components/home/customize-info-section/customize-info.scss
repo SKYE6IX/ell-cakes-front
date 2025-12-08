@@ -50,6 +50,10 @@
     font-size: 1.75rem;
     line-height: 30.8px;
   }
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 19.8px;
+  }
 }
 .customize-info__heading .highlight {
   color: $secondary;

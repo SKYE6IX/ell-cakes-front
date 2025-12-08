@@ -3,6 +3,12 @@ import { getTransliteration } from "@/utils/getTransliteration";
 
 const list = [
   {
+    name: "Торты",
+    description:
+      "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",
+    images: [collectionDeliveryInfoImage, collectionDeliveryInfoImage],
+  },
+  {
     name: "Пироженые",
     description:
       "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",

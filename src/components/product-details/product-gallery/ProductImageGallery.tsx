@@ -13,6 +13,7 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
   const slideItemRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     const observer = new IntersectionObserver(
       (entries) => {
         const visibleSlide = entries
@@ -23,7 +24,10 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
             visibleSlide.target as HTMLDivElement
           );
           if (newIdx !== -1) {
-            setActiveIdx(newIdx);
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              setActiveIdx(newIdx);
+            }, 500);
           }
         }
       },
@@ -33,11 +37,19 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
       }
     );
     slideItemRefs.current?.forEach((slideItem) => observer.observe(slideItem));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeout);
+    };
   }, []);
 
   const changeActiveIdx = (newIdx: number) => {
     setActiveIdx(newIdx);
+    const nextSlide = slideItemRefs.current[newIdx];
+    containerRef.current?.scrollTo({
+      left: nextSlide.offsetLeft,
+      behavior: "smooth",
+    });
   };
 
   return (

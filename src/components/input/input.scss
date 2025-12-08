@@ -11,7 +11,8 @@
   background: #fff;
 
   font-family: $font-montserrat, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
+  line-height: 19px;
   font-weight: 500;
   color: $text-color;
 
@@ -20,7 +21,6 @@
 
   @include max-breakpoint("s") {
     height: 48px;
-    font-size: 14px;
     border-radius: 10px;
     padding: 0 16px;
   }

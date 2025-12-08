@@ -2,6 +2,7 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-image-gallery {
+  // border: 1px solid red;
   width: 100%;
   --left-gutter: 50px;
   padding-left: var(--left-gutter);
@@ -18,6 +19,7 @@
   aspect-ratio: 1 / 1;
   position: relative;
   @include max-breakpoint("md") {
+    aspect-ratio: initial;
     --vertical-spacing: 40px;
     --left-gutter: 40px;
     padding-left: var(--left-gutter);
@@ -33,9 +35,11 @@
     --left-gutter: 20px;
   }
 }
+
 .product-image-gallery__main::-webkit-scrollbar {
   display: none;
 }
+
 .product-image-gallery__image-stack {
   flex-shrink: 0;
   width: 100%;
@@ -49,9 +53,11 @@
     scroll-snap-align: center;
   }
 }
+
 .product-image-gallery__image-stack.show {
   z-index: 1;
 }
+
 .product-image-gallery__image-container {
   width: 100%;
   height: auto;

@@ -20,7 +20,7 @@ function Collaboration() {
             За подробной информацией свяжитесь с нами по номеру телефона или по
             почте.
           </p>
-          <Button textKey="Связаться" href="/" />
+          <Button textKey="Связаться" href="/contact" />
         </div>
 
         <div className="colaboration__media">

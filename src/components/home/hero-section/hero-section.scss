@@ -2,22 +2,19 @@
 @use "@/global-styles/shared-styles" as *;
 
 .hero {
+  position: relative;
   width: 100%;
   --hero-gutter: 50px;
   --hero-spacing: 40px;
-  @include flex-layout(row, center, space-between, var(--hero-spacing));
   margin-top: var(--hero-gutter);
-  padding-bottom: 100px; // Used to create space to place the dot navigation for the carousel
-  position: relative;
+  @include flex-layout(row, center, space-between, var(--hero-spacing));
   @include max-breakpoint("lg") {
     --hero-spacing: 30px;
     --hero-gutter: 30px;
-    padding-bottom: 50px;
   }
   @include max-breakpoint("md") {
     --hero-gutter: 40px;
     --hero-spacing: 40px;
-    padding-bottom: 40px;
   }
   @include max-breakpoint("sm") {
     --hero-gutter: 20px;
@@ -26,42 +23,46 @@
   @include max-breakpoint("820px") {
     --hero-spacing: 40px;
     flex-direction: column;
-    padding-bottom: 0px;
-    padding: 0px var(--hero-gutter);
+    padding: 0px 40px;
+  }
+  @include max-breakpoint("s") {
+    padding: 0px 20px;
   }
 }
 
 .hero__media {
+  border: 1px solid transparent;
+  margin-left: var(--hero-gutter);
   align-self: flex-start;
   list-style: none;
-  position: relative;
-  margin-left: var(--hero-gutter);
   width: 55%;
   height: auto;
   aspect-ratio: 3 / 2.2;
-  @include flex-layout(row, center, center, none);
-  overflow-x: clip;
+  @include flex-layout(row, center, flex-start, 20px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   @include max-breakpoint("820px") {
+    margin: 0px;
     width: 100%;
-    margin-left: 0px;
   }
 }
 
 .hero__images-wrapper {
-  width: 100%;
-  position: absolute;
-  left: 0px;
-  right: 0px;
   --images-wrapper-spacing: 20px;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  width: 100%;
   @include flex-layout(row, center, center, var(--images-wrapper-spacing));
-  @include max-breakpoint("md") {
-    --images-wrapper-spacing: 10px;
+  @include max-breakpoint("s") {
+    gap: 10px;
   }
 }
 
 .hero__image-container {
   border-radius: 15px;
-  width: calc(50% - var(--images-wrapper-spacing));
+  width: 50%;
   height: auto;
   aspect-ratio: 2 / 3;
   position: relative;
@@ -73,6 +74,7 @@
 .hero__product-image {
   border-radius: inherit;
 }
+
 .hero__info {
   align-self: flex-start;
   width: 45%;
@@ -88,13 +90,20 @@
     gap: 15px;
   }
   @include max-breakpoint("820px") {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
     padding: 0px;
     width: 100%;
-  }
-  @include max-breakpoint("s") {
-    height: 360px;
+    height: 320px;
   }
 }
+.hero__info-text-wrapper {
+  @include flex-layout(column, center, center, 20px);
+  @include max-breakpoint("md") {
+    gap: 15px;
+  }
+}
+
 .hero__product-badge,
 .hero__product-description {
   font-family: $font-montserrat, sans-serif;
@@ -164,6 +173,9 @@
   margin-top: auto;
   width: 100%;
   @include flex-layout(row, center, center, 20px);
+  @include max-breakpoint("820px") {
+    display: none;
+  }
 }
 .hero__carousel-btn {
   border: none;
@@ -191,16 +203,13 @@
   list-style: none;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 50px;
+  bottom: -40px;
   @include flex-layout(row, center, center, 20px);
-  @include max-breakpoint("lg") {
-    bottom: 15px;
-  }
-  @include max-breakpoint("md") {
-    bottom: 5px;
-  }
   @include max-breakpoint("820px") {
-    display: none;
+    position: relative;
+    transform: translateX(0);
+    left: auto;
+    bottom: auto;
   }
 }
 .hero__pagination-item {

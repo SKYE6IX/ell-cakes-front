@@ -2,8 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import * as motion from "motion/react-client";
-import { wrap, useMotionValue, useMotionValueEvent } from "motion/react";
 import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
@@ -13,150 +11,150 @@ import "./hero-section.scss";
 type HeroProps = {
   banners: ProductHomeBanner[] | undefined;
 };
-interface HeroState {
-  direction: 1 | -1;
-  currentIndex: number;
-  positions: number[];
+
+function updateSlides(container: HTMLUListElement) {
+  const scrollWidth = container.scrollWidth;
+  const scrollLeft = container.scrollLeft;
+  const containerWidth = container.offsetWidth;
+  const slides = container.children;
+
+  if (scrollLeft <= containerWidth) {
+    container.prepend(slides[slides.length - 1]);
+    container.scrollLeft = scrollLeft + containerWidth;
+  }
+
+  if (scrollWidth - scrollLeft <= containerWidth) {
+    container.append(slides[0]);
+    container.scrollLeft = scrollLeft - containerWidth;
+  }
 }
 
 function Hero({ banners }: HeroProps) {
-  const isBannerData = banners && banners.length === 0;
-  const SLIDES_LENGHT = banners?.length ?? 0;
-  const DRAG_THRESSHOLD = 50;
-  const dragX = useMotionValue(0);
-  const dragXProgress = useMotionValue(0);
-  const slideItemsRef = useRef<HTMLLIElement[]>([]);
-  const [heroState, setHeroState] = useState<HeroState>({
-    direction: 1,
-    currentIndex: 0,
-    positions: [],
-  });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLUListElement>(null);
+  const slideItemRefs = useRef<HTMLLIElement[]>([]);
 
   useEffect(() => {
-    const setSlidePosition = () => {
-      if (!isBannerData) {
-        const slideWidth = slideItemsRef.current[0].offsetWidth;
-        const positionSlot = [
-          1,
-          slideWidth,
-          -(slideItemsRef.current.length - 1) * slideWidth,
-        ];
-        setHeroState((prvState) => ({ ...prvState, positions: positionSlot }));
+    let timeout: NodeJS.Timeout;
+    const container = containerRef.current;
+    if (!container) return;
+
+    updateSlides(container);
+    const handleScroll = () => {
+      if (timeout) {
+        clearTimeout(timeout);
       }
+      timeout = setTimeout(() => {
+        updateSlides(container);
+      }, 50);
     };
-    setSlidePosition();
-    window.addEventListener("resize", setSlidePosition);
-    return () => window.removeEventListener("resize", setSlidePosition);
-  }, [isBannerData]);
 
-  useMotionValueEvent(dragX, "change", (latest) => {
-    if (typeof latest === "number") {
-      dragXProgress.set(latest);
-    } else {
-      dragXProgress.set(0);
-    }
-  });
-
-  const changeSlide = (newDirection: 1 | -1) => {
-    const nextIdx = wrap(
-      0,
-      SLIDES_LENGHT,
-      heroState.currentIndex + newDirection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSlide = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visibleSlide) {
+          const newIdx = slideItemRefs.current?.indexOf(
+            visibleSlide.target as HTMLLIElement
+          );
+          if (newIdx !== -1) {
+            setActiveIndex(newIdx);
+          }
+        }
+      },
+      {
+        root: container,
+        threshold: 0.9,
+      }
     );
-    setHeroState((prvState) => ({
-      ...prvState,
-      direction: newDirection,
-      currentIndex: nextIdx,
-    }));
-  };
 
-  const isJumping = (positionIdx: number) =>
-    (positionIdx === 1 && heroState.direction === -1) ||
-    (positionIdx === SLIDES_LENGHT - 1 && heroState.direction === 1);
+    slideItemRefs.current?.forEach((slideItem) => observer.observe(slideItem));
+    container.addEventListener("scroll", handleScroll);
 
-  const onDragEnd = () => {
-    const x = dragX.get();
-    if (x <= -DRAG_THRESSHOLD) {
-      changeSlide(-1);
-    } else if (x >= DRAG_THRESSHOLD) {
-      changeSlide(1);
+    return () => {
+      observer.disconnect();
+      container.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  if (banners === undefined || banners.length === 0) return <FallBackBanner />;
+
+  function changeSlide(newDirection: 1 | -1) {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const slides = container.children;
+    let newSlideIndex;
+    if (newDirection === 1) {
+      newSlideIndex = 0;
+    } else {
+      newSlideIndex = slides.length - 1;
     }
-  };
+    const nextSlide = slides[newSlideIndex] as HTMLLIElement;
 
-  if (isBannerData || banners === undefined) return <FallBackBanner />;
+    container.scrollTo({
+      left: nextSlide.offsetLeft,
+      behavior: "smooth",
+    });
+  }
   return (
     <section className="hero">
-      <motion.ul
-        className="hero__media"
-        drag="x"
-        style={{ x: dragX }}
-        dragConstraints={{
-          left: 0,
-          right: 0,
-        }}
-        onDragEnd={onDragEnd}
-      >
-        {banners.map((banner, i) => {
-          const positonIndex = (i + heroState.currentIndex) % SLIDES_LENGHT;
-          return (
-            <motion.li
-              className="hero__images-wrapper"
-              key={banner.id}
-              ref={(el) => {
-                if (el) {
-                  slideItemsRef.current[i] = el;
-                }
-              }}
-              style={{ x: heroState.positions[positonIndex] }}
-              initial={false}
-              animate={{
-                x: heroState.positions[positonIndex],
-                opacity: positonIndex === 0 ? 1 : 0,
-              }}
-              transition={
-                isJumping(positonIndex)
-                  ? { duration: 0 }
-                  : { ease: "easeInOut", duration: 0.3 }
+      <ul className="hero__media" ref={containerRef}>
+        {banners.map((banner, i) => (
+          <li
+            className="hero__images-wrapper"
+            id={`id-${i}`}
+            key={banner.id}
+            ref={(el) => {
+              if (el) {
+                slideItemRefs.current[i] = el;
               }
-            >
-              <div className="hero__image-container">
-                <Image
-                  src={banner.product?.images![0].image?.url || ""}
-                  alt="Mock Image"
-                  fill
-                  className="hero__product-image"
-                  data-testid="hero-banner-image"
-                />
-              </div>
-              <div className="hero__image-container">
-                <Image
-                  src={banner.product?.images![1].image?.url || ""}
-                  alt="Mock Image"
-                  fill
-                  className="hero__product-image"
-                  data-testid="hero-banner-image"
-                />
-              </div>
-            </motion.li>
-          );
-        })}
-      </motion.ul>
+            }}
+          >
+            <div className="hero__image-container">
+              <Image
+                src={banner.product?.images![0].image?.url || ""}
+                alt="Mock Image"
+                fill
+                className="hero__product-image"
+                data-testid="hero-banner-image"
+              />
+            </div>
+            <div className="hero__image-container">
+              <Image
+                src={banner.product?.images![1].image?.url || ""}
+                alt="Mock Image"
+                fill
+                className="hero__product-image"
+                data-testid="hero-banner-image"
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
 
       <div className="hero__info">
-        <h5 className="hero__product-badge">Хит продаж</h5>
-        <h3 className="hero__product-name">
-          {banners[heroState.currentIndex].product?.name}
-        </h3>
-        <p className="hero__product-description" data-testid="hero-banner-text">
-          {banners[heroState.currentIndex].bannerText}
-        </p>
+        <div className="hero__info-text-wrapper">
+          <h5 className="hero__product-badge">Хит продаж</h5>
+          <h3 className="hero__product-name">
+            {banners[activeIndex].product?.name}
+          </h3>
+          <p
+            className="hero__product-description"
+            data-testid="hero-banner-text"
+          >
+            {banners[activeIndex].bannerText}
+          </p>
 
-        <Link
-          href={`/product/${banners[heroState.currentIndex].product?.slug}`}
-          className="hero__product-link"
-        >
-          ЗАказать
-        </Link>
+          <Link
+            href={`/product/${banners[activeIndex].product?.slug}`}
+            className="hero__product-link"
+          >
+            ЗАказать
+          </Link>
+        </div>
 
         <div className="hero__carousel-control">
           <button
@@ -169,19 +167,19 @@ function Hero({ banners }: HeroProps) {
             <ArrowRightIcon />
           </button>
         </div>
-      </div>
 
-      <ul className="hero__pagination-list">
-        {banners.map((_, idx) => (
-          <li
-            key={idx}
-            className={[
-              "hero__pagination-item",
-              heroState.currentIndex === idx ? "active" : "",
-            ].join(" ")}
-          />
-        ))}
-      </ul>
+        <ul className="hero__pagination-list">
+          {banners.map((_, idx) => (
+            <li
+              key={idx}
+              className={[
+                "hero__pagination-item",
+                activeIndex === idx ? "active" : "",
+              ].join(" ")}
+            />
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

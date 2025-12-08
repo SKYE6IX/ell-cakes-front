@@ -36,6 +36,10 @@
     font-size: 1.5rem;
     line-height: 26.4px;
   }
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 19.8px;
+  }
 }
 .craft-description__heading .highlight {
   color: $primary;

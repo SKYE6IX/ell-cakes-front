@@ -1052,11 +1052,11 @@ export type Mutation = {
   deleteUsers: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean']['output'];
   increaseCartItem: Cart;
-  redeemUserPasswordResetToken: Maybe<RedeemUserPasswordResetTokenResult>;
+  redeemPhoneNumberToken: VerifyUserByPhoneNumberResponse;
   registerUser: User;
   removeFromCart: Maybe<Cart>;
-  resendVerificationToken: Scalars['String']['output'];
-  sendUserPasswordResetLink: Scalars['Boolean']['output'];
+  resendPhoneNumberToken: Scalars['String']['output'];
+  sendPasswordResetToken: PasswordResetTokenResponse;
   updateCart: Maybe<Cart>;
   updateCartItem: Maybe<CartItem>;
   updateCartItems: Maybe<Array<Maybe<CartItem>>>;
@@ -1077,6 +1077,7 @@ export type Mutation = {
   updateOrderItem: Maybe<OrderItem>;
   updateOrderItems: Maybe<Array<Maybe<OrderItem>>>;
   updateOrders: Maybe<Array<Maybe<Order>>>;
+  updatePassword: User;
   updatePayment: Maybe<Payment>;
   updatePayments: Maybe<Array<Maybe<Payment>>>;
   updateProduct: Maybe<Product>;
@@ -1100,7 +1101,6 @@ export type Mutation = {
   updateUser: Maybe<User>;
   updateUsers: Maybe<Array<Maybe<User>>>;
   uploadImageCustomization: Array<CustomizeImage>;
-  verifyUserByPhoneNumber: VerifyUserByPhoneNumberResponse;
 };
 
 
@@ -1573,9 +1573,8 @@ export type MutationIncreaseCartItemArgs = {
 };
 
 
-export type MutationRedeemUserPasswordResetTokenArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type MutationRedeemPhoneNumberTokenArgs = {
+  phoneNumber: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
 
@@ -1590,13 +1589,13 @@ export type MutationRemoveFromCartArgs = {
 };
 
 
-export type MutationResendVerificationTokenArgs = {
+export type MutationResendPhoneNumberTokenArgs = {
   phoneNumber: Scalars['String']['input'];
 };
 
 
-export type MutationSendUserPasswordResetLinkArgs = {
-  email: Scalars['String']['input'];
+export type MutationSendPasswordResetTokenArgs = {
+  phoneNumber: Scalars['String']['input'];
 };
 
 
@@ -1707,6 +1706,13 @@ export type MutationUpdateOrderItemsArgs = {
 
 export type MutationUpdateOrdersArgs = {
   data: Array<OrderUpdateArgs>;
+};
+
+
+export type MutationUpdatePasswordArgs = {
+  email: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 
@@ -1833,12 +1839,6 @@ export type MutationUpdateUsersArgs = {
 
 export type MutationUploadImageCustomizationArgs = {
   files: Array<Scalars['Upload']['input']>;
-};
-
-
-export type MutationVerifyUserByPhoneNumberArgs = {
-  phoneNumber: Scalars['String']['input'];
-  token: Scalars['String']['input'];
 };
 
 export type NestedStringFilter = {
@@ -2112,11 +2112,10 @@ export type PasswordFilter = {
   isSet: Scalars['Boolean']['input'];
 };
 
-export enum PasswordResetRedemptionErrorCode {
-  Failure = 'FAILURE',
-  TokenExpired = 'TOKEN_EXPIRED',
-  TokenRedeemed = 'TOKEN_REDEEMED'
-}
+export type PasswordResetTokenResponse = {
+  __typename: 'PasswordResetTokenResponse';
+  passwordResetUrl: Scalars['String']['output'];
+};
 
 export type PasswordState = {
   __typename: 'PasswordState';
@@ -3001,7 +3000,7 @@ export type Query = {
   user: Maybe<User>;
   users: Maybe<Array<User>>;
   usersCount: Maybe<Scalars['Int']['output']>;
-  validateUserPasswordResetToken: Maybe<ValidateUserPasswordResetTokenResult>;
+  validateUserPasswordResetToken: Scalars['Boolean']['output'];
 };
 
 
@@ -3424,12 +3423,6 @@ export enum QueryMode {
   Insensitive = 'insensitive'
 }
 
-export type RedeemUserPasswordResetTokenResult = {
-  __typename: 'RedeemUserPasswordResetTokenResult';
-  code: PasswordResetRedemptionErrorCode;
-  message: Scalars['String']['output'];
-};
-
 export type RegisterUserInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -3839,12 +3832,6 @@ export type UserWhereUniqueInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ValidateUserPasswordResetTokenResult = {
-  __typename: 'ValidateUserPasswordResetTokenResult';
-  code: PasswordResetRedemptionErrorCode;
-  message: Scalars['String']['output'];
-};
-
 export type VerifyUserByPhoneNumberResponse = {
   __typename: 'VerifyUserByPhoneNumberResponse';
   message: Maybe<Scalars['String']['output']>;
@@ -3901,11 +3888,12 @@ export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
 export type AddToCartMutationVariables = Exact<{
   productId: Scalars['String']['input'];
   variantId: Scalars['String']['input'];
-  takeProductImage?: InputMaybe<Scalars['Int']['input']>;
   customizations?: InputMaybe<Array<CustomizationInput> | CustomizationInput>;
   compositionOptions?: InputMaybe<Array<CompositionOptionInput> | CompositionOptionInput>;
   toppingOptionId?: InputMaybe<Scalars['String']['input']>;
   cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
+  orderImagesBy: Array<ProductImageOrderByInput> | ProductImageOrderByInput;
+  takeImage?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 

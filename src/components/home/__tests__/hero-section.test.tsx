@@ -2,6 +2,20 @@ import { render, screen } from "@testing-library/react";
 import Hero from "../hero-section/Hero";
 import { mockBannerData } from "../mock-data";
 
+beforeEach(() => {
+  global.IntersectionObserver = class {
+    constructor(private callback: IntersectionObserverCallback) {}
+    observe = jest.fn();
+    unobserve = jest.fn();
+    disconnect = jest.fn();
+    takeRecords = jest.fn(() => []);
+    trigger = (entries: IntersectionObserverEntry[]) =>
+      // @ts-expect-error unknow error
+      this.callback(entries, this);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any;
+});
+
 describe("Hero Section Component", () => {
   it("render banner text content", () => {
     // Arrange

@@ -16,7 +16,10 @@
   @include flex-layout(row, none, none, 10px);
   flex-wrap: wrap;
   @include max-breakpoint("md") {
-    justify-content: space-between;
+    gap: 15px;
+  }
+  @include max-breakpoint("s") {
+    justify-content: center;
   }
 }
 .product-filling-selector__item {
@@ -45,12 +48,12 @@
     height: 60px;
   }
   @include max-breakpoint("md") {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
   }
-  @include max-breakpoint("md") {
-    width: 90px;
-    height: 90px;
+  @include max-breakpoint("s") {
+    width: 65px;
+    height: 65px;
   }
 }
 .product-filling-selector__fallback-icon-wrapper {
@@ -82,6 +85,10 @@
     font-size: 1rem;
     line-height: 19.2px;
   }
+  @include max-breakpoint("s") {
+    font-size: 0.875rem;
+    line-height: 16px;
+  }
 }
 .product-filling-selector__description {
   margin-top: 20px;
@@ -93,5 +100,9 @@
   @include max-breakpoint("md") {
     font-size: 1.125rem;
     line-height: 23.4px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1rem;
+    line-height: 19px;
   }
 }

@@ -36,8 +36,8 @@
   @include max-breakpoint("s") {
     max-width: 100%;
     padding: 0px 20px;
-    font-size: 1.25rem;
-    line-height: 24px;
+    font-size: 1.125rem;
+    line-height: 19.8px;
   }
 }
 .featured__sub-title {
@@ -57,10 +57,11 @@
     line-height: 21.6px;
   }
   @include max-breakpoint("s") {
+    margin-top: 15px;
     width: 100%;
     padding: 0px 20px;
-    font-size: 1rem;
-    line-height: 19.2px;
+    font-size: 0.875rem;
+    line-height: 15.4px;
   }
 }
 .featured__products-wrapper {

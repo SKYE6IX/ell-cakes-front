@@ -21,7 +21,7 @@ function CraftDescription() {
           продуктов.
         </p>
         <div className="craft-description__btn-wrapper">
-          <Button textKey="ЗАказать" />
+          <Button textKey="ЗАказать" href="/collections" />
         </div>
       </div>
       <div className="craft-description__image-container">

@@ -28,7 +28,7 @@ function Footer() {
               <h3 className="footer__title">
                 Сделай свой праздник ещё слаще вместе с нашей кондитерской!
               </h3>
-              <Button textKey="Заказать" href="/" />
+              <Button textKey="Заказать" href="/collections" />
               <ul className="footer__link-list">
                 {navLinks.map((nav) => (
                   <li key={nav.name} className="footer__link-list-item">
