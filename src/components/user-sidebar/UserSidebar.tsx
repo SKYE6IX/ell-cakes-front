@@ -5,7 +5,7 @@ import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { userVar } from "@/lib/cache";
 import "./user-sidebar.scss";
 
-const END_SESSION: TypedDocumentNode<
+export const END_SESSION: TypedDocumentNode<
   { endSession: boolean },
   Record<string, null>
 > = gql`
@@ -33,6 +33,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
   const handleEndSession = () => {
     endSession();
   };
+
   return (
     <aside className="user-sidebar">
       <div className="user-sidebar__box">
@@ -67,7 +68,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
         </nav>
 
         <div className="user-sidebar__help">
-          <div className="user-sidebar__help-title">Нужна помощь?</div>
+          <h4 className="user-sidebar__help-title">Нужна помощь?</h4>
 
           <div className="user-sidebar__help-links">
             <Link href="/contact" className="user-sidebar__help-link">
