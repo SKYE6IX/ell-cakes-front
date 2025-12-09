@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import type { StaticImageData } from "next/image";
+
 import Modal from "@/components/modal/Modal";
 import Input from "@/components/input/Input";
 import Button from "@/components/button/Button";
@@ -30,11 +30,30 @@ type PaymentMethod = {
   logo: StaticImageData;
   title: string;
 };
-type Address = {
-  id: number;
-  text: string;
-};
+type AuthView = "authorized" | "login" | "register";
 
+const paymentMethods: PaymentMethod[] = [
+  {
+    id: "yookassa",
+    logo: yookassaLogo,
+    title: "Оплата через сервис ЮKassa",
+  },
+  {
+    id: "sbp",
+    logo: sbpLogo,
+    title: "СБП",
+  },
+  {
+    id: "tpay",
+    logo: tpayLogo,
+    title: "T-PAY",
+  },
+  {
+    id: "sber",
+    logo: sberPayLogo,
+    title: "SBER PAY",
+  },
+];
 const cartItems: CartItem[] = [
   {
     id: "1",
@@ -53,34 +72,10 @@ const cartItems: CartItem[] = [
     image: dessertImage,
   },
 ];
-const paymentMethods: PaymentMethod[] = [
-  {
-    id: "yookassa",
-    logo: yookassaLogo,
-    title: "Онлайн-оплата через сервис ЮKassa",
-  },
-  {
-    id: "sbp",
-    logo: sbpLogo,
-    title: "СБП",
-  },
-  {
-    id: "tpay",
-    logo: tpayLogo,
-    title: "T-PAY",
-  },
-  {
-    id: "sber",
-    logo: sberPayLogo,
-    title: "SBER PAY",
-  },
-];
-const addressesMock: Address[] = [
-  { id: 1, text: "г. Москва, Олонецкая 4, кв 475" },
-  { id: 2, text: "г. Москва, Олонецкая 5, кв 476" },
-];
+const address = "Олонецкая, 4"
+// const address = null
 
-//Sum
+// Sum
 const cartTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
 const deliveryPrice = 500;
 const finalTotal = cartTotal + deliveryPrice;
@@ -88,109 +83,145 @@ const finalTotal = cartTotal + deliveryPrice;
 function Checkout() {
   const [showModal, setShowModal] = useState(false);
   const handleSetShowModal = () => {
-    setShowModal(!showModal);
+    setShowModal((prev) => !prev);
   };
 
+  const [authView, setAuthView] = useState<AuthView>("register");
   const [activePayment, setActivePayment] =
     useState<PaymentMethodId>("yookassa");
-
-  const [addresses] = useState<Address[]>(addressesMock);
-  const [activeAddressId, setActiveAddressId] = useState<number>(
-      addressesMock[0]?.id ?? 0
-  );
-
-  const [formState, setFormState] = useState({
-    comment: "",
-  });
-
-  const onInputChange = ({ name, value }: { name: string; value: string }) => {
-    setFormState((prvState) => ({
-      ...prvState,
-      [name]: value,
-    }));
-  };
 
   return (
     <section className="checkout">
       <div className="checkout__inner">
-        {/* LEFT COLUMN */}
         <div className="checkout__left">
           <section className="checkout__section">
-            <h2 className="checkout__section-title">
-              <span className="checkout__section-number">1.</span>
-              <span>Личная информация</span>
-            </h2>
-            <div className="checkout__text checkout__text--name">Анна</div>
-          </section>
+            <h2 className="checkout__section-title">1. Мои данные</h2>
 
-          <section className="checkout__section">
-            <h2 className="checkout__section-title">
-              <span className="checkout__section-number">2.</span>
-              <span>Адреса</span>
-            </h2>
+            {authView === "authorized" && (
+              <>
+                <p className="checkout__text">Анна</p>
+                <p className="checkout__text">+7 (962) 958-64-74</p>
+              </>
+            )}
 
-            <button
-              type="button"
-              className="checkout__add-address-button"
-              onClick={handleSetShowModal}
-            >
-              Добавить адрес
-            </button>
-              <Modal
-                showModal={showModal}
-                headingText="Адреса"
-                handleCloseModal={handleSetShowModal}
-              >
-                <div className="addresses-modal">
-                  <button className="addresses-modal__add-button">Добавить адрес</button>
-
-                  <ul className="addresses-modal__list">
-                    {addresses.map((address) => {
-                      const isActive = address.id === activeAddressId;
-
-                      return (
-                        <li
-                          key={address.id}
-                          className={`addresses-modal__item`}
-                          onClick={() => setActiveAddressId(address.id)}
-                        >
-                          <span
-                            className={`addresses-modal__radio${
-                              isActive ? " addresses-modal__radio--active" : ""
-                            }`}
-                          ></span>
-
-                          <span className="addresses-modal__text">{address.text}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+            {authView === "login" && (
+              <div className="checkout__auth">
+                <div className="checkout__auth-inputs">
+                  <Input
+                    name="login-email"
+                    initialValue=""
+                    placeholder="Почта"
+                    type="email"
+                    autoComplete="email"
+                    onInputChange={() => {}}
+                  />
+                  <Input
+                    name="login-password"
+                    initialValue=""
+                    placeholder="Пароль"
+                    type="password"
+                    autoComplete="current-password"
+                    onInputChange={() => {}}
+                  />
                 </div>
-              </Modal>
+                <button className="checkout__button">Войти</button>
+                <button
+                  className="checkout__button--additional"
+                  onClick={() => setAuthView("register")}
+                >
+                  Нет аккаунта? Создать
+                </button>
+              </div>
+            )}
+
+            {authView === "register" && (
+              <div className="checkout__auth">
+                <div className="checkout__auth-inputs">
+                  <Input
+                    name="register-name"
+                    initialValue=""
+                    placeholder="Имя"
+                    type="text"
+                    autoComplete="name"
+                    onInputChange={() => {}}
+                  />
+                  <Input
+                    name="register-email"
+                    initialValue=""
+                    placeholder="Почта"
+                    type="email"
+                    autoComplete="email"
+                    onInputChange={() => {}}
+                  />
+                  <Input
+                    name="register-phone"
+                    initialValue=""
+                    placeholder="Телефон"
+                    type="tel"
+                    autoComplete="tel"
+                    onInputChange={() => {}}
+                  />
+                  <Input
+                    name="register-password"
+                    initialValue=""
+                    placeholder="Пароль"
+                    type="password"
+                    autoComplete="new-password"
+                    onInputChange={() => {}}
+                  />
+                </div>
+                <button className="checkout__button">Зарегистрироваться</button>
+                <button
+                  className="checkout__button--additional"
+                  onClick={() => setAuthView("login")}
+                >
+                  Уже есть аккаунт
+                </button>
+              </div>
+            )}
           </section>
 
           <section className="checkout__section">
+            <h2 className="checkout__section-title">2. Адрес</h2>
+
+            {address ? (
+              <p className="checkout__text">
+                {address}
+              </p>
+            ) : (
+              <>
+                <p className="checkout__text">
+                  Адрес не указан
+                </p>
+                <button
+                  className="checkout__button"
+                  onClick={handleSetShowModal}
+                >
+                  Добавить адрес
+                </button>
+              </>
+            )}
+          </section>
+
+          <section className="checkout__section">
+            <h2 className="checkout__section-title">3. Пожелания к заказу</h2>
             <Input
               name="comment"
-              initialValue={formState.comment}
+              initialValue=""
               placeholder="Комментарий *"
-              onInputChange={onInputChange}
+              onInputChange={()=>{}}
               type="text"
               autoComplete="off"
-            /> 
+            />
           </section>
 
           <section className="checkout__section">
-            <h2 className="checkout__section-title">
-              <span className="checkout__section-number">3.</span>
-              <span>Способы оплаты</span>
-            </h2>
+            <h2 className="checkout__section-title">4. Способы оплаты</h2>
 
             <div className="checkout__payments">
               {paymentMethods.map((method) => (
                 <button
                   key={method.id}
-                  type="button"
                   className={`checkout__payment${
                     activePayment === method.id
                       ? " checkout__payment--active"
@@ -207,7 +238,7 @@ function Checkout() {
                   </span>
 
                   <div className="checkout__payment-content">
-                      {method.title}
+                    {method.title}
                   </div>
                 </button>
               ))}
@@ -215,7 +246,6 @@ function Checkout() {
           </section>
         </div>
 
-        {/* RIGHT COLUMN */}
         <aside className="checkout__right">
           <div className="checkout__cart">
             {cartItems.map((item) => (
@@ -229,14 +259,16 @@ function Checkout() {
                 </div>
 
                 <div className="checkout__cart-info">
-                  <div className="checkout__cart-title">{item.title}</div>
+                  <p className="checkout__cart-title">{item.title}</p>
 
                   <div className="checkout__cart-tags">
-                    <span className="checkout__cart-tag">{item.weight}</span>
-                    <span className="checkout__cart-tag">{item.shape}</span>
+                    <p className="checkout__cart-tag">{item.weight}</p>
+                    <p className="checkout__cart-tag">{item.shape}</p>
                   </div>
 
-                  <div className="checkout__cart-price">{item.price} ₽</div>
+                  <p className="checkout__cart-price">
+                    {item.price} ₽
+                  </p>
                 </div>
               </article>
             ))}
@@ -244,25 +276,33 @@ function Checkout() {
 
           <div className="checkout__summary">
             <div className="checkout__summary-row">
-              <span className="checkout__summary-label">Сумма заказа</span>
-              <span className="checkout__summary-value">{cartTotal} ₽</span>
+              <p className="checkout__summary-label">Сумма заказа</p>
+              <p className="checkout__summary-value">
+                {cartTotal} ₽
+              </p>
             </div>
             <div className="checkout__summary-row">
-              <span className="checkout__summary-label">Доставка</span>
-              <span className="checkout__summary-value">{deliveryPrice} ₽</span>
+              <p className="checkout__summary-label">Доставка</p>
+              <p className="checkout__summary-value">
+                {deliveryPrice} ₽
+              </p>
             </div>
 
             <div className="checkout__summary-divider" />
 
-            <div className="checkout__summary-row checkout__summary-row--total">
-              <span className="checkout__summary-label">Итог</span>
-              <span className="checkout__summary-value checkout__summary-value--accent">
+            <div className="checkout__summary-row checkout__summary-row--bold">
+              <p className="checkout__summary-label">Итог</p>
+              <p className="checkout__summary-value checkout__summary-value--bold">
                 {finalTotal} ₽
-              </span>
+              </p>
             </div>
           </div>
 
-          <Button textKey={`ОПЛАТИТЬ ${finalTotal} ₽`} href="/" fullWidth />
+          <Button
+            textKey={`ОПЛАТИТЬ ${finalTotal} ₽`}
+            href="/"
+            fullWidth
+          />
 
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
@@ -272,6 +312,51 @@ function Checkout() {
           </p>
         </aside>
       </div>
+
+      <Modal
+        showModal={showModal}
+        headingText="Новый адрес"
+        handleCloseModal={handleSetShowModal}
+      >
+        <div className="addresses-form">
+          <Input
+            name="address"
+            initialValue=''
+            placeholder="Адрес"
+            type="text"
+            autoComplete="street-address"
+            onInputChange={()=>{}}
+          />
+          <Input
+            name="floor"
+            initialValue=''
+            placeholder="Этаж"
+            type="text"
+            autoComplete="off"
+            onInputChange={()=>{}}
+          />
+          <Input
+            name="flat"
+            initialValue=''
+            placeholder="Квартира"
+            type="text"
+            autoComplete="off"
+            onInputChange={()=>{}}
+          />
+          <Input
+            name="intercom"
+            initialValue=''
+            placeholder="Домофон"
+            type="text"
+            autoComplete="off"
+            onInputChange={()=>{}}
+          />
+
+          <div className="addresses-form__footer">
+            <Button textKey="Добавить адрес" href="/" fullWidth />
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }
