@@ -40,7 +40,9 @@ export default function Dashboard() {
         <UserSidebar active="profile" />
 
         <div className="dashboard__right">
-          <h1 className="dashboard__title">Мои данные</h1>
+          <h3 className="dashboard__title" data-testid="dashboard-title">
+            Мои данные
+          </h3>
 
           <div className="dashboard__grid">
             <article
@@ -49,7 +51,7 @@ export default function Dashboard() {
               }`}
             >
               <div className="dashboard__card-head">
-                <h2 className="dashboard__card-title">Профиль</h2>
+                <h3 className="dashboard__card-title">Профиль</h3>
 
                 <button
                   type="button"
@@ -64,7 +66,7 @@ export default function Dashboard() {
                 {editing === "profile" ? (
                   <>
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Имя</div>
+                      <h5 className="dashboard__card-label">Имя</h5>
                       <input
                         className="dashboard__card-input"
                         defaultValue={profile.firstName}
@@ -72,7 +74,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Почта</div>
+                      <h5 className="dashboard__card-label">Почта</h5>
                       <input
                         className="dashboard__card-input"
                         defaultValue={profile.email}
@@ -80,7 +82,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Телефон</div>
+                      <h5 className="dashboard__card-label">Телефон</h5>
                       <input
                         className="dashboard__card-input"
                         defaultValue={profile.phone}
@@ -90,20 +92,24 @@ export default function Dashboard() {
                 ) : (
                   <>
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Имя</div>
-                      <div className="dashboard__card-value">{user?.name}</div>
+                      <h5 className="dashboard__card-label">Имя</h5>
+                      <span className="dashboard__card-value">
+                        {user?.name}
+                      </span>
                     </div>
 
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Почта</div>
-                      <div className="dashboard__card-value">{user?.email}</div>
+                      <h5 className="dashboard__card-label">Почта</h5>
+                      <span className="dashboard__card-value">
+                        {user?.email}
+                      </span>
                     </div>
 
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Телефон</div>
-                      <div className="dashboard__card-value">
+                      <h5 className="dashboard__card-label">Телефон</h5>
+                      <span className="dashboard__card-value">
                         {user?.phoneNumber}
-                      </div>
+                      </span>
                     </div>
                   </>
                 )}
@@ -131,7 +137,7 @@ export default function Dashboard() {
                 {editing === "address" ? (
                   <>
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">Город</div>
+                      <h5 className="dashboard__card-label">Город</h5>
                       <input
                         className="dashboard__card-input"
                         defaultValue={address.city}
@@ -139,9 +145,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="dashboard__card-row dashboard__card-row--editable">
-                      <div className="dashboard__card-label">
-                        Адрес доставки
-                      </div>
+                      <h5 className="dashboard__card-label">Адрес доставки</h5>
                       <input
                         className="dashboard__card-input"
                         defaultValue={address.address}
@@ -151,17 +155,15 @@ export default function Dashboard() {
                 ) : (
                   <>
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">Город</div>
-                      <div className="dashboard__card-value">Mosocow</div>
+                      <h5 className="dashboard__card-label">Город</h5>
+                      <span className="dashboard__card-value">Mosocow</span>
                     </div>
 
                     <div className="dashboard__card-row">
-                      <div className="dashboard__card-label">
-                        Адрес доставки
-                      </div>
-                      <div className="dashboard__card-value">
+                      <h5 className="dashboard__card-label">Адрес доставки</h5>
+                      <span className="dashboard__card-value">
                         {user?.delivaryAddress![0]?.street}
-                      </div>
+                      </span>
                     </div>
                   </>
                 )}
@@ -170,7 +172,7 @@ export default function Dashboard() {
 
             <article className="dashboard__card dashboard__card--subscribe">
               <div className="dashboard__card-head">
-                <h2 className="dashboard__card-title">Подписка на новости</h2>
+                <h3 className="dashboard__card-title">Подписка на новости</h3>
               </div>
 
               <div className="dashboard__card-body">
