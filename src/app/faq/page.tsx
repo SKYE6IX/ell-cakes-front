@@ -21,7 +21,11 @@ function Faq() {
             <Link href="/" className="faq-help__link" target="_target">
               Условия доставки
             </Link>
-            <Link href="/colaboration" className="faq-help__link" target="_target">
+            <Link
+              href="/colaboration"
+              className="faq-help__link"
+              target="_target"
+            >
               Сотрудничество
             </Link>
             <Link href="/contact" className="faq-help__link" target="_target">
@@ -29,6 +33,7 @@ function Faq() {
             </Link>
           </div>
         </div>
+
         <div className="faq__body">
           {sections.map((section) => (
             <div className="faq__section" key={section.key}>

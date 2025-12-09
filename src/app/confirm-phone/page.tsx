@@ -145,7 +145,6 @@ function ConfirmPhonePage() {
                 Не пришёл код?
               </span>
               <button
-                type="button"
                 className="confirm-phone-resend__btn"
                 disabled={secondsLeft > 0}
               >

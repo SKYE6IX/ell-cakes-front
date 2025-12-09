@@ -1,12 +1,11 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/globals.scss" as *;
 
-.contact{
+.contact {
   overflow: hidden;
   margin-top: 100px;
   width: 100%;
   padding: 0px 100px 50px 100px;
-
   @include max-breakpoint("lg") {
     padding: 0px 50px 50px 50px;
   }
@@ -15,11 +14,11 @@
     padding: 0px 40px 50px 40px;
   }
   @include max-breakpoint("s") {
-  margin-top: 40px;
-  padding: 20px;
+    margin-top: 40px;
+    padding: 20px;
   }
 }
-.contact__inner-wrapper{
+.contact__inner-wrapper {
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -36,7 +35,7 @@
   flex-direction: column;
   align-items: flex-start;
   @include max-breakpoint("md") {
-    max-width: 520px; 
+    max-width: 520px;
   }
 }
 .contact__title {
@@ -61,31 +60,31 @@
     font-size: 18px;
   }
 }
-.contact__link-wrapper{
+.contact__link-wrapper {
   margin-top: 40px;
-  gap: 12px 80px; 
+  gap: 12px 80px;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, max-content); 
+  grid-template-columns: repeat(2, max-content);
   @include max-breakpoint("s") {
     font-size: 16px;
-    gap: 12px 20px; 
+    gap: 12px 20px;
   }
 }
-.footer__link-wrapper-item{
+.footer__link-wrapper-item {
   margin-bottom: 10px;
 }
-.footer__link-wrapper-item__title{
+.footer__link-wrapper-item__title {
   margin-bottom: 10px;
   font-family: $font-montserrat;
   font-size: 20px;
   font-weight: 600;
-  color: #8A8A8A;
+  color: #8a8a8a;
   @include max-breakpoint("s") {
     font-size: 16px;
   }
 }
-.footer__link-wrapper-item__text{
+.footer__link-wrapper-item__text {
   font-family: $font-montserrat;
   font-size: 16px;
   color: $text-color;
@@ -93,6 +92,6 @@
     max-width: 140px;
   }
 }
-.footer__link-wrapper-item__link{
+.footer__link-wrapper-item__link {
   margin-right: 8px;
 }

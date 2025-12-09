@@ -2,6 +2,7 @@
 @use "@/global-styles/shared-styles" as *;
 
 .confirm-phone {
+  flex: 1;
   width: 100%;
   background-color: $primary-mute;
   @include flex-layout(row, center, center, none);
@@ -19,7 +20,6 @@
   border-radius: 15px;
   padding: 50px 0px;
   @include flex-layout(row, center, center, none);
-
   @include max-breakpoint("md") {
     max-width: calc(100% - 80px);
   }
@@ -96,8 +96,10 @@
 /* resend */
 .confirm-phone-resend {
   margin-top: 18px;
-  font-size: 14px;
-  font-weight: 700;
+  font-family: $font-uncage, sans-serif;
+  font-size: 0.875rem;
+  line-height: 16px;
+  font-weight: 400;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -108,23 +110,15 @@
 
   &__label {
     color: $text-color;
-    text-transform: uppercase;
   }
 
   &__btn {
     background: transparent;
     border: none;
     color: #f08080;
-    font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     cursor: pointer;
     padding: 0;
-
-    &.is-disabled,
-    &:disabled {
-      cursor: default;
-      opacity: 0.7;
-    }
   }
 }
 

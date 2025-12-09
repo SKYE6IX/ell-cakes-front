@@ -2,11 +2,10 @@
 @use "@/global-styles/shared-styles" as *;
 
 .registration {
-  overflow: hidden;
+  flex: 1;
   width: 100%;
   background-color: $primary-mute;
   padding: 100px 100px 50px 100px;
-
   @include max-breakpoint("lg") {
     padding: 50px;
   }

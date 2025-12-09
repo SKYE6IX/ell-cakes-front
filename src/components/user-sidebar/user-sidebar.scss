@@ -6,7 +6,7 @@
   display: flex;
   align-items: flex-start;
 
-  @include max-breakpoint("sm") {
+  @include max-breakpoint("md") {
     width: 100%;
   }
 

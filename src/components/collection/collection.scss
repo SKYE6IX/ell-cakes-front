@@ -5,13 +5,16 @@
   width: 100%;
   --gutter: 50px;
   margin-top: var(--gutter);
+  margin-bottom: 100px;
   @include max-breakpoint("lg") {
     --gutter: 30px;
   }
   @include max-breakpoint("md") {
+    margin-bottom: 80px;
     --gutter: 40px;
   }
   @include max-breakpoint("s") {
+    margin-bottom: 40px;
     --gutter: 20px;
   }
 }

@@ -6,10 +6,10 @@
 --------------------------------*/
 
 .dashboard {
+  flex: 1;
   width: 100%;
   background: $primary-mute;
   padding: 100px 100px 50px;
-
   @include max-breakpoint("lg") {
     padding: 60px;
   }
@@ -28,7 +28,7 @@
   gap: 20px;
   width: 100%;
 
-  @include max-breakpoint("sm") {
+  @include max-breakpoint("md") {
     flex-direction: column-reverse;
     gap: 30px;
   }

@@ -1,15 +1,9 @@
 @use "@/global-styles/variables" as *;
 
 .footer {
+  margin-top: auto;
   width: 100%;
   background-color: $secondary;
-  margin-top: 100px;
-  @include max-breakpoint("md") {
-    margin-top: 80px;
-  }
-  @include max-breakpoint("s") {
-    margin-top: 40px;
-  }
 }
 .footer__inner-wrapper {
   display: flex;

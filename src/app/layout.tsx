@@ -74,10 +74,12 @@ export default async function RootLayout({
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
         <ApolloQueryProvider>
-          <Header categories={data?.categories} />
-          <Cart />
-          {children}
-          <Footer />
+          <div className="app-container">
+            <Header categories={data?.categories} />
+            <Cart />
+            {children}
+            <Footer />
+          </div>
         </ApolloQueryProvider>
       </body>
     </html>
