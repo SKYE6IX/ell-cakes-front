@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
@@ -72,7 +71,7 @@ const cartItems: CartItem[] = [
     image: dessertImage,
   },
 ];
-const address = "Олонецкая, 4"
+const address = "Олонецкая, 4";
 // const address = null
 
 // Sum
@@ -95,7 +94,7 @@ function Checkout() {
       <div className="checkout__inner">
         <div className="checkout__left">
           <section className="checkout__section">
-            <h2 className="checkout__section-title">1. Мои данные</h2>
+            <h3 className="checkout__section-title">1. Мои данные</h3>
 
             {authView === "authorized" && (
               <>
@@ -182,17 +181,13 @@ function Checkout() {
           </section>
 
           <section className="checkout__section">
-            <h2 className="checkout__section-title">2. Адрес</h2>
+            <h3 className="checkout__section-title">2. Адрес</h3>
 
             {address ? (
-              <p className="checkout__text">
-                {address}
-              </p>
+              <p className="checkout__text">{address}</p>
             ) : (
               <>
-                <p className="checkout__text">
-                  Адрес не указан
-                </p>
+                <p className="checkout__text">Адрес не указан</p>
                 <button
                   className="checkout__button"
                   onClick={handleSetShowModal}
@@ -204,19 +199,19 @@ function Checkout() {
           </section>
 
           <section className="checkout__section">
-            <h2 className="checkout__section-title">3. Пожелания к заказу</h2>
+            <h3 className="checkout__section-title">3. Пожелания к заказу</h3>
             <Input
               name="comment"
               initialValue=""
               placeholder="Комментарий *"
-              onInputChange={()=>{}}
+              onInputChange={() => {}}
               type="text"
               autoComplete="off"
             />
           </section>
 
           <section className="checkout__section">
-            <h2 className="checkout__section-title">4. Способы оплаты</h2>
+            <h3 className="checkout__section-title">4. Способы оплаты</h3>
 
             <div className="checkout__payments">
               {paymentMethods.map((method) => (
@@ -266,9 +261,7 @@ function Checkout() {
                     <p className="checkout__cart-tag">{item.shape}</p>
                   </div>
 
-                  <p className="checkout__cart-price">
-                    {item.price} ₽
-                  </p>
+                  <p className="checkout__cart-price">{item.price} ₽</p>
                 </div>
               </article>
             ))}
@@ -277,15 +270,11 @@ function Checkout() {
           <div className="checkout__summary">
             <div className="checkout__summary-row">
               <p className="checkout__summary-label">Сумма заказа</p>
-              <p className="checkout__summary-value">
-                {cartTotal} ₽
-              </p>
+              <p className="checkout__summary-value">{cartTotal} ₽</p>
             </div>
             <div className="checkout__summary-row">
               <p className="checkout__summary-label">Доставка</p>
-              <p className="checkout__summary-value">
-                {deliveryPrice} ₽
-              </p>
+              <p className="checkout__summary-value">{deliveryPrice} ₽</p>
             </div>
 
             <div className="checkout__summary-divider" />
@@ -298,11 +287,7 @@ function Checkout() {
             </div>
           </div>
 
-          <Button
-            textKey={`ОПЛАТИТЬ ${finalTotal} ₽`}
-            href="/"
-            fullWidth
-          />
+          <Button textKey={`ОПЛАТИТЬ ${finalTotal} ₽`} href="/" fullWidth />
 
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
@@ -321,35 +306,35 @@ function Checkout() {
         <div className="addresses-form">
           <Input
             name="address"
-            initialValue=''
+            initialValue=""
             placeholder="Адрес"
             type="text"
             autoComplete="street-address"
-            onInputChange={()=>{}}
+            onInputChange={() => {}}
           />
           <Input
             name="floor"
-            initialValue=''
+            initialValue=""
             placeholder="Этаж"
             type="text"
             autoComplete="off"
-            onInputChange={()=>{}}
+            onInputChange={() => {}}
           />
           <Input
             name="flat"
-            initialValue=''
+            initialValue=""
             placeholder="Квартира"
             type="text"
             autoComplete="off"
-            onInputChange={()=>{}}
+            onInputChange={() => {}}
           />
           <Input
             name="intercom"
-            initialValue=''
+            initialValue=""
             placeholder="Домофон"
             type="text"
             autoComplete="off"
-            onInputChange={()=>{}}
+            onInputChange={() => {}}
           />
 
           <div className="addresses-form__footer">
