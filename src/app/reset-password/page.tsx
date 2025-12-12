@@ -28,9 +28,9 @@ export default function ResetPasswordPage() {
       <div className="reset-password__inner-wrapper">
         <div className="reset-password-card">
           <div className="reset-password__new-password">
-            <h5 className="reset-password__new-password-header">
+            <h3 className="reset-password__new-password-header">
               Введите новый пароль
-            </h5>
+            </h3>
             <Input
               initialValue={resetPasswordState.password}
               name="password"
@@ -39,7 +39,7 @@ export default function ResetPasswordPage() {
               onInputChange={onInputChange}
               hasError={false}
             />
-            <button className="reset-password__submit-new-password">
+            <button className="reset-password__submit-new-password" disabled>
               Подтвердить
             </button>
           </div>

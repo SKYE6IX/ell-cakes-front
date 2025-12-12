@@ -104,7 +104,9 @@ function TokenInput({ handleSetToken }: TokenInputProps) {
         ))}
       </div>
 
-      <button className="token-input__submit">Подтвердить</button>
+      <button className="token-input__submit" disabled>
+        Подтвердить
+      </button>
 
       <div className="token-input__resend">
         <span className="token-input__resend-label">Не пришёл код?</span>

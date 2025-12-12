@@ -19,6 +19,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
   {
     id: "f01bd439-3537-423c-a590-cb0ff8094433",
@@ -34,6 +36,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
   {
     id: "bbc0aa7a-4c1b-414a-877c-f15d6ebb3c2f",
@@ -49,6 +53,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
   {
     id: "fba5178a-685a-4108-9e4b-fab0d8a116e4",
@@ -64,6 +70,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
   {
     __typename: "ProductImage",
@@ -80,6 +88,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
 ];
 

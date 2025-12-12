@@ -23,8 +23,6 @@ function ConfirmPhonePage() {
     setToken(token);
   };
 
-  console.log("Here is the value of token > ", token);
-
   return (
     <section className="confirm-phone">
       <div className="confirm-phone__inner-wrapper">
@@ -38,7 +36,7 @@ function ConfirmPhonePage() {
               onInputChange={onInputChange}
               hasError={false}
             />
-            <button className="confirm-phone__change-number-btn">
+            <button className="confirm-phone__change-number-btn" disabled>
               Изменить
             </button>
           </div>

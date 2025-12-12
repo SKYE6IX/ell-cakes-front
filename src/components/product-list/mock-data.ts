@@ -19,6 +19,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
   {
     id: "f01bd439-3537-423c-a590-cb0ff8094433",
@@ -34,6 +36,8 @@ const mockImages: ProductImage[] = [
       height: 0,
       width: 0,
     },
+    createdAt: undefined,
+    updatedAt: undefined,
   },
 ];
 

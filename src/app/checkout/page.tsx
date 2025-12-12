@@ -67,6 +67,8 @@ function Checkout() {
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
+  if (!cart) return null;
+
   return (
     <div className="checkout">
       <div className="checkout__user-info">
@@ -169,8 +171,6 @@ function Checkout() {
         ) : (
           <AuthenticationBlock />
         )}
-
-        {/* */}
       </div>
 
       <div className="checkout__order-info">
@@ -187,6 +187,7 @@ function Checkout() {
               {cart?.subTotal} ₽
             </span>
           </div>
+
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Доставка</h5>
             <span className="order-info__summary-value">500 ₽</span>
@@ -196,10 +197,16 @@ function Checkout() {
 
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Итог</h5>
-            <span className="order-info__summary-value">15000 ₽</span>
+            <span className="order-info__summary-value">
+              {cart?.subTotal} ₽
+            </span>
           </div>
 
-          <button className="checkout__button" onClick={() => checkoutOrder()}>
+          <button
+            className="checkout__button"
+            onClick={() => checkoutOrder()}
+            disabled
+          >
             {loading ? (
               <div className="loader"></div>
             ) : (
