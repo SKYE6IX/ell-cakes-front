@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
+import { GET_CART_QUERY } from "../cart/operations";
 import { userVar } from "@/lib/cache";
 import "./user-sidebar.scss";
 
@@ -28,6 +29,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
         userVar(null);
       }
     },
+    refetchQueries: [GET_CART_QUERY],
   });
 
   const handleEndSession = () => {

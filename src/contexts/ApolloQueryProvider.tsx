@@ -36,6 +36,15 @@ export const client = new ApolloClient({
           },
         },
       },
+      User: {
+        fields: {
+          delivaryAddress: {
+            merge(existing, incoming) {
+              return existing ?? incoming;
+            },
+          },
+        },
+      },
     },
   }),
   localState: new LocalState(),

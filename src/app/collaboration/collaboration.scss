@@ -1,8 +1,7 @@
 @use "@/global-styles/variables" as *;
-@use "@/global-styles/globals.scss" as *;
 
-.colaboration{
-  overflow: hidden;
+.colaboration {
+  flex: 1;
   margin-top: 100px;
   width: 100%;
   padding: 0px 100px 50px 100px;
@@ -35,7 +34,7 @@
   flex-direction: column;
   align-items: flex-start;
   @include max-breakpoint("md") {
-    max-width: 520px; 
+    max-width: 520px;
   }
   @include max-breakpoint("s") {
     width: 100%;
@@ -78,15 +77,15 @@
   overflow: hidden;
   @include max-breakpoint("md") {
     width: 390px;
-    height: 450px; 
+    height: 450px;
   }
   @include max-breakpoint("md") {
     width: 340px;
-    height: 400px; 
+    height: 400px;
   }
   @include max-breakpoint("s") {
     width: 100%;
-    height: 350px; 
+    height: 350px;
   }
 }
 .colaboration__image {

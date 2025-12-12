@@ -8,7 +8,7 @@ import "./user-menu.scss";
 
 function UserMenu() {
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
-  const user = useReactiveVar(userVar);
+  const authUser = useReactiveVar(userVar);
 
   useEffect(() => {
     if (data) {
@@ -18,9 +18,9 @@ function UserMenu() {
   }, [data]);
 
   return (
-    <Link href={`${user ? "/dashboard" : "/login"}`} className="user-menu">
-      {user ? (
-        <span className="user-menu__text">{user.name}</span>
+    <Link href={`${authUser ? "/dashboard" : "/login"}`} className="user-menu">
+      {authUser ? (
+        <span className="user-menu__text">{authUser.name}</span>
       ) : (
         <span className="user-menu__text">войти</span>
       )}

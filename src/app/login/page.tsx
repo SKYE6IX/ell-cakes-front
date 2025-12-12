@@ -2,15 +2,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMutation, useReactiveVar } from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import { validateLoginFields } from "@/utils/validations";
-import { AUTHORIZED_USER } from "./operation";
-import { CONNECT_CART_TO_USER } from "@/components/cart/operations";
-import { userVar, cartVar } from "@/lib/cache";
-import { OrderDirection } from "@/types/__generated__/graphql";
+import useLoginUserMutation from "@/hooks/useLoginUserMutation";
 import "./login.scss";
 
 const initialState = {
@@ -22,32 +18,10 @@ function Login() {
   const router = useRouter();
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
-
-  const cart = useReactiveVar(cartVar);
-  const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
-    variables: {
-      takeImage: 1,
-      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
-      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-    },
-    onCompleted(data) {
-      cartVar(data.connectCartToUser);
-    },
-  });
-
-  const [authorizeUser, { loading, error }] = useMutation(AUTHORIZED_USER, {
-    variables: formState,
-    onCompleted(data) {
-      userVar(data.authorizedUser);
+  const { authorizeUser, loading, error } = useLoginUserMutation({
+    formState,
+    onComplete() {
       router.push("/dashboard");
-
-      if (cart) {
-        connectCartToUser({ variables: { userId: data.authorizedUser.id } });
-      }
-    },
-
-    onError(error) {
-      console.error("Error happen when log in", error);
     },
   });
 
@@ -88,7 +62,7 @@ function Login() {
               <Input
                 initialValue={formState.email}
                 name="email"
-                placeholder="почта"
+                placeholder="Почта"
                 type="email"
                 onInputChange={onInputChange}
                 hasError={errorFeilds.includes("email")}
@@ -97,7 +71,7 @@ function Login() {
               <Input
                 initialValue={formState.password}
                 name="password"
-                placeholder="пароль"
+                placeholder="Пароль"
                 type="password"
                 onInputChange={onInputChange}
                 hasError={errorFeilds.includes("password")}

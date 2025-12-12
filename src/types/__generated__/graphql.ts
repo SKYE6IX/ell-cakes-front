@@ -584,7 +584,6 @@ export type DelivaryAddress = {
   floor: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   intercomCode: Maybe<Scalars['String']['output']>;
-  isDefault: Maybe<Scalars['Boolean']['output']>;
   orders: Maybe<Array<Order>>;
   ordersCount: Maybe<Scalars['Int']['output']>;
   street: Maybe<Scalars['String']['output']>;
@@ -611,7 +610,6 @@ export type DelivaryAddressCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   floor?: InputMaybe<Scalars['String']['input']>;
   intercomCode?: InputMaybe<Scalars['String']['input']>;
-  isDefault?: InputMaybe<Scalars['Boolean']['input']>;
   orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   street?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -630,7 +628,6 @@ export type DelivaryAddressOrderByInput = {
   floor?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   intercomCode?: InputMaybe<OrderDirection>;
-  isDefault?: InputMaybe<OrderDirection>;
   street?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
 };
@@ -668,7 +665,6 @@ export type DelivaryAddressUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   floor?: InputMaybe<Scalars['String']['input']>;
   intercomCode?: InputMaybe<Scalars['String']['input']>;
-  isDefault?: InputMaybe<Scalars['Boolean']['input']>;
   orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   street?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -684,7 +680,6 @@ export type DelivaryAddressWhereInput = {
   floor?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   intercomCode?: InputMaybe<StringFilter>;
-  isDefault?: InputMaybe<BooleanFilter>;
   orders?: InputMaybe<OrderManyRelationFilter>;
   street?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
@@ -3000,7 +2995,7 @@ export type Query = {
   user: Maybe<User>;
   users: Maybe<Array<User>>;
   usersCount: Maybe<Scalars['Int']['output']>;
-  validateUserPasswordResetToken: Scalars['Boolean']['output'];
+  validatePasswordResetToken: Scalars['Boolean']['output'];
 };
 
 
@@ -3413,7 +3408,7 @@ export type QueryUsersCountArgs = {
 };
 
 
-export type QueryValidateUserPasswordResetTokenArgs = {
+export type QueryValidatePasswordResetTokenArgs = {
   email: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
@@ -3838,6 +3833,23 @@ export type VerifyUserByPhoneNumberResponse = {
   status: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type CreateDelivaryAddressMutationVariables = Exact<{
+  data: DelivaryAddressCreateInput;
+}>;
+
+
+export type CreateDelivaryAddressMutation = { createDelivaryAddress: { __typename: 'DelivaryAddress', id: string } | null };
+
+export type CheckOutMutationVariables = Exact<{
+  deliveryAddressId: Scalars['String']['input'];
+  shippingCost: Scalars['Int']['input'];
+  paymentMethod: Scalars['String']['input'];
+  customerNote?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, confirmationUrl: string | null, status: string | null, method: string | null, amount: string | null } };
+
 export type CollectionProductsQueryVariables = Exact<{
   where: ProductWhereInput;
   takeFillings?: InputMaybe<Scalars['Int']['input']>;
@@ -3849,6 +3861,21 @@ export type CollectionProductsQueryVariables = Exact<{
 
 export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
 
+export type RedeemPhoneNumberTokenMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type RedeemPhoneNumberTokenMutation = { redeemPhoneNumberToken: { __typename: 'VerifyUserByPhoneNumberResponse', status: boolean | null, message: string | null } };
+
+export type ResendPhoneNumberTokenMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ResendPhoneNumberTokenMutation = { resendPhoneNumberToken: string };
+
 export type GetCategoriesQueryVariables = Exact<{
   where: CategoryWhereInput;
 }>;
@@ -3856,34 +3883,29 @@ export type GetCategoriesQueryVariables = Exact<{
 
 export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null }> | null };
 
-export type AuthorizedUserMutationVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-}>;
-
-
-export type AuthorizedUserMutation = { authorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
-
-export type RegisterUserMutationVariables = Exact<{
-  registerData: RegisterUserInput;
-}>;
-
-
-export type RegisterUserMutation = { registerUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
-
-export type IsEmailInUseQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-}>;
-
-
-export type IsEmailInUseQuery = { isEmailInUse: boolean };
-
-export type IsPhoneNumberInUseQueryVariables = Exact<{
+export type SendPasswordResetTokenMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
 
 
-export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
+export type SendPasswordResetTokenMutation = { sendPasswordResetToken: { __typename: 'PasswordResetTokenResponse', passwordResetUrl: string } };
+
+export type ValidatePasswordResetTokenQueryVariables = Exact<{
+  token: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type ValidatePasswordResetTokenQuery = { validatePasswordResetToken: boolean };
+
+export type UpdatePasswordMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+}>;
+
+
+export type UpdatePasswordMutation = { updatePassword: { __typename: 'User', id: string } };
 
 export type AddToCartMutationVariables = Exact<{
   productId: Scalars['String']['input'];
@@ -3992,3 +4014,32 @@ export type MutationMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MutationMutation = { endSession: boolean };
+
+export type AuthorizedUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type AuthorizedUserMutation = { authorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
+
+export type RegisterUserMutationVariables = Exact<{
+  registerData: RegisterUserInput;
+}>;
+
+
+export type RegisterUserMutation = { registerUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', name: string | null } | null }> | null }> | null } };
+
+export type IsEmailInUseQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type IsEmailInUseQuery = { isEmailInUse: boolean };
+
+export type IsPhoneNumberInUseQueryVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };

@@ -18,9 +18,10 @@ import "./cart-item.scss";
 
 type CartItemProps = {
   cartItem: CartItemType;
+  mode: "read-only" | "read-write";
 };
 
-function CartItem({ cartItem }: CartItemProps) {
+function CartItem({ cartItem, mode }: CartItemProps) {
   const operationVariable = {
     cartItemId: cartItem.id,
     cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
@@ -61,7 +62,9 @@ function CartItem({ cartItem }: CartItemProps) {
   return (
     <div className={["cart-item", loading ? "in-flight" : ""].join(" ")}>
       <button
-        className="cart-item__remove-item-btn"
+        className={`cart-item__remove-item-btn ${
+          mode === "read-only" ? "hide" : ""
+        }`}
         disabled={loading}
         onClick={() => deleteCartItem()}
       >
@@ -81,7 +84,11 @@ function CartItem({ cartItem }: CartItemProps) {
           <span className="cart-item__details-metric">1000 г</span>
           <span className="cart-item__details-shape">Круг</span>
         </div>
-        <div className="cart-item__btn-wrapper">
+        <div
+          className={`cart-item__btn-wrapper ${
+            mode === "read-only" ? "hide" : ""
+          }`}
+        >
           <button
             className="cart-item__btn"
             disabled={loading}

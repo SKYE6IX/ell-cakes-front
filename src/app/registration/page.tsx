@@ -2,23 +2,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  useMutation,
-  useLazyQuery,
-  useReactiveVar,
-} from "@apollo/client/react";
 import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
-import {
-  REGISTER_USER,
-  IS_EMAIL_IN_USE,
-  IS_PHONE_NUMBER_IN_USE,
-} from "./operation";
 import { validateRegistrationFields } from "@/utils/validations";
-import { userVar, cartVar } from "@/lib/cache";
-import { CONNECT_CART_TO_USER } from "@/components/cart/operations";
-import { OrderDirection } from "@/types/__generated__/graphql";
+import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
+import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
 import "./registration.scss";
 
 const initialState = {
@@ -28,65 +17,27 @@ const initialState = {
   phoneNumber: "",
 };
 
-const debounce = (fn: (arg: string) => void, delay: number) => {
-  let timer: NodeJS.Timeout;
-  return (arg: string) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(arg), delay);
-  };
-};
-
 function RegistrationPage() {
   const router = useRouter();
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
   const [subscribe, setSubscribe] = useState(false);
 
-  const [isEmailInUse, { data: emailValidation }] = useLazyQuery(
-    IS_EMAIL_IN_USE,
-    { fetchPolicy: "network-only" }
-  );
-  const [isPhoneInUse, { data: phoneValidation }] = useLazyQuery(
-    IS_PHONE_NUMBER_IN_USE,
-    { fetchPolicy: "network-only" }
-  );
-
-  const executeEmailInUse = (email: string) => {
-    isEmailInUse({ variables: { email } });
-  };
-  const executePhoneInUse = (phoneNumber: string) => {
-    isPhoneInUse({ variables: { phoneNumber } });
-  };
-  const debounceEmailInUse = debounce(executeEmailInUse, 500);
-  const debouncePhoneInUser = debounce(executePhoneInUse, 500);
-
-  const cart = useReactiveVar(cartVar);
-  const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
-    variables: {
-      takeImage: 1,
-      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
-      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-    },
-    onCompleted(data) {
-      cartVar(data.connectCartToUser);
-    },
-  });
-
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    variables: { registerData: formState },
-    onCompleted(data) {
+  const {
+    emailValidation,
+    phoneValidation,
+    debounceEmailInUse,
+    debouncePhoneInUser,
+  } = useUserDataExistQuery();
+  const { registerUser, loading } = useRegisterUserMutation({
+    formState,
+    onComplete() {
       router.push("/confirm-phone");
-      userVar(data.registerUser);
-
-      if (cart) {
-        connectCartToUser({ variables: { userId: data.registerUser.id } });
-      }
     },
   });
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
     setFormState((prvState) => ({ ...prvState, [name]: value }));
-
     // Check for exising data
     if (name === "email") {
       debounceEmailInUse(value);
@@ -94,7 +45,6 @@ function RegistrationPage() {
     if (name === "phoneNumber") {
       debouncePhoneInUser(value);
     }
-
     if (errorFeilds.includes(name)) {
       // Field sanitize and validation
       setErrorFeilds((prevState) => prevState.filter((prev) => prev !== name));
@@ -131,7 +81,7 @@ function RegistrationPage() {
               <Input
                 initialValue={formState.name}
                 name="name"
-                placeholder="имя"
+                placeholder="Имя"
                 onInputChange={onInputChange}
                 type="text"
                 hasError={errorFeilds.includes("name")}
@@ -139,7 +89,7 @@ function RegistrationPage() {
               <Input
                 initialValue={formState.phoneNumber}
                 name="phoneNumber"
-                placeholder="ТЕЛЕФОН"
+                placeholder="Телефон"
                 type="tel"
                 onInputChange={onInputChange}
                 hasError={errorFeilds.includes("phoneNumber")}
@@ -152,7 +102,7 @@ function RegistrationPage() {
               <Input
                 initialValue={formState.email}
                 name="email"
-                placeholder="ПОЧТА"
+                placeholder="Почта"
                 type="email"
                 onInputChange={onInputChange}
                 hasError={errorFeilds.includes("email")}
@@ -165,7 +115,7 @@ function RegistrationPage() {
               <Input
                 initialValue={formState.password}
                 name="password"
-                placeholder="ПАРОЛЬ"
+                placeholder="Пароль"
                 type="password"
                 onInputChange={onInputChange}
                 hasError={errorFeilds.includes("password")}

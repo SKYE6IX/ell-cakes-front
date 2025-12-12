@@ -1,0 +1,131 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.authentication-block {
+  width: 100%;
+  @include max-breakpoint("md") {
+    margin: 0px auto;
+    width: 90%;
+  }
+  @include max-breakpoint("s") {
+    margin: 0px;
+    width: 100%;
+  }
+}
+.authentication-block__login,
+.authentication-block__register,
+.authentication-block__login-form,
+.authentication-block__register-form {
+  @include flex-layout(column, none, none, 30px);
+  @include max-breakpoint("s") {
+    gap: 20px;
+  }
+}
+.authentication-block__login-title,
+.authentication-block__register-title {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.5rem;
+  line-height: 26.4px;
+  font-weight: 500;
+  color: $text-color;
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 19.8px;
+  }
+}
+.authentication-block__input-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  @include max-breakpoint("s") {
+    @include flex-layout(column, none, none, 15px);
+  }
+}
+.authentication-block__input-email-validation,
+.authentication-block__input-phone-validation {
+  font-family: $font-uncage, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 15px;
+  color: $primary-accent;
+  padding-left: 5px;
+}
+.authentication-block__btn-wrapper {
+  @include flex-layout(row, none, none, 20px);
+  @include max-breakpoint("s") {
+    flex-direction: column;
+  }
+}
+.authentication-block__login-btn,
+.authentication-block__register-btn {
+  @include flex-layout(row, center, center, none);
+  width: calc(50% - 20px);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background: $text-color;
+  color: $neutral;
+  padding: 15px 0px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
+}
+.authentication-block__switch-to-register-btn,
+.authentication-block__switch-to-login-btn {
+  align-self: flex-end;
+  background: none;
+  outline: none;
+  border: none;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
+  color: $primary-accent;
+  @include max-breakpoint("s") {
+    align-self: flex-start;
+  }
+}
+.authentication-block__login-error {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.875rem;
+  line-height: 16px;
+  color: $primary-accent;
+  font-weight: 500;
+}
+
+.loader {
+  width: 80px;
+  display: grid;
+  background: radial-gradient(farthest-side, #fff 98%, #0000) center/20px 100%
+    no-repeat;
+  --mask: radial-gradient(7px at left 10px top 50%, #0000 95%, #000),
+    radial-gradient(7px at center, #0000 95%, #000),
+    radial-gradient(7px at right 10px top 50%, #0000 95%, #000);
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  animation: l2 1s infinite alternate;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  grid-area: 1/1;
+  height: 20px;
+  aspect-ratio: 1;
+  background: #fff;
+  border-radius: 50%;
+}
+.loader:after {
+  margin-left: auto;
+}
+@keyframes l2 {
+  to {
+    width: 40px;
+  }
+}

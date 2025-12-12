@@ -3,8 +3,8 @@ import { MockedProvider } from "@apollo/client/testing/react";
 import {
   IS_EMAIL_IN_USE,
   IS_PHONE_NUMBER_IN_USE,
-  REGISTER_USER,
-} from "../operation";
+} from "@/hooks/useUserDataExistQuery";
+import { REGISTER_USER } from "@/hooks/useRegisterUserMutation";
 import { RegisterUserInput, User } from "@/types/__generated__/graphql";
 import RegistrationPage from "../page";
 

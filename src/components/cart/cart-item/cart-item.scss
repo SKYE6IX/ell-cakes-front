@@ -102,6 +102,9 @@
   align-self: flex-start;
   @include flex-layout(row, center, none, 15px);
 }
+.cart-item__btn-wrapper.hide {
+  display: none;
+}
 
 .cart-item__btn {
   height: 100%;
@@ -149,4 +152,7 @@
     top: 10px;
     right: 10px;
   }
+}
+.cart-item__remove-item-btn.hide {
+  display: none;
 }

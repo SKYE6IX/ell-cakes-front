@@ -4,10 +4,10 @@
 .input {
   width: 100%;
   height: 46px;
-  padding: 0 20px;
+  padding: 0 15px;
 
   border: 1px solid $text-color;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fff;
 
   font-family: $font-montserrat, sans-serif;
@@ -20,17 +20,19 @@
   transition: border-color 0.2s ease;
 
   @include max-breakpoint("s") {
-    height: 48px;
     border-radius: 10px;
-    padding: 0 16px;
+    padding: 0 10px;
   }
 }
+
 .input::placeholder {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.875rem;
+  line-height: 16.8px;
   color: $text-color;
   opacity: 1;
-  font-weight: 500;
 }
+
 .input:focus {
   border-color: $primary;
 }

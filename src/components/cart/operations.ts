@@ -113,7 +113,7 @@ export const DELETE_CART_ITEM: TypedDocumentNode<
 `;
 
 export const CONNECT_CART_TO_USER: TypedDocumentNode<
-  { connectCartToUser: Cart },
+  { connectCartToUser: Cart | null },
   {
     userId: string;
   } & QueryCartSettings

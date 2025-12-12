@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { User } from "@/types/__generated__/graphql";
-import { AUTHORIZED_USER } from "../operation";
+import { AUTHORIZED_USER } from "@/hooks/useLoginUserMutation";
+
 import Login from "../page";
 const returnUser: User = {
   __typename: "User",

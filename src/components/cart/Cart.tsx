@@ -52,13 +52,21 @@ function Cart() {
           <>
             <div className="cart_cart-item-list">
               {cartResult?.cartItems!.map((cartItem) => (
-                <CartItem key={cartItem.id} cartItem={cartItem} />
+                <CartItem
+                  key={cartItem.id}
+                  cartItem={cartItem}
+                  mode="read-write"
+                />
               ))}
             </div>
             <div className="cart__checkout-btn-wrapper">
-              <button className="cart__checkout-btn">
+              <Link
+                href="/checkout"
+                className="cart__checkout-btn"
+                onClick={handleCloseModal}
+              >
                 оформить заказ {cartResult?.subTotal}₽
-              </button>
+              </Link>
             </div>
           </>
         )}
