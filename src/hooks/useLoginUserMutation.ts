@@ -32,6 +32,7 @@ export const AUTHORIZED_USER: TypedDocumentNode<
         orderItems {
           id
           product {
+            id
             name
           }
         }
@@ -52,7 +53,6 @@ function useLoginUserMutation({ formState, onComplete }: Props) {
   const cart = useReactiveVar(cartVar);
   const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
     variables: {
-      takeImage: 1,
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },

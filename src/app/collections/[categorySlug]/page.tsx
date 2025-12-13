@@ -16,7 +16,6 @@ const GET_PRODUCTS_BY_CATEORY_QUERY: TypedDocumentNode<
     where: ProductWhereInput;
     takeFillings: number;
     takeVariants: number;
-    takeImages: number;
     orderVariantsBy: ProductVariantOrderByInput[];
     imagesOrderBy: ProductImageOrderByInput[];
   }
@@ -56,7 +55,6 @@ const GET_PRODUCTS_BY_CATEORY_QUERY: TypedDocumentNode<
 async function page({ params }: { params: Promise<{ categorySlug: string }> }) {
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
-  const TAKE_IMAGES_NUM = 1;
   const { categorySlug } = await params;
 
   const { data } = await query({
@@ -64,7 +62,6 @@ async function page({ params }: { params: Promise<{ categorySlug: string }> }) {
     variables: {
       where: { category: { slug: { equals: categorySlug } } },
       takeFillings: TAKE_FILLINGS_NUM,
-      takeImages: TAKE_IMAGES_NUM,
       takeVariants: TAKE_VARIANTS_NUM,
       orderVariantsBy: [{ price: OrderDirection.Asc }],
       imagesOrderBy: [{ id: OrderDirection.Asc }],

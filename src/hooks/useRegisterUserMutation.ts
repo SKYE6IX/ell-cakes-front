@@ -35,6 +35,7 @@ export const REGISTER_USER: TypedDocumentNode<
         orderItems {
           id
           product {
+            id
             name
           }
         }
@@ -58,7 +59,6 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
 
   const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
     variables: {
-      takeImage: 1,
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },

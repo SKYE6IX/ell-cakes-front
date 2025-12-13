@@ -16,7 +16,6 @@ const GET_PRODUCTS_BY_TOP_CATEGORY: TypedDocumentNode<
     where: ProductWhereInput;
     takeFillings: number;
     takeVariants: number;
-    takeImages: number;
     orderVariantsBy: ProductVariantOrderByInput[];
     imagesOrderBy: ProductImageOrderByInput[];
   }
@@ -25,7 +24,6 @@ const GET_PRODUCTS_BY_TOP_CATEGORY: TypedDocumentNode<
     $where: ProductWhereInput!
     $takeFillings: Int
     $takeVariants: Int
-    $takeImages: Int
     $orderVariantsBy: [ProductVariantOrderByInput!]!
     $imagesOrderBy: [ProductImageOrderByInput!]!
   ) {
@@ -58,14 +56,12 @@ async function page() {
   const CATEGORY_NAME = "torty";
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
-  const TAKE_IMAGES_NUM = 1;
 
   const { data } = await query({
     query: GET_PRODUCTS_BY_TOP_CATEGORY,
     variables: {
       where: { category: { parent: { slug: { equals: CATEGORY_NAME } } } },
       takeFillings: TAKE_FILLINGS_NUM,
-      takeImages: TAKE_IMAGES_NUM,
       takeVariants: TAKE_VARIANTS_NUM,
       orderVariantsBy: [{ price: OrderDirection.Asc }],
       imagesOrderBy: [{ id: OrderDirection.Asc }],

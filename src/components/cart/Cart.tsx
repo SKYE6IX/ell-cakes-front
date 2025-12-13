@@ -14,7 +14,6 @@ function Cart() {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-      takeImage: 1,
     },
   });
 
