@@ -8,7 +8,6 @@ import {
 export type QueryCartSettings = {
   cartItemsOrderBy: CartItemOrderByInput[];
   orderImagesBy: ProductImageOrderByInput[];
-  takeImage: number;
 };
 
 const CART_FRAGMENT = gql`
@@ -22,13 +21,14 @@ const CART_FRAGMENT = gql`
       customizationsSnapShot
       compositionSnapShot
       toppingOption {
+        id
         weight
         extraPrice
       }
       product {
         id
         name
-        images(orderBy: $orderImagesBy, take: $takeImage) {
+        images(orderBy: $orderImagesBy) {
           id
           image {
             url
@@ -46,7 +46,6 @@ export const GET_CART_QUERY: TypedDocumentNode<
   query QueryCart(
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     queryCart {
       ...cartFragment
@@ -65,7 +64,6 @@ export const INCREASE_CART_ITEM: TypedDocumentNode<
     $cartItemId: String!
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     increaseCartItem(cartItemId: $cartItemId) {
       ...cartFragment
@@ -84,7 +82,6 @@ export const DECREASE_CART_ITEM: TypedDocumentNode<
     $cartItemId: String!
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     decreaseCartItem(cartItemId: $cartItemId) {
       ...cartFragment
@@ -103,7 +100,6 @@ export const DELETE_CART_ITEM: TypedDocumentNode<
     $cartItemId: String!
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     removeFromCart(cartItemId: $cartItemId) {
       ...cartFragment
@@ -122,7 +118,6 @@ export const CONNECT_CART_TO_USER: TypedDocumentNode<
     $userId: String!
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     connectCartToUser(userId: $userId) {
       ...cartFragment

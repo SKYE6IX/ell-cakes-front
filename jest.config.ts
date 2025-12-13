@@ -9,6 +9,7 @@ const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
 
+  setupFiles: ["<rootDir>/jest.polyfills.js"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: {
     "^@/components/(.*)$": "<rootDir>/components/$1",

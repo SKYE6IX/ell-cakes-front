@@ -26,7 +26,6 @@ export const ADD_TO_CART_MUTATION: TypedDocumentNode<
     $toppingOptionId: String
     $cartItemsOrderBy: [CartItemOrderByInput!]!
     $orderImagesBy: [ProductImageOrderByInput!]!
-    $takeImage: Int
   ) {
     addToCart(
       productId: $productId
@@ -44,13 +43,14 @@ export const ADD_TO_CART_MUTATION: TypedDocumentNode<
         customizationsSnapShot
         compositionSnapShot
         toppingOption {
+          id
           weight
           extraPrice
         }
         product {
           id
           name
-          images(orderBy: $orderImagesBy, take: $takeImage) {
+          images(orderBy: $orderImagesBy) {
             id
             image {
               url

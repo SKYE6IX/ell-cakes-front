@@ -8,6 +8,7 @@ import "./user-menu.scss";
 
 function UserMenu() {
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
+
   const authUser = useReactiveVar(userVar);
 
   useEffect(() => {

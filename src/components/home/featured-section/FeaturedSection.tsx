@@ -4,9 +4,10 @@ import {
   FeaturedProduct,
   ProductVariantOrderByInput,
   OrderDirection,
+  ProductImageOrderByInput,
 } from "@/types/__generated__/graphql";
-import { createServerApolloClient } from "@/lib/apolloServer";
 import ProductList from "@/components/product-list/ProductList";
+import { query } from "@/ApolloClient";
 import "./feature-section.scss";
 
 const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
@@ -18,6 +19,7 @@ const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
     takeFillings: number;
     takeVariants: number;
     variantsOrderBy: ProductVariantOrderByInput[];
+    imagesOrderBy: ProductImageOrderByInput[];
   }
 > = gql`
   query FeaturedProducts(
@@ -25,6 +27,7 @@ const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
     $takeFillings: Int
     $takeVariants: Int
     $variantsOrderBy: [ProductVariantOrderByInput!]!
+    $imagesOrderBy: [ProductImageOrderByInput!]!
   ) {
     featuredProducts(take: $takeFeaturedProducts) {
       id
@@ -43,7 +46,7 @@ const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
             price
           }
         }
-        images {
+        images(orderBy: $imagesOrderBy) {
           id
           image {
             url
@@ -58,19 +61,18 @@ async function FeaturedSection() {
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
   const TAKE_FEATURED_PRODUCTS = 8;
-  const client = createServerApolloClient();
-  const { data } = await client.query({
+
+  const { data } = await query({
     query: GET_FEATURED_PRODUCTS_QUERY,
     variables: {
       takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
       takeFillings: TAKE_FILLINGS_NUM,
       takeVariants: TAKE_VARIANTS_NUM,
-      variantsOrderBy: [
-        { weight: OrderDirection.Asc },
-        { pieces: OrderDirection.Asc },
-      ],
+      variantsOrderBy: [{ price: OrderDirection.Asc }],
+      imagesOrderBy: [{ id: OrderDirection.Asc }],
     },
   });
+
   const products = data?.featuredProducts.map((featured) => featured.product!);
 
   return (

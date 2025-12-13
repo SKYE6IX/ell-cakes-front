@@ -1,6 +1,7 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
+import { resetApolloClientSingletons } from "@apollo/client-integration-nextjs";
 import AddToCartButton from "../AddToCartButton";
 import { Cart, OrderDirection } from "@/types/__generated__/graphql";
 import { ADD_TO_CART_MUTATION, AddToCartArgs } from "../operation";
@@ -48,13 +49,14 @@ const mocks = [
       variables: {
         ...variables,
         cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
-        orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-        takeImage: 1,
+        orderImagesBy: [{ id: OrderDirection.Asc }],
       },
     },
     result: { data: addToCart },
   },
 ];
+
+afterEach(resetApolloClientSingletons);
 
 describe("Add to cart button Component ", () => {
   it("render the right price", () => {

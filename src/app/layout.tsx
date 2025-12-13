@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
-import ApolloQueryProvider from "src/contexts/ApolloQueryProvider";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
-import { createServerApolloClient } from "@/lib/apolloServer";
-import "../global-styles/globals.scss";
-import { gql, TypedDocumentNode } from "@apollo/client";
 import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
+import { query } from "@/ApolloClient";
+import { ApolloWrapper } from "@/ApolloWrapper";
+import "../global-styles/globals.scss";
 
 export const metadata: Metadata = {
   title: "Ell Cakes",
@@ -64,8 +64,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const client = createServerApolloClient();
-  const { data } = await client.query({
+  const { data } = await query({
     query: GET_CATEGORIES,
     variables: { where: { parent: { slug: { equals: "torty" } } } },
   });
@@ -73,14 +72,14 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
-        <ApolloQueryProvider>
+        <ApolloWrapper>
           <div className="app-container">
             <Header categories={data?.categories} />
             <Cart />
             {children}
             <Footer />
           </div>
-        </ApolloQueryProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

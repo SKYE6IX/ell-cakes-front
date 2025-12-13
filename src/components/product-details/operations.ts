@@ -5,18 +5,21 @@ import {
   ProductVariantOrderByInput,
   ToppingOptionOrderByInput,
   CustomizeImage,
+  ProductImageOrderByInput,
 } from "@/types/__generated__/graphql";
 
 export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
   { product: Product },
   {
     where: ProductWhereUniqueInput;
+    imagesOrderBy: ProductImageOrderByInput[];
     variantsOrderBy: ProductVariantOrderByInput[];
     toppingOptionOrderBy: ToppingOptionOrderByInput[];
   }
 > = gql`
   query Product(
     $where: ProductWhereUniqueInput!
+    $imagesOrderBy: [ProductImageOrderByInput!]!
     $variantsOrderBy: [ProductVariantOrderByInput!]!
     $toppingOptionOrderBy: [ToppingOptionOrderByInput!]!
   ) {
@@ -28,7 +31,7 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
       variantType
       stockQuantity
       isAvailable
-      images {
+      images(orderBy: $imagesOrderBy) {
         id
         altText
         image {
@@ -39,7 +42,6 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
       video {
         url
       }
-      fillingsCount
       fillings {
         id
         image_icon {

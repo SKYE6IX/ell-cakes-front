@@ -1,13 +1,14 @@
 import React from "react";
 import { gql, TypedDocumentNode } from "@apollo/client";
-import { createServerApolloClient } from "@/lib/apolloServer";
 import {
   Product,
   ProductWhereInput,
   ProductVariantOrderByInput,
   OrderDirection,
+  ProductImageOrderByInput,
 } from "@/types/__generated__/graphql";
 import Collection from "@/components/collection/Collection";
+import { query } from "@/ApolloClient";
 
 const GET_PRODUCTS_BY_TOP_CATEGORY: TypedDocumentNode<
   { products: Product[] },
@@ -17,14 +18,16 @@ const GET_PRODUCTS_BY_TOP_CATEGORY: TypedDocumentNode<
     takeVariants: number;
     takeImages: number;
     orderVariantsBy: ProductVariantOrderByInput[];
+    imagesOrderBy: ProductImageOrderByInput[];
   }
 > = gql`
-  query CollectionProducts(
+  query TopCollectionProducts(
     $where: ProductWhereInput!
     $takeFillings: Int
     $takeVariants: Int
     $takeImages: Int
     $orderVariantsBy: [ProductVariantOrderByInput!]!
+    $imagesOrderBy: [ProductImageOrderByInput!]!
   ) {
     products(where: $where) {
       id
@@ -41,7 +44,7 @@ const GET_PRODUCTS_BY_TOP_CATEGORY: TypedDocumentNode<
           price
         }
       }
-      images(take: $takeImages) {
+      images(orderBy: $imagesOrderBy) {
         id
         image {
           url
@@ -56,19 +59,16 @@ async function page() {
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
   const TAKE_IMAGES_NUM = 1;
-  const client = createServerApolloClient();
 
-  const { data } = await client.query({
+  const { data } = await query({
     query: GET_PRODUCTS_BY_TOP_CATEGORY,
     variables: {
       where: { category: { parent: { slug: { equals: CATEGORY_NAME } } } },
       takeFillings: TAKE_FILLINGS_NUM,
       takeImages: TAKE_IMAGES_NUM,
       takeVariants: TAKE_VARIANTS_NUM,
-      orderVariantsBy: [
-        { weight: OrderDirection.Asc },
-        { pieces: OrderDirection.Asc },
-      ],
+      orderVariantsBy: [{ price: OrderDirection.Asc }],
+      imagesOrderBy: [{ id: OrderDirection.Asc }],
     },
   });
 

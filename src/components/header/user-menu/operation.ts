@@ -25,6 +25,7 @@ export const AUTHORIZED_USER_QUERY: TypedDocumentNode<
         orderItems {
           id
           product {
+            id
             name
           }
         }

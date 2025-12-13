@@ -20,8 +20,7 @@ function AddToCartButton({
     variables: {
       ...addToCartArgs,
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
-      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-      takeImage: 1,
+      orderImagesBy: [{ id: OrderDirection.Asc }],
     },
     onCompleted(data) {
       cartVar(data.addToCart);

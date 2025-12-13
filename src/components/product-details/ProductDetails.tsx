@@ -12,13 +12,11 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
   const { data, loading, error } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
       where: { slug: productSlug },
-      variantsOrderBy: [
-        { weight: OrderDirection.Asc },
-        { pieces: OrderDirection.Asc },
-      ],
+      imagesOrderBy: [{ id: OrderDirection.Asc }],
+      variantsOrderBy: [{ price: OrderDirection.Asc }],
       toppingOptionOrderBy: [
         {
-          weight: OrderDirection.Asc,
+          extraPrice: OrderDirection.Asc,
         },
       ],
     },

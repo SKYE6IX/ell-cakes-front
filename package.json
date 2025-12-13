@@ -12,7 +12,8 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.8",
+    "@apollo/client": "^4.0.10",
+    "@apollo/client-integration-nextjs": "^0.14.1",
     "apollo-upload-client": "^19.0.0",
     "graphql": "^16.11.0",
     "iuliia": "^0.8.2",

@@ -22,16 +22,15 @@ const debounce = (fn: (productSlug: string) => void, delay: number) => {
 
 function ProductList({ products }: ProductListProps) {
   const client = useApolloClient();
+
   const prefetchProductDetails = (productSlug: string) => {
     client.query({
       query: GET_PRODUCT_DETAILS_QUERY,
       variables: {
         where: { slug: productSlug },
-        variantsOrderBy: [
-          { weight: OrderDirection.Asc },
-          { pieces: OrderDirection.Asc },
-        ],
-        toppingOptionOrderBy: [{ weight: OrderDirection.Asc }],
+        imagesOrderBy: [{ id: OrderDirection.Asc }],
+        variantsOrderBy: [{ id: OrderDirection.Asc }],
+        toppingOptionOrderBy: [{ extraPrice: OrderDirection.Asc }],
       },
     });
   };

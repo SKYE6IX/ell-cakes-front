@@ -26,7 +26,6 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     cartItemId: cartItem.id,
     cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
     orderImagesBy: [{ createdAt: OrderDirection.Asc }],
-    takeImage: 1,
   };
 
   const [increaseCartItem, { loading: isCartIncreasing }] = useMutation(
