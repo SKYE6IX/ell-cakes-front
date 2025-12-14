@@ -5,6 +5,7 @@ import {
   GET_CART_QUERY,
 } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/components/header/user-menu/operation";
+import { USER_DATA_FRAGMENT } from "./userDataFragment";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { cartVar, userVar } from "@/lib/cache";
 
@@ -14,31 +15,10 @@ export const AUTHORIZED_USER: TypedDocumentNode<
 > = gql`
   mutation AuthorizedUser($email: String!, $password: String!) {
     authorizedUser(email: $email, password: $password) {
-      id
-      name
-      email
-      phoneNumber
-      isPhoneNumberVerified
-      delivaryAddress {
-        id
-        street
-      }
-      orders {
-        id
-        createdAt
-        orderNumber
-        totalAmount
-        status
-        orderItems {
-          id
-          product {
-            id
-            name
-          }
-        }
-      }
+      ...userFragment
     }
   }
+  ${USER_DATA_FRAGMENT}
 `;
 
 type Props = {

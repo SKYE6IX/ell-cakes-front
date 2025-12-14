@@ -10,7 +10,7 @@ export type QueryCartSettings = {
   orderImagesBy: ProductImageOrderByInput[];
 };
 
-const CART_FRAGMENT = gql`
+export const CART_FRAGMENT = gql`
   fragment cartFragment on Cart {
     id
     subTotal
@@ -30,7 +30,9 @@ const CART_FRAGMENT = gql`
         name
         images(orderBy: $orderImagesBy) {
           id
+          altText
           image {
+            id
             url
           }
         }

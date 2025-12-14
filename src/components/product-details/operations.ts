@@ -65,6 +65,7 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
         }
       }
       customization {
+        id
         customOptions {
           id
           name
@@ -76,6 +77,7 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
         }
       }
       topping {
+        id
         options(orderBy: $toppingOptionOrderBy) {
           id
           pieces
@@ -90,6 +92,7 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
         images {
           id
           image {
+            id
             url
           }
         }

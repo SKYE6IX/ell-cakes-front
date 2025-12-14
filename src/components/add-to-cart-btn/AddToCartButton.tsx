@@ -1,3 +1,4 @@
+"use client";
 import { useMutation } from "@apollo/client/react";
 import { isCartOpenVar, cartVar } from "@/lib/cache";
 import CartIcon from "../icons/CartIcon";
@@ -27,6 +28,7 @@ function AddToCartButton({
       isCartOpenVar(true);
     },
   });
+
   const handleOpenCart = async () => {
     addToCart();
   };

@@ -25,7 +25,7 @@ function CartItem({ cartItem, mode }: CartItemProps) {
   const operationVariable = {
     cartItemId: cartItem.id,
     cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
-    orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+    orderImagesBy: [{ id: OrderDirection.Asc }],
   };
 
   const [increaseCartItem, { loading: isCartIncreasing }] = useMutation(
@@ -37,6 +37,7 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       },
     }
   );
+
   const [decreaseCartItem, { loading: isCartDecreaasing }] = useMutation(
     DECREASE_CART_ITEM,
     {
@@ -46,6 +47,7 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       },
     }
   );
+
   const [deleteCartItem, { loading: isCartItemDeleting }] = useMutation(
     DELETE_CART_ITEM,
     {

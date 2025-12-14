@@ -1,15 +1,14 @@
 "use client";
 import React from "react";
-import { useQuery } from "@apollo/client/react";
+import { useSuspenseQuery } from "@apollo/client/react";
 import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import { GET_PRODUCT_DETAILS_QUERY } from "./operations";
-import ProductDetailsSkeleton from "./skeleton/ProductDetailsSkeleton";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
-  const { data, loading, error } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
+  const { data, error } = useSuspenseQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
       where: { slug: productSlug },
       imagesOrderBy: [{ id: OrderDirection.Asc }],
@@ -22,7 +21,6 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
     },
   });
 
-  if (loading) return <ProductDetailsSkeleton />;
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
   return (

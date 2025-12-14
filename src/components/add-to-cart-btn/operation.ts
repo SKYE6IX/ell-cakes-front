@@ -5,6 +5,7 @@ import {
   CompositionOptionInput,
 } from "@/types/__generated__/graphql";
 import { QueryCartSettings } from "../cart/operations";
+import { CART_FRAGMENT } from "../cart/operations";
 
 export interface AddToCartArgs {
   productId: string;
@@ -34,30 +35,8 @@ export const ADD_TO_CART_MUTATION: TypedDocumentNode<
       compositionOptions: $compositionOptions
       toppingOptionId: $toppingOptionId
     ) {
-      id
-      subTotal
-      cartItems(orderBy: $cartItemsOrderBy) {
-        id
-        subTotal
-        quantity
-        customizationsSnapShot
-        compositionSnapShot
-        toppingOption {
-          id
-          weight
-          extraPrice
-        }
-        product {
-          id
-          name
-          images(orderBy: $orderImagesBy) {
-            id
-            image {
-              url
-            }
-          }
-        }
-      }
+      ...cartFragment
     }
   }
+  ${CART_FRAGMENT}
 `;

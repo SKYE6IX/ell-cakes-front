@@ -9,6 +9,7 @@ import {
   CONNECT_CART_TO_USER,
   GET_CART_QUERY,
 } from "@/components/cart/operations";
+import { USER_DATA_FRAGMENT } from "./userDataFragment";
 import { cartVar, userVar } from "@/lib/cache";
 
 export const REGISTER_USER: TypedDocumentNode<
@@ -17,31 +18,10 @@ export const REGISTER_USER: TypedDocumentNode<
 > = gql`
   mutation RegisterUser($registerData: RegisterUserInput!) {
     registerUser(registerData: $registerData) {
-      id
-      name
-      email
-      phoneNumber
-      isPhoneNumberVerified
-      delivaryAddress {
-        id
-        street
-      }
-      orders {
-        id
-        createdAt
-        orderNumber
-        totalAmount
-        status
-        orderItems {
-          id
-          product {
-            id
-            name
-          }
-        }
-      }
+      ...userFragment
     }
   }
+  ${USER_DATA_FRAGMENT}
 `;
 
 type Props = {

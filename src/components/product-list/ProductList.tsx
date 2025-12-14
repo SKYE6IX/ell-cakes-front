@@ -1,49 +1,38 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useApolloClient } from "@apollo/client/react";
 import { Product } from "@/types/__generated__/graphql";
 import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
-import { GET_PRODUCT_DETAILS_QUERY } from "@/components/product-details/operations";
-import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-list.scss";
 
 type ProductListProps = {
   products: Product[];
 };
 
-const debounce = (fn: (productSlug: string) => void, delay: number) => {
-  let timer: NodeJS.Timeout;
-  return (productSlug: string) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(productSlug), delay);
-  };
-};
+const shimmer = (w: number, h: number) => `
+  <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#ececec" offset="20%" />
+      <stop stop-color="#f5f5f5" offset="50%" />
+      <stop stop-color="#ececec" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#ececec" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
 
 function ProductList({ products }: ProductListProps) {
-  const client = useApolloClient();
+  const toBase64 = (str: string) =>
+    typeof window === "undefined"
+      ? Buffer.from(str).toString("base64")
+      : window.btoa(str);
 
-  const prefetchProductDetails = (productSlug: string) => {
-    client.query({
-      query: GET_PRODUCT_DETAILS_QUERY,
-      variables: {
-        where: { slug: productSlug },
-        imagesOrderBy: [{ id: OrderDirection.Asc }],
-        variantsOrderBy: [{ id: OrderDirection.Asc }],
-        toppingOptionOrderBy: [{ extraPrice: OrderDirection.Asc }],
-      },
-    });
-  };
-
-  const debouncedPrefetch = debounce(prefetchProductDetails, 150);
   return (
     <div className="product-list">
       {products.map((product) => (
         <div className="product-card" key={product.id}>
-          <Link
-            href={`/product/${product.slug}`}
-            onMouseOver={() => debouncedPrefetch(product.slug!)}
-          >
+          <Link href={`/product/${product.slug}`}>
             <div className="product-card__info">
               <div className="product-card__image-container">
                 <Image
@@ -52,6 +41,10 @@ function ProductList({ products }: ProductListProps) {
                   fill
                   className="product-card__image"
                   data-testid="product-card-image"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(350, 350)
+                  )}`}
                 />
               </div>
               <h3 className="product-card__name">{product.name}</h3>
