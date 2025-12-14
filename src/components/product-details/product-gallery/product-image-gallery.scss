@@ -2,7 +2,6 @@
 @use "@/global-styles/shared-styles" as *;
 
 .product-image-gallery {
-  // border: 1px solid red;
   width: 100%;
   --left-gutter: 50px;
   padding-left: var(--left-gutter);
@@ -71,6 +70,7 @@
 }
 
 .product-image-gallery__thumbnails {
+  overflow-x: hidden;
   flex-shrink: 0;
   padding-top: 15px;
   @include flex-layout(column, none, none, 20px);
