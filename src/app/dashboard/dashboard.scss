@@ -228,7 +228,8 @@
 .dashboard__card-input {
   width: 100%;
   font-family: $font-uncage;
-  font-size: 16px;
+  font-size: 1rem;
+  line-height: 19.2px;
   color: $text-color;
   padding: 4px 0 6px;
   border: none;
@@ -237,7 +238,6 @@
   outline: none;
 
   @include max-breakpoint("s") {
-    font-size: 14px;
     padding: 3px 0 5px;
   }
 
@@ -296,10 +296,6 @@
 /* active */
 .dashboard__subscribe-box--active {
   background: $secondary;
-
-  // &:active {
-  //   background: darken($secondary, 10%);
-  // }
 }
 
 /* inactive */

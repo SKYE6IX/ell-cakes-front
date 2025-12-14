@@ -7,22 +7,10 @@ import { userVar } from "@/lib/cache";
 import "./dashboard.scss";
 
 export default function Dashboard() {
-  const user = useReactiveVar(userVar);
+  const authUser = useReactiveVar(userVar);
   const [editing, setEditing] = useState<"none" | "profile" | "address">(
     "none"
   );
-
-  const profile = {
-    firstName: "Ann",
-    lastName: "Ann",
-    email: "Ann",
-    phone: "+7 (900) 000-00-00",
-  };
-
-  const address = {
-    city: "Moscow",
-    address: "Olonetskaya, 4",
-  };
 
   const toggleEditing = (section: "profile" | "address") => {
     setEditing((prev) => (prev === section ? "none" : section));
@@ -69,7 +57,7 @@ export default function Dashboard() {
                       <h5 className="dashboard__card-label">Имя</h5>
                       <input
                         className="dashboard__card-input"
-                        defaultValue={profile.firstName}
+                        defaultValue={authUser?.name || ""}
                       />
                     </div>
 
@@ -77,7 +65,7 @@ export default function Dashboard() {
                       <h5 className="dashboard__card-label">Почта</h5>
                       <input
                         className="dashboard__card-input"
-                        defaultValue={profile.email}
+                        defaultValue={authUser?.email || ""}
                       />
                     </div>
 
@@ -85,7 +73,7 @@ export default function Dashboard() {
                       <h5 className="dashboard__card-label">Телефон</h5>
                       <input
                         className="dashboard__card-input"
-                        defaultValue={profile.phone}
+                        defaultValue={authUser?.phoneNumber || ""}
                       />
                     </div>
                   </>
@@ -94,21 +82,21 @@ export default function Dashboard() {
                     <div className="dashboard__card-row">
                       <h5 className="dashboard__card-label">Имя</h5>
                       <span className="dashboard__card-value">
-                        {user?.name}
+                        {authUser?.name}
                       </span>
                     </div>
 
                     <div className="dashboard__card-row">
                       <h5 className="dashboard__card-label">Почта</h5>
                       <span className="dashboard__card-value">
-                        {user?.email}
+                        {authUser?.email}
                       </span>
                     </div>
 
                     <div className="dashboard__card-row">
                       <h5 className="dashboard__card-label">Телефон</h5>
                       <span className="dashboard__card-value">
-                        {user?.phoneNumber}
+                        {authUser?.phoneNumber}
                       </span>
                     </div>
                   </>
@@ -140,7 +128,7 @@ export default function Dashboard() {
                       <h5 className="dashboard__card-label">Город</h5>
                       <input
                         className="dashboard__card-input"
-                        defaultValue={address.city}
+                        defaultValue="Moscow"
                       />
                     </div>
 
@@ -148,7 +136,9 @@ export default function Dashboard() {
                       <h5 className="dashboard__card-label">Адрес доставки</h5>
                       <input
                         className="dashboard__card-input"
-                        defaultValue={address.address}
+                        defaultValue={
+                          authUser?.delivaryAddress![0].street || ""
+                        }
                       />
                     </div>
                   </>
@@ -162,7 +152,7 @@ export default function Dashboard() {
                     <div className="dashboard__card-row">
                       <h5 className="dashboard__card-label">Адрес доставки</h5>
                       <span className="dashboard__card-value">
-                        {user?.delivaryAddress![0]?.street}
+                        {authUser?.delivaryAddress![0]?.street}
                       </span>
                     </div>
                   </>
