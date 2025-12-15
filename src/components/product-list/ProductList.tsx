@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Product } from "@/types/__generated__/graphql";
 import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
 import ProductListSkeleton from "./ProductListSkeleton";
+import ProductNotFound from "../product-not-found/ProductNotFound";
 import "./product-list.scss";
 
 type ProductListProps = {
@@ -36,6 +37,7 @@ function ProductList({ products, isLoading }: ProductListProps) {
         <ProductListSkeleton />
       </div>
     );
+  if (products.length === 0) return <ProductNotFound />;
 
   return (
     <div className="product-list">
