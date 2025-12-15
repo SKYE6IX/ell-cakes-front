@@ -1,20 +1,31 @@
 "use client";
 import React from "react";
-import { useReadQuery, QueryRef } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
-import { Product } from "@/types/__generated__/graphql";
+import { OrderDirection } from "@/types/__generated__/graphql";
+import { GET_PRODUCT_DETAILS_QUERY } from "./operations";
+import ProductDetailsSkeleton from "./skeleton/ProductDetailsSkeleton";
 import "./product-details.scss";
 
-function ProductDetails({
-  queryRef,
-}: {
-  productSlug: string;
-  queryRef: QueryRef<{ product: Product }>;
-}) {
-  const { data, error } = useReadQuery(queryRef);
+function ProductDetails({ productSlug }: { productSlug: string }) {
+  const { data, error, loading } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
+    variables: {
+      where: { slug: productSlug },
+      imagesOrderBy: [{ id: OrderDirection.Asc }],
+      variantsOrderBy: [{ price: OrderDirection.Asc }],
+      toppingOptionOrderBy: [
+        {
+          extraPrice: OrderDirection.Asc,
+        },
+      ],
+    },
+  });
+
+  if (loading) return <ProductDetailsSkeleton />;
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
+
   return (
     <div className="product-details">
       <section className="product-details__gallery-section">

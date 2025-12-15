@@ -1,21 +1,40 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useQuery } from "@apollo/client/react";
 import ProductList from "../product-list/ProductList";
-import { Product } from "@/types/__generated__/graphql";
+import {
+  OrderDirection,
+  ProductWhereInput,
+} from "@/types/__generated__/graphql";
 import collectionDeliveryInfoImage from "./collection-delivery-section-image.png";
 import CandleCakeIcon from "../icons/CandleCakeIcon";
 import PresentIcon from "../icons/PresentIcon";
 import SmileyIcon from "../icons/SmileyIcon";
 import { getHeroSectionData } from "./hero-section-data";
+import { GET_PRODUCTS_BY_CATEGORY } from "./operation";
 import "./collection.scss";
 
 type CollectionProps = {
-  products: Product[] | undefined;
   categorySlug: string;
+  where: ProductWhereInput;
 };
 
-function Collection({ products, categorySlug }: CollectionProps) {
+function Collection({ categorySlug, where }: CollectionProps) {
+  const TAKE_FILLINGS_NUM = 1;
+  const TAKE_VARIANTS_NUM = 1;
   const heroSectionData = getHeroSectionData(categorySlug);
+
+  const { data, loading, error } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
+    variables: {
+      where,
+      takeFillings: TAKE_FILLINGS_NUM,
+      takeVariants: TAKE_VARIANTS_NUM,
+      orderVariantsBy: [{ price: OrderDirection.Asc }],
+      imagesOrderBy: [{ id: OrderDirection.Asc }],
+    },
+  });
+
   return (
     <div className="collection">
       <section className="collection__hero-section">
@@ -52,7 +71,7 @@ function Collection({ products, categorySlug }: CollectionProps) {
       </section>
 
       <section className="collection__product-list">
-        {products ? <ProductList products={products} /> : null}
+        {data ? <ProductList products={data.products} /> : null}
       </section>
 
       <section className="collection__delivery-process">
@@ -122,6 +141,7 @@ function Collection({ products, categorySlug }: CollectionProps) {
             </li>
           </ul>
         </div>
+
         <div className="collection__delivery-info-image-container">
           <Image
             src={collectionDeliveryInfoImage}
