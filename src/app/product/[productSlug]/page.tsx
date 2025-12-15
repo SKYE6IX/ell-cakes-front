@@ -22,9 +22,11 @@ async function page({ params }: { params: Promise<{ productSlug: string }> }) {
         ],
       }}
     >
-      <Suspense fallback={<ProductDetailsSkeleton />}>
-        <ProductDetails productSlug={productSlug} />
-      </Suspense>
+      {(queryRef) => (
+        <Suspense fallback={<ProductDetailsSkeleton />}>
+          <ProductDetails productSlug={productSlug} queryRef={queryRef} />
+        </Suspense>
+      )}
     </PreloadQuery>
   );
 }

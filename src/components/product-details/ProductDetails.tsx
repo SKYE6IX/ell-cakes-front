@@ -1,26 +1,18 @@
 "use client";
 import React from "react";
-import { useSuspenseQuery } from "@apollo/client/react";
+import { useReadQuery, QueryRef } from "@apollo/client/react";
 import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
-import { OrderDirection } from "@/types/__generated__/graphql";
-import { GET_PRODUCT_DETAILS_QUERY } from "./operations";
+import { Product } from "@/types/__generated__/graphql";
 import "./product-details.scss";
 
-function ProductDetails({ productSlug }: { productSlug: string }) {
-  const { data, error } = useSuspenseQuery(GET_PRODUCT_DETAILS_QUERY, {
-    variables: {
-      where: { slug: productSlug },
-      imagesOrderBy: [{ id: OrderDirection.Asc }],
-      variantsOrderBy: [{ price: OrderDirection.Asc }],
-      toppingOptionOrderBy: [
-        {
-          extraPrice: OrderDirection.Asc,
-        },
-      ],
-    },
-  });
-
+function ProductDetails({
+  queryRef,
+}: {
+  productSlug: string;
+  queryRef: QueryRef<{ product: Product }>;
+}) {
+  const { data, error } = useReadQuery(queryRef);
   if (error) return <p>An error occur: - {error.message}</p>;
   if (!data) return null;
   return (

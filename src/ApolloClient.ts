@@ -11,8 +11,10 @@ export const { query, PreloadQuery } = registerApolloClient(() => {
     link: new HttpLink({
       uri: process.env.SERVER_URL,
       fetchOptions: {
-        cache:
-          process.env.NODE_ENV === "production" ? "default" : "force-cache",
+        cache: "force-cache",
+        next: {
+          revalidate: 1800, //Reset every 30 min,
+        },
         credentials: "include",
       },
     }),
