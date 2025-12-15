@@ -22,6 +22,7 @@ interface UserSidebarProps {
 export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
   const user = useReactiveVar(userVar);
   const router = useRouter();
+
   const [endSession] = useMutation(END_SESSION, {
     onCompleted(data) {
       if (data.endSession) {

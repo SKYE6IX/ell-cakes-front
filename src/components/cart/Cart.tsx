@@ -23,6 +23,7 @@ function Cart() {
 
   const isCartOpen = useReactiveVar(isCartOpenVar);
   const cartResult = useReactiveVar(cartVar);
+
   const handleCloseModal = () => {
     isCartOpenVar(false);
   };
