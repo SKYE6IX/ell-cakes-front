@@ -71,7 +71,9 @@ function Collection({ categorySlug, where }: CollectionProps) {
       </section>
 
       <section className="collection__product-list">
-        {data ? <ProductList products={data.products} /> : null}
+        {data ? (
+          <ProductList isLoading={loading} products={data.products} />
+        ) : null}
       </section>
 
       <section className="collection__delivery-process">

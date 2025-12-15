@@ -62,7 +62,7 @@ async function FeaturedSection() {
   const TAKE_VARIANTS_NUM = 1;
   const TAKE_FEATURED_PRODUCTS = 8;
 
-  const { data } = await query({
+  const { data, error } = await query({
     query: GET_FEATURED_PRODUCTS_QUERY,
     variables: {
       takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,

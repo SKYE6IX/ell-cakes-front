@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types/__generated__/graphql";
 import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
+import ProductListSkeleton from "./ProductListSkeleton";
 import "./product-list.scss";
 
 type ProductListProps = {
   products: Product[];
+  isLoading?: boolean;
 };
 
 const shimmer = (w: number, h: number) => `
@@ -22,11 +24,18 @@ const shimmer = (w: number, h: number) => `
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
 
-function ProductList({ products }: ProductListProps) {
+function ProductList({ products, isLoading }: ProductListProps) {
   const toBase64 = (str: string) =>
     typeof window === "undefined"
       ? Buffer.from(str).toString("base64")
       : window.btoa(str);
+
+  if (isLoading)
+    return (
+      <div className="product-list">
+        <ProductListSkeleton />
+      </div>
+    );
 
   return (
     <div className="product-list">
