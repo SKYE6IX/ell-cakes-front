@@ -85,6 +85,9 @@
     line-height: 16.8px;
     font-weight: 400;
   }
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
 }
 
 .order-history__product-list {
