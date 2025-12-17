@@ -4,137 +4,122 @@
 .order-history {
   flex: 1;
   width: 100%;
+  min-height: 50vh;
   background: $primary-mute;
-  padding: 100px 100px 50px;
-  @include max-breakpoint("lg") {
-    padding: 60px;
-  }
+  padding: 50px 50px 100px;
+  @include flex-layout(row, none, space-between, 50px);
   @include max-breakpoint("md") {
-    padding: 50px 40px;
-  }
-  @include max-breakpoint("s") {
-    padding: 20px;
-  }
-}
-
-.order-history__inner {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  @include max-breakpoint("md") {
+    padding: 40px 40px 80px;
+    gap: 40px;
+    justify-content: flex-end;
     flex-direction: column-reverse;
-    gap: 30px;
+  }
+  @include max-breakpoint("s") {
+    padding: 20px 20px 40px;
+    gap: 20px;
   }
 }
 
-.order-history__right {
-  flex: 1;
-  background: #ffffff;
-  border-radius: 22px;
-  padding: 28px 30px 26px;
+.order-history__content {
+  min-height: 50%;
+  width: 70%;
+  background: $neutral;
+  border-radius: 15px;
+  padding: 30px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-
   @include max-breakpoint("md") {
-    padding: 24px 22px 22px;
-    border-radius: 18px;
+    width: 100%;
   }
-
   @include max-breakpoint("s") {
-    padding: 20px 16px 18px;
-    border-radius: 14px;
+    padding: 15px;
   }
 }
 
 .order-history__title {
-  font-family: $font-uncage;
-  font-size: 26px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.5rem;
+  line-height: 26.4px;
   font-weight: 500;
-  margin: 0 0 22px 0;
-
-  @include max-breakpoint("sm") {
-    font-size: 24px;
-    margin-bottom: 18px;
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    line-height: 21.6px;
   }
 }
 
 .order-history__card {
-  background: #fcfcfc;
-  border-radius: 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  @include max-breakpoint("sm") {
-    padding: 18px 16px;
-    border-radius: 14px;
+  margin-top: 20px;
+  @include flex-layout(column, none, none, 20px);
+  @include max-breakpoint("s") {
+    margin-top: 15px;
+    gap: 15px;
   }
 }
 
 .order-history__row {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-
-  font-family: $font-uncage;
-  font-size: 16px;
-  color: $text-color;
-
-  @include max-breakpoint("md") {
-    gap: 24px;
-    font-size: 15px;
-  }
-
+  padding-bottom: 10px;
+  @include flex-layout(row, none, space-between, none);
   @include max-breakpoint("s") {
-    display: block;
-    padding-right: 40px;
-    font-size: 14px;
+    flex-direction: column;
   }
+}
+
+.order-history__row:not(:last-child) {
+  border-bottom: 1px solid #d5d5d5;
 }
 
 .order-history__left {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  flex: 1;
+  width: 65%;
+  @include flex-layout(row, none, none, 30px);
   @include max-breakpoint("s") {
-    display: flex;
+    width: 100%;
+    gap: 15px;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
   }
 }
-
 .order-history__group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  @include flex-layout(column, none, none, 5px);
+  width: 20%;
+  span {
+    font-family: $font-montserrat, sans-serif;
+    font-size: 0.875rem;
+    line-height: 16.8px;
+    font-weight: 400;
+  }
 }
 
-.order-history__product {
-  white-space: nowrap;
-
-  @include max-breakpoint("s") {
-    white-space: normal;
-  }
+.order-history__product-list {
+  list-style: none;
+  @include flex-layout(column, none, none, 5px);
+}
+.order-history__product-item {
+  max-width: 300px;
+  align-self: flex-start;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 16.2px;
+  font-weight: 400;
+  color: $text-color;
+}
+.order-history__product-item .qty {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $primary;
+  line-height: 14.4px;
+}
+.order-history__price-wrapper {
+  margin-left: auto;
 }
 
 .order-history__price {
-  white-space: nowrap;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.125rem;
+  line-height: 21.6px;
   font-weight: 500;
 }
 
 .order-history__icon {
-  font-size: 22px;
-  flex-shrink: 0;
-
-  @include max-breakpoint("s") {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 20px;
-  }
+  width: 22px;
+  height: 22px;
 }
 
 .order-history__icon--onway {
@@ -156,7 +141,6 @@
   min-height: 160px;
   display: flex;
   align-items: center;
-
   @include max-breakpoint("sm") {
     padding: 20px 18px;
     border-radius: 14px;

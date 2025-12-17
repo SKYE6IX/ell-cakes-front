@@ -97,13 +97,7 @@ const mockCategories: Category[] = [
 describe("Navigation component", () => {
   it("render navigation menu item", () => {
     //   // Arrange
-    render(
-      <Navigation
-        isMenuOpen={false}
-        categories={mockCategories}
-        closeMenu={jest.fn()}
-      />
-    );
+    render(<Navigation categories={mockCategories} />);
     //   // Act
     const navigationMenuItems = screen.getAllByTestId("navigation-menu-item");
     //   // Assert
@@ -115,13 +109,7 @@ describe("Navigation component", () => {
 
   it("render navigation sub menu item", async () => {
     // Arrange
-    render(
-      <Navigation
-        isMenuOpen={false}
-        categories={mockCategories}
-        closeMenu={jest.fn()}
-      />
-    );
+    render(<Navigation categories={mockCategories} />);
 
     await waitFor(() => {
       // Act
@@ -140,13 +128,7 @@ describe("Navigation component", () => {
   it("show sub menu on mobile when user click", async () => {
     // Arrange
     const user = userEvent.setup();
-    render(
-      <Navigation
-        isMenuOpen={true}
-        categories={mockCategories}
-        closeMenu={jest.fn()}
-      />
-    );
+    render(<Navigation categories={mockCategories} />);
     // Act
     const subMenuTrigger = screen.getByTestId("navigation-sub-menu-trigger");
     const navigationWidget = screen.getByTestId("navigation-widget");

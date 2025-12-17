@@ -18,8 +18,8 @@ export const CART_FRAGMENT = gql`
       id
       subTotal
       quantity
-      customizationsSnapShot
-      compositionSnapShot
+      customizations
+      compositions
       toppingOption {
         id
         weight

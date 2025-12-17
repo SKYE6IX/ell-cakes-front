@@ -25,7 +25,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
   const TAKE_VARIANTS_NUM = 1;
   const heroSectionData = getHeroSectionData(categorySlug);
 
-  const { data, loading, error } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
+  const { data, loading } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
     variables: {
       where,
       takeFillings: TAKE_FILLINGS_NUM,

@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
-import { gql, TypedDocumentNode } from "@apollo/client";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
-import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
-import { query } from "@/ApolloClient";
 import { ApolloWrapper } from "@/ApolloWrapper";
 import "../global-styles/globals.scss";
 
@@ -46,35 +43,17 @@ const montserrat = Montserrat({
   preload: true,
 });
 
-const GET_CATEGORIES: TypedDocumentNode<
-  { categories: Category[] },
-  { where: CategoryWhereInput }
-> = gql`
-  query GetCategories($where: CategoryWhereInput!) {
-    categories(where: $where) {
-      id
-      name
-      slug
-    }
-  }
-`;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data } = await query({
-    query: GET_CATEGORIES,
-    variables: { where: { parent: { slug: { equals: "torty" } } } },
-  });
-
   return (
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
         <ApolloWrapper>
           <div className="app-container">
-            <Header categories={data?.categories} />
+            <Header />
             <Cart />
             {children}
             <Footer />

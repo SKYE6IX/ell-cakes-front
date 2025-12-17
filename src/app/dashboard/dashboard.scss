@@ -205,8 +205,10 @@
 }
 
 .dashboard__card-label {
-  font-family: $font-uncage;
-  font-size: 15px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 16.2px;
+  font-weight: 400;
   color: $text-color;
   opacity: 0.85;
 
@@ -216,8 +218,10 @@
 }
 
 .dashboard__card-value {
-  font-family: $font-uncage;
-  font-size: 16px;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 16.2px;
+  font-weight: 300;
   color: $text-color;
 
   @include max-breakpoint("s") {
@@ -227,9 +231,9 @@
 
 .dashboard__card-input {
   width: 100%;
-  font-family: $font-uncage;
+  font-family: $font-montserrat, sans-serif;
   font-size: 1rem;
-  line-height: 19.2px;
+  line-height: 16.2px;
   color: $text-color;
   padding: 4px 0 6px;
   border: none;

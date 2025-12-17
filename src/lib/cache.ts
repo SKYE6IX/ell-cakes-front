@@ -6,6 +6,8 @@ export const cartVar = makeVar<Cart | null>(null);
 
 export const isCartOpenVar = makeVar<boolean>(false);
 
+export const isMenuOpenVar = makeVar<boolean>(false);
+
 export const userVar = makeVar<User | null>(null);
 
 export const appCache = new InMemoryCache({

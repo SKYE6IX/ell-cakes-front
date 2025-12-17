@@ -4,32 +4,8 @@ import UserSidebar from "@/components/user-sidebar/UserSidebar";
 import OnWayIcon from "@/components/icons/OnWayIcon";
 import CheckMark from "@/components/icons/ CheckMark";
 import { userVar } from "@/lib/cache";
+import { formatMoney } from "@/utils/formatMoney";
 import "./order-history.scss";
-
-// type Order = {
-//   id: string;
-//   date: string;
-//   product: string;
-//   price: string;
-//   status: OrderStatus;
-// }
-
-// const orders: Order[] = [
-//   {
-//     id: "EC-12847",
-//     date: "14.02.2001",
-//     product: "Птичье молоко",
-//     price: "3200 ₽",
-//     status: "onway",
-//   },
-//   {
-//     id: "EC-12848",
-//     date: "16.02.2001",
-//     product: "Птичье молоко",
-//     price: "3200 ₽",
-//     status: "delivered",
-//   },
-// ];
 
 function renderStatusIcon(status: string) {
   if (status === "delivered") {
@@ -39,46 +15,59 @@ function renderStatusIcon(status: string) {
 }
 
 export default function OrdersHistory() {
-  const user = useReactiveVar(userVar);
+  const authUser = useReactiveVar(userVar);
+
+  const getDate = (createdAt: string) => {
+    const date = new Date(createdAt);
+    return date.toLocaleDateString("ru-RU");
+  };
+
   return (
     <section className="order-history">
-      <div className="order-history__inner">
-        <UserSidebar active="orders" />
+      <UserSidebar active="orders" />
 
-        <div className="order-history__right">
-          <h1 className="order-history__title">История заказов</h1>
+      <div className="order-history__content">
+        <h3 className="order-history__title">История заказов</h3>
 
-          {user?.orders?.length === 0 && (
-            <article className="order-history__empty">
-              Тут пока пусто, но мы очень ждём Ваших заказов!
-            </article>
-          )}
-          {user?.orders && user.orders.length > 0 && (
-            <article className="order-history__card">
-              {user.orders.map((order) => (
-                <div className="order-history__row" key={order.id}>
-                  <div className="order-history__left">
-                    <div className="order-history__group">
-                      <span>{String(order.createdAt)}</span>
-                      <span>{order.orderNumber}</span>
-                    </div>
+        {authUser?.orders?.length === 0 && (
+          <p className="order-history__empty">
+            Тут пока пусто, но мы очень ждём Ваших заказов!
+          </p>
+        )}
 
-                    <div className="order-history__product">
-                      {order.orderItems![0].product?.name}
-                    </div>
-
-                    <div className="order-history__price">
-                      {order.totalAmount}
-                    </div>
+        {authUser?.orders && authUser.orders.length > 0 && (
+          <div className="order-history__card">
+            {authUser.orders.map((order) => (
+              <div className="order-history__row" key={order.id}>
+                <div className="order-history__left">
+                  <div className="order-history__group">
+                    <span>{getDate(order.createdAt as string)}</span>
+                    <span>{order.orderNumber}</span>
                   </div>
-                  <div className="order-history__icon">
-                    {renderStatusIcon(order.status!)}
+
+                  <ul className="order-history__product-list">
+                    {order.orderItems?.map((item) => (
+                      <li key={item.id} className="order-history__product-item">
+                        {item.product?.name}{" "}
+                        <span className="qty"> x{item.quantity}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="order-history__price-wrapper">
+                    <span className="order-history__price">
+                      {formatMoney(order.totalAmount!)}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </article>
-          )}
-        </div>
+
+                <div className="order-history__icon">
+                  {renderStatusIcon(order.status!)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -54,6 +54,7 @@ function useLoginUserMutation({ formState, onComplete }: Props) {
     onError(error) {
       console.error("Error happen when log in", error);
     },
+
     refetchQueries(result) {
       if (result.data.authorizedUser) {
         return [GET_CART_QUERY, AUTHORIZED_USER_QUERY];

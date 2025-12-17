@@ -1,15 +1,16 @@
+"use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useReactiveVar } from "@apollo/client/react";
+import { isMenuOpenVar } from "@/lib/cache";
 import ArrowDown from "../../icons/ArrowDown";
 import { Category } from "@/types/__generated__/graphql";
 import { getTransliteration } from "@/utils/getTransliteration";
 import "./navigation.scss";
 
 type NavigationProps = {
-  isMenuOpen: boolean;
   categories: Category[] | undefined;
-  closeMenu: () => void;
 };
 
 const categories = [
@@ -22,17 +23,23 @@ const categories = [
     label: "ДЕНЬ РОЖДЕНИЯ",
   },
 ];
+
 const navigationMenu = [
   ...categories,
   { href: "/contact", label: "КОНТАКТЫ" },
   { href: "/collaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
-function Navigation({ isMenuOpen, categories, closeMenu }: NavigationProps) {
+function Navigation({ categories }: NavigationProps) {
   const pathname = usePathname();
+  const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
+  };
+
+  const closeMenu = () => {
+    isMenuOpenVar(false);
   };
 
   return (

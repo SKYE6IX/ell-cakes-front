@@ -23,10 +23,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
       customerNote: $customerNote
     ) {
       id
-      confirmationUrl
-      status
-      method
-      amount
+      redirectUrl
     }
   }
 `;

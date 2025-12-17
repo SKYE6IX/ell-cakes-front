@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Input from "@/components/input/Input";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import SberPayIcon from "@/components/icons/SberPayIcon";
@@ -38,28 +39,34 @@ const paymentMethods = [
 ];
 
 function Checkout() {
+  const cart = useReactiveVar(cartVar);
+  const authUser = useReactiveVar(userVar);
+  const router = useRouter();
+
+  const [customerComment, setCustomerComment] = useState("");
   const [activePayment, setActivePayment] =
     useState<PaymentMethodId>("bank_card");
   const [showModalAddress, setShowModalAddress] = useState(false);
-
-  const cart = useReactiveVar(cartVar);
-  const authUser = useReactiveVar(userVar);
-
-  // if (cart) return null;
 
   const handleSetShowModalAddresss = () => {
     setShowModalAddress(!showModalAddress);
   };
 
-  const [checkoutOrder, { loading, data }] = useMutation(CHECKOUT_ORDER, {
+  const onInputChange = ({ value }: { name: string; value: string }) => {
+    setCustomerComment(value);
+  };
+
+  const [checkoutOrder, { loading }] = useMutation(CHECKOUT_ORDER, {
     variables: {
       deliveryAddressId: authUser?.delivaryAddress![0]?.id,
       shippingCost: 500,
       paymentMethod: activePayment,
-      customerNote: "Testing Page",
+      customerNote: customerComment,
     },
     onCompleted(data) {
       console.log("Here is your data -> ", data.checkOut);
+      const paymentUrl = data.checkOut.redirectUrl!;
+      router.push(paymentUrl);
     },
     onError(error) {
       console.error("Error occur when try to checout order -> ", error);
@@ -121,11 +128,10 @@ function Checkout() {
               </h3>
               <Input
                 name="comment"
-                initialValue=""
+                initialValue={customerComment}
                 placeholder="Комментарий *"
-                onInputChange={() => {}}
+                onInputChange={onInputChange}
                 type="text"
-                autoComplete="off"
                 hasError={false}
               />
             </section>
@@ -205,10 +211,10 @@ function Checkout() {
           <button
             className="checkout__button"
             onClick={() => checkoutOrder()}
-            disabled
+            disabled={loading}
           >
             {loading ? (
-              <div className="loader"></div>
+              <div className="check-loader"></div>
             ) : (
               `ОПЛАТИТЬ ${cart?.subTotal} ₽`
             )}

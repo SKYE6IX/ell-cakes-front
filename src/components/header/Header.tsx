@@ -1,35 +1,39 @@
-"use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { TypedDocumentNode, gql } from "@apollo/client";
 import Navigation from "./navigation/Navigation";
 import UserMenu from "./user-menu/UserMenu";
 import CartMenuBtn from "./cart-menu/CartMenuBtn";
-import MenuBarIcon from "../icons/MenuBarIcon";
-import { Category } from "@/types/__generated__/graphql";
+import MenuButton from "./MenuButton";
+import { Category, CategoryWhereInput } from "@/types/__generated__/graphql";
+import { AUTHORIZED_USER_QUERY } from "./user-menu/operation";
+import { query } from "@/ApolloClient";
 import "./header.scss";
 
-type HeaderProps = {
-  categories: Category[] | undefined;
-};
-
-function Header({ categories }: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+const GET_CATEGORIES: TypedDocumentNode<
+  { categories: Category[] },
+  { where: CategoryWhereInput }
+> = gql`
+  query GetCategories($where: CategoryWhereInput!) {
+    categories(where: $where) {
+      id
+      name
+      slug
     }
-  }, [isMenuOpen]);
+  }
+`;
 
-  const handleSetIsMenuOpen = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+async function Header() {
+  const { data } = await query({
+    query: GET_CATEGORIES,
+    variables: { where: { parent: { slug: { equals: "torty" } } } },
+  });
+
+  const { data: userQuery } = await query({
+    query: AUTHORIZED_USER_QUERY,
+    fetchPolicy: "network-only",
+  });
+
   return (
     <header className="header">
       <div className="header__inner-wrapper">
@@ -46,23 +50,12 @@ function Header({ categories }: HeaderProps) {
           </Link>
         </div>
 
-        <Navigation
-          isMenuOpen={isMenuOpen}
-          categories={categories}
-          closeMenu={closeMenu}
-        />
+        <Navigation categories={data?.categories} />
+
         <div className="header__user-action-wrapper">
-          <UserMenu />
+          {userQuery && <UserMenu userQuery={userQuery.queryAuthorizedUser} />}
           <CartMenuBtn />
-          <button
-            className={["header__menu-button", isMenuOpen ? "active" : ""].join(
-              " "
-            )}
-            onClick={handleSetIsMenuOpen}
-            data-testid="header-menu-button"
-          >
-            <MenuBarIcon />
-          </button>
+          <MenuButton />
         </div>
       </div>
     </header>

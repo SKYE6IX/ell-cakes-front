@@ -5,7 +5,9 @@ import {
   Product,
   ImageExtension,
   ProductImage,
+  OrderDirection,
 } from "@/types/__generated__/graphql";
+import { GET_PRODUCTS_BY_CATEGORY } from "../operation";
 
 const mockImages: ProductImage[] = [
   {
@@ -211,11 +213,29 @@ export const mockProducts: Product[] = [
   },
 ];
 
+const mocks = [
+  {
+    request: {
+      query: GET_PRODUCTS_BY_CATEGORY,
+      variables: {
+        where: { category: { slug: { equals: "pirozhenye" } } },
+        takeFillings: 1,
+        takeVariants: 1,
+        orderVariantsBy: [{ price: OrderDirection.Asc }],
+        imagesOrderBy: [{ id: OrderDirection.Asc }],
+      },
+    },
+    result: {
+      data: mockProducts,
+    },
+  },
+];
+
 describe("Collection Component", () => {
   it("render all component contents", () => {
     //  Arrange
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <Collection
           categorySlug="pirozhenye"
           where={{ category: { slug: { equals: "pirozhenye" } } }}

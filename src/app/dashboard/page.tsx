@@ -111,7 +111,6 @@ export default function Dashboard() {
             >
               <div className="dashboard__card-head">
                 <h3 className="dashboard__card-title">Адрес доставки</h3>
-
                 <button
                   type="button"
                   className="dashboard__card-edit"
@@ -123,25 +122,13 @@ export default function Dashboard() {
 
               <div className="dashboard__card-body">
                 {editing === "address" ? (
-                  <>
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <h5 className="dashboard__card-label">Город</h5>
-                      <input
-                        className="dashboard__card-input"
-                        defaultValue="Moscow"
-                      />
-                    </div>
-
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <h5 className="dashboard__card-label">Адрес доставки</h5>
-                      <input
-                        className="dashboard__card-input"
-                        defaultValue={
-                          authUser?.delivaryAddress![0].street || ""
-                        }
-                      />
-                    </div>
-                  </>
+                  <div className="dashboard__card-row dashboard__card-row--editable">
+                    <h5 className="dashboard__card-label">Адрес доставки</h5>
+                    <input
+                      className="dashboard__card-input"
+                      defaultValue={authUser?.delivaryAddress![0].street || ""}
+                    />
+                  </div>
                 ) : (
                   <>
                     <div className="dashboard__card-row">

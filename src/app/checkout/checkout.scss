@@ -274,7 +274,7 @@
   }
 }
 
-.loader {
+.check-loader {
   width: 80px;
   display: grid;
   background: radial-gradient(farthest-side, #fff 98%, #0000) center/20px 100%
@@ -289,8 +289,8 @@
   animation: l2 1s infinite alternate;
 }
 
-.loader:before,
-.loader:after {
+.check-loader:before,
+.check-loader:after {
   content: "";
   grid-area: 1/1;
   height: 20px;
@@ -298,7 +298,7 @@
   background: #fff;
   border-radius: 50%;
 }
-.loader:after {
+.check-loader:after {
   margin-left: auto;
 }
 @keyframes l2 {

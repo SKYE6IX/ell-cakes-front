@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { GET_CART_QUERY } from "../cart/operations";
+import { AUTHORIZED_USER_QUERY } from "../header/user-menu/operation";
 import { userVar } from "@/lib/cache";
 import "./user-sidebar.scss";
 
@@ -10,7 +11,7 @@ export const END_SESSION: TypedDocumentNode<
   { endSession: boolean },
   Record<string, null>
 > = gql`
-  mutation Mutation {
+  mutation EndSession {
     endSession
   }
 `;
@@ -30,7 +31,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
         userVar(null);
       }
     },
-    refetchQueries: [GET_CART_QUERY],
+    refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
   const handleEndSession = () => {
