@@ -7,13 +7,14 @@ import {
 import { cookies } from "next/headers";
 
 export const { query, PreloadQuery } = registerApolloClient(async () => {
+  let cookiesHeaders = "";
   const cookiesStores = await cookies();
-
-  const cookiesHeaders = cookiesStores
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
-
+  if (cookiesStores) {
+    cookiesHeaders = cookiesStores
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join("; ");
+  }
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({

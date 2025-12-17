@@ -8,6 +8,7 @@ services:
         - SERVER_URL=https://api.ellcakes.ru/api/graphql
     environment: 
       - NEXT_PUBLIC_SERVER_URL=https://api.ellcakes.ru/api/graphql
+      - SERVER_URL=https://api.ellcakes.ru/api/graphql
     restart: always
     ports:
         - 3000:3000
