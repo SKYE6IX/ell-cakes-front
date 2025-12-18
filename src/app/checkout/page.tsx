@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect, RedirectType } from "next/navigation";
 import Input from "@/components/input/Input";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import SberPayIcon from "@/components/icons/SberPayIcon";
@@ -74,7 +74,9 @@ function Checkout() {
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
-  if (!cart) return null;
+  if (!cart) {
+    redirect("/", RedirectType.replace);
+  }
 
   return (
     <div className="checkout">

@@ -1,4 +1,3 @@
-import React from "react";
 import ProductDetails from "@/components/product-details/ProductDetails";
 
 async function page({ params }: { params: Promise<{ productSlug: string }> }) {
