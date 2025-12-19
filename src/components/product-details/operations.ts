@@ -97,9 +97,6 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
           }
         }
       }
-      category {
-        id
-      }
     }
   }
 `;
@@ -122,7 +119,7 @@ export const QUERY_SIMILAR_PRODUCTS: TypedDocumentNode<
   { querySimilarProducts: Product[] },
   {
     productId: string;
-    categoryId: string;
+    variantType: string;
     takeFillings: number;
     takeVariants: number;
     orderVariantsBy: ProductVariantOrderByInput[];
@@ -131,13 +128,13 @@ export const QUERY_SIMILAR_PRODUCTS: TypedDocumentNode<
 > = gql`
   query QuerySimilarProducts(
     $productId: String!
-    $categoryId: String!
+    $variantType: String!
     $takeFillings: Int
     $takeVariants: Int
     $orderVariantsBy: [ProductVariantOrderByInput!]!
     $imagesOrderBy: [ProductImageOrderByInput!]!
   ) {
-    querySimilarProducts(productId: $productId, categoryId: $categoryId) {
+    querySimilarProducts(productId: $productId, variantType: $variantType) {
       id
       name
       slug

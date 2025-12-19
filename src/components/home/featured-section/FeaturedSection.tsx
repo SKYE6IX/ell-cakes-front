@@ -31,7 +31,7 @@ const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
   ) {
     featuredProducts(take: $takeFeaturedProducts) {
       id
-      product {
+      products {
         id
         name
         slug
@@ -62,7 +62,7 @@ async function FeaturedSection() {
   const TAKE_VARIANTS_NUM = 1;
   const TAKE_FEATURED_PRODUCTS = 8;
 
-  const { data, error } = await query({
+  const { data } = await query({
     query: GET_FEATURED_PRODUCTS_QUERY,
     variables: {
       takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
@@ -73,7 +73,7 @@ async function FeaturedSection() {
     },
   });
 
-  const products = data?.featuredProducts.map((featured) => featured.product!);
+  const products = data?.featuredProducts[0].products;
 
   return (
     <section className="featured-section">

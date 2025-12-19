@@ -16,7 +16,7 @@ export const GET_PRODUCTS_BY_CATEGORY: TypedDocumentNode<
     imagesOrderBy: ProductImageOrderByInput[];
   }
 > = gql`
-  query TopCollectionProducts(
+  query CollectionProducts(
     $where: ProductWhereInput!
     $takeFillings: Int
     $takeVariants: Int

@@ -6,7 +6,9 @@ async function page() {
   return (
     <Collection
       categorySlug={CATEGORY_NAME}
-      where={{ category: { parent: { slug: { equals: CATEGORY_NAME } } } }}
+      where={{
+        categories: { some: { parent: { slug: { equals: CATEGORY_NAME } } } },
+      }}
     />
   );
 }

@@ -6,7 +6,7 @@ async function page({ params }: { params: Promise<{ categorySlug: string }> }) {
   return (
     <Collection
       categorySlug={categorySlug}
-      where={{ category: { slug: { equals: categorySlug } } }}
+      where={{ categories: { some: { slug: { equals: categorySlug } } } }}
     />
   );
 }

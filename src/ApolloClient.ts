@@ -23,10 +23,7 @@ export const { query, PreloadQuery } = registerApolloClient(async () => {
         cookie: cookiesHeaders,
       },
       fetchOptions: {
-        cache: "force-cache",
-        next: {
-          revalidate: 1800, // Reset every 30 min,
-        },
+        cache: "default",
         credentials: "include",
       },
     }),

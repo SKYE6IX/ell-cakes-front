@@ -42,7 +42,7 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
             getSimilarProducts({
               variables: {
                 productId: data.product.id,
-                categoryId: data.product.category!.id,
+                variantType: data.product.variantType!,
                 takeFillings: 1,
                 takeVariants: 1,
                 orderVariantsBy: [{ price: OrderDirection.Asc }],
