@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { mockProduct } from "../mock-datas";
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
+import { mockProduct } from "mock-data";
 
 describe("Product variant selector", () => {
   it("render initial weight value and price", () => {

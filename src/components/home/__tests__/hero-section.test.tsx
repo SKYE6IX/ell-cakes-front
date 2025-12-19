@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Hero from "../hero-section/Hero";
-import { mockBannerData } from "../mock-data";
+import { mockBannerData } from "mock-data";
 
 beforeEach(() => {
   global.IntersectionObserver = class {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ProductGallery from "../product-gallery/ProductImageGallery";
-import { mockProduct } from "../mock-datas";
+import { mockProduct } from "mock-data";
 
 beforeEach(() => {
   global.IntersectionObserver = class {

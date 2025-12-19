@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import ProductInfoPanel from "../product-info-panel/ProductInfoPanel";
 import { MockedProvider } from "@apollo/client/testing/react";
-import { mockProduct } from "../mock-datas";
+import { mockProduct } from "mock-data";
 
 describe("Product Info Panel", () => {
   it("render product title", () => {

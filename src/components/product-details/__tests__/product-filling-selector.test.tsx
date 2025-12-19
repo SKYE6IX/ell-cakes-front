@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import ProductFillingSelector from "../product-filling-selector/ProductFillingSelector";
-import { mockProduct } from "../mock-datas";
+import { mockProduct } from "mock-data";
 
 describe("Product Filling Selector", () => {
   it("render the images icons", () => {

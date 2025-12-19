@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import ProductList from "../ProductList";
-import { mockProducts } from "../mock-data";
+import { mockProducts } from "mock-data";
 
 describe("Product List Component", () => {
   it("render product images", () => {
