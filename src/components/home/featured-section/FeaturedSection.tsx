@@ -1,4 +1,3 @@
-import React from "react";
 import { gql, TypedDocumentNode } from "@apollo/client";
 import {
   FeaturedProduct,
