@@ -8,6 +8,7 @@ import "./dashboard.scss";
 
 export default function Dashboard() {
   const authUser = useReactiveVar(userVar);
+
   const [editing, setEditing] = useState<"none" | "profile" | "address">(
     "none"
   );
@@ -53,29 +54,33 @@ export default function Dashboard() {
               <div className="dashboard__card-body">
                 {editing === "profile" ? (
                   <>
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <h5 className="dashboard__card-label">Имя</h5>
-                      <input
-                        className="dashboard__card-input"
-                        defaultValue={authUser?.name || ""}
-                      />
-                    </div>
+                    <form action="" className="">
+                      <div className="dashboard__card-row dashboard__card-row--editable">
+                        <h5 className="dashboard__card-label">Имя</h5>
+                        <input
+                          className="dashboard__card-input"
+                          defaultValue={authUser?.name || ""}
+                        />
+                      </div>
 
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <h5 className="dashboard__card-label">Почта</h5>
-                      <input
-                        className="dashboard__card-input"
-                        defaultValue={authUser?.email || ""}
-                      />
-                    </div>
+                      <div className="dashboard__card-row dashboard__card-row--editable">
+                        <h5 className="dashboard__card-label">Почта</h5>
+                        <input
+                          className="dashboard__card-input"
+                          defaultValue={authUser?.email || ""}
+                        />
+                      </div>
 
-                    <div className="dashboard__card-row dashboard__card-row--editable">
-                      <h5 className="dashboard__card-label">Телефон</h5>
-                      <input
-                        className="dashboard__card-input"
-                        defaultValue={authUser?.phoneNumber || ""}
-                      />
-                    </div>
+                      <div className="dashboard__card-row dashboard__card-row--editable">
+                        <h5 className="dashboard__card-label">Телефон</h5>
+                        <input
+                          className="dashboard__card-input"
+                          defaultValue={authUser?.phoneNumber || ""}
+                        />
+                      </div>
+
+                      <button>Обновлять</button>
+                    </form>
                   </>
                 ) : (
                   <>
