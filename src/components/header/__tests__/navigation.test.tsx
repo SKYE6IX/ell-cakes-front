@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QueryRef } from "@apollo/client/react";
 import { Category } from "@/types/__generated__/graphql";
 import Navigation from "../navigation/Navigation";
 
@@ -94,13 +95,23 @@ const mockCategories: Category[] = [
   },
 ];
 
+jest.mock("@apollo/client/react", () => ({
+  useReadQuery: () => ({
+    data: {
+      categories: mockCategories,
+    },
+  }),
+  useReactiveVar: () => false,
+}));
+
 describe("Navigation component", () => {
   it("render navigation menu item", () => {
-    //   // Arrange
-    render(<Navigation categories={mockCategories} />);
-    //   // Act
+    // Arrange
+    const mockQuerRef: QueryRef<{ categories: Category[] }> = {};
+    render(<Navigation queryRef={mockQuerRef} />);
+    // Act
     const navigationMenuItems = screen.getAllByTestId("navigation-menu-item");
-    //   // Assert
+    // Assert
     expect(navigationMenuItems.length).toEqual(5);
     for (const el of navigationMenuItems) {
       expect(el).toBeInTheDocument();
@@ -109,7 +120,8 @@ describe("Navigation component", () => {
 
   it("render navigation sub menu item", async () => {
     // Arrange
-    render(<Navigation categories={mockCategories} />);
+    const mockQuerRef: QueryRef<{ categories: Category[] }> = {};
+    render(<Navigation queryRef={mockQuerRef} />);
 
     await waitFor(() => {
       // Act
@@ -128,7 +140,8 @@ describe("Navigation component", () => {
   it("show sub menu on mobile when user click", async () => {
     // Arrange
     const user = userEvent.setup();
-    render(<Navigation categories={mockCategories} />);
+    const mockQuerRef: QueryRef<{ categories: Category[] }> = {};
+    render(<Navigation queryRef={mockQuerRef} />);
     // Act
     const subMenuTrigger = screen.getByTestId("navigation-sub-menu-trigger");
     const navigationWidget = screen.getByTestId("navigation-widget");

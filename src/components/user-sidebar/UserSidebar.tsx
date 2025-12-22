@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { GET_CART_QUERY } from "../cart/operations";
-import { AUTHORIZED_USER_QUERY } from "../header/user-menu/operation";
+import { AUTHORIZED_USER_QUERY } from "../header/operation";
 import { userVar } from "@/lib/cache";
 import "./user-sidebar.scss";
 

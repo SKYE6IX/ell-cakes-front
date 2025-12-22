@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useReadQuery, QueryRef } from "@apollo/client/react";
 import { ProductHomeBanner } from "@/types/__generated__/graphql";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
@@ -9,7 +10,7 @@ import FallBackBanner from "./FallBackBanner";
 import "./hero-section.scss";
 
 type HeroProps = {
-  banners: ProductHomeBanner[] | undefined;
+  queryRef: QueryRef<{ productHomeBanners: ProductHomeBanner[] }>;
 };
 
 function updateSlides(container: HTMLUListElement) {
@@ -29,7 +30,9 @@ function updateSlides(container: HTMLUListElement) {
   }
 }
 
-function Hero({ banners }: HeroProps) {
+function Hero({ queryRef }: HeroProps) {
+  const { data } = useReadQuery(queryRef);
+  const banners = data.productHomeBanners;
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLUListElement>(null);
   const slideItemRefs = useRef<HTMLLIElement[]>([]);

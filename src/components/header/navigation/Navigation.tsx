@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useReactiveVar } from "@apollo/client/react";
+import { useReactiveVar, useReadQuery, QueryRef } from "@apollo/client/react";
 import { isMenuOpenVar } from "@/lib/cache";
 import ArrowDown from "../../icons/ArrowDown";
 import { Category } from "@/types/__generated__/graphql";
@@ -10,7 +10,7 @@ import { getTransliteration } from "@/utils/getTransliteration";
 import "./navigation.scss";
 
 type NavigationProps = {
-  categories: Category[] | undefined;
+  queryRef: QueryRef<{ categories: Category[] }>;
 };
 
 const categories = [
@@ -30,7 +30,9 @@ const navigationMenu = [
   { href: "/collaboration", label: "СОТРУДНИЧЕСТВО" },
 ];
 
-function Navigation({ categories }: NavigationProps) {
+function Navigation({ queryRef }: NavigationProps) {
+  const { data } = useReadQuery(queryRef);
+  const categories = data.categories;
   const pathname = usePathname();
   const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);

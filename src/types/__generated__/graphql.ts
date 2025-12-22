@@ -4090,13 +4090,6 @@ export type QueryAuthorizedUserQueryVariables = Exact<{ [key: string]: never; }>
 
 export type QueryAuthorizedUserQuery = { queryAuthorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, quantity: number | null, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } | null };
 
-export type ProductHomeBannersQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
-
 export type FeaturedProductsQueryVariables = Exact<{
   takeFeaturedProducts?: InputMaybe<Scalars['Int']['input']>;
   takeFillings?: InputMaybe<Scalars['Int']['input']>;
@@ -4107,6 +4100,13 @@ export type FeaturedProductsQueryVariables = Exact<{
 
 
 export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
+
+export type ProductHomeBannersQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;

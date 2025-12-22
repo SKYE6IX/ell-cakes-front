@@ -4,7 +4,7 @@ import {
   CONNECT_CART_TO_USER,
   GET_CART_QUERY,
 } from "@/components/cart/operations";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/user-menu/operation";
+import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
 import { USER_DATA_FRAGMENT } from "./userDataFragment";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { cartVar, userVar } from "@/lib/cache";

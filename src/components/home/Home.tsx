@@ -1,5 +1,4 @@
-import { gql, TypedDocumentNode } from "@apollo/client";
-import { ProductHomeBanner } from "@/types/__generated__/graphql";
+import { Suspense } from "react";
 import Hero from "./hero-section/Hero";
 import FeaturedSection from "./featured-section/FeaturedSection";
 import CraftDescription from "./craft-description-section/CraftDescription";
@@ -7,46 +6,50 @@ import WhyUs from "./why-us-section/WhyUs";
 import AboutUs from "./about-us-section/AboutUs";
 import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
-import { query } from "@/ApolloClient";
+import {
+  GET_PRODUCT_HOME_BANNERS_QUERY,
+  GET_FEATURED_PRODUCTS_QUERY,
+} from "./operation";
+import { PreloadQuery } from "@/ApolloClient";
 import "./home.scss";
-
-const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
-  {
-    productHomeBanners: ProductHomeBanner[];
-  },
-  { take: number }
-> = gql`
-  query ProductHomeBanners($take: Int) {
-    productHomeBanners(take: $take) {
-      id
-      bannerText
-      product {
-        id
-        slug
-        name
-        images {
-          id
-          image {
-            id
-            url
-          }
-        }
-      }
-    }
-  }
-`;
+import { OrderDirection } from "@/types/__generated__/graphql";
 
 async function Home() {
   const BANNER_NUM = 3;
-  const { data } = await query({
-    query: GET_PRODUCT_HOME_BANNERS_QUERY,
-    variables: { take: BANNER_NUM },
-  });
+  const TAKE_FILLINGS_NUM = 1;
+  const TAKE_VARIANTS_NUM = 1;
+  const TAKE_FEATURED_PRODUCTS = 8;
 
   return (
     <div className="home">
-      <Hero banners={data?.productHomeBanners} />
-      <FeaturedSection />
+      <PreloadQuery
+        query={GET_PRODUCT_HOME_BANNERS_QUERY}
+        variables={{ take: BANNER_NUM }}
+      >
+        {(queryRef) => (
+          <Suspense>
+            <Hero queryRef={queryRef} />
+          </Suspense>
+        )}
+      </PreloadQuery>
+
+      <PreloadQuery
+        query={GET_FEATURED_PRODUCTS_QUERY}
+        variables={{
+          takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
+          takeFillings: TAKE_FILLINGS_NUM,
+          takeVariants: TAKE_VARIANTS_NUM,
+          variantsOrderBy: [{ price: OrderDirection.Asc }],
+          imagesOrderBy: [{ id: OrderDirection.Asc }],
+        }}
+      >
+        {(queryRef) => (
+          <Suspense>
+            <FeaturedSection queryRef={queryRef} />
+          </Suspense>
+        )}
+      </PreloadQuery>
+
       <CraftDescription />
       <WhyUs />
       <CustomizeInfo />
