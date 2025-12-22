@@ -14,7 +14,7 @@ import DeliveryAddress from "./delivery-address/DeliveryAddress";
 import { cartVar, userVar } from "@/lib/cache";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/user-menu/operation";
+import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
 import spbIcon from "./sbp-icon.png";
 import "./checkout.scss";
 

@@ -5,7 +5,7 @@ import Input from "@/components/input/Input";
 import Modal from "@/components/modal/Modal";
 import { userVar } from "@/lib/cache";
 import { DelivaryAddressCreateInput } from "@/types/__generated__/graphql";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/user-menu/operation";
+import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
 import "./delivery-address.scss";
 
 const CREATE_DELIVARY_ADDRESS: TypedDocumentNode<
