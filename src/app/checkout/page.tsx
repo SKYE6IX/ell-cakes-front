@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, redirect, RedirectType } from "next/navigation";
-import Input from "@/components/input/Input";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
+import Input from "@/components/input/Input";
 import SberPayIcon from "@/components/icons/SberPayIcon";
 import TBankPayIcon from "@/components/icons/TBankPayIcon";
 import CreditCardIcon from "@/components/icons/CreditCardIcon";
@@ -15,6 +15,7 @@ import { cartVar, userVar } from "@/lib/cache";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
+import { calculateDeliveryPrice, getCoordinate } from "@/lib/y-map-common";
 import spbIcon from "./sbp-icon.png";
 import "./checkout.scss";
 
@@ -38,33 +39,105 @@ const paymentMethods = [
   },
 ];
 
+interface CheckoutState {
+  customerComment: string;
+  paymentMethod: PaymentMethodId;
+  modalAddress: {
+    show: boolean;
+    action: "create" | "update";
+  };
+  deliveryCost: number;
+  orderTotalAmount: number;
+}
+
 function Checkout() {
   const cart = useReactiveVar(cartVar);
   const authUser = useReactiveVar(userVar);
   const router = useRouter();
 
-  const [customerComment, setCustomerComment] = useState("");
-  const [activePayment, setActivePayment] =
-    useState<PaymentMethodId>("bank_card");
-  const [showModalAddress, setShowModalAddress] = useState(false);
+  const [checkoutState, setCheckoutState] = useState<CheckoutState>({
+    customerComment: "",
+    paymentMethod: "bank_card",
+    modalAddress: {
+      show: false,
+      action: "create",
+    },
+    deliveryCost: 0,
+    orderTotalAmount: 0,
+  });
 
-  const handleSetShowModalAddresss = () => {
-    setShowModalAddress(!showModalAddress);
+  // Check for address delivary and calculate the price
+  const handleSetDleiveryCost = useCallback(
+    async (address: string | undefined, subTotal: number) => {
+      let orderTotalAmount = subTotal;
+      let deliveryCost = 0;
+      if (address) {
+        const coord = await getCoordinate(address);
+        const lng = coord?.geometry?.coordinates[0];
+        const lat = coord?.geometry?.coordinates[1];
+        if (lng && lat) {
+          const ROUTE_END: [number, number] = [lng, lat];
+          const { price } = calculateDeliveryPrice(ROUTE_END);
+          orderTotalAmount = price + subTotal;
+          deliveryCost = price;
+        }
+      }
+      setCheckoutState((prvState) => ({
+        ...prvState,
+        deliveryCost,
+        orderTotalAmount,
+      }));
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (authUser && cart) {
+      const { delivaryAddress } = authUser;
+      const userAddress = delivaryAddress?.address;
+      handleSetDleiveryCost(userAddress!, cart.subTotal!);
+    }
+  }, [authUser, cart, handleSetDleiveryCost]);
+
+  const setModalAddresss = (action: "create" | "update") => {
+    setCheckoutState((prvState) => ({
+      ...prvState,
+      modalAddress: {
+        show: !prvState.modalAddress.show,
+        action,
+      },
+    }));
+  };
+
+  const closeModal = () => {
+    setCheckoutState((prvState) => ({
+      ...prvState,
+      modalAddress: {
+        show: !prvState.modalAddress.show,
+        action: "create",
+      },
+    }));
   };
 
   const onInputChange = ({ value }: { name: string; value: string }) => {
-    setCustomerComment(value);
+    setCheckoutState((prvState) => ({ ...prvState, customerComment: value }));
+  };
+
+  const setPaymentMethod = (paymentMethod: string) => {
+    setCheckoutState((prvState) => ({
+      ...prvState,
+      paymentMethod: paymentMethod as PaymentMethodId,
+    }));
   };
 
   const [checkoutOrder, { loading }] = useMutation(CHECKOUT_ORDER, {
     variables: {
-      deliveryAddressId: authUser?.delivaryAddress![0]?.id,
-      shippingCost: 500,
-      paymentMethod: activePayment,
-      customerNote: customerComment,
+      deliveryAddressId: authUser?.delivaryAddress?.id,
+      shippingCost: checkoutState.deliveryCost,
+      paymentMethod: checkoutState.paymentMethod,
+      customerNote: checkoutState.customerComment,
     },
     onCompleted(data) {
-      console.log("Here is your data -> ", data.checkOut);
       const paymentUrl = data.checkOut.redirectUrl!;
       router.push(paymentUrl);
     },
@@ -75,7 +148,7 @@ function Checkout() {
   });
 
   if (!cart) {
-    redirect("/", RedirectType.replace);
+    // redirect("/", RedirectType.replace);
   }
 
   return (
@@ -103,22 +176,35 @@ function Checkout() {
 
             <section className="user-info__section address">
               <h3 className="user-info__section-title">2. Адрес</h3>
-              {authUser.delivaryAddress &&
-              authUser.delivaryAddress.length > 0 ? (
-                <p className="user-info__section-address-text">
-                  {authUser.delivaryAddress[0].street}
-                </p>
+              {authUser.delivaryAddress && authUser.delivaryAddress ? (
+                <>
+                  <p className="user-info__section-address-text">
+                    {authUser.delivaryAddress.address}
+                  </p>
+                  <button
+                    className="user-info__add-address-btn"
+                    onClick={() => setModalAddresss("update")}
+                  >
+                    Изменить адрес
+                  </button>
+                  <DeliveryAddress
+                    showModalAddress={checkoutState.modalAddress.show}
+                    closeModal={closeModal}
+                    action={checkoutState.modalAddress.action}
+                  />
+                </>
               ) : (
                 <>
                   <button
                     className="user-info__add-address-btn"
-                    onClick={handleSetShowModalAddresss}
+                    onClick={() => setModalAddresss("create")}
                   >
                     Добавить адрес
                   </button>
                   <DeliveryAddress
-                    showModalAddress={showModalAddress}
-                    handleShowModalAddress={handleSetShowModalAddresss}
+                    showModalAddress={checkoutState.modalAddress.show}
+                    closeModal={closeModal}
+                    action={checkoutState.modalAddress.action}
                   />
                 </>
               )}
@@ -130,7 +216,7 @@ function Checkout() {
               </h3>
               <Input
                 name="comment"
-                initialValue={customerComment}
+                initialValue={checkoutState.customerComment}
                 placeholder="Комментарий *"
                 onInputChange={onInputChange}
                 type="text"
@@ -145,11 +231,11 @@ function Checkout() {
                   <li
                     key={method.id}
                     className={`user-info__section-payment-method-item ${
-                      activePayment === method.id ? "selected" : ""
+                      checkoutState.paymentMethod === method.id
+                        ? "selected"
+                        : ""
                     }`}
-                    onClick={() =>
-                      setActivePayment(method.id as PaymentMethodId)
-                    }
+                    onClick={() => setPaymentMethod(method.id)}
                   >
                     <div className="user-info__section-payment-method-icon">
                       <method.logo />
@@ -161,9 +247,9 @@ function Checkout() {
                 ))}
                 <li
                   className={`user-info__section-payment-method-item ${
-                    activePayment === "sbp" ? "selected" : ""
+                    checkoutState.paymentMethod === "sbp" ? "selected" : ""
                   }`}
-                  onClick={() => setActivePayment("sbp")}
+                  onClick={() => setPaymentMethod("sbp")}
                 >
                   <div className="user-info__section-payment-method-icon">
                     <Image
@@ -198,7 +284,9 @@ function Checkout() {
 
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Доставка</h5>
-            <span className="order-info__summary-value">500 ₽</span>
+            <span className="order-info__summary-value">
+              {checkoutState.deliveryCost} ₽
+            </span>
           </div>
 
           <div className="order-info__summary-divider" />
@@ -206,7 +294,7 @@ function Checkout() {
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Итог</h5>
             <span className="order-info__summary-value">
-              {cart?.subTotal} ₽
+              {checkoutState.orderTotalAmount} ₽
             </span>
           </div>
 
@@ -218,7 +306,7 @@ function Checkout() {
             {loading ? (
               <div className="check-loader"></div>
             ) : (
-              `ОПЛАТИТЬ ${cart?.subTotal} ₽`
+              `ОПЛАТИТЬ ${checkoutState.orderTotalAmount || cart?.subTotal} ₽`
             )}
           </button>
           <p className="checkout__legal">

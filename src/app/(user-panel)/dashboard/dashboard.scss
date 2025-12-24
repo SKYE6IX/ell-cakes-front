@@ -1,157 +1,66 @@
 @use "@/global-styles/variables" as *;
-@use "@/global-styles/globals.scss" as *;
-
-/* ------------------------------
-   СТРАНИЦА
---------------------------------*/
+@use "@/global-styles/shared-styles" as *;
 
 .dashboard {
-  flex: 1;
   width: 100%;
-  background: $primary-mute;
-  padding: 100px 100px 50px;
-  @include max-breakpoint("lg") {
-    padding: 60px;
-  }
-
-  @include max-breakpoint("md") {
-    padding: 50px 40px;
-  }
-
-  @include max-breakpoint("s") {
-    padding: 20px;
-  }
+  @include flex-layout(column, none, none, 10px);
 }
-
-.dashboard__inner {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-
-  @include max-breakpoint("md") {
-    flex-direction: column-reverse;
-    gap: 30px;
-  }
-}
-
-/* ------------------------------
-   ПРАВАЯ КОЛОНКА — БЕЛЫЙ БЛОК
---------------------------------*/
-
-.dashboard__right {
-  flex: 1;
-  background: #ffffff;
-  border-radius: 22px;
-  padding: 32px 36px 30px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-
-  @include max-breakpoint("md") {
-    padding: 28px 24px 24px;
-    border-radius: 18px;
-  }
-
-  @include max-breakpoint("s") {
-    padding: 20px 16px 20px;
-    border-radius: 14px;
-  }
-}
-
-/* ------------------------------
-   ЗАГОЛОВОК
---------------------------------*/
 
 .dashboard__title {
-  font-family: $font-uncage;
-  font-size: 26px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.5rem;
+  line-height: 26.4px;
   font-weight: 500;
-  margin: 0 0 22px;
-
   @include max-breakpoint("sm") {
-    font-size: 24px;
-    margin-bottom: 18px;
+    font-size: 1.125rem;
+    line-height: 19.8px;
   }
 }
-
-/* ------------------------------
-   СЕТКА КАРТОЧЕК
---------------------------------*/
 
 .dashboard__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px;
-
+  gap: 25px;
   @include max-breakpoint("md") {
     grid-template-columns: 1fr;
   }
-
   @include max-breakpoint("s") {
-    gap: 18px;
+    gap: 15px;
   }
 }
-
-/* ------------------------------
-   КАРТОЧКИ
---------------------------------*/
 
 .dashboard__card {
-  background: #fcfcfc;
-  border-radius: 18px;
-  padding: 22px 24px 24px;
+  border-radius: 15px;
+  padding: 20px;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border: none;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-
-  @include max-breakpoint("sm") {
-    padding: 18px 16px 20px;
-    border-radius: 14px;
-  }
-
-  @include max-breakpoint("md") {
-    &:hover {
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
-    }
-  }
+  @include flex-layout(column, none, none, 10px);
 }
-
-/* модификатор, когда карточка в режиме редактирования */
 
 .dashboard__card--editing {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* ------------------------------
-   ШАПКА КАРТОЧКИ
---------------------------------*/
-
 .dashboard__card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  @include flex-layout(row, center, space-between, none);
 }
 
 .dashboard__card-title {
-  font-family: $font-montserrat;
-  font-size: 16px;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
   font-weight: 600;
-  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-
   @include max-breakpoint("sm") {
-    font-size: 15px;
+    font-size: 0.9375rem;
+    line-height: 18px;
   }
 }
 
 .dashboard__card-edit {
+  border: none;
   background: transparent;
   border-radius: 50%;
-  border: none;
   cursor: pointer;
   padding: 6px;
   line-height: 1;
@@ -159,49 +68,38 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease, transform 0.2s ease;
-
   @include max-breakpoint("s") {
     padding: 4px;
   }
-
   &:hover {
     transform: translateY(-2px);
   }
-
   &:active {
     transform: translateY(0);
   }
 }
 
-.dashboard__card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
+.dashboard__card-body,
+.dashboard__form {
+  @include flex-layout(column, none, none, 15px);
   @include max-breakpoint("s") {
-    gap: 12px;
+    gap: 10px;
   }
 }
 
 .dashboard__card-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  min-height: 32px;
-
+  @include flex-layout(row, center, space-between, 10px);
+  padding: 10px 0px;
   @include max-breakpoint("s") {
     flex-direction: column;
     align-items: flex-start;
-    gap: 3px;
-    min-height: unset;
   }
 }
 
 .dashboard__card-row--editable {
+  padding: 0px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
 }
 
 .dashboard__card-label {
@@ -210,11 +108,6 @@
   line-height: 16.2px;
   font-weight: 400;
   color: $text-color;
-  opacity: 0.85;
-
-  @include max-breakpoint("s") {
-    font-size: 13px;
-  }
 }
 
 .dashboard__card-value {
@@ -223,12 +116,11 @@
   line-height: 16.2px;
   font-weight: 300;
   color: $text-color;
-
   @include max-breakpoint("s") {
-    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 15.2px;
   }
 }
-
 .dashboard__card-input {
   width: 100%;
   font-family: $font-montserrat, sans-serif;
@@ -240,15 +132,34 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   background: transparent;
   outline: none;
-
   @include max-breakpoint("s") {
     padding: 3px 0 5px;
   }
-
   &:focus {
     border-bottom-color: $primary-accent;
     border-bottom-width: 2px;
   }
+}
+
+.dashboard__update-btn {
+  width: 60%;
+  margin: 0px auto;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background: $text-color;
+  color: $neutral;
+  padding: 15px 0px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
+  filter: grayscale(0);
+}
+
+.dashboard__update-btn.in-flight {
+  filter: grayscale(1);
+  transition: filter 0.2s ease;
 }
 
 .dashboard__card-actions {

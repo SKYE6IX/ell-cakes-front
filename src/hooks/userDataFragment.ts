@@ -9,7 +9,7 @@ export const USER_DATA_FRAGMENT = gql`
     isPhoneNumberVerified
     delivaryAddress {
       id
-      street
+      address
     }
     orders {
       id

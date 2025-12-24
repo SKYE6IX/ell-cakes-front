@@ -597,6 +597,7 @@ export type DecimalNullableFilter = {
 
 export type DelivaryAddress = {
   __typename: 'DelivaryAddress';
+  address: Maybe<Scalars['String']['output']>;
   apartmentNumber: Maybe<Scalars['String']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
   floor: Maybe<Scalars['String']['output']>;
@@ -604,7 +605,6 @@ export type DelivaryAddress = {
   intercomCode: Maybe<Scalars['String']['output']>;
   orders: Maybe<Array<Order>>;
   ordersCount: Maybe<Scalars['Int']['output']>;
-  street: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   user: Maybe<User>;
 };
@@ -624,42 +624,24 @@ export type DelivaryAddressOrdersCountArgs = {
 };
 
 export type DelivaryAddressCreateInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
   apartmentNumber?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   floor?: InputMaybe<Scalars['String']['input']>;
   intercomCode?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<OrderRelateToManyForCreateInput>;
-  street?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
-export type DelivaryAddressManyRelationFilter = {
-  every?: InputMaybe<DelivaryAddressWhereInput>;
-  none?: InputMaybe<DelivaryAddressWhereInput>;
-  some?: InputMaybe<DelivaryAddressWhereInput>;
-};
-
 export type DelivaryAddressOrderByInput = {
+  address?: InputMaybe<OrderDirection>;
   apartmentNumber?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   floor?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   intercomCode?: InputMaybe<OrderDirection>;
-  street?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
-};
-
-export type DelivaryAddressRelateToManyForCreateInput = {
-  connect?: InputMaybe<Array<DelivaryAddressWhereUniqueInput>>;
-  create?: InputMaybe<Array<DelivaryAddressCreateInput>>;
-};
-
-export type DelivaryAddressRelateToManyForUpdateInput = {
-  connect?: InputMaybe<Array<DelivaryAddressWhereUniqueInput>>;
-  create?: InputMaybe<Array<DelivaryAddressCreateInput>>;
-  disconnect?: InputMaybe<Array<DelivaryAddressWhereUniqueInput>>;
-  set?: InputMaybe<Array<DelivaryAddressWhereUniqueInput>>;
 };
 
 export type DelivaryAddressRelateToOneForCreateInput = {
@@ -679,12 +661,12 @@ export type DelivaryAddressUpdateArgs = {
 };
 
 export type DelivaryAddressUpdateInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
   apartmentNumber?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   floor?: InputMaybe<Scalars['String']['input']>;
   intercomCode?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
-  street?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
@@ -693,19 +675,20 @@ export type DelivaryAddressWhereInput = {
   AND?: InputMaybe<Array<DelivaryAddressWhereInput>>;
   NOT?: InputMaybe<Array<DelivaryAddressWhereInput>>;
   OR?: InputMaybe<Array<DelivaryAddressWhereInput>>;
+  address?: InputMaybe<StringFilter>;
   apartmentNumber?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   floor?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   intercomCode?: InputMaybe<StringFilter>;
   orders?: InputMaybe<OrderManyRelationFilter>;
-  street?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
 
 export type DelivaryAddressWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  user?: InputMaybe<UserWhereUniqueInput>;
 };
 
 export type FeaturedProduct = {
@@ -3748,8 +3731,7 @@ export type User = {
   __typename: 'User';
   cart: Maybe<Cart>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
-  delivaryAddress: Maybe<Array<DelivaryAddress>>;
-  delivaryAddressCount: Maybe<Scalars['Int']['output']>;
+  delivaryAddress: Maybe<DelivaryAddress>;
   email: Maybe<Scalars['String']['output']>;
   firstOrderDiscountEligible: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
@@ -3770,20 +3752,6 @@ export type User = {
   phoneNumberVerificationRedeemedAt: Maybe<Scalars['DateTime']['output']>;
   role: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
-};
-
-
-export type UserDelivaryAddressArgs = {
-  cursor?: InputMaybe<DelivaryAddressWhereUniqueInput>;
-  orderBy?: Array<DelivaryAddressOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: DelivaryAddressWhereInput;
-};
-
-
-export type UserDelivaryAddressCountArgs = {
-  where?: DelivaryAddressWhereInput;
 };
 
 
@@ -3830,7 +3798,7 @@ export type UserAuthenticationWithPasswordSuccess = {
 export type UserCreateInput = {
   cart?: InputMaybe<CartRelateToOneForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  delivaryAddress?: InputMaybe<DelivaryAddressRelateToManyForCreateInput>;
+  delivaryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstOrderDiscountEligible?: InputMaybe<Scalars['Boolean']['input']>;
   isPhoneNumberVerified?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3886,7 +3854,7 @@ export type UserUpdateArgs = {
 export type UserUpdateInput = {
   cart?: InputMaybe<CartRelateToOneForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  delivaryAddress?: InputMaybe<DelivaryAddressRelateToManyForUpdateInput>;
+  delivaryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstOrderDiscountEligible?: InputMaybe<Scalars['Boolean']['input']>;
   isPhoneNumberVerified?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3912,7 +3880,7 @@ export type UserWhereInput = {
   OR?: InputMaybe<Array<UserWhereInput>>;
   cart?: InputMaybe<CartWhereInput>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
-  delivaryAddress?: InputMaybe<DelivaryAddressManyRelationFilter>;
+  delivaryAddress?: InputMaybe<DelivaryAddressWhereInput>;
   email?: InputMaybe<StringFilter>;
   firstOrderDiscountEligible?: InputMaybe<BooleanFilter>;
   id?: InputMaybe<IdFilter>;
@@ -3934,6 +3902,7 @@ export type UserWhereInput = {
 
 export type UserWhereUniqueInput = {
   cart?: InputMaybe<CartWhereUniqueInput>;
+  delivaryAddress?: InputMaybe<DelivaryAddressWhereUniqueInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
@@ -3944,6 +3913,14 @@ export type VerifyUserByPhoneNumberResponse = {
   message: Maybe<Scalars['String']['output']>;
   status: Maybe<Scalars['Boolean']['output']>;
 };
+
+export type UpdateUserMutationVariables = Exact<{
+  where: UserWhereUniqueInput;
+  data: UserUpdateInput;
+}>;
+
+
+export type UpdateUserMutation = { updateUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } | null };
 
 export type CreateDelivaryAddressMutationVariables = Exact<{
   data: DelivaryAddressCreateInput;
@@ -4088,7 +4065,14 @@ export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', i
 export type QueryAuthorizedUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueryAuthorizedUserQuery = { queryAuthorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, quantity: number | null, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } | null };
+export type QueryAuthorizedUserQuery = { queryAuthorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } | null };
+
+export type ProductHomeBannersQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
 
 export type FeaturedProductsQueryVariables = Exact<{
   takeFeaturedProducts?: InputMaybe<Scalars['Int']['input']>;
@@ -4100,13 +4084,6 @@ export type FeaturedProductsQueryVariables = Exact<{
 
 
 export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
-
-export type ProductHomeBannersQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type ProductHomeBannersQuery = { productHomeBanners: Array<{ __typename: 'ProductHomeBanner', id: string, bannerText: string | null, product: { __typename: 'Product', id: string, slug: string | null, name: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4148,14 +4125,14 @@ export type AuthorizedUserMutationVariables = Exact<{
 }>;
 
 
-export type AuthorizedUserMutation = { authorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } };
+export type AuthorizedUserMutation = { authorizedUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } };
 
 export type RegisterUserMutationVariables = Exact<{
   registerData: RegisterUserInput;
 }>;
 
 
-export type RegisterUserMutation = { registerUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } };
+export type RegisterUserMutation = { registerUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } };
 
 export type IsEmailInUseQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -4171,4 +4148,4 @@ export type IsPhoneNumberInUseQueryVariables = Exact<{
 
 export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
 
-export type UserFragmentFragment = { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: Array<{ __typename: 'DelivaryAddress', id: string, street: string | null }> | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null };
+export type UserFragmentFragment = { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null };

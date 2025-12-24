@@ -10,16 +10,29 @@
 }
 
 .delivery-address__input-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  @include flex-layout(column, none, none, 20px);
+}
+.delivery-address__input-list-middle {
+  @include flex-layout(row, none, none, 20px);
   @include max-breakpoint("s") {
     @include flex-layout(column, none, none, 20px);
   }
 }
 
+.delivery-address__input-list .yandex-map-address__input {
+  height: 46px;
+  border: 1px solid $text-color;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.delivery-address__input-list .yandex-map-address__input:focus {
+  border-color: $primary;
+}
+
 .delivery-address__submit {
-  @include flex-layout(roq, center, center, none);
+  @include flex-layout(row, center, center, none);
   width: 100%;
   border: none;
   outline: none;

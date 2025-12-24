@@ -14,7 +14,10 @@
   "dependencies": {
     "@apollo/client": "^4.0.10",
     "@apollo/client-integration-nextjs": "^0.14.1",
+    "@turf/turf": "^7.3.1",
+    "@yandex/ymaps3-default-ui-theme": "^0.0.23",
     "apollo-upload-client": "^19.0.0",
+    "geojson": "^0.5.0",
     "graphql": "^16.11.0",
     "iuliia": "^0.8.2",
     "motion": "^12.23.24",
@@ -38,6 +41,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@yandex/ymaps3-types": "^1.0.18399252",
     "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",

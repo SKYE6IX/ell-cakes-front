@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
+import Script from "next/script";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
@@ -59,6 +60,10 @@ export default async function RootLayout({
             <Footer />
           </div>
         </ApolloWrapper>
+        <Script
+          src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.Y_MAP_API_KEY}&lang=ru_RU`}
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );

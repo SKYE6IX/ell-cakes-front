@@ -1,5 +1,5 @@
 @use "@/global-styles/variables" as *;
-@use "@/global-styles/globals.scss" as *;
+@use "@/global-styles/shared-styles" as *;
 
 .user-sidebar {
   width: 340px;

@@ -17,10 +17,12 @@ export const END_SESSION: TypedDocumentNode<
 `;
 
 interface UserSidebarProps {
-  active?: "profile" | "orders";
+  active?: "dashboard" | "order-history";
 }
 
-export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
+export default function UserSidebar({
+  active = "dashboard",
+}: UserSidebarProps) {
   const user = useReactiveVar(userVar);
   const router = useRouter();
 
@@ -48,7 +50,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
             href="/dashboard"
             aria-current="page"
             className={`user-sidebar__link ${
-              active === "profile" ? "user-sidebar__link--accent" : ""
+              active === "dashboard" ? "user-sidebar__link--accent" : ""
             }`}
           >
             Мои данные
@@ -58,7 +60,7 @@ export default function UserSidebar({ active = "profile" }: UserSidebarProps) {
             href="/order-history"
             aria-current="page"
             className={`user-sidebar__link ${
-              active === "orders" ? "user-sidebar__link--accent" : ""
+              active === "order-history" ? "user-sidebar__link--accent" : ""
             }`}
           >
             История заказов

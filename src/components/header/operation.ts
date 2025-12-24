@@ -1,9 +1,10 @@
+import { TypedDocumentNode, gql } from "@apollo/client";
 import {
   Category,
   CategoryWhereInput,
   User,
 } from "@/types/__generated__/graphql";
-import { TypedDocumentNode, gql } from "@apollo/client";
+import { USER_DATA_FRAGMENT } from "@/hooks/userDataFragment";
 
 export const GET_CATEGORIES: TypedDocumentNode<
   { categories: Category[] },
@@ -24,30 +25,8 @@ export const AUTHORIZED_USER_QUERY: TypedDocumentNode<
 > = gql`
   query QueryAuthorizedUser {
     queryAuthorizedUser {
-      id
-      name
-      email
-      phoneNumber
-      isPhoneNumberVerified
-      delivaryAddress {
-        id
-        street
-      }
-      orders {
-        id
-        createdAt
-        orderNumber
-        totalAmount
-        status
-        orderItems {
-          id
-          quantity
-          product {
-            id
-            name
-          }
-        }
-      }
+      ...userFragment
     }
   }
+  ${USER_DATA_FRAGMENT}
 `;
