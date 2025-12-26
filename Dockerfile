@@ -16,6 +16,8 @@ COPY public ./public
 
 COPY env.d.ts .
 
+COPY ymaps.d.ts .
+
 COPY next.config.ts .
 
 COPY tsconfig.json .

@@ -1,8 +1,8 @@
-import * as ymaps3 from "@yandex/ymaps3-types";
+import type * as YMaps from "@yandex/ymaps3-types";
 
 declare global {
   interface Window {
-    ymaps3: typeof ymaps3;
+    ymaps3: typeof YMaps;
   }
 }
 
