@@ -4,7 +4,7 @@ import {
   CONNECT_CART_TO_USER,
   GET_CART_QUERY,
 } from "@/components/cart/operations";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { USER_DATA_FRAGMENT } from "./userDataFragment";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import { cartVar, userVar } from "@/lib/cache";
@@ -15,7 +15,7 @@ export const AUTHORIZED_USER: TypedDocumentNode<
 > = gql`
   mutation AuthorizedUser($email: String!, $password: String!) {
     authorizedUser(email: $email, password: $password) {
-      ...userFragment
+      ...UserFragment
     }
   }
   ${USER_DATA_FRAGMENT}
@@ -29,8 +29,9 @@ type Props = {
   };
 };
 
-function useLoginUserMutation({ formState, onComplete }: Props) {
+export function useLoginUserMutation({ formState, onComplete }: Props) {
   const cart = useReactiveVar(cartVar);
+
   const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
@@ -69,5 +70,3 @@ function useLoginUserMutation({ formState, onComplete }: Props) {
     error,
   };
 }
-
-export default useLoginUserMutation;

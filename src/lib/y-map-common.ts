@@ -33,13 +33,7 @@ export function calculateDeliveryPrice(destinationCoords: [number, number]) {
     };
   }
 
-  const line = polygonToLine(currentZone.geometry as any);
-
-  const nearest = nearestPointOnLine(line as any, destPoint);
-
-  const outOfZoneDistance = distance(nearest, destPoint, {
-    units: "kilometers",
-  });
+  const outOfZoneDistance = outOfZoneLength(destinationCoords);
 
   const price = currentZone.price + OUT_OF_ZONES_PRICE * outOfZoneDistance;
 
@@ -53,7 +47,7 @@ export const getCoordinate = async (address: string) => {
 
   const results = await window.ymaps3.search({
     text: address,
-    limit: 5,
+    limit: 2,
   });
 
   if (!results[0]) return;
@@ -64,3 +58,37 @@ export const getCoordinate = async (address: string) => {
 
   return finalResult;
 };
+
+export const isValidAddress = async (address: string) => {
+  const MAX_DELIVERY = 99;
+  if (!address || address.length < 5) {
+    return false;
+  }
+  const addressCoord = await getCoordinate(address);
+
+  if (addressCoord) {
+    const outOfZoneDistance = outOfZoneLength([
+      addressCoord.geometry!.coordinates[0],
+      addressCoord.geometry!.coordinates[1],
+    ]);
+    return outOfZoneDistance < MAX_DELIVERY;
+  } else {
+    return false;
+  }
+};
+
+function outOfZoneLength(destinationCoords: [number, number]) {
+  const destPoint = point(destinationCoords);
+
+  const currentZone = ZONE;
+
+  const line = polygonToLine(currentZone.geometry as any);
+
+  const nearest = nearestPointOnLine(line as any, destPoint);
+
+  const outOfZoneDistance = distance(nearest, destPoint, {
+    units: "kilometers",
+  });
+
+  return outOfZoneDistance;
+}

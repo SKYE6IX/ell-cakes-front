@@ -33,6 +33,21 @@ const loginSchema = z.object({
     }),
 });
 
+const updateUserSchema = z.object({
+  name: z
+    .string({
+      error: "Invalid name input",
+    })
+    .min(3)
+    .regex(/^[a-zA-Z\s]+$/, {
+      error: "Invalid name",
+    }),
+  email: z.email({
+    error: "Invalid email address",
+  }),
+  phoneNumber: z.string().min(11).max(11),
+});
+
 export function validateRegistrationFields(
   registerData: z.output<typeof schema>
 ) {
@@ -41,4 +56,10 @@ export function validateRegistrationFields(
 
 export function validateLoginFields(loginData: z.output<typeof loginSchema>) {
   return loginSchema.safeParse(loginData);
+}
+
+export function validateUpdateFields(
+  updateData: z.output<typeof updateUserSchema>
+) {
+  return updateUserSchema.safeParse(updateData);
 }

@@ -1,6 +1,6 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import {
   DelivaryAddressCreateInput,
   DelivaryAddressWhereUniqueInput,
@@ -59,11 +59,9 @@ export function useCreateDeliveryAddress({
       onCompleted() {
         callBack();
       },
-
       onError(error) {
         console.error("Error occur when creating new address -> ", error);
       },
-
       refetchQueries(result) {
         if (result.data) {
           return [AUTHORIZED_USER_QUERY];

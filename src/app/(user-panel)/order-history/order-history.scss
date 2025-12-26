@@ -106,17 +106,18 @@
 .order-history__empty {
   background: #fcfcfc;
   border-radius: 18px;
-  padding: 28px 26px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  font-family: $font-uncage;
-  font-size: 18px;
+  padding: 25px;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1.125rem;
+  line-height: 19.3px;
   color: $text-color;
-  min-height: 160px;
+  min-height: 100px;
   display: flex;
   align-items: center;
+  justify-content: center;
   @include max-breakpoint("sm") {
-    padding: 20px 18px;
-    border-radius: 14px;
-    font-size: 16px;
+    font-size: 1rem;
+    line-height: 19px;
+    text-align: center;
   }
 }

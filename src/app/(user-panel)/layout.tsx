@@ -7,6 +7,7 @@ import "./user-panel-layout.scss";
 function UserPanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const activeLink = pathname.slice(1) as "dashboard" | "order-history";
+
   return (
     <div className="user-panel-layout">
       <UserSidebar active={activeLink} />

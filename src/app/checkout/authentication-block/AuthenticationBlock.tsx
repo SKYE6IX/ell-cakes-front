@@ -4,7 +4,7 @@ import TokenInput from "@/components/token-input/TokenInput";
 import { validateLoginFields } from "@/utils/validations";
 import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
-import useLoginUserMutation from "@/hooks/useLoginUserMutation";
+import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
 import "./authentication-block.scss";
 
 const loginState = {
@@ -157,6 +157,7 @@ function AuthenticationBlock() {
     }
     registerUser();
   };
+
   return (
     <div className="authentication-block">
       {authenticationState.currentView === "login" && (

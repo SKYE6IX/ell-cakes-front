@@ -6,7 +6,7 @@ import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import HelpSidebar from "@/components/help-sidebar/HelpSidebar";
 import { validateLoginFields } from "@/utils/validations";
-import useLoginUserMutation from "@/hooks/useLoginUserMutation";
+import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
 import "./login.scss";
 
 const initialState = {
@@ -18,10 +18,12 @@ function Login() {
   const router = useRouter();
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
+
   const { authorizeUser, loading, error } = useLoginUserMutation({
     formState,
     onComplete() {
       router.push("/dashboard");
+      // router.refresh();
     },
   });
 

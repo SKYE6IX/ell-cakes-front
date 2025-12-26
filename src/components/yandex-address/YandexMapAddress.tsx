@@ -13,9 +13,13 @@ const debounce = (fn: (arg: string) => void, delay: number) => {
 
 type YandexMapAddressProps = {
   onAddressInputChange: ({}: { address: string }) => void;
+  hasError: boolean;
 };
 
-function YandexMapAddress({ onAddressInputChange }: YandexMapAddressProps) {
+function YandexMapAddress({
+  onAddressInputChange,
+  hasError,
+}: YandexMapAddressProps) {
   const [address, setAddress] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -95,6 +99,13 @@ function YandexMapAddress({ onAddressInputChange }: YandexMapAddressProps) {
           );
         })}
       </ul>
+
+      <p
+        aria-live="polite"
+        className={`yandex-map-address__error ${hasError ? "show" : ""}`}
+      >
+        Неверный адрес
+      </p>
     </div>
   );
 }

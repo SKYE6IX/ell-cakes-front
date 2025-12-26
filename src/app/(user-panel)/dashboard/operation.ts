@@ -12,7 +12,7 @@ export const UPDATE_USER_PROFILE: TypedDocumentNode<
 > = gql`
   mutation UpdateUser($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
     updateUser(where: $where, data: $data) {
-      ...userFragment
+      ...UserFragment
     }
   }
   ${USER_DATA_FRAGMENT}

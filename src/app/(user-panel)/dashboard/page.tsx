@@ -1,17 +1,23 @@
 "use client";
 import { useState, useMemo } from "react";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
-import { redirect, RedirectType } from "next/navigation";
 import DashboardPen from "@/components/icons/DashboardPen";
 import { userVar } from "@/lib/cache";
 import { UPDATE_USER_PROFILE } from "./operation";
+import Address from "./Address";
+import { validateUpdateFields } from "@/utils/validations";
 import "./dashboard.scss";
+
+type UserDataActions = "update_profile" | "none";
 
 export default function Dashboard() {
   const authUser = useReactiveVar(userVar);
-  const [editing, setEditing] = useState<"none" | "profile" | "address">(
-    "none"
-  );
+
+  const [userDataActions, setUserDataActions] =
+    useState<UserDataActions>("none");
+
+  const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
+
   const [updateProfileForm, setUpdateProfileForm] = useState({
     name: "",
     email: "",
@@ -29,8 +35,13 @@ export default function Dashboard() {
     }
   }, [authUser]);
 
-  const toggleEditing = (section: "profile" | "address") => {
-    setEditing((prev) => (prev === section ? "none" : section));
+  const toggleAction = (action: UserDataActions) => {
+    setUserDataActions((prvState) => {
+      if (prvState === action) {
+        return "none";
+      }
+      return action;
+    });
   };
 
   const onChangeUpdateProfileInput = (
@@ -38,16 +49,19 @@ export default function Dashboard() {
   ) => {
     const { name, value } = e.target;
     setUpdateProfileForm((prvState) => ({ ...prvState, [name]: value }));
+    if (errorFeilds.includes(name)) {
+      setErrorFeilds((prevState) => prevState.filter((prev) => prev !== name));
+    }
   };
 
   const [updateUserProfile, { loading }] = useMutation(UPDATE_USER_PROFILE, {
     variables: { data: { ...updateProfileForm }, where: { id: authUser?.id } },
     onCompleted(data) {
       userVar(data.updateUser);
-      setEditing("none");
+      setUserDataActions("none");
     },
     onError(error) {
-      setEditing("none");
+      setUserDataActions("none");
       console.error(
         "A new error occur when try to update user profile -> ",
         error.message
@@ -57,13 +71,15 @@ export default function Dashboard() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const validatedFields = validateUpdateFields(updateProfileForm);
+    if (validatedFields.error) {
+      validatedFields.error.issues.forEach((issue) => {
+        setErrorFeilds((prevState) => [...prevState, issue.path[0].toString()]);
+      });
+      return;
+    }
     updateUserProfile();
   };
-
-  if (!authUser) {
-    redirect("/login", RedirectType.replace);
-    return;
-  }
 
   return (
     <section className="dashboard">
@@ -74,7 +90,9 @@ export default function Dashboard() {
       <div className="dashboard__grid">
         <article
           className={`dashboard__card dashboard__card--profile ${
-            editing === "profile" ? "dashboard__card--editing" : ""
+            userDataActions === "update_profile"
+              ? "dashboard__card--editing"
+              : ""
           }`}
         >
           <div className="dashboard__card-head">
@@ -83,7 +101,7 @@ export default function Dashboard() {
             <button
               type="button"
               className="dashboard__card-edit"
-              onClick={() => toggleEditing("profile")}
+              onClick={() => toggleAction("update_profile")}
               disabled={loading}
             >
               <DashboardPen />
@@ -91,12 +109,14 @@ export default function Dashboard() {
           </div>
 
           <div className="dashboard__card-body">
-            {editing === "profile" ? (
+            {userDataActions === "update_profile" ? (
               <form onSubmit={handleSubmit} className="dashboard__form">
                 <div className="dashboard__card-row dashboard__card-row--editable">
                   <h5 className="dashboard__card-label">Имя</h5>
                   <input
-                    className="dashboard__card-input"
+                    className={`dashboard__card-input ${
+                      errorFeilds.includes("name") ? "error" : ""
+                    }`}
                     name="name"
                     value={updateProfileForm.name || ""}
                     onChange={onChangeUpdateProfileInput}
@@ -106,7 +126,9 @@ export default function Dashboard() {
                 <div className="dashboard__card-row dashboard__card-row--editable">
                   <h5 className="dashboard__card-label">Почта</h5>
                   <input
-                    className="dashboard__card-input"
+                    className={`dashboard__card-input ${
+                      errorFeilds.includes("email") ? "error" : ""
+                    }`}
                     name="email"
                     value={updateProfileForm.email || ""}
                     onChange={onChangeUpdateProfileInput}
@@ -116,20 +138,25 @@ export default function Dashboard() {
                 <div className="dashboard__card-row dashboard__card-row--editable">
                   <h5 className="dashboard__card-label">Телефон</h5>
                   <input
-                    className="dashboard__card-input"
+                    className={`dashboard__card-input ${
+                      errorFeilds.includes("phoneNumber") ? "error" : ""
+                    }`}
                     name="phoneNumber"
                     value={updateProfileForm.phoneNumber || ""}
                     onChange={onChangeUpdateProfileInput}
                   />
                 </div>
+
                 <button
-                  className={`dashboard__update-btn ${
-                    loading ? "in-flight" : ""
-                  }`}
+                  className="dashboard__update-profile-btn"
                   type="submit"
                   disabled={loading}
                 >
-                  Обновлять
+                  {loading ? (
+                    <div className="dashboard__loader"></div>
+                  ) : (
+                    "Обновлять"
+                  )}
                 </button>
               </form>
             ) : (
@@ -159,52 +186,7 @@ export default function Dashboard() {
           </div>
         </article>
 
-        {authUser.delivaryAddress && (
-          <article
-            className={`dashboard__card dashboard__card--address ${
-              editing === "address" ? "dashboard__card--editing" : ""
-            }`}
-          >
-            <div className="dashboard__card-head">
-              <h3 className="dashboard__card-title">Адрес доставки</h3>
-              <button
-                type="button"
-                className="dashboard__card-edit"
-                onClick={() => toggleEditing("address")}
-              >
-                <DashboardPen />
-              </button>
-            </div>
-
-            <div className="dashboard__card-body">
-              {editing === "address" ? (
-                <form action="" className="dashboard__form">
-                  <div className="dashboard__card-row dashboard__card-row--editable">
-                    <input
-                      className="dashboard__card-input"
-                      defaultValue={authUser?.delivaryAddress?.address || ""}
-                    />
-                  </div>
-                  <button className="dashboard__update-btn">Обновлять</button>
-                </form>
-              ) : (
-                <>
-                  <div className="dashboard__card-row">
-                    <h5 className="dashboard__card-label">Город</h5>
-                    <span className="dashboard__card-value">Mosocow</span>
-                  </div>
-
-                  <div className="dashboard__card-row">
-                    <h5 className="dashboard__card-label">Адрес доставки</h5>
-                    <span className="dashboard__card-value">
-                      {authUser?.delivaryAddress?.address}
-                    </span>
-                  </div>
-                </>
-              )}
-            </div>
-          </article>
-        )}
+        <Address authUser={authUser} />
       </div>
     </section>
   );

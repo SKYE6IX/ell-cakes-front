@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, redirect, RedirectType } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useReactiveVar, useMutation } from "@apollo/client/react";
 import Input from "@/components/input/Input";
 import SberPayIcon from "@/components/icons/SberPayIcon";
@@ -14,8 +14,9 @@ import DeliveryAddress from "./delivery-address/DeliveryAddress";
 import { cartVar, userVar } from "@/lib/cache";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
-import { AUTHORIZED_USER_QUERY } from "@/components/header/operation";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { calculateDeliveryPrice, getCoordinate } from "@/lib/y-map-common";
+import { canCheckout } from "./canCheckout";
 import spbIcon from "./sbp-icon.png";
 import "./checkout.scss";
 
@@ -65,6 +66,16 @@ function Checkout() {
     deliveryCost: 0,
     orderTotalAmount: 0,
   });
+
+  // POPULATE INITIAL SUB TOTAL
+  useMemo(() => {
+    if (cart) {
+      setCheckoutState((prvState) => ({
+        ...prvState,
+        orderTotalAmount: cart.subTotal!,
+      }));
+    }
+  }, [cart]);
 
   // Check for address delivary and calculate the price
   const handleSetDleiveryCost = useCallback(
@@ -137,6 +148,7 @@ function Checkout() {
       paymentMethod: checkoutState.paymentMethod,
       customerNote: checkoutState.customerComment,
     },
+
     onCompleted(data) {
       const paymentUrl = data.checkOut.redirectUrl!;
       router.push(paymentUrl);
@@ -147,9 +159,14 @@ function Checkout() {
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
-  if (!cart) {
-    // redirect("/", RedirectType.replace);
-  }
+  if (!cart) return null;
+
+  const isCheckout = canCheckout(
+    authUser?.id,
+    authUser?.delivaryAddress?.id,
+    checkoutState.deliveryCost,
+    checkoutState.paymentMethod
+  );
 
   return (
     <div className="checkout">
@@ -283,10 +300,14 @@ function Checkout() {
           </div>
 
           <div className="order-info__summary-row">
-            <h5 className="order-info__summary-label">Доставка</h5>
-            <span className="order-info__summary-value">
-              {checkoutState.deliveryCost} ₽
-            </span>
+            {checkoutState.deliveryCost ? (
+              <>
+                <h5 className="order-info__summary-label">Доставка</h5>
+                <span className="order-info__summary-value">
+                  {checkoutState.deliveryCost} ₽
+                </span>
+              </>
+            ) : null}
           </div>
 
           <div className="order-info__summary-divider" />
@@ -301,7 +322,7 @@ function Checkout() {
           <button
             className="checkout__button"
             onClick={() => checkoutOrder()}
-            disabled={loading}
+            disabled={!isCheckout || loading}
           >
             {loading ? (
               <div className="check-loader"></div>

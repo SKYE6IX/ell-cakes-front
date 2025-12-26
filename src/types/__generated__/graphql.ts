@@ -3929,6 +3929,14 @@ export type CreateDelivaryAddressMutationVariables = Exact<{
 
 export type CreateDelivaryAddressMutation = { createDelivaryAddress: { __typename: 'DelivaryAddress', id: string } | null };
 
+export type UpdateDelivaryAddressMutationVariables = Exact<{
+  where: DelivaryAddressWhereUniqueInput;
+  data: DelivaryAddressUpdateInput;
+}>;
+
+
+export type UpdateDelivaryAddressMutation = { updateDelivaryAddress: { __typename: 'DelivaryAddress', id: string } | null };
+
 export type CheckOutMutationVariables = Exact<{
   deliveryAddressId: Scalars['String']['input'];
   shippingCost: Scalars['Int']['input'];

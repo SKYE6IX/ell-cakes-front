@@ -11,8 +11,6 @@ import WhatsApp from "../icons/WhatsApp";
 
 function Footer() {
   const navLinks = [
-    { name: "Торты", href: "/" },
-    { name: "Пироженые", href: "/" },
     { name: "Доставка и оплата", href: "/delivery" },
     { name: "FAQ", href: "/faq" },
     { name: "Сотрудничество", href: "/collaboration" },

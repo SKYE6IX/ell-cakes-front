@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isAuthenticated } from "./lib/isAuthenticated";
 
-export function proxy(request: NextRequest) {
-  const isSignIn = request.cookies.has("keystonejs-session");
+export async function proxy(request: NextRequest) {
+  const isSignIn = await isAuthenticated();
   if (!isSignIn) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

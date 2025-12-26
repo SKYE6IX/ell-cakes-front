@@ -21,5 +21,14 @@ export const appCache = new InMemoryCache({
         },
       },
     },
+    User: {
+      fields: {
+        orders: {
+          merge(existing, incoming) {
+            return existing ?? incoming;
+          },
+        },
+      },
+    },
   },
 });

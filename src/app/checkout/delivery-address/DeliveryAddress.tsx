@@ -5,6 +5,7 @@ import Modal from "@/components/modal/Modal";
 import { userVar } from "@/lib/cache";
 import YandexMapAddress from "@/components/yandex-address/YandexMapAddress";
 import { useCreateDeliveryAddress, useUpdateDeliveryAddress } from "./actions";
+import { isValidAddress } from "@/lib/y-map-common";
 import "./delivery-address.scss";
 
 type DeliveryAddressProps = {
@@ -27,7 +28,7 @@ function DeliveryAddress({
 }: DeliveryAddressProps) {
   const authUser = useReactiveVar(userVar);
   const [formState, setFormState] = useState(initialValue);
-  const [errorField, setErrorField] = useState("");
+  const [isAddressError, setIsAddressError] = useState(false);
 
   const { createDelivaryAddress, loading: createLoading } =
     useCreateDeliveryAddress({
@@ -43,10 +44,11 @@ function DeliveryAddress({
       userId: authUser?.id,
     });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.address) {
-      setErrorField("address");
+    const isValid = await isValidAddress(formState.address);
+    if (!isValid) {
+      setIsAddressError(true);
       return;
     }
 
@@ -59,9 +61,6 @@ function DeliveryAddress({
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
     setFormState((prvState) => ({ ...prvState, [name]: value }));
-    if (name === "address") {
-      setErrorField("");
-    }
   };
 
   const onAddressInputChange = ({ address }: { address: string }) => {
@@ -69,6 +68,9 @@ function DeliveryAddress({
       ...prvState,
       address,
     }));
+    if (isAddressError) {
+      setIsAddressError(false);
+    }
   };
 
   return (
@@ -80,7 +82,10 @@ function DeliveryAddress({
       <div className="delivery-address">
         <form onSubmit={handleSubmit} className="delivery-address__form">
           <div className="delivery-address__input-list">
-            <YandexMapAddress onAddressInputChange={onAddressInputChange} />
+            <YandexMapAddress
+              onAddressInputChange={onAddressInputChange}
+              hasError={isAddressError}
+            />
             <div className="delivery-address__input-list-middle">
               <Input
                 name="floor"

@@ -18,17 +18,13 @@ function Faq() {
         <div className="faq-help">
           <div className="faq-help__title">Нужна помощь?</div>
           <div className="faq-help__link-wrapper">
-            <Link href="/" className="faq-help__link" target="_target">
+            <Link href="/delivery" className="faq-help__link">
               Условия доставки
             </Link>
-            <Link
-              href="/colaboration"
-              className="faq-help__link"
-              target="_target"
-            >
+            <Link href="/collaboration" className="faq-help__link">
               Сотрудничество
             </Link>
-            <Link href="/contact" className="faq-help__link" target="_target">
+            <Link href="/contact" className="faq-help__link">
               Контакты
             </Link>
           </div>

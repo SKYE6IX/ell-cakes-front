@@ -2,12 +2,12 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navigation from "./navigation/Navigation";
-import UserMenu from "./user-menu/UserMenu";
 import CartMenuBtn from "./cart-menu/CartMenuBtn";
 import MenuButton from "./MenuButton";
 import { PreloadQuery } from "@/ApolloClient";
-import { AUTHORIZED_USER_QUERY, GET_CATEGORIES } from "./operation";
+import { GET_CATEGORIES } from "./operation";
 import "./header.scss";
+import UserMenu from "./user-menu/UserMenu";
 
 async function Header() {
   return (
@@ -38,13 +38,7 @@ async function Header() {
         </PreloadQuery>
 
         <div className="header__user-action-wrapper">
-          <PreloadQuery query={AUTHORIZED_USER_QUERY}>
-            {(queryRef) => (
-              <Suspense>
-                <UserMenu queryRef={queryRef} />
-              </Suspense>
-            )}
-          </PreloadQuery>
+          <UserMenu />
           <CartMenuBtn />
           <MenuButton />
         </div>

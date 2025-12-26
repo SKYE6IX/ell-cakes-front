@@ -1,16 +1,16 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
+import { useMutation, useReactiveVar } from "@apollo/client/react";
 import {
   OrderDirection,
   RegisterUserInput,
   User,
 } from "@/types/__generated__/graphql";
-import { useMutation, useReactiveVar } from "@apollo/client/react";
 import {
   CONNECT_CART_TO_USER,
   GET_CART_QUERY,
 } from "@/components/cart/operations";
-import { USER_DATA_FRAGMENT } from "./userDataFragment";
 import { cartVar, userVar } from "@/lib/cache";
+import { USER_DATA_FRAGMENT } from "./userDataFragment";
 
 export const REGISTER_USER: TypedDocumentNode<
   { registerUser: User },
@@ -18,7 +18,7 @@ export const REGISTER_USER: TypedDocumentNode<
 > = gql`
   mutation RegisterUser($registerData: RegisterUserInput!) {
     registerUser(registerData: $registerData) {
-      ...userFragment
+      ...UserFragment
     }
   }
   ${USER_DATA_FRAGMENT}
