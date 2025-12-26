@@ -45,7 +45,7 @@ const montserrat = Montserrat({
   preload: true,
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -64,7 +64,7 @@ export default async function RootLayout({
           </AuthenticationWrapper>
         </ApolloWrapper>
         <Script
-          src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.Y_MAP_API_KEY}&lang=ru_RU`}
+          src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.NEXT_PUBLIC_Y_MAP_API_KEY}&lang=ru_RU`}
           strategy="beforeInteractive"
         />
       </body>
