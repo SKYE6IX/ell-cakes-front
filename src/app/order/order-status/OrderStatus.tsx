@@ -43,7 +43,7 @@ function OrderStatus() {
       <div className="order-status">
         <div className="order-status__inner">
           <div className="order-status__loader"></div>
-          <h4 className="order-status__loading-title">Ожидающий...</h4>
+          <h4 className="order-status__loading-title">Подождите...</h4>
         </div>
       </div>
     );
