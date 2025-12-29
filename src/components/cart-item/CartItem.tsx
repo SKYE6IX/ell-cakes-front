@@ -12,7 +12,7 @@ import {
   INCREASE_CART_ITEM,
   DECREASE_CART_ITEM,
   DELETE_CART_ITEM,
-} from "../operations";
+} from "../cart/operations";
 import { cartVar } from "@/lib/cache";
 import "./cart-item.scss";
 
@@ -74,16 +74,19 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       <div className="cart-item__product-image-container">
         <Image
           src={cartItem.product?.images![0].image?.url ?? ""}
-          alt="Image of a cart item product"
+          alt={cartItem.product?.name || "Product Image"}
           fill
           className="cart-item__product-image"
+          loading="lazy"
         />
       </div>
       <div className="cart-item__info">
         <h4 className="cart-item__product-name">{cartItem.product?.name}</h4>
         <div className="cart-item__details">
-          <span className="cart-item__details-metric">1000 г</span>
-          <span className="cart-item__details-shape">Круг</span>
+          <span className="cart-item__details-metric">
+            {`${cartItem.variant?.weight}`} г
+          </span>
+          {/* <span className="cart-item__details-shape">Круг</span> */}
         </div>
         <div
           className={`cart-item__btn-wrapper ${

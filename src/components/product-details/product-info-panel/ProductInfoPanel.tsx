@@ -32,6 +32,30 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
     compositions: null,
   });
 
+  const customizationInput =
+    productConfiguration.customizations?.map((customization) => {
+      return {
+        optionId: customization.optionId,
+        valueId: customization.valueId,
+        imagesId: customization.imagesId,
+        inscriptionText: customization.inscriptionText,
+      };
+    }) ?? null;
+
+  const customizationsExtraPrice =
+    productConfiguration.customizations?.reduce(
+      (acc, cus) => acc + (cus.extraPrice ?? 0),
+      0
+    ) ?? 0;
+  const toppingExtraPrice =
+    productConfiguration.selectedTopping?.extraPrice ?? 0;
+
+  const selectedVariantPrice =
+    productConfiguration.selectedProductVariant.price ?? 0;
+
+  const totalAmout =
+    customizationsExtraPrice + toppingExtraPrice + selectedVariantPrice;
+
   return (
     <div className="product-info-panel">
       <h3 className="product-info-panel__title" data-testid="product-title">
@@ -83,6 +107,7 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
             />
           </>
         )}
+
         {product.topping && (
           <AddTopping
             toppingOptions={product.topping.options!}
@@ -93,11 +118,11 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
 
       <AddToCartButton
         parentComponent="product-details"
-        productPrice={productConfiguration.selectedProductVariant.price!}
+        productPrice={totalAmout}
         addToCartArgs={{
           productId: product.id,
           variantId: productConfiguration.selectedProductVariant.id,
-          customizations: productConfiguration.customizations,
+          customizations: customizationInput,
           compositionOptions: productConfiguration.compositions,
           toppingOptionId: productConfiguration.selectedTopping?.id ?? null,
         }}

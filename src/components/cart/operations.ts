@@ -20,6 +20,11 @@ export const CART_FRAGMENT = gql`
       quantity
       customizations
       compositions
+      variant {
+        id
+        weight
+        pieces
+      }
       toppingOption {
         id
         weight

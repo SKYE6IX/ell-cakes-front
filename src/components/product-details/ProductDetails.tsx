@@ -14,6 +14,7 @@ import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
   const similarProductsContainerRef = useRef<HTMLDivElement>(null);
+
   const { data, error, loading } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
       where: { slug: productSlug },

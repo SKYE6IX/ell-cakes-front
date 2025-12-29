@@ -10,7 +10,10 @@ function StorageInfo() {
   };
   return (
     <div className="storage-info">
-      <ProductInfoBtn buttonText="Хранени" handleOnClick={handleSetShowModal} />
+      <ProductInfoBtn
+        buttonText="Хранение"
+        handleOnClick={handleSetShowModal}
+      />
       <Modal
         showModal={showModal}
         handleCloseModal={handleSetShowModal}

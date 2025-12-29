@@ -1,7 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CloseIcon from "@/components/icons/CloseIcon";
 import { CustomiseComponentProps } from "./sharedType";
 import "./product-customisations.scss";
+
+function debounceFn(fn: (value: string) => void, time: number) {
+  let timeoutId: NodeJS.Timeout;
+  return (value: string) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      fn(value);
+    }, time);
+  };
+}
 
 function AddCustomiseInscription({
   customOptions,
@@ -9,38 +19,41 @@ function AddCustomiseInscription({
 }: CustomiseComponentProps) {
   const [inscriptionInput, setInscriptionInput] = useState("");
   const [isAddInscription, setIsAddInscription] = useState(false);
+
   const handleSetIsActive = () => {
     setIsAddInscription(!isAddInscription);
   };
-  const addCustomInscription = customOptions.find(
+
+  const customInscription = customOptions.find(
     (option) => option.name?.toUpperCase() === "INSCRIPTION"
   );
-  const optionId = addCustomInscription?.id ?? "";
-  const valueId = addCustomInscription?.customValues![0].id ?? "";
 
-  const onInscriptionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInscriptionInput(e.target.value);
+  const optionId = customInscription?.id ?? "";
+
+  const valueId = customInscription?.customValues![0].id ?? "";
+
+  const extraPrice = customInscription?.customValues![0].extraPrice ?? 0;
+
+  const addInscripiton = (value: string) => {
+    dispatch({
+      type: "add_customization",
+      payload: {
+        optionId,
+        valueId,
+        inscriptionText: value,
+        extraPrice,
+        imagesId: null,
+      },
+    });
   };
 
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    if (inscriptionInput) {
-      timeoutId = setTimeout(() => {
-        dispatch({
-          type: "add_customization",
-          payload: {
-            optionId,
-            valueId,
-            inscriptionText: inscriptionInput,
-            imagesId: null,
-          },
-        });
-      }, 1000);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [inscriptionInput, optionId, valueId, dispatch]);
+  const debounceAddInscription = debounceFn(addInscripiton, 1000);
+
+  const onInscriptionInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setInscriptionInput(value);
+    debounceAddInscription(value);
+  };
 
   const removeCustomiseInscription = () => {
     dispatch({ type: "remove_customization", payload: { optionId } });
@@ -48,7 +61,8 @@ function AddCustomiseInscription({
     handleSetIsActive();
   };
 
-  if (!addCustomInscription) return null;
+  if (!customInscription) return null;
+
   return (
     <div className="add-customise-insription">
       {isAddInscription ? (
@@ -64,9 +78,7 @@ function AddCustomiseInscription({
             id="inscription-input"
             className="add-customise-insription__input"
             value={inscriptionInput}
-            placeholder={`+ ${
-              addCustomInscription.customValues![0].extraPrice
-            }`}
+            placeholder={`+ ${customInscription.customValues![0].extraPrice}`}
             onChange={onInscriptionInputChange}
           />
           <button

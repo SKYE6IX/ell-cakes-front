@@ -6,11 +6,15 @@ import {
   CompositionOptionInput,
 } from "@/types/__generated__/graphql";
 
+interface ExtendCustomizationInput extends CustomizationInput {
+  extraPrice?: number;
+}
+
 export interface ProductConfiguration {
   selectedProductFilling: ProductFilling;
   selectedProductVariant: ProductVariant;
   selectedTopping: ToppingOption | null;
-  customizations: CustomizationInput[] | null;
+  customizations: ExtendCustomizationInput[] | null;
   compositions: CompositionOptionInput[] | null;
 }
 
@@ -25,7 +29,7 @@ export type ACTIONTYPE =
     }
   | {
       type: "add_customization";
-      payload: CustomizationInput;
+      payload: ExtendCustomizationInput;
     }
   | {
       type: "remove_customization";
@@ -55,6 +59,7 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
         selectedProductFilling: action.payload,
       };
     }
+
     case "set_selected_product_variant": {
       return {
         ...state,
@@ -64,10 +69,12 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
 
     case "add_customization": {
       const newCustomization = action.payload;
+
       // Check if the incoming customization already in the array
       const existCusomization = state.customizations?.find(
         (item) => item.optionId === newCustomization.optionId
       );
+
       if (existCusomization) {
         const updatedCustomization = state.customizations?.map(
           (customization) =>
@@ -78,7 +85,8 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
                   imagesId: newCustomization.imagesId,
                 }
               : customization
-        ) as CustomizationInput[];
+        ) as ExtendCustomizationInput[];
+
         return { ...state, customizations: updatedCustomization };
       } else {
         const previousCusomizations = state.customizations ?? [];
@@ -98,6 +106,7 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
         state.customizations?.filter(
           (customization) => customization.optionId !== action.payload.optionId
         ) ?? [];
+
       if (filterCustomization.length < 1) {
         return {
           ...state,
@@ -168,12 +177,14 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
               }
             : composition
         ) as CompositionOptionInput[];
+
         return { ...state, compositions: updatedComposition };
       } else {
         const filterCompositions =
           state.compositions?.filter(
             (composition) => composition.productId !== action.payload.productId
           ) ?? [];
+
         if (filterCompositions.length < 1) {
           return {
             ...state,

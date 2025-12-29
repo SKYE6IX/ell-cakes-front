@@ -8,7 +8,7 @@ import Input from "@/components/input/Input";
 import SberPayIcon from "@/components/icons/SberPayIcon";
 import TBankPayIcon from "@/components/icons/TBankPayIcon";
 import CreditCardIcon from "@/components/icons/CreditCardIcon";
-import CartItem from "@/components/cart/cart-item/CartItem";
+import CartItem from "@/components/cart-item/CartItem";
 import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
 import { cartVar, userVar } from "@/lib/cache";

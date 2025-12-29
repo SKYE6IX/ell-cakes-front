@@ -74,6 +74,7 @@ function Hero() {
 
     sliderItems.forEach((slideItem) => observer.observe(slideItem));
     container.addEventListener("scroll", handleScroll);
+
     return () => {
       observer.disconnect();
       container.removeEventListener("scroll", handleScroll);
@@ -118,19 +119,21 @@ function Hero() {
             <div className="hero__image-container">
               <Image
                 src={banner.product?.images![0].image?.url || ""}
-                alt="Mock Image"
+                alt={banner.product?.name ?? ""}
                 fill
                 className="hero__product-image"
                 data-testid="hero-banner-image"
+                preload
               />
             </div>
             <div className="hero__image-container">
               <Image
                 src={banner.product?.images![1].image?.url || ""}
-                alt="Mock Image"
+                alt={banner.product?.name ?? ""}
                 fill
                 className="hero__product-image"
                 data-testid="hero-banner-image"
+                preload
               />
             </div>
           </li>

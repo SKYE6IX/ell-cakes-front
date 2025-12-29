@@ -21,17 +21,23 @@ function AddCustomisePhoto({
   customOptions,
   dispatch,
 }: CustomiseComponentProps) {
-  const addCustomPhoto = customOptions.find(
+  const customPhoto = customOptions.find(
     (option) => option.name?.toUpperCase() === "PHOTO"
   );
-  const optionId = addCustomPhoto?.id ?? "";
+
+  const optionId = customPhoto?.id ?? "";
+
+  const extraPrice = customPhoto?.customValues![0].extraPrice ?? 0;
+
   const [customisePhotoState, setCustomisePhotoState] = useState(initialState);
+
   const [addCustomizeImage, { loading }] = useMutation(ADD_CUSTOMIZE_IMAGE, {
     context: {
       headers: {
         "apollo-require-preflight": true,
       },
     },
+
     onCompleted(data) {
       const preveiwsData = data.uploadImageCustomization.map((uploaded) => {
         return {
@@ -39,17 +45,20 @@ function AddCustomisePhoto({
           name: uploaded.altText as string,
         };
       });
+
       setCustomisePhotoState((prvState) => ({
         ...prvState,
         isAddCustomisePhoto: true,
         previewsData: preveiwsData,
       }));
+
       dispatch({
         type: "add_customization",
         payload: {
           optionId: customisePhotoState.customisePhotoOption.optionId,
           valueId: customisePhotoState.customisePhotoOption.valueId,
           imagesId: preveiwsData.map((preview) => preview.id),
+          extraPrice,
           inscriptionText: null,
         },
       });
@@ -79,6 +88,7 @@ function AddCustomisePhoto({
           ...prvState,
           errorMessage: "Максимум два изображения!",
         }));
+
         handleSetOpen();
         return;
       } else if (
@@ -116,7 +126,7 @@ function AddCustomisePhoto({
     setCustomisePhotoState(initialState);
   };
 
-  if (!addCustomPhoto) return null;
+  if (!customPhoto) return null;
   return (
     <div className="add-customise-photo">
       {customisePhotoState.isAddCustomisePhoto ? (
@@ -165,7 +175,7 @@ function AddCustomisePhoto({
             variants={variant}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            {addCustomPhoto.customValues?.map((customValue) => (
+            {customPhoto.customValues?.map((customValue) => (
               <li
                 className="customisation__option"
                 key={customValue.id}

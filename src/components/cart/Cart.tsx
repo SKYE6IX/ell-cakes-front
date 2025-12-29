@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useReactiveVar, useQuery } from "@apollo/client/react";
 import Modal from "../modal/Modal";
-import CartItem from "./cart-item/CartItem";
+import CartItem from "../cart-item/CartItem";
 import { isCartOpenVar, cartVar } from "@/lib/cache";
 import { GET_CART_QUERY } from "./operations";
 import { OrderDirection } from "@/types/__generated__/graphql";

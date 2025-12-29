@@ -66,10 +66,11 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
           >
             <Image
               src={productImage.image?.url || ""}
-              alt="Product Image"
+              alt={productImage.altText || "Product Image"}
               fill={true}
               className="product-image-gallery__thumbnail-image"
               data-testid="product-image-thumbnail"
+              loading="eager"
             />
           </div>
         ))}
@@ -92,11 +93,12 @@ function ProductGallery({ productImages }: ProductGalleryProps) {
             <div className="product-image-gallery__image-container">
               <Image
                 src={productImage.image?.url || ""}
-                alt="Mock Image"
+                alt={productImage.altText || "Product Image"}
                 fill={true}
                 className="product-image-gallery__image"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 data-testid="product-image-view"
+                loading="eager"
               />
             </div>
           </div>
