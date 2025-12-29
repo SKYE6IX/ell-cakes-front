@@ -7,9 +7,11 @@ import "./cart-menu-btn.scss";
 
 function CartMenuBtn() {
   const cart = useReactiveVar(cartVar);
+
   const openCart = () => {
     isCartOpenVar(true);
   };
+
   return (
     <button className="cart-menu" onClick={openCart}>
       <CartIcon />

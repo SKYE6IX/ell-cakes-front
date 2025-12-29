@@ -25,11 +25,11 @@ function AuthenticationProvider({
 
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
 
+  const userResult = data?.queryAuthorizedUser ?? null;
+
   useEffect(() => {
-    if (data?.queryAuthorizedUser) {
-      userVar(data.queryAuthorizedUser);
-    }
-  }, [data]);
+    userVar(userResult);
+  }, [userResult]);
 
   return <>{children}</>;
 }

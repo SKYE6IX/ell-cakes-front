@@ -12,6 +12,7 @@ async function AuthenticationWrapper({
     await getClient()
   ).query({
     query: AUTHORIZED_USER_QUERY,
+    fetchPolicy: "network-only",
   });
 
   return (

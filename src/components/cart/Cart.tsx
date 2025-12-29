@@ -10,6 +10,9 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import "./cart.scss";
 
 function Cart() {
+  const cart = useReactiveVar(cartVar);
+  const isCartOpen = useReactiveVar(isCartOpenVar);
+
   const { data } = useQuery(GET_CART_QUERY, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
@@ -17,12 +20,11 @@ function Cart() {
     },
   });
 
-  useEffect(() => {
-    cartVar(data?.queryCart);
-  }, [data]);
+  const cartResult = data?.queryCart ?? null;
 
-  const isCartOpen = useReactiveVar(isCartOpenVar);
-  const cartResult = useReactiveVar(cartVar);
+  useEffect(() => {
+    cartVar(cartResult);
+  }, [cartResult]);
 
   const handleCloseModal = () => {
     isCartOpenVar(false);
@@ -35,7 +37,7 @@ function Cart() {
       handleCloseModal={handleCloseModal}
     >
       <div className="cart full-height">
-        {!cartResult ? (
+        {!cart ? (
           <div className="cart__empty-cart">
             <h4 className="cart__empty-cart-text">
               Ваша корзина пуста, начните покупки прямо сейчас!
@@ -51,7 +53,7 @@ function Cart() {
         ) : (
           <>
             <div className="cart_cart-item-list">
-              {cartResult?.cartItems!.map((cartItem) => (
+              {cart?.cartItems!.map((cartItem) => (
                 <CartItem
                   key={cartItem.id}
                   cartItem={cartItem}
@@ -65,7 +67,7 @@ function Cart() {
                 className="cart__checkout-btn"
                 onClick={handleCloseModal}
               >
-                оформить заказ {cartResult?.subTotal}₽
+                оформить заказ {cart?.subTotal}₽
               </Link>
             </div>
           </>
