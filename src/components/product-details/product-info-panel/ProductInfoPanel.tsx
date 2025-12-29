@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import ProductFillingSelector from "../product-filling-selector/ProductFillingSelector";
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
-import ProductShape from "../product-customisations/ProductShape";
+// import ProductShape from "../product-customisations/ProductShape";
 import AddCustomisePhoto from "../product-customisations/AddCustomisePhoto";
 import AddCustomiseInscription from "../product-customisations/AddCustomiseInscription";
 import AddTopping from "../product-customisations/AddTopping";
@@ -93,10 +93,10 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
       <div className="product-info-panel__customisations-wrapper">
         {product.customization && (
           <>
-            <ProductShape
+            {/* <ProductShape
               customOptions={product.customization.customOptions!}
               dispatch={dispatch}
-            />
+            /> */}
             <AddCustomisePhoto
               customOptions={product.customization.customOptions!}
               dispatch={dispatch}
