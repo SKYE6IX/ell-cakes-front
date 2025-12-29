@@ -29,8 +29,8 @@ export default function UserSidebar({
   const [endSession] = useMutation(END_SESSION, {
     onCompleted(data) {
       if (data.endSession) {
-        router.push("/");
         userVar(null);
+        router.push("/");
       }
     },
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],

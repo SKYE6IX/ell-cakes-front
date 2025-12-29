@@ -19,6 +19,7 @@ export const USER_DATA_FRAGMENT = gql`
       status
       orderItems {
         id
+        quantity
         product {
           id
           name

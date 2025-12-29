@@ -37,6 +37,7 @@ function ProductList({ products, isLoading }: ProductListProps) {
         <ProductListSkeleton />
       </div>
     );
+
   if (products.length === 0) return <ProductNotFound />;
 
   return (
@@ -48,7 +49,7 @@ function ProductList({ products, isLoading }: ProductListProps) {
               <div className="product-card__image-container">
                 <Image
                   src={product.images![0].image?.url || ""}
-                  alt="Mock Image"
+                  alt={product.name!}
                   fill
                   className="product-card__image"
                   data-testid="product-card-image"
@@ -56,6 +57,7 @@ function ProductList({ products, isLoading }: ProductListProps) {
                   blurDataURL={`data:image/svg+xml;base64,${toBase64(
                     shimmer(350, 350)
                   )}`}
+                  loading="lazy"
                 />
               </div>
               <h3 className="product-card__name">{product.name}</h3>

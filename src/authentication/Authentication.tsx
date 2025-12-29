@@ -13,6 +13,7 @@ async function AuthenticationWrapper({
   ).query({
     query: AUTHORIZED_USER_QUERY,
   });
+
   return (
     <AuthenticationProvider preloadQuery={data?.queryAuthorizedUser}>
       {children}

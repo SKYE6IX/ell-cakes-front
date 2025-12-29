@@ -28,8 +28,6 @@ function AuthenticationProvider({
   useEffect(() => {
     if (data?.queryAuthorizedUser) {
       userVar(data.queryAuthorizedUser);
-    } else {
-      userVar(null);
     }
   }, [data]);
 

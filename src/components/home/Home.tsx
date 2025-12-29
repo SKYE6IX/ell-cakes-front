@@ -8,8 +8,8 @@ import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
 import { GET_FEATURED_PRODUCTS_QUERY } from "./operation";
 import { PreloadQuery } from "@/ApolloClient";
-import "./home.scss";
 import { OrderDirection } from "@/types/__generated__/graphql";
+import "./home.scss";
 
 async function Home() {
   const TAKE_FILLINGS_NUM = 1;

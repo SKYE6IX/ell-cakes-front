@@ -27,6 +27,7 @@ export default function Dashboard() {
   useMemo(() => {
     if (authUser) {
       const { name, email, phoneNumber } = authUser;
+
       setUpdateProfileForm({
         name: name!,
         email: email!,
@@ -60,6 +61,7 @@ export default function Dashboard() {
       userVar(data.updateUser);
       setUserDataActions("none");
     },
+
     onError(error) {
       setUserDataActions("none");
       console.error(
@@ -71,6 +73,7 @@ export default function Dashboard() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const validatedFields = validateUpdateFields(updateProfileForm);
     if (validatedFields.error) {
       validatedFields.error.issues.forEach((issue) => {
@@ -155,7 +158,7 @@ export default function Dashboard() {
                   {loading ? (
                     <div className="dashboard__loader"></div>
                   ) : (
-                    "Обновлять"
+                    "Изменить"
                   )}
                 </button>
               </form>
