@@ -16,6 +16,7 @@ function FallBackBanner() {
               fill
               className="hero__product-image"
               data-testid="hero-banner-image"
+              loading="lazy"
             />
           </div>
           <div className="hero__image-container">
@@ -25,12 +26,12 @@ function FallBackBanner() {
               fill
               className="hero__product-image"
               data-testid="hero-banner-image"
+              loading="lazy"
             />
           </div>
         </li>
       </ul>
       <div className="hero__info">
-        <h5 className="hero__product-badge">Хит продаж</h5>
         <h3 className="hero__product-name">Создаём сладкие моменты</h3>
         <p className="hero__product-description" data-testid="hero-banner-text">
           Десерты, приготовленные вручную из натуральных ингредиентов! Для

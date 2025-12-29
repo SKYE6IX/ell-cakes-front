@@ -1,15 +1,13 @@
-import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navigation from "./navigation/Navigation";
 import CartMenuBtn from "./cart-menu/CartMenuBtn";
 import MenuButton from "./MenuButton";
-import { PreloadQuery } from "@/ApolloClient";
-import { GET_CATEGORIES } from "./operation";
-import "./header.scss";
 import UserMenu from "./user-menu/UserMenu";
+import AuthenticationWrapper from "@/authentication/Authentication";
+import "./header.scss";
 
-async function Header() {
+function Header() {
   return (
     <header className="header">
       <div className="header__inner-wrapper">
@@ -25,20 +23,11 @@ async function Header() {
             />
           </Link>
         </div>
-
-        <PreloadQuery
-          query={GET_CATEGORIES}
-          variables={{ where: { parent: { slug: { equals: "torty" } } } }}
-        >
-          {(queryRef) => (
-            <Suspense>
-              <Navigation queryRef={queryRef} />
-            </Suspense>
-          )}
-        </PreloadQuery>
-
+        <Navigation />
         <div className="header__user-action-wrapper">
-          <UserMenu />
+          <AuthenticationWrapper>
+            <UserMenu />
+          </AuthenticationWrapper>
           <CartMenuBtn />
           <MenuButton />
         </div>

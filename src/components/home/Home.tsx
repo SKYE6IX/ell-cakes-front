@@ -6,33 +6,19 @@ import WhyUs from "./why-us-section/WhyUs";
 import AboutUs from "./about-us-section/AboutUs";
 import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
-import {
-  GET_PRODUCT_HOME_BANNERS_QUERY,
-  GET_FEATURED_PRODUCTS_QUERY,
-} from "./operation";
+import { GET_FEATURED_PRODUCTS_QUERY } from "./operation";
 import { PreloadQuery } from "@/ApolloClient";
 import "./home.scss";
 import { OrderDirection } from "@/types/__generated__/graphql";
 
 async function Home() {
-  const BANNER_NUM = 3;
   const TAKE_FILLINGS_NUM = 1;
   const TAKE_VARIANTS_NUM = 1;
   const TAKE_FEATURED_PRODUCTS = 8;
 
   return (
     <div className="home">
-      <PreloadQuery
-        query={GET_PRODUCT_HOME_BANNERS_QUERY}
-        variables={{ take: BANNER_NUM }}
-      >
-        {(queryRef) => (
-          <Suspense>
-            <Hero queryRef={queryRef} />
-          </Suspense>
-        )}
-      </PreloadQuery>
-
+      <Hero />
       <PreloadQuery
         query={GET_FEATURED_PRODUCTS_QUERY}
         variables={{

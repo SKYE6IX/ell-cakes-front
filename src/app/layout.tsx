@@ -6,7 +6,6 @@ import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
 import { ApolloWrapper } from "@/ApolloWrapper";
-import AuthenticationWrapper from "@/authentication/Authentication";
 import "../global-styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -54,14 +53,12 @@ export default function RootLayout({
     <html lang="ru" className={`${fontUncage.variable} ${montserrat.variable}`}>
       <body>
         <ApolloWrapper>
-          <AuthenticationWrapper>
-            <div className="app-container">
-              <Header />
-              <Cart />
-              {children}
-              <Footer />
-            </div>
-          </AuthenticationWrapper>
+          <div className="app-container">
+            <Header />
+            <Cart />
+            {children}
+            <Footer />
+          </div>
         </ApolloWrapper>
         <Script
           src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.NEXT_PUBLIC_Y_MAP_API_KEY}&lang=ru_RU`}

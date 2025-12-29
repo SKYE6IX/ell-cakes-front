@@ -2,16 +2,13 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useReadQuery, QueryRef } from "@apollo/client/react";
-import { ProductHomeBanner } from "@/types/__generated__/graphql";
+import { useQuery } from "@apollo/client/react";
+import { wrap } from "motion/react";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
-import FallBackBanner from "./FallBackBanner";
+import { GET_PRODUCT_HOME_BANNERS_QUERY } from "../operation";
+import { defaultBanner } from "./default-banner";
 import "./hero-section.scss";
-
-type HeroProps = {
-  queryRef: QueryRef<{ productHomeBanners: ProductHomeBanner[] }>;
-};
 
 function updateSlides(container: HTMLUListElement) {
   const scrollWidth = container.scrollWidth;
@@ -23,24 +20,35 @@ function updateSlides(container: HTMLUListElement) {
     container.prepend(slides[slides.length - 1]);
     container.scrollLeft = scrollLeft + containerWidth;
   }
-
   if (scrollWidth - scrollLeft <= containerWidth) {
     container.append(slides[0]);
     container.scrollLeft = scrollLeft - containerWidth;
   }
 }
 
-function Hero({ queryRef }: HeroProps) {
-  const { data } = useReadQuery(queryRef);
-  const banners = data.productHomeBanners;
-  const [activeIndex, setActiveIndex] = useState(0);
+function Hero() {
+  const BANNER_NUM = 3;
+  const { data } = useQuery(GET_PRODUCT_HOME_BANNERS_QUERY, {
+    variables: { take: BANNER_NUM },
+  });
+
+  const fetchBanners = data?.productHomeBanners;
+  const banners = fetchBanners
+    ? [defaultBanner, ...fetchBanners]
+    : [defaultBanner];
+
   const containerRef = useRef<HTMLUListElement>(null);
   const slideItemRefs = useRef<HTMLLIElement[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const container = containerRef.current;
-    if (!container) return;
+    const sliderItems = slideItemRefs.current;
+
+    if (!container || !sliderItems || sliderItems.length < 4) {
+      return;
+    }
 
     updateSlides(container);
     const handleScroll = () => {
@@ -52,56 +60,47 @@ function Hero({ queryRef }: HeroProps) {
       }, 50);
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSlide = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visibleSlide) {
-          const newIdx = slideItemRefs.current?.indexOf(
-            visibleSlide.target as HTMLLIElement
-          );
-          if (newIdx !== -1) {
-            setActiveIndex(newIdx);
-          }
+    const observer = new IntersectionObserver((entries) => {
+      const visibleSlide = entries.filter((entry) => entry.isIntersecting)[0];
+      if (visibleSlide) {
+        const nextIndex = sliderItems.indexOf(
+          visibleSlide.target as HTMLLIElement
+        );
+        if (nextIndex !== -1) {
+          setActiveIndex(nextIndex);
         }
-      },
-      {
-        root: container,
-        threshold: 0.9,
       }
-    );
+    });
 
-    slideItemRefs.current?.forEach((slideItem) => observer.observe(slideItem));
+    sliderItems.forEach((slideItem) => observer.observe(slideItem));
     container.addEventListener("scroll", handleScroll);
-
     return () => {
       observer.disconnect();
       container.removeEventListener("scroll", handleScroll);
       clearTimeout(timeout);
     };
-  }, []);
-
-  if (banners === undefined || banners.length === 0) return <FallBackBanner />;
+  }, [fetchBanners]);
 
   function changeSlide(newDirection: 1 | -1) {
     const container = containerRef.current;
-    if (!container) return;
+    const slides = slideItemRefs.current;
 
-    const slides = container.children;
-    let newSlideIndex;
-    if (newDirection === 1) {
-      newSlideIndex = 0;
-    } else {
-      newSlideIndex = slides.length - 1;
-    }
-    const nextSlide = slides[newSlideIndex] as HTMLLIElement;
+    if (!container || !slides) return;
 
-    container.scrollTo({
-      left: nextSlide.offsetLeft,
-      behavior: "smooth",
-    });
+    setTimeout(() => {
+      const nextSlideIndex = wrap(0, slides.length, activeIndex - newDirection);
+
+      setActiveIndex(nextSlideIndex);
+
+      const nextSlide = slides[nextSlideIndex] as HTMLLIElement;
+
+      container.scrollTo({
+        left: nextSlide.offsetLeft,
+        behavior: "smooth",
+      });
+    }, 50);
   }
+
   return (
     <section className="hero">
       <ul className="hero__media" ref={containerRef}>
@@ -140,7 +139,9 @@ function Hero({ queryRef }: HeroProps) {
 
       <div className="hero__info">
         <div className="hero__info-text-wrapper">
-          <h5 className="hero__product-badge">Хит продаж</h5>
+          {activeIndex !== 0 && (
+            <h5 className="hero__product-badge">Хит продаж</h5>
+          )}
           <h3 className="hero__product-name">
             {banners[activeIndex].product?.name}
           </h3>
@@ -151,37 +152,50 @@ function Hero({ queryRef }: HeroProps) {
             {banners[activeIndex].bannerText}
           </p>
 
-          <Link
-            href={`/product/${banners[activeIndex].product?.slug}`}
-            className="hero__product-link"
-          >
-            ЗАказать
-          </Link>
+          {activeIndex === 0 ? (
+            <Link href="/collections" className="hero__product-link">
+              ЗАказать
+            </Link>
+          ) : (
+            <Link
+              href={`/product/${banners[activeIndex].product?.slug}`}
+              className="hero__product-link"
+            >
+              ЗАказать
+            </Link>
+          )}
         </div>
 
         <div className="hero__carousel-control">
           <button
             className="hero__carousel-btn"
             onClick={() => changeSlide(-1)}
+            disabled={fetchBanners === undefined}
           >
             <ArrowLeftIcon />
           </button>
-          <button className="hero__carousel-btn" onClick={() => changeSlide(1)}>
+          <button
+            className="hero__carousel-btn"
+            onClick={() => changeSlide(1)}
+            disabled={fetchBanners === undefined}
+          >
             <ArrowRightIcon />
           </button>
         </div>
 
-        <ul className="hero__pagination-list">
-          {banners.map((_, idx) => (
-            <li
-              key={idx}
-              className={[
-                "hero__pagination-item",
-                activeIndex === idx ? "active" : "",
-              ].join(" ")}
-            />
-          ))}
-        </ul>
+        {fetchBanners && (
+          <ul className="hero__pagination-list">
+            {banners.map((_, idx) => (
+              <li
+                key={idx}
+                className={[
+                  "hero__pagination-item",
+                  activeIndex === idx ? "active" : "",
+                ].join(" ")}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

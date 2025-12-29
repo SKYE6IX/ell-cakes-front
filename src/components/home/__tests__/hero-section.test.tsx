@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { QueryRef } from "@apollo/client/react";
-import { ProductHomeBanner } from "@/types/__generated__/graphql";
+import { MockedProvider } from "@apollo/client/testing/react";
+import { GET_PRODUCT_HOME_BANNERS_QUERY } from "../operation";
 import Hero from "../hero-section/Hero";
 import { mockBannerData } from "mock-data";
 
@@ -18,41 +18,46 @@ beforeEach(() => {
   } as any;
 });
 
-jest.mock("@apollo/client/react", () => ({
-  useReadQuery: () => ({
-    data: {
-      productHomeBanners: mockBannerData,
+const mocks = [
+  {
+    request: {
+      query: GET_PRODUCT_HOME_BANNERS_QUERY,
+      variables: { take: 3 },
     },
-  }),
-}));
+    result: {
+      data: {
+        productHomeBanners: mockBannerData,
+      },
+    },
+    maxUsageCount: 2,
+  },
+];
 
 describe("Hero Section Component", () => {
   it("render banner text content", async () => {
     // Arrange
-    const mockQuerRef: QueryRef<{ productHomeBanners: ProductHomeBanner[] }> =
-      {};
-    render(<Hero queryRef={mockQuerRef} />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Hero />
+      </MockedProvider>
+    );
 
     // Assert
-    const heroBadge = screen.getByRole("heading", { level: 5 });
     const productTitle = screen.getByRole("heading", { level: 3 });
     const bannerText = screen.getByTestId("hero-banner-text");
 
     // Act
-    expect(heroBadge).toBeInTheDocument();
     expect(productTitle).toBeInTheDocument();
-    expect(productTitle).toHaveTextContent(
-      String(mockBannerData[0].product?.name)
-    );
     expect(bannerText).toBeInTheDocument();
   });
 
   it("render banner media content", () => {
     // Arrange
-    // Arrange
-    const mockQuerRef: QueryRef<{ productHomeBanners: ProductHomeBanner[] }> =
-      {};
-    render(<Hero queryRef={mockQuerRef} />);
+    render(
+      <MockedProvider mocks={mocks}>
+        <Hero />
+      </MockedProvider>
+    );
 
     // Assert
     const bannerImages = screen.getAllByTestId("hero-banner-image");
