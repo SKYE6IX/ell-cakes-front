@@ -27,7 +27,7 @@ export default function ResetPasswordPage() {
     <section className="reset-password">
       <div className="reset-password__inner-wrapper">
         <div className="reset-password-card">
-          <div className="reset-password__new-password">
+          {/* <div className="reset-password__new-password">
             <h3 className="reset-password__new-password-header">
               Введите новый пароль
             </h3>
@@ -42,9 +42,9 @@ export default function ResetPasswordPage() {
             <button className="reset-password__submit-new-password" disabled>
               Подтвердить
             </button>
-          </div>
+          </div> */}
           {/* <TokenInput handleSetToken={handleSetToken} /> */}
-          {/* <h3 className="reset-password-card__title">Смена пароля</h3>
+          <h3 className="reset-password-card__title">Смена пароля</h3>
           <form className="reset-password-form" onSubmit={handleSubmit}>
             <Input
               initialValue={""}
@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
               hasError={false}
             />
             <button className="reset-password-form__submit">Отправить</button>
-          </form> */}
+          </form>
         </div>
       </div>
     </section>
