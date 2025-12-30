@@ -2,18 +2,16 @@
 @use "@/global-styles/globals.scss" as *;
 
 .help-sidebar {
-  width: 340px;
-  display: flex;
-  align-items: flex-start;
-
-  @include max-breakpoint("sm") {
+  width: 25%;
+  @include max-breakpoint("md") {
     width: 100%;
   }
 }
+
 .help-sidebar__box {
   width: 100%;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 15px;
   padding: 24px;
 }
 
@@ -38,7 +36,6 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-
   &--accent {
     color: $primary;
   }

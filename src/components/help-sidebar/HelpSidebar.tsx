@@ -1,18 +1,10 @@
-import React from "react";
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import "./help-sidebar.scss";
 
-interface HelpSidebarProps {
-  onLoginClick?: () => void;
-  onRegisterClick?: () => void;
-  active?: "login" | "register";
-}
-
-function HelpSidebar({
-  onLoginClick,
-  onRegisterClick,
-  active = "login",
-}: HelpSidebarProps) {
+function HelpSidebar() {
+  const pathname = usePathname();
   return (
     <div className="help-sidebar">
       <div className="help-sidebar__box">
@@ -22,9 +14,8 @@ function HelpSidebar({
             href="/login"
             aria-current="page"
             className={`help-sidebar__link ${
-              active === "login" ? "help-sidebar__link--accent" : ""
+              pathname === "/login" ? "help-sidebar__link--accent" : ""
             }`}
-            onClick={onLoginClick}
           >
             Войти
           </Link>
@@ -33,9 +24,8 @@ function HelpSidebar({
             href="/registration"
             aria-current="page"
             className={`help-sidebar__link  ${
-              active === "register" ? "help-sidebar__link--accent" : ""
+              pathname === "/registration" ? "help-sidebar__link--accent" : ""
             }`}
-            onClick={onRegisterClick}
           >
             Зарегистрироваться
           </Link>
