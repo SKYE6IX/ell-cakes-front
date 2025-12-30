@@ -4,7 +4,7 @@ import {
   UserWhereUniqueInput,
   UserUpdateInput,
 } from "@/types/__generated__/graphql";
-import { USER_DATA_FRAGMENT } from "@/hooks/userDataFragment";
+import { USER_DATA_FRAGMENT } from "@/userDataFragment";
 
 export const UPDATE_USER_PROFILE: TypedDocumentNode<
   { updateUser: User },

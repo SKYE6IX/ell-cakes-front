@@ -10,7 +10,7 @@ import {
   GET_CART_QUERY,
 } from "@/components/cart/operations";
 import { cartVar, userVar } from "@/lib/cache";
-import { USER_DATA_FRAGMENT } from "./userDataFragment";
+import { USER_DATA_FRAGMENT } from "../userDataFragment";
 
 export const REGISTER_USER: TypedDocumentNode<
   { registerUser: User },
