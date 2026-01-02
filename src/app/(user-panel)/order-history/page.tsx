@@ -1,8 +1,8 @@
 "use client";
-import { useReactiveVar } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import OnWayIcon from "@/components/icons/OnWayIcon";
 import CheckMark from "@/components/icons/ CheckMark";
-import { userVar } from "@/lib/cache";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { formatMoney } from "@/utils/formatMoney";
 import "./order-history.scss";
 
@@ -14,7 +14,8 @@ function renderStatusIcon(status: string) {
 }
 
 export default function OrdersHistory() {
-  const authUser = useReactiveVar(userVar);
+  const { data } = useQuery(AUTHORIZED_USER_QUERY);
+  const authUser = data?.queryAuthorizedUser;
 
   const getDate = (createdAt: string) => {
     const date = new Date(createdAt);

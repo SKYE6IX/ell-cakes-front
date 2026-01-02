@@ -1,16 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import UserSidebar from "../UserSidebar";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+const mocks = [
+  {
+    request: {
+      query: AUTHORIZED_USER_QUERY,
+    },
+    result: { data: { queryAuthorizedUser: null } },
+  },
+];
+
 describe("User sidebar component", () => {
   it("render without error and text content", () => {
     // Arrange
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <UserSidebar />
       </MockedProvider>
     );
@@ -26,7 +36,7 @@ describe("User sidebar component", () => {
   it("render all links tag", () => {
     // Arrange
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <UserSidebar />
       </MockedProvider>
     );

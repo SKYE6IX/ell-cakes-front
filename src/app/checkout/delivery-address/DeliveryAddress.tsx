@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useReactiveVar } from "@apollo/client/react";
 import Input from "@/components/input/Input";
 import Modal from "@/components/modal/Modal";
-import { userVar } from "@/lib/cache";
+import { User } from "@/types/__generated__/graphql";
 import YandexMapAddress from "@/components/yandex-address/YandexMapAddress";
 import { useCreateDeliveryAddress, useUpdateDeliveryAddress } from "./actions";
 import { isValidAddress } from "@/lib/y-map-common";
@@ -12,6 +11,7 @@ type DeliveryAddressProps = {
   showModalAddress: boolean;
   closeModal: () => void;
   action: "create" | "update";
+  authUser: User | null | undefined;
 };
 
 const initialValue = {
@@ -25,8 +25,8 @@ function DeliveryAddress({
   showModalAddress,
   closeModal,
   action,
+  authUser,
 }: DeliveryAddressProps) {
-  const authUser = useReactiveVar(userVar);
   const [formState, setFormState] = useState(initialValue);
   const [isAddressError, setIsAddressError] = useState(false);
 

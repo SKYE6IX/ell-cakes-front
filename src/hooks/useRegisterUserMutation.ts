@@ -1,5 +1,5 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
-import { useMutation, useReactiveVar } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import {
   OrderDirection,
   RegisterUserInput,
@@ -9,8 +9,9 @@ import {
   CONNECT_CART_TO_USER,
   GET_CART_QUERY,
 } from "@/components/cart/operations";
-import { cartVar, userVar } from "@/lib/cache";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { USER_DATA_FRAGMENT } from "../userDataFragment";
+import { useWriteCartQuery } from "./useWriteCartQuery";
 
 export const REGISTER_USER: TypedDocumentNode<
   { registerUser: User },
@@ -35,15 +36,25 @@ type Props = {
 };
 
 export function useRegisterUserMutation({ onComplete, formState }: Props) {
-  const cart = useReactiveVar(cartVar);
+  const writeCartQuery = useWriteCartQuery();
 
+  const { data } = useQuery(GET_CART_QUERY, {
+    variables: {
+      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+    },
+  });
+
+  const cart = data?.queryCart;
   const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },
-    onCompleted(data) {
-      cartVar(data.connectCartToUser);
+    update(cache, { data }) {
+      if (data?.connectCartToUser) {
+        writeCartQuery(cache, data.connectCartToUser);
+      }
     },
   });
 
@@ -51,16 +62,16 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
     variables: { registerData: formState },
     onCompleted(data) {
       onComplete();
-      userVar(data.registerUser);
       if (cart) {
         connectCartToUser({ variables: { userId: data.registerUser.id } });
       }
     },
+
     refetchQueries(result) {
       if (result.data.registerUser) {
-        return [GET_CART_QUERY];
+        return [AUTHORIZED_USER_QUERY, GET_CART_QUERY];
       }
-      return [];
+      return [GET_CART_QUERY];
     },
   });
 

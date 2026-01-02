@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useReactiveVar, useMutation } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import Input from "@/components/input/Input";
 import SberPayIcon from "@/components/icons/SberPayIcon";
 import TBankPayIcon from "@/components/icons/TBankPayIcon";
@@ -11,13 +11,13 @@ import CreditCardIcon from "@/components/icons/CreditCardIcon";
 import CartItem from "@/components/cart-item/CartItem";
 import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
-import { cartVar, userVar } from "@/lib/cache";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { calculateDeliveryPrice, getCoordinate } from "@/lib/y-map-common";
 import { canCheckout } from "./canCheckout";
 import spbIcon from "./sbp-icon.png";
+import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
 type PaymentMethodId = "bank_card" | "sbp" | "tinkoff_bank" | "sberbank";
@@ -52,8 +52,6 @@ interface CheckoutState {
 }
 
 function Checkout() {
-  const cart = useReactiveVar(cartVar);
-  const authUser = useReactiveVar(userVar);
   const router = useRouter();
 
   const [checkoutState, setCheckoutState] = useState<CheckoutState>({
@@ -67,6 +65,18 @@ function Checkout() {
     orderTotalAmount: 0,
   });
 
+  // query CART data
+  const { data } = useQuery(GET_CART_QUERY, {
+    variables: {
+      cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+      orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+    },
+  });
+  const cart = data?.queryCart;
+
+  const { data: authResult } = useQuery(AUTHORIZED_USER_QUERY);
+  const authUser = authResult?.queryAuthorizedUser;
+
   // POPULATE INITIAL SUB TOTAL
   useMemo(() => {
     if (cart) {
@@ -78,7 +88,7 @@ function Checkout() {
   }, [cart]);
 
   // Check for address delivary and calculate the price
-  const handleSetDleiveryCost = useCallback(
+  const handleSetDeliveryCost = useCallback(
     async (address: string | undefined, subTotal: number) => {
       let orderTotalAmount = subTotal;
       let deliveryCost = 0;
@@ -106,9 +116,9 @@ function Checkout() {
     if (authUser && cart) {
       const { delivaryAddress } = authUser;
       const userAddress = delivaryAddress?.address;
-      handleSetDleiveryCost(userAddress!, cart.subTotal!);
+      handleSetDeliveryCost(userAddress!, cart.subTotal!);
     }
-  }, [authUser, cart, handleSetDleiveryCost]);
+  }, [authUser, cart, handleSetDeliveryCost]);
 
   const setModalAddresss = (action: "create" | "update") => {
     setCheckoutState((prvState) => ({
@@ -141,6 +151,7 @@ function Checkout() {
     }));
   };
 
+  // Checkout Action
   const [checkoutOrder, { loading }] = useMutation(CHECKOUT_ORDER, {
     variables: {
       deliveryAddressId: authUser?.delivaryAddress?.id,
@@ -159,14 +170,14 @@ function Checkout() {
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
-  if (!cart) return null;
-
   const isCheckout = canCheckout(
     authUser?.id,
     authUser?.delivaryAddress?.id,
     checkoutState.deliveryCost,
     checkoutState.paymentMethod
   );
+
+  if (!cart) return null;
 
   return (
     <div className="checkout">
@@ -208,6 +219,7 @@ function Checkout() {
                     showModalAddress={checkoutState.modalAddress.show}
                     closeModal={closeModal}
                     action={checkoutState.modalAddress.action}
+                    authUser={authUser}
                   />
                 </>
               ) : (
@@ -222,6 +234,7 @@ function Checkout() {
                     showModalAddress={checkoutState.modalAddress.show}
                     closeModal={closeModal}
                     action={checkoutState.modalAddress.action}
+                    authUser={authUser}
                   />
                 </>
               )}

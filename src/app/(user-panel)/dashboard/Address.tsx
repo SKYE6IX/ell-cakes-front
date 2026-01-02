@@ -14,7 +14,7 @@ import "./dashboard.scss";
 type UserDataActions = "update_address" | "create_address" | "none";
 
 type AddressProps = {
-  authUser: User | null;
+  authUser: User | null | undefined;
 };
 
 const initialValue = {

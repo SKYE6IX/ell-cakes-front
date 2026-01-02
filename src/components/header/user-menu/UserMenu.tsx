@@ -1,12 +1,32 @@
 "use client";
-import { useReactiveVar } from "@apollo/client/react";
+import { useRef } from "react";
+import { useQuery, useApolloClient } from "@apollo/client/react";
 import Link from "next/link";
 import PersonIcon from "@/components/icons/PersonIcon";
-import { userVar } from "@/lib/cache";
+import { User } from "@/types/__generated__/graphql";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import "./user-menu.scss";
 
-function UserMenu() {
-  const authUser = useReactiveVar(userVar);
+interface UserMenuProps {
+  preloadQuery: User | null | undefined;
+}
+
+function UserMenu({ preloadQuery }: UserMenuProps) {
+  const client = useApolloClient();
+  const initialLoad = useRef(true);
+
+  if (initialLoad && preloadQuery) {
+    client.writeQuery({
+      query: AUTHORIZED_USER_QUERY,
+      data: { queryAuthorizedUser: preloadQuery },
+    });
+    initialLoad.current = false;
+  }
+
+  const { data } = useQuery(AUTHORIZED_USER_QUERY);
+
+  const authUser = data?.queryAuthorizedUser;
+
   return (
     <Link href={`${authUser ? "/dashboard" : "/login"}`} className="user-menu">
       {authUser ? (

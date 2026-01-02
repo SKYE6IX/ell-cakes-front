@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
-import { User } from "@/types/__generated__/graphql";
+import { OrderDirection, User } from "@/types/__generated__/graphql";
 import { AUTHORIZED_USER } from "@/hooks/useLoginUserMutation";
-
+import { GET_CART_QUERY } from "@/components/cart/operations";
 import Login from "../page";
+
 const returnUser: User = {
   __typename: "User",
   cart: null,
   createdAt: undefined,
   delivaryAddress: null,
-  delivaryAddressCount: null,
   email: null,
   firstOrderDiscountEligible: null,
   id: "",
@@ -39,6 +39,16 @@ const mocks = [
       variables: { email: "Buck", password: "123456789" },
     },
     result: { data: { authorizedUser: returnUser } },
+  },
+  {
+    request: {
+      query: GET_CART_QUERY,
+      variables: {
+        cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+        orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+      },
+    },
+    result: { data: { queryCart: null } },
   },
 ];
 

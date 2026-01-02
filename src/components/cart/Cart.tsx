@@ -1,16 +1,14 @@
 "use client";
-import { useEffect } from "react";
 import Link from "next/link";
 import { useReactiveVar, useQuery } from "@apollo/client/react";
 import Modal from "../modal/Modal";
 import CartItem from "../cart-item/CartItem";
-import { isCartOpenVar, cartVar } from "@/lib/cache";
+import { isCartOpenVar } from "@/lib/cache";
 import { GET_CART_QUERY } from "./operations";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./cart.scss";
 
 function Cart() {
-  const cart = useReactiveVar(cartVar);
   const isCartOpen = useReactiveVar(isCartOpenVar);
 
   const { data } = useQuery(GET_CART_QUERY, {
@@ -20,11 +18,7 @@ function Cart() {
     },
   });
 
-  const cartResult = data?.queryCart ?? null;
-
-  useEffect(() => {
-    cartVar(cartResult);
-  }, [cartResult]);
+  const cart = data?.queryCart;
 
   const handleCloseModal = () => {
     isCartOpenVar(false);

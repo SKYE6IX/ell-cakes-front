@@ -1,10 +1,11 @@
 "use client";
 import { useMutation } from "@apollo/client/react";
-import { isCartOpenVar, cartVar } from "@/lib/cache";
+import { isCartOpenVar } from "@/lib/cache";
 import CartIcon from "../icons/CartIcon";
 import { ADD_TO_CART_MUTATION, AddToCartArgs } from "./operation";
-import "./add-to-cart-btn.scss";
 import { OrderDirection } from "@/types/__generated__/graphql";
+import { useWriteCartQuery } from "@/hooks/useWriteCartQuery";
+import "./add-to-cart-btn.scss";
 
 type AddToCartButtonProps = {
   productPrice: number;
@@ -17,6 +18,7 @@ function AddToCartButton({
   parentComponent,
   addToCartArgs,
 }: AddToCartButtonProps) {
+  const writeCartQuery = useWriteCartQuery();
   const [addToCart, { loading }] = useMutation(ADD_TO_CART_MUTATION, {
     variables: {
       ...addToCartArgs,
@@ -24,8 +26,15 @@ function AddToCartButton({
       orderImagesBy: [{ id: OrderDirection.Asc }],
     },
     onCompleted(data) {
-      cartVar(data.addToCart);
-      isCartOpenVar(true);
+      if (data.addToCart) {
+        isCartOpenVar(true);
+      }
+    },
+
+    update(cache, { data }) {
+      if (data?.addToCart) {
+        writeCartQuery(cache, data.addToCart);
+      }
     },
   });
 

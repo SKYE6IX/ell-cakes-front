@@ -1,16 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import Dashboard from "../page";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
+const mocks = [
+  {
+    request: {
+      query: AUTHORIZED_USER_QUERY,
+    },
+    result: { data: { queryAuthorizedUser: null } },
+  },
+];
 
 describe("Dashboard component page", () => {
   it("Render page text content", () => {
     // Arrange
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <Dashboard />
       </MockedProvider>
     );

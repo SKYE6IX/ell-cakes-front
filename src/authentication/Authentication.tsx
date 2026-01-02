@@ -1,13 +1,8 @@
-import React from "react";
 import { getClient } from "@/ApolloClient";
 import { AUTHORIZED_USER_QUERY } from "./operation";
-import AuthenticationProvider from "./AuthenticationProvider";
+import UserMenu from "@/components/header/user-menu/UserMenu";
 
-async function AuthenticationWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+async function Authentication() {
   const { data } = await (
     await getClient()
   ).query({
@@ -15,11 +10,7 @@ async function AuthenticationWrapper({
     fetchPolicy: "network-only",
   });
 
-  return (
-    <AuthenticationProvider preloadQuery={data?.queryAuthorizedUser}>
-      {children}
-    </AuthenticationProvider>
-  );
+  return <UserMenu preloadQuery={data?.queryAuthorizedUser} />;
 }
 
-export default AuthenticationWrapper;
+export default Authentication;

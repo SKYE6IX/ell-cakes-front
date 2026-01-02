@@ -1,17 +1,21 @@
 "use client";
 import { useState, useMemo } from "react";
-import { useReactiveVar, useMutation } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import DashboardPen from "@/components/icons/DashboardPen";
-import { userVar } from "@/lib/cache";
-import { UPDATE_USER_PROFILE } from "./operation";
 import Address from "./Address";
 import { validateUpdateFields } from "@/utils/validations";
+import { UPDATE_USER_PROFILE } from "./operation";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
+import { useWriteUserQuery } from "@/hooks/useWriteUserQuery";
 import "./dashboard.scss";
 
 type UserDataActions = "update_profile" | "none";
 
 export default function Dashboard() {
-  const authUser = useReactiveVar(userVar);
+  const writeUserQuery = useWriteUserQuery();
+  const { data } = useQuery(AUTHORIZED_USER_QUERY);
+
+  const authUser = data?.queryAuthorizedUser;
 
   const [userDataActions, setUserDataActions] =
     useState<UserDataActions>("none");
@@ -57,9 +61,14 @@ export default function Dashboard() {
 
   const [updateUserProfile, { loading }] = useMutation(UPDATE_USER_PROFILE, {
     variables: { data: { ...updateProfileForm }, where: { id: authUser?.id } },
-    onCompleted(data) {
-      userVar(data.updateUser);
+    onCompleted() {
       setUserDataActions("none");
+    },
+
+    update(cache, { data }) {
+      if (data?.updateUser) {
+        writeUserQuery(cache, data.updateUser);
+      }
     },
 
     onError(error) {

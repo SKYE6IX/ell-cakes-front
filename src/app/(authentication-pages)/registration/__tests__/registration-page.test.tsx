@@ -5,7 +5,12 @@ import {
   IS_PHONE_NUMBER_IN_USE,
 } from "@/hooks/useUserDataExistQuery";
 import { REGISTER_USER } from "@/hooks/useRegisterUserMutation";
-import { RegisterUserInput, User } from "@/types/__generated__/graphql";
+import { GET_CART_QUERY } from "@/components/cart/operations";
+import {
+  OrderDirection,
+  RegisterUserInput,
+  User,
+} from "@/types/__generated__/graphql";
 import RegistrationPage from "../page";
 
 const mockRegister: RegisterUserInput = {
@@ -19,7 +24,6 @@ const returnUser: User = {
   cart: null,
   createdAt: undefined,
   delivaryAddress: null,
-  delivaryAddressCount: null,
   email: null,
   firstOrderDiscountEligible: null,
   id: "",
@@ -63,6 +67,16 @@ const mocks = [
       variables: { phoneNumber: mockRegister.phoneNumber },
     },
     result: { data: { isPhoneNumberInUse: true } },
+  },
+  {
+    request: {
+      query: GET_CART_QUERY,
+      variables: {
+        cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
+        orderImagesBy: [{ createdAt: OrderDirection.Asc }],
+      },
+    },
+    result: { data: { queryCart: null } },
   },
 ];
 

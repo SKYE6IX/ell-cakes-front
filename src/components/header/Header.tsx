@@ -3,8 +3,7 @@ import Link from "next/link";
 import Navigation from "./navigation/Navigation";
 import CartMenuBtn from "./cart-menu/CartMenuBtn";
 import MenuButton from "./MenuButton";
-import UserMenu from "./user-menu/UserMenu";
-import AuthenticationWrapper from "@/authentication/Authentication";
+import Authentication from "@/authentication/Authentication";
 import "./header.scss";
 
 function Header() {
@@ -25,9 +24,7 @@ function Header() {
         </div>
         <Navigation />
         <div className="header__user-action-wrapper">
-          <AuthenticationWrapper>
-            <UserMenu />
-          </AuthenticationWrapper>
+          <Authentication />
           <CartMenuBtn />
           <MenuButton />
         </div>

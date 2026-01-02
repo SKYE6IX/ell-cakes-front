@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import { useMutation } from "@apollo/client/react";
 import PlusIcon from "@/components/icons/PlusIcon";
@@ -13,7 +12,8 @@ import {
   DECREASE_CART_ITEM,
   DELETE_CART_ITEM,
 } from "../cart/operations";
-import { cartVar } from "@/lib/cache";
+import { GET_CART_QUERY } from "../cart/operations";
+import { useWriteCartQuery } from "@/hooks/useWriteCartQuery";
 import "./cart-item.scss";
 
 type CartItemProps = {
@@ -22,6 +22,7 @@ type CartItemProps = {
 };
 
 function CartItem({ cartItem, mode }: CartItemProps) {
+  const writeCartQuery = useWriteCartQuery();
   const operationVariable = {
     cartItemId: cartItem.id,
     cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
@@ -32,8 +33,10 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     INCREASE_CART_ITEM,
     {
       variables: operationVariable,
-      onCompleted(data) {
-        cartVar(data.increaseCartItem);
+      update(cache, { data }) {
+        if (data?.increaseCartItem) {
+          writeCartQuery(cache, data.increaseCartItem);
+        }
       },
     }
   );
@@ -42,8 +45,16 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     DECREASE_CART_ITEM,
     {
       variables: operationVariable,
-      onCompleted(data) {
-        cartVar(data.decreaseCartItem);
+      update(cache, { data }) {
+        if (data?.decreaseCartItem) {
+          writeCartQuery(cache, data.decreaseCartItem);
+        }
+      },
+      refetchQueries(result) {
+        if (result.data.decreaseCartItem === null) {
+          return [GET_CART_QUERY];
+        }
+        return [];
       },
     }
   );
@@ -52,8 +63,16 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     DELETE_CART_ITEM,
     {
       variables: operationVariable,
-      onCompleted(data) {
-        cartVar(data.removeFromCart);
+      update(cache, { data }) {
+        if (data?.removeFromCart) {
+          writeCartQuery(cache, data.removeFromCart);
+        }
+      },
+      refetchQueries(result) {
+        if (result.data.removeFromCart === null) {
+          return [GET_CART_QUERY];
+        }
+        return [];
       },
     }
   );
