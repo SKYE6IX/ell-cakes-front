@@ -10,11 +10,11 @@ import {
 } from "./operations";
 import ProductDetailsSkeleton from "./skeleton/ProductDetailsSkeleton";
 import ProductList from "../product-list/ProductList";
+import ProductListSkeleton from "../product-list/ProductListSkeleton";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
   const similarProductsContainerRef = useRef<HTMLDivElement>(null);
-
   const { data, error, loading } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
       where: { slug: productSlug },
@@ -64,7 +64,9 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
   }, [data, getSimilarProducts, loading]);
 
   if (loading) return <ProductDetailsSkeleton />;
+
   if (error) return <p>An error occur: - {error.message}</p>;
+
   if (!data) return null;
 
   return (
@@ -86,11 +88,9 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
           Сделай праздник ещё вкуснее
         </h3>
         <div className="similar-products__container">
+          {isSimilarProductLoading && <ProductListSkeleton />}
           {similarProducts && (
-            <ProductList
-              products={similarProducts.querySimilarProducts}
-              isLoading={isSimilarProductLoading}
-            />
+            <ProductList products={similarProducts.querySimilarProducts} />
           )}
         </div>
       </div>

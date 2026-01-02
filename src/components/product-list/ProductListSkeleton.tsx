@@ -1,5 +1,4 @@
 import "./product-list.scss";
-
 function ProductListSkeleton() {
   return (
     <>

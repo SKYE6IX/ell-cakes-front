@@ -1,16 +1,13 @@
-"use client";
-import { useReadQuery, QueryRef } from "@apollo/client/react";
-import { FeaturedProduct } from "@/types/__generated__/graphql";
-import ProductList from "@/components/product-list/ProductList";
+import { OrderDirection } from "@/types/__generated__/graphql";
+import { PreloadQuery } from "@/ApolloClient";
+import { GET_FEATURED_PRODUCTS_QUERY } from "../operation";
+import FeaturedProducts from "./FeaturedProducts";
 import "./feature-section.scss";
 
-function FeaturedSection({
-  queryRef,
-}: {
-  queryRef: QueryRef<{ featuredProducts: FeaturedProduct[] }>;
-}) {
-  const { data } = useReadQuery(queryRef);
-  const products = data.featuredProducts[0].products;
+const TAKE_FILLINGS_NUM = 1;
+const TAKE_VARIANTS_NUM = 1;
+const TAKE_FEATURED_PRODUCTS = 8;
+function FeaturedSection() {
   return (
     <section className="featured-section">
       <h3 className="featured__title">
@@ -20,7 +17,18 @@ function FeaturedSection({
         МЫ ПРЕДЛАГАЕМ ТОЛЬКО СВЕЖИЕ ИНГРЕДИЕНТЫ И САМЫЕ ЛУЧШИЕ РЕЦЕПТЫ!
       </h5>
       <div className="featured__products-wrapper">
-        {products && products.length > 1 && <ProductList products={products} />}
+        <PreloadQuery
+          query={GET_FEATURED_PRODUCTS_QUERY}
+          variables={{
+            takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
+            takeFillings: TAKE_FILLINGS_NUM,
+            takeVariants: TAKE_VARIANTS_NUM,
+            variantsOrderBy: [{ price: OrderDirection.Asc }],
+            imagesOrderBy: [{ id: OrderDirection.Asc }],
+          }}
+        >
+          <FeaturedProducts />
+        </PreloadQuery>
       </div>
     </section>
   );
