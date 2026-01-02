@@ -1,4 +1,3 @@
-import React from "react";
 import Collection from "@/components/collection/Collection";
 
 async function page({ params }: { params: Promise<{ categorySlug: string }> }) {

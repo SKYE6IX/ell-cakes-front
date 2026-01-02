@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import Collection from "../Collection";
 import {
@@ -118,7 +118,7 @@ export const mockProducts: Product[] = [
     ],
     __typename: "Product",
     badge: null,
-    category: null,
+    categories: null,
     createdAt: undefined,
     customization: null,
     fillingsCount: null,
@@ -128,6 +128,7 @@ export const mockProducts: Product[] = [
     slug: null,
     topping: null,
     updatedAt: undefined,
+    categoriesCount: null,
   },
   {
     id: "b313f90f-3059-42f0-b805-a252840dcd33",
@@ -200,7 +201,7 @@ export const mockProducts: Product[] = [
     ],
     __typename: "Product",
     badge: null,
-    category: null,
+    categories: null,
     createdAt: undefined,
     customization: null,
     fillingsCount: null,
@@ -210,6 +211,7 @@ export const mockProducts: Product[] = [
     slug: null,
     topping: null,
     updatedAt: undefined,
+    categoriesCount: null,
   },
 ];
 
@@ -218,7 +220,7 @@ const mocks = [
     request: {
       query: GET_PRODUCTS_BY_CATEGORY,
       variables: {
-        where: { category: { slug: { equals: "pirozhenye" } } },
+        where: { categories: { some: { slug: { equals: "pirozhenye" } } } },
         takeFillings: 1,
         takeVariants: 1,
         orderVariantsBy: [{ price: OrderDirection.Asc }],
@@ -232,16 +234,19 @@ const mocks = [
 ];
 
 describe("Collection Component", () => {
-  it("render all component contents", () => {
-    //  Arrange
-    render(
-      <MockedProvider mocks={mocks}>
-        <Collection
-          categorySlug="pirozhenye"
-          where={{ category: { slug: { equals: "pirozhenye" } } }}
-        />
-      </MockedProvider>
-    );
+  it("render all component contents", async () => {
+    //Arrange
+
+    await act(async () => {
+      render(
+        <MockedProvider mocks={mocks}>
+          <Collection
+            categorySlug="pirozhenye"
+            where={{ categories: { some: { slug: { equals: "pirozhenye" } } } }}
+          />
+        </MockedProvider>
+      );
+    });
 
     // Assert
     const heroSectionImages = screen.getAllByTestId("collection-hero-image");
@@ -256,7 +261,6 @@ describe("Collection Component", () => {
     const deliveryInfoSectionImage = screen.getByTestId(
       "collection-delivery-info-image"
     );
-
     // Act
     expect(heroSectionImages.length).toEqual(2);
     for (const el of heroSectionImages) {
@@ -265,7 +269,6 @@ describe("Collection Component", () => {
     expect(heroSectionHeading).toBeInTheDocument();
     expect(heroSectionHeading).toHaveTextContent("Пироженые");
     expect(heroSectionText).toBeInTheDocument();
-
     expect(deliveryInfoHeading).toBeInTheDocument();
     expect(deliveryInfoItems.length).toEqual(3);
     for (const el of deliveryInfoItems) {

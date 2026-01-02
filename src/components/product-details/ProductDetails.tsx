@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useEffect } from "react";
-import { useQuery, useLazyQuery } from "@apollo/client/react";
+import { useLazyQuery, useSuspenseQuery } from "@apollo/client/react";
 import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import { OrderDirection } from "@/types/__generated__/graphql";
@@ -8,14 +8,13 @@ import {
   GET_PRODUCT_DETAILS_QUERY,
   QUERY_SIMILAR_PRODUCTS,
 } from "./operations";
-import ProductDetailsSkeleton from "./skeleton/ProductDetailsSkeleton";
 import ProductList from "../product-list/ProductList";
 import ProductListSkeleton from "../product-list/ProductListSkeleton";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
   const similarProductsContainerRef = useRef<HTMLDivElement>(null);
-  const { data, error, loading } = useQuery(GET_PRODUCT_DETAILS_QUERY, {
+  const { data, error } = useSuspenseQuery(GET_PRODUCT_DETAILS_QUERY, {
     variables: {
       where: { slug: productSlug },
       imagesOrderBy: [{ id: OrderDirection.Asc }],
@@ -61,13 +60,9 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
     );
     observer.observe(containerToObserve);
     return () => observer.disconnect();
-  }, [data, getSimilarProducts, loading]);
-
-  if (loading) return <ProductDetailsSkeleton />;
+  }, [data, getSimilarProducts]);
 
   if (error) return <p>An error occur: - {error.message}</p>;
-
-  if (!data) return null;
 
   return (
     <div className="product-details">

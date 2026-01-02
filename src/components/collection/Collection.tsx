@@ -1,18 +1,13 @@
-"use client";
-import React from "react";
+import { Suspense } from "react";
 import Image from "next/image";
-import { useQuery } from "@apollo/client/react";
-import ProductList from "../product-list/ProductList";
-import {
-  OrderDirection,
-  ProductWhereInput,
-} from "@/types/__generated__/graphql";
+import ProductListSkeleton from "../product-list/ProductListSkeleton";
 import collectionDeliveryInfoImage from "./collection-delivery-section-image.png";
 import CandleCakeIcon from "../icons/CandleCakeIcon";
 import PresentIcon from "../icons/PresentIcon";
 import SmileyIcon from "../icons/SmileyIcon";
+import CollectionProducts from "./CollectionProducts";
 import { getHeroSectionData } from "./hero-section-data";
-import { GET_PRODUCTS_BY_CATEGORY } from "./operation";
+import { ProductWhereInput } from "@/types/__generated__/graphql";
 import "./collection.scss";
 
 type CollectionProps = {
@@ -21,19 +16,7 @@ type CollectionProps = {
 };
 
 function Collection({ categorySlug, where }: CollectionProps) {
-  const TAKE_FILLINGS_NUM = 1;
-  const TAKE_VARIANTS_NUM = 1;
   const heroSectionData = getHeroSectionData(categorySlug);
-
-  const { data, loading } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-    variables: {
-      where,
-      takeFillings: TAKE_FILLINGS_NUM,
-      takeVariants: TAKE_VARIANTS_NUM,
-      orderVariantsBy: [{ price: OrderDirection.Asc }],
-      imagesOrderBy: [{ id: OrderDirection.Asc }],
-    },
-  });
 
   return (
     <div className="collection">
@@ -71,7 +54,9 @@ function Collection({ categorySlug, where }: CollectionProps) {
       </section>
 
       <section className="collection__product-list">
-        {data && <ProductList isLoading={loading} products={data.products} />}
+        <Suspense fallback={<ProductListSkeleton />}>
+          <CollectionProducts where={where} />
+        </Suspense>
       </section>
 
       <section className="collection__delivery-process">
