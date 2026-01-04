@@ -1,7 +1,8 @@
+"use client";
 import { useReducer } from "react";
+import { useReadQuery, QueryRef } from "@apollo/client/react";
 import ProductFillingSelector from "../product-filling-selector/ProductFillingSelector";
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
-// import ProductShape from "../product-customisations/ProductShape";
 import AddCustomisePhoto from "../product-customisations/AddCustomisePhoto";
 import AddCustomiseInscription from "../product-customisations/AddCustomiseInscription";
 import AddTopping from "../product-customisations/AddTopping";
@@ -11,18 +12,32 @@ import ProductReviews from "../product-reviews/ProductReviews";
 import ProductFAQ from "../product-faq/ProductFAQ";
 import MixProductOption from "../mix-product-option/MixProductOption";
 import AddToCartButton from "@/components/add-to-cart-btn/AddToCartButton";
-import { Product } from "@/types/__generated__/graphql";
+import {
+  Product,
+  ProductFilling,
+  MixBoxProduct,
+} from "@/types/__generated__/graphql";
 import { reducer } from "./productConfigurationReducer";
 import "./product-info-panel.scss";
 
 type ProductInfoPanelProps = {
-  product: Product;
+  productQueryRef: QueryRef<{ product: Product }>;
+  fillingsQueryRef: QueryRef<{ productFillings: ProductFilling[] }>;
+  mixBoxQueryRef: QueryRef<{ mixBoxProduct: MixBoxProduct }>;
 };
 
-function ProductInfoPanel({ product }: ProductInfoPanelProps) {
+function ProductInfoPanel({
+  productQueryRef,
+  fillingsQueryRef,
+  mixBoxQueryRef,
+}: ProductInfoPanelProps) {
+  const { data: productResult } = useReadQuery(productQueryRef);
+  const { data: fillingsResult } = useReadQuery(fillingsQueryRef);
+
   // Picking the first item from the fillings and the and the first item from
   // the filling variants, works also for a product that only has a single filling.
-  const initialProductFilling = product.fillings![0];
+  const product = productResult.product;
+  const initialProductFilling = fillingsResult.productFillings[0];
 
   const [productConfiguration, dispatch] = useReducer(reducer, {
     selectedProductFilling: initialProductFilling,
@@ -81,22 +96,16 @@ function ProductInfoPanel({ product }: ProductInfoPanelProps) {
         dispatch={dispatch}
       />
 
-      {product.type === "mixed_box" && (
-        <MixProductOption
-          selectedVariant={productConfiguration.selectedProductVariant}
-          compositionProducts={product.mixBoxCompositions!}
-          compositionsConfig={productConfiguration.compositions}
-          dispatch={dispatch}
-        />
-      )}
+      <MixProductOption
+        mixBoxQueryRef={mixBoxQueryRef}
+        selectedVariant={productConfiguration.selectedProductVariant}
+        compositionsConfig={productConfiguration.compositions}
+        dispatch={dispatch}
+      />
 
       <div className="product-info-panel__customisations-wrapper">
         {product.customization && (
           <>
-            {/* <ProductShape
-              customOptions={product.customization.customOptions!}
-              dispatch={dispatch}
-            /> */}
             <AddCustomisePhoto
               customOptions={product.customization.customOptions!}
               dispatch={dispatch}

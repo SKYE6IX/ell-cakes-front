@@ -1,94 +1,92 @@
-"use client";
-import { useRef, useEffect } from "react";
-import { useLazyQuery, useSuspenseQuery } from "@apollo/client/react";
+import { Suspense } from "react";
 import ProductImageGallery from "./product-gallery/ProductImageGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
-import { OrderDirection } from "@/types/__generated__/graphql";
+import SimilarProducts from "./SimilarProducts";
 import {
-  GET_PRODUCT_DETAILS_QUERY,
-  QUERY_SIMILAR_PRODUCTS,
+  ProductMediaSkeleton,
+  ProductPanelSkeleton,
+} from "./skeleton/ProductDetailsSkeleton";
+import { PreloadQuery } from "@/ApolloClient";
+import {
+  GET_PRODUCT_IMAGES_QUERY,
+  GET_PRODUCT_VIDEO_QUERY,
+  GET_PRODUCT_QUERY,
+  GET_PRODUCT_FILLINGS_QUERY,
+  GET_MIX_BOX_PRODUCT_QUERY,
 } from "./operations";
-import ProductList from "../product-list/ProductList";
-import ProductListSkeleton from "../product-list/ProductListSkeleton";
+import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
-  const similarProductsContainerRef = useRef<HTMLDivElement>(null);
-  const { data, error } = useSuspenseQuery(GET_PRODUCT_DETAILS_QUERY, {
-    variables: {
-      where: { slug: productSlug },
-      imagesOrderBy: [{ id: OrderDirection.Asc }],
-      variantsOrderBy: [{ price: OrderDirection.Asc }],
-      toppingOptionOrderBy: [
-        {
-          extraPrice: OrderDirection.Asc,
-        },
-      ],
-    },
-  });
-
-  const [
-    getSimilarProducts,
-    { data: similarProducts, loading: isSimilarProductLoading },
-  ] = useLazyQuery(QUERY_SIMILAR_PRODUCTS);
-
-  useEffect(() => {
-    const containerToObserve = similarProductsContainerRef.current;
-    if (!containerToObserve) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (data) {
-            getSimilarProducts({
-              variables: {
-                productId: data.product.id,
-                variantType: data.product.variantType!,
-                takeFillings: 1,
-                takeVariants: 1,
-                orderVariantsBy: [{ price: OrderDirection.Asc }],
-                imagesOrderBy: [{ id: OrderDirection.Asc }],
-              },
-            });
-          }
-          observer.disconnect();
-        }
-      },
-      {
-        root: null,
-        threshold: 0.1,
-      }
-    );
-    observer.observe(containerToObserve);
-    return () => observer.disconnect();
-  }, [data, getSimilarProducts]);
-
-  if (error) return <p>An error occur: - {error.message}</p>;
-
   return (
     <div className="product-details">
       <div className="product-details__product-wrapper">
         <section className="product-details__gallery-section">
-          <ProductImageGallery productImages={data.product.images!} />
+          <PreloadQuery
+            query={GET_PRODUCT_IMAGES_QUERY}
+            variables={{
+              where: { product: { slug: { equals: productSlug } } },
+              orderImageBy: [{ id: OrderDirection.Asc }],
+            }}
+          >
+            {(imagesQueryRef) => (
+              <PreloadQuery
+                query={GET_PRODUCT_VIDEO_QUERY}
+                variables={{ where: { product: { slug: productSlug } } }}
+              >
+                {(videoQueryRef) => (
+                  <Suspense fallback={<ProductMediaSkeleton />}>
+                    <ProductImageGallery
+                      imagesQueryRef={imagesQueryRef}
+                      videoQueryRef={videoQueryRef}
+                    />
+                  </Suspense>
+                )}
+              </PreloadQuery>
+            )}
+          </PreloadQuery>
         </section>
-        <section className="product-details__product-info-section">
-          <ProductInfoPanel product={data.product} />
-        </section>
-      </div>
 
-      <div
-        className="product-details__similar-products"
-        ref={similarProductsContainerRef}
-      >
-        <h3 className="similar-products__heading">
-          Сделай праздник ещё вкуснее
-        </h3>
-        <div className="similar-products__container">
-          {isSimilarProductLoading && <ProductListSkeleton />}
-          {similarProducts && (
-            <ProductList products={similarProducts.querySimilarProducts} />
-          )}
-        </div>
+        <section className="product-details__product-info-section">
+          <PreloadQuery
+            query={GET_PRODUCT_QUERY}
+            variables={{
+              where: { slug: productSlug },
+              orderToppingOptionBy: [{ extraPrice: OrderDirection.Asc }],
+            }}
+          >
+            {(productQueryRef) => (
+              <PreloadQuery
+                query={GET_PRODUCT_FILLINGS_QUERY}
+                variables={{
+                  where: {
+                    products: { some: { slug: { equals: productSlug } } },
+                  },
+                  orderVariantsBy: [{ price: OrderDirection.Asc }],
+                }}
+              >
+                {(fillingsQueryRef) => (
+                  <PreloadQuery
+                    query={GET_MIX_BOX_PRODUCT_QUERY}
+                    variables={{ where: { product: { slug: productSlug } } }}
+                  >
+                    {(mixBoxQueryRef) => (
+                      <Suspense fallback={<ProductPanelSkeleton />}>
+                        <ProductInfoPanel
+                          productQueryRef={productQueryRef}
+                          fillingsQueryRef={fillingsQueryRef}
+                          mixBoxQueryRef={mixBoxQueryRef}
+                        />
+                      </Suspense>
+                    )}
+                  </PreloadQuery>
+                )}
+              </PreloadQuery>
+            )}
+          </PreloadQuery>
+        </section>
       </div>
+      <SimilarProducts productSlug={productSlug} />
     </div>
   );
 }

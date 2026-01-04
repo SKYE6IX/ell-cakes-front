@@ -6,7 +6,7 @@ const AUTHORIZED_USER_QUERY: TypedDocumentNode<
   { queryAuthorizedUser: User | null },
   Record<string, null>
 > = gql`
-  query QueryAuthorizedUser {
+  query IsAuthorizedUser {
     queryAuthorizedUser {
       id
     }

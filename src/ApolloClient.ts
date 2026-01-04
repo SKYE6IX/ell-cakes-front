@@ -26,7 +26,6 @@ export const { query, PreloadQuery, getClient } = registerApolloClient(
           cookie: cookiesHeaders,
         },
         fetchOptions: {
-          cache: "default",
           credentials: "include",
         },
       }),

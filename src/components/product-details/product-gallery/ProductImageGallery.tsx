@@ -1,13 +1,24 @@
+"use client";
 import { useState, useRef, useEffect } from "react";
+import { useReadQuery, QueryRef } from "@apollo/client/react";
 import Image from "next/image";
-import { ProductImage } from "@/types/__generated__/graphql";
+import { ProductImage, ProductVideo } from "@/types/__generated__/graphql";
 import "./product-image-gallery.scss";
 
 type ProductGalleryProps = {
-  productImages: ProductImage[];
+  imagesQueryRef: QueryRef<{ productImages: ProductImage[] }>;
+  videoQueryRef: QueryRef<{ productVideo: ProductVideo }>;
 };
 
-function ProductGallery({ productImages }: ProductGalleryProps) {
+function ProductGallery({
+  imagesQueryRef,
+  videoQueryRef,
+}: ProductGalleryProps) {
+  const { data: imagesData } = useReadQuery(imagesQueryRef);
+  const { data: videoData } = useReadQuery(videoQueryRef);
+
+  const productImages = imagesData.productImages;
+
   const [activeIdx, setActiveIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const slideItemRefs = useRef<HTMLDivElement[]>([]);

@@ -3,25 +3,29 @@ import {
   Product,
   ProductWhereUniqueInput,
   ProductVariantOrderByInput,
-  ToppingOptionOrderByInput,
   CustomizeImage,
   ProductImageOrderByInput,
+  ProductImage,
+  ProductImageWhereInput,
+  ProductVideoWhereUniqueInput,
+  ProductVideo,
+  ProductFillingWhereInput,
+  ProductFilling,
+  MixBoxProductWhereUniqueInput,
+  MixBoxProduct,
+  ToppingOptionOrderByInput,
 } from "@/types/__generated__/graphql";
 
-export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
+export const GET_PRODUCT_QUERY: TypedDocumentNode<
   { product: Product },
   {
     where: ProductWhereUniqueInput;
-    imagesOrderBy: ProductImageOrderByInput[];
-    variantsOrderBy: ProductVariantOrderByInput[];
-    toppingOptionOrderBy: ToppingOptionOrderByInput[];
+    orderToppingOptionBy: ToppingOptionOrderByInput[];
   }
 > = gql`
   query Product(
     $where: ProductWhereUniqueInput!
-    $imagesOrderBy: [ProductImageOrderByInput!]!
-    $variantsOrderBy: [ProductVariantOrderByInput!]!
-    $toppingOptionOrderBy: [ToppingOptionOrderByInput!]!
+    $orderToppingOptionBy: [ToppingOptionOrderByInput!]!
   ) {
     product(where: $where) {
       id
@@ -31,39 +35,6 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
       variantType
       stockQuantity
       isAvailable
-      images(orderBy: $imagesOrderBy) {
-        id
-        altText
-        image {
-          id
-          url
-        }
-      }
-      video {
-        url
-      }
-      fillings {
-        id
-        image_icon {
-          url
-        }
-        name
-        description
-        calories
-        fat
-        lifeShelf
-        ingredients
-        protein
-        carbonhydrate
-        variants(orderBy: $variantsOrderBy) {
-          id
-          weight
-          pieces
-          serving
-          price
-          isAvailable
-        }
-      }
       customization {
         id
         customOptions {
@@ -78,14 +49,63 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
       }
       topping {
         id
-        options(orderBy: $toppingOptionOrderBy) {
+        name
+        options(orderBy: $orderToppingOptionBy) {
           id
           pieces
           weight
           extraPrice
         }
       }
-      mixBoxCompositions {
+    }
+  }
+`;
+
+export const GET_PRODUCT_FILLINGS_QUERY: TypedDocumentNode<
+  { productFillings: ProductFilling[] },
+  {
+    where: ProductFillingWhereInput;
+    orderVariantsBy: ProductVariantOrderByInput[];
+  }
+> = gql`
+  query ProductFillings(
+    $where: ProductFillingWhereInput!
+    $orderVariantsBy: [ProductVariantOrderByInput!]!
+  ) {
+    productFillings(where: $where) {
+      id
+      name
+      description
+      calories
+      fat
+      lifeShelf
+      ingredients
+      protein
+      carbonhydrate
+      image_icon {
+        id
+        url
+      }
+      variants(orderBy: $orderVariantsBy) {
+        id
+        weight
+        pieces
+        serving
+        price
+        isAvailable
+      }
+    }
+  }
+`;
+
+export const GET_MIX_BOX_PRODUCT_QUERY: TypedDocumentNode<
+  { mixBoxProduct: MixBoxProduct },
+  { where: MixBoxProductWhereUniqueInput }
+> = gql`
+  query MixBoxProduct($where: MixBoxProductWhereUniqueInput!) {
+    mixBoxProduct(where: $where) {
+      id
+      compositions {
         id
         name
         slug
@@ -96,6 +116,43 @@ export const GET_PRODUCT_DETAILS_QUERY: TypedDocumentNode<
             url
           }
         }
+      }
+    }
+  }
+`;
+
+export const GET_PRODUCT_IMAGES_QUERY: TypedDocumentNode<
+  { productImages: ProductImage[] },
+  {
+    where: ProductImageWhereInput;
+    orderImageBy: ProductImageOrderByInput[];
+  }
+> = gql`
+  query ProductImages(
+    $where: ProductImageWhereInput!
+    $orderImageBy: [ProductImageOrderByInput!]!
+  ) {
+    productImages(orderBy: $orderImageBy, where: $where) {
+      id
+      image {
+        id
+        url
+      }
+    }
+  }
+`;
+
+export const GET_PRODUCT_VIDEO_QUERY: TypedDocumentNode<
+  { productVideo: ProductVideo },
+  {
+    where: ProductVideoWhereUniqueInput;
+  }
+> = gql`
+  query ProductVideo($where: ProductVideoWhereUniqueInput!) {
+    productVideo(where: $where) {
+      id
+      video {
+        url
       }
     }
   }
@@ -118,8 +175,7 @@ export const ADD_CUSTOMIZE_IMAGE: TypedDocumentNode<
 export const QUERY_SIMILAR_PRODUCTS: TypedDocumentNode<
   { querySimilarProducts: Product[] },
   {
-    productId: string;
-    variantType: string;
+    productSlug: string;
     takeFillings: number;
     takeVariants: number;
     orderVariantsBy: ProductVariantOrderByInput[];
@@ -127,14 +183,13 @@ export const QUERY_SIMILAR_PRODUCTS: TypedDocumentNode<
   }
 > = gql`
   query QuerySimilarProducts(
-    $productId: String!
-    $variantType: String!
+    $productSlug: String!
     $takeFillings: Int
     $takeVariants: Int
     $orderVariantsBy: [ProductVariantOrderByInput!]!
     $imagesOrderBy: [ProductImageOrderByInput!]!
   ) {
-    querySimilarProducts(productId: $productId, variantType: $variantType) {
+    querySimilarProducts(productSlug: $productSlug) {
       id
       name
       slug

@@ -2,13 +2,14 @@ import { Dispatch, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Variants } from "motion/react";
+import { useReadQuery, QueryRef } from "@apollo/client/react";
 import * as motion from "motion/react-client";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
 import {
   ProductVariant,
-  Product,
   CompositionOptionInput,
+  MixBoxProduct,
 } from "@/types/__generated__/graphql";
 import { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./mix-product-option.scss";
@@ -33,8 +34,8 @@ const minusVariant: Variants = {
 };
 
 type MixProductOptionProps = {
+  mixBoxQueryRef: QueryRef<{ mixBoxProduct: MixBoxProduct }>;
   selectedVariant: ProductVariant;
-  compositionProducts: Product[];
   compositionsConfig: CompositionOptionInput[] | null;
   dispatch: Dispatch<ACTIONTYPE>;
 };
@@ -43,12 +44,15 @@ type MixProductOptionProps = {
 // Run test when created a product with mixed_box
 
 function MixProductOption({
-  compositionProducts,
+  mixBoxQueryRef,
   selectedVariant,
   compositionsConfig,
   dispatch,
 }: MixProductOptionProps) {
+  const { data } = useReadQuery(mixBoxQueryRef);
   const [maxComposition, setMaxComposition] = useState(false);
+
+  const compositionProducts = data.mixBoxProduct?.compositions;
 
   useEffect(() => {
     const variant = selectedVariant;
@@ -73,10 +77,12 @@ function MixProductOption({
     dispatch({ type: "remove_composition_product", payload: { productId } });
   };
 
+  if (!data.mixBoxProduct) return null;
+
   return (
     <div className="mix-product-option">
       <ul className="mix-product-option__lists">
-        {compositionProducts.map((product) => {
+        {compositionProducts?.map((product) => {
           const isActive = getCompositionConfig(product.id) !== undefined;
           return (
             <li
