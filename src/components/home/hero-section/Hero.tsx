@@ -33,6 +33,7 @@ function Hero() {
   });
 
   const fetchBanners = data?.productHomeBanners;
+
   const banners = fetchBanners
     ? [defaultBanner, ...fetchBanners]
     : [defaultBanner];

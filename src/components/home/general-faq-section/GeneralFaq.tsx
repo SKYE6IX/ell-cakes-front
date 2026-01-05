@@ -1,4 +1,3 @@
-import React from "react";
 import FaqItem from "@/components/faq-item/FaqItem";
 import "./general-faq.scss";
 

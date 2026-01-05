@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import aboutUsImage from "./about-us-section-image.jpg";
 import Button from "@/components/button/Button";

@@ -1,4 +1,3 @@
-import React from "react";
 import TruckIcon from "@/components/icons/TruckIcon";
 import StarsIcon from "@/components/icons/StarsIcon";
 import CakeIcon from "@/components/icons/CakeIcon";
