@@ -2,7 +2,6 @@ import {
   ImageExtension,
   ProductHomeBanner,
 } from "@/types/__generated__/graphql";
-import mockImage from "./mock-image.jpg";
 
 export const defaultBanner: ProductHomeBanner = {
   __typename: "ProductHomeBanner",
@@ -29,7 +28,7 @@ export const defaultBanner: ProductHomeBanner = {
         altText: "",
         image: {
           id: "7FqLGlzXPbjoN7olp9MVtsj",
-          url: mockImage.src,
+          url: "/default-hero-images/mock-image.jpg",
           __typename: "ImageFieldOutput",
           extension: ImageExtension.Gif,
           filesize: 0,
@@ -46,7 +45,7 @@ export const defaultBanner: ProductHomeBanner = {
         product: null,
         image: {
           id: "7FqLGlzXPbjoN7olp9MVdhs",
-          url: mockImage.src,
+          url: "/default-hero-images/mock-image.jpg",
           __typename: "ImageFieldOutput",
           extension: ImageExtension.Gif,
           filesize: 0,
