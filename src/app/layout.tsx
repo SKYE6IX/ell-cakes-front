@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Ell Cakes",
   description:
     "Продаем торты всех видов для разных случаев: дни рождения, свадьбы, корпоративные вечеринки и любые другие радостные события.",
+  metadataBase: new URL("https://ellcakes.ru"),
   robots: {
     index: true,
     follow: true,
