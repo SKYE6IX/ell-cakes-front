@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     locale: "ru",
   },
   verification: {
-    yandex: "2dc84f2f66e18a1c",
+    yandex: "688a86d846048df6",
     google: "gKKU7OXuOPpvAPea9iNcYrPvxhpybOSOeMWF5W3J8GI",
   },
 };
