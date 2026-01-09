@@ -312,3 +312,28 @@
     width: 40px;
   }
 }
+
+// Empty Cart Styles
+.cart-empty {
+  width: 100%;
+  height: 50vh;
+  @include flex-layout(column, center, center, 30px);
+}
+.cart-empty__heading {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1.125rem;
+  line-height: 24px;
+  font-weight: 600;
+  color: $text-color;
+  text-align: center;
+  padding: 0px 20px;
+}
+.cart-empty__link {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  color: $neutral;
+  background: $text-color;
+  border-radius: 15px;
+}

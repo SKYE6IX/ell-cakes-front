@@ -11,6 +11,7 @@ import CreditCardIcon from "@/components/icons/CreditCardIcon";
 import CartItem from "@/components/cart-item/CartItem";
 import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
+import CartEmpty from "./CartEmpty";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
@@ -177,7 +178,7 @@ function Checkout() {
     checkoutState.paymentMethod
   );
 
-  if (!cart) return null;
+  if (!cart) return <CartEmpty />;
 
   return (
     <div className="checkout">
