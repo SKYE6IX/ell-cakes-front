@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useQuery, useApolloClient } from "@apollo/client/react";
 import Link from "next/link";
 import PersonIcon from "@/components/icons/PersonIcon";
@@ -15,17 +15,19 @@ function UserMenu({ preloadQuery }: UserMenuProps) {
   const client = useApolloClient();
   const initialLoad = useRef(true);
 
-  if (initialLoad && preloadQuery) {
-    client.writeQuery({
-      query: AUTHORIZED_USER_QUERY,
-      data: { queryAuthorizedUser: preloadQuery },
-    });
-    initialLoad.current = false;
-  }
-
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
 
   const authUser = data?.queryAuthorizedUser;
+
+  useEffect(() => {
+    if (initialLoad.current && preloadQuery) {
+      client.writeQuery({
+        query: AUTHORIZED_USER_QUERY,
+        data: { queryAuthorizedUser: preloadQuery },
+      });
+      initialLoad.current = false;
+    }
+  }, [preloadQuery, client]);
 
   return (
     <Link href={`${authUser ? "/dashboard" : "/login"}`} className="user-menu">

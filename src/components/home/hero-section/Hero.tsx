@@ -100,7 +100,7 @@ function Hero() {
         left: nextSlide.offsetLeft,
         behavior: "smooth",
       });
-    }, 50);
+    }, 150);
   }
 
   return (
