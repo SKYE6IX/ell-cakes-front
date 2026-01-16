@@ -9,6 +9,7 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 const TAKE_FILLINGS_NUM = 1;
 const TAKE_VARIANTS_NUM = 1;
 const TAKE_FEATURED_PRODUCTS = 8;
+
 function FeaturedProducts() {
   const { data } = useSuspenseQuery(GET_FEATURED_PRODUCTS_QUERY, {
     variables: {

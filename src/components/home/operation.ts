@@ -65,6 +65,7 @@ export const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
             id
             weight
             pieces
+            size
             price
           }
         }

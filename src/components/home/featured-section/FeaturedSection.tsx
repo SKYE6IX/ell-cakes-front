@@ -7,6 +7,7 @@ import "./feature-section.scss";
 const TAKE_FILLINGS_NUM = 1;
 const TAKE_VARIANTS_NUM = 1;
 const TAKE_FEATURED_PRODUCTS = 8;
+
 function FeaturedSection() {
   return (
     <section className="featured-section">
