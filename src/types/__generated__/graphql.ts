@@ -3023,10 +3023,11 @@ export type ProductVariant = {
   createdAt: Maybe<Scalars['DateTime']['output']>;
   filling: Maybe<ProductFilling>;
   id: Scalars['ID']['output'];
-  isAvailable: Maybe<Scalars['Boolean']['output']>;
   pieces: Maybe<Scalars['Int']['output']>;
   price: Maybe<Scalars['Int']['output']>;
+  selectedValue: Maybe<Scalars['String']['output']>;
   serving: Maybe<Scalars['Int']['output']>;
+  size: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   weight: Maybe<Scalars['Decimal']['output']>;
 };
@@ -3034,10 +3035,10 @@ export type ProductVariant = {
 export type ProductVariantCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   filling?: InputMaybe<ProductFillingRelateToOneForCreateInput>;
-  isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   pieces?: InputMaybe<Scalars['Int']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   serving?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   weight?: InputMaybe<Scalars['Decimal']['input']>;
 };
@@ -3051,10 +3052,10 @@ export type ProductVariantManyRelationFilter = {
 export type ProductVariantOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
-  isAvailable?: InputMaybe<OrderDirection>;
   pieces?: InputMaybe<OrderDirection>;
   price?: InputMaybe<OrderDirection>;
   serving?: InputMaybe<OrderDirection>;
+  size?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
   weight?: InputMaybe<OrderDirection>;
 };
@@ -3090,10 +3091,10 @@ export type ProductVariantUpdateArgs = {
 export type ProductVariantUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   filling?: InputMaybe<ProductFillingRelateToOneForUpdateInput>;
-  isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   pieces?: InputMaybe<Scalars['Int']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
   serving?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   weight?: InputMaybe<Scalars['Decimal']['input']>;
 };
@@ -3105,10 +3106,10 @@ export type ProductVariantWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   filling?: InputMaybe<ProductFillingWhereInput>;
   id?: InputMaybe<IdFilter>;
-  isAvailable?: InputMaybe<BooleanFilter>;
   pieces?: InputMaybe<IntNullableFilter>;
   price?: InputMaybe<IntFilter>;
   serving?: InputMaybe<IntNullableFilter>;
+  size?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
   weight?: InputMaybe<DecimalNullableFilter>;
 };
@@ -4348,7 +4349,7 @@ export type ProductFillingsQueryVariables = Exact<{
 }>;
 
 
-export type ProductFillingsQuery = { productFillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', id: string, url: string } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null, isAvailable: boolean | null }> | null }> | null };
+export type ProductFillingsQuery = { productFillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', id: string, url: string } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null }> | null }> | null };
 
 export type MixBoxProductQueryVariables = Exact<{
   where: MixBoxProductWhereUniqueInput;
@@ -4423,6 +4424,14 @@ export type IsPhoneNumberInUseQueryVariables = Exact<{
 
 
 export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
+
+export type ProductMetaQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductMetaQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null };
 
 export type IsAuthorizedUserQueryVariables = Exact<{ [key: string]: never; }>;
 

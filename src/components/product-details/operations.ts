@@ -92,7 +92,6 @@ export const GET_PRODUCT_FILLINGS_QUERY: TypedDocumentNode<
         pieces
         serving
         price
-        isAvailable
       }
     }
   }
