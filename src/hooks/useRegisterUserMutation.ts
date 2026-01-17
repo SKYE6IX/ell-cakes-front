@@ -46,6 +46,7 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
   });
 
   const cart = data?.queryCart;
+
   const [connectCartToUser] = useMutation(CONNECT_CART_TO_USER, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
