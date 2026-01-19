@@ -16,6 +16,7 @@
     line-height: 22px;
   }
 }
+
 .token-input__subtitle {
   font-family: $font-montserrat, sans-serif;
   font-size: 1.125rem;
@@ -29,6 +30,11 @@
     line-height: 19px;
   }
 }
+
+.token-input__form {
+  @include flex-layout(column, center, center, 20px);
+}
+
 .token-input__list {
   max-width: 50%;
   @include flex-layout(row, center, center, 10px);
@@ -36,6 +42,16 @@
     gap: 5px;
   }
 }
+
+.token-input__error {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.85rem;
+  line-height: 16.1px;
+  font-weight: 500;
+  color: $primary-accent;
+  text-align: center;
+}
+
 .token-input__cell {
   width: 100%;
   height: auto;
@@ -61,6 +77,7 @@
   border-color: $primary;
 }
 .token-input__submit {
+  @include flex-layout(row, center, center, none);
   max-width: 50%;
   border: none;
   outline: none;
@@ -78,22 +95,26 @@
     line-height: 16.8px;
   }
 }
+
 .token-input__resend {
   @include flex-layout(row, center, center, 5px);
   @include max-breakpoint("s") {
     flex-direction: column;
   }
 }
+
 .token-input__resend-label,
 .token-input__resend-btn {
   font-family: $font-uncage, sans-serif;
   font-weight: 400;
 }
+
 .token-input__resend-label {
   font-size: 0.875rem;
   line-height: 16px;
   color: $text-color;
 }
+
 .token-input__resend-btn {
   border: none;
   background: none;
@@ -101,4 +122,9 @@
   font-size: 0.75rem;
   line-height: 14.4px;
   color: $primary;
+  cursor: pointer;
+}
+
+.token-input__resend-btn:disabled {
+  cursor: not-allowed;
 }

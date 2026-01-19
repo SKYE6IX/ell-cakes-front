@@ -18,6 +18,7 @@ describe("Product Filling Selector", () => {
 
     // Act
     expect(productFillingImages.length).toBeTruthy();
+
     for (const el of productFillingImages) {
       expect(el).toBeInTheDocument();
     }

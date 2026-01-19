@@ -1,26 +1,30 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/input/Input";
 import TokenInput from "@/components/token-input/TokenInput";
 import "./confirm-phone.scss";
 
 function ConfirmPhonePage() {
-  const [token, setToken] = useState("");
+  const router = useRouter();
   const [numberChange, setNumberChange] = useState({
     showInput: false,
     newNumber: "",
   });
+
   const onInputChange = ({ value }: { name: string; value: string }) => {
     setNumberChange((prvState) => ({ ...prvState, newNumber: value }));
   };
+
   const handleShowChangeNumber = () => {
     setNumberChange((prvState) => ({
       ...prvState,
       showInput: !prvState.showInput,
     }));
   };
-  const handleSetToken = ({ token }: { token: string }) => {
-    setToken(token);
+
+  const onTokenReedeem = () => {
+    router.push("/dashboard");
   };
 
   return (
@@ -42,7 +46,7 @@ function ConfirmPhonePage() {
           </div>
         ) : (
           <div className="confirm-phone__otp-wrapper">
-            <TokenInput handleSetToken={handleSetToken} />
+            <TokenInput onTokenReedeem={onTokenReedeem} />
 
             <div className="confirm-phone__divider" />
 

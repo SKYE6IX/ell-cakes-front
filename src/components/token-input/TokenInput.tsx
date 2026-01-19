@@ -1,14 +1,35 @@
 import { useState, useRef, useEffect } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
+import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
+import {
+  REEDEEM_PHONE_NUMBER_TOKEN,
+  RESEND_PHONE_NUMBER_TOKEN,
+} from "./operation";
+import Loader from "../loader/Loader";
 import "./token-input.scss";
 
 type TokenInputProps = {
-  handleSetToken: ({ token }: { token: string }) => void;
+  onTokenReedeem: () => void;
 };
 
-function TokenInput({ handleSetToken }: TokenInputProps) {
+const maskPhoneNumber = (phoneNumber: string) => {
+  const cleaned = phoneNumber.replace(/\D/g, "");
+
+  const countryAndOperator = "+7 " + cleaned.slice(1, 4);
+  const hiddenPart = "*** **";
+  const lastDigits = cleaned.slice(-2);
+  return `${countryAndOperator} ${hiddenPart} ${lastDigits}`;
+};
+
+function TokenInput({ onTokenReedeem }: TokenInputProps) {
+  const { data } = useQuery(AUTHORIZED_USER_QUERY);
+  const authUser = data?.queryAuthorizedUser;
+
+  const SECONDS = 60;
   const TOKEN_LENGTH = 6;
-  const [secondsLeft, setSecondsLeft] = useState(60);
+  const [secondsLeft, setSecondsLeft] = useState(SECONDS);
   const inputRefs = useRef<HTMLInputElement[]>([]);
+  const [token, setToken] = useState("");
   const [values, setValues] = useState<string[]>(
     new Array(TOKEN_LENGTH).fill("")
   );
@@ -32,7 +53,7 @@ function TokenInput({ handleSetToken }: TokenInputProps) {
     setValues(newValues);
 
     const token = newValues.join("");
-    handleSetToken({ token });
+    setToken(token);
 
     if (input.nextElementSibling) {
       (input.nextElementSibling as HTMLInputElement).focus();
@@ -46,9 +67,8 @@ function TokenInput({ handleSetToken }: TokenInputProps) {
       const newValues = [...values];
       newValues[index] = "";
       setValues(newValues);
-
       const token = newValues.join("");
-      handleSetToken({ token });
+      setToken(token);
       if (input.previousElementSibling) {
         (input.previousElementSibling as HTMLInputElement).focus();
       }
@@ -68,49 +88,109 @@ function TokenInput({ handleSetToken }: TokenInputProps) {
         }
       });
       setValues(newValues);
+      setToken(newValues.join(""));
       inputRefs.current[TOKEN_LENGTH - 1].focus();
     }
+  };
+
+  const [resendPhoneNumberToken, { loading: isResendLoading }] = useMutation(
+    RESEND_PHONE_NUMBER_TOKEN,
+    {
+      variables: {
+        phoneNumber: authUser?.phoneNumber || "",
+      },
+      onCompleted() {
+        setSecondsLeft(SECONDS);
+      },
+    }
+  );
+
+  const [reedeemPhoneToken, { loading, error }] = useMutation(
+    REEDEEM_PHONE_NUMBER_TOKEN,
+    {
+      variables: {
+        token,
+        phoneNumber: authUser?.phoneNumber || "",
+      },
+      onCompleted(data) {
+        if (data.redeemPhoneNumberToken.status) {
+          onTokenReedeem();
+        }
+      },
+
+      refetchQueries(result) {
+        if (result.data.redeemPhoneNumberToken.status) {
+          return [AUTHORIZED_USER_QUERY];
+        }
+        return [];
+      },
+    }
+  );
+
+  const handleReedeemToken = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (token.length < TOKEN_LENGTH) {
+      return;
+    }
+    reedeemPhoneToken();
   };
 
   return (
     <div className="token-input">
       <h3 className="token-input__title">Подтвердите номер</h3>
       <h5 className="token-input__subtitle">
-        Мы отправили 6-значный код на +7 993 233 4556
+        Мы отправили 6-значный код на{" "}
+        {maskPhoneNumber(authUser?.phoneNumber || "79932334556")}
       </h5>
 
-      <div className="token-input__list">
-        {Array.from({ length: TOKEN_LENGTH }).map((value, i) => (
-          <input
-            key={i}
-            className="token-input__cell"
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            pattern="\d*"
-            maxLength={1}
-            value={values[i]}
-            autoFocus={i === 0}
-            onChange={(e) => handleChange(e, i)}
-            onKeyDown={(e) => handleKeyDown(e, i)}
-            onPaste={handlePaste}
-            ref={(el) => {
-              if (el) {
-                inputRefs.current[i] = el;
-              }
-            }}
-            data-testid="token-input"
-          />
-        ))}
-      </div>
+      <form onSubmit={handleReedeemToken} className="token-input__form">
+        <div className="token-input__list">
+          {Array.from({ length: TOKEN_LENGTH }).map((value, i) => (
+            <input
+              key={i}
+              className="token-input__cell"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              pattern="\d*"
+              maxLength={1}
+              value={values[i]}
+              autoFocus={i === 0}
+              onChange={(e) => handleChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              onPaste={handlePaste}
+              ref={(el) => {
+                if (el) {
+                  inputRefs.current[i] = el;
+                }
+              }}
+              data-testid="token-input"
+            />
+          ))}
+        </div>
 
-      <button className="token-input__submit" disabled>
-        Подтвердить
-      </button>
+        {error && (
+          <span className="token-input__error">
+            Неверный или устаревший код!
+          </span>
+        )}
+
+        <button
+          className="token-input__submit"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? <Loader /> : "Подтвердить"}
+        </button>
+      </form>
 
       <div className="token-input__resend">
         <span className="token-input__resend-label">Не пришёл код?</span>
-        <button className="token-input__resend-btn" disabled={secondsLeft > 0}>
+        <button
+          className="token-input__resend-btn"
+          disabled={secondsLeft > 0 || isResendLoading}
+          onClick={() => resendPhoneNumberToken()}
+        >
           Отправить ещё раз
           {secondsLeft > 0 &&
             `через 00:${String(secondsLeft).padStart(2, "0")}`}
@@ -119,4 +199,5 @@ function TokenInput({ handleSetToken }: TokenInputProps) {
     </div>
   );
 }
+
 export default TokenInput;

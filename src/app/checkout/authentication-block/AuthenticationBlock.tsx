@@ -5,6 +5,8 @@ import { validateLoginFields } from "@/utils/validations";
 import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
 import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
+import Loader from "@/components/loader/Loader";
+import { User } from "@/types/__generated__/graphql";
 import "./authentication-block.scss";
 
 const loginState = {
@@ -33,7 +35,11 @@ interface AuthenticationState {
   currentView: "login" | "register";
 }
 
-function AuthenticationBlock() {
+type AuthenticationBlockProps = {
+  authUser: User | null | undefined;
+};
+
+function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   const [authenticationState, setAuthenticationState] =
     useState<AuthenticationState>({
       errorFeilds: [],
@@ -41,10 +47,8 @@ function AuthenticationBlock() {
       registerState: registerState,
       currentView: "login",
     });
-  const [tokenState, setTokenState] = useState({
-    isOpen: false,
-    token: "",
-  });
+
+  const onTokenReedeem = () => {};
 
   const {
     loading: isLoginLoading,
@@ -58,7 +62,10 @@ function AuthenticationBlock() {
   const { loading: isRegisterLoading, registerUser } = useRegisterUserMutation({
     formState: authenticationState.registerState,
     onComplete() {
-      setTokenState((prvState) => ({ ...prvState, isOpen: !prvState.isOpen }));
+      setAuthenticationState((prvState) => ({
+        ...prvState,
+        currentView: "login",
+      }));
     },
   });
 
@@ -76,10 +83,7 @@ function AuthenticationBlock() {
     }));
   };
 
-  const handleSetToken = ({ token }: { token: string }) => {
-    setTokenState((prvState) => ({ ...prvState, token }));
-  };
-
+  // CONTROL LOGIN INPUT
   const onLoginInputChange = ({
     name,
     value,
@@ -99,6 +103,7 @@ function AuthenticationBlock() {
     }
   };
 
+  // CONTROL REGISTER INPUT
   const onRegisterInputChange = ({
     name,
     value,
@@ -126,6 +131,7 @@ function AuthenticationBlock() {
     }
   };
 
+  // LOGIN USER
   const handleLoginUser = (e: React.FormEvent) => {
     e.preventDefault();
     const validatedFields = validateLoginFields(authenticationState.loginState);
@@ -141,6 +147,7 @@ function AuthenticationBlock() {
     authorizeUser();
   };
 
+  // REGISTER USER
   const handleRegisterUser = (e: React.FormEvent) => {
     e.preventDefault();
     const validatedFields = validateLoginFields(
@@ -160,7 +167,8 @@ function AuthenticationBlock() {
 
   return (
     <div className="authentication-block">
-      {authenticationState.currentView === "login" && (
+      {/* LOGIN USER */}
+      {authenticationState.currentView === "login" && !authUser && (
         <div className="authentication-block__login">
           <h3 className="authentication-block__login-title"> Авторизация</h3>
           <form
@@ -192,7 +200,7 @@ function AuthenticationBlock() {
             </div>
             <div className="authentication-block__btn-wrapper">
               <button className="authentication-block__login-btn" type="submit">
-                {isLoginLoading ? <div className="loader"></div> : "Войти"}
+                {isLoginLoading ? <Loader /> : "Войти"}
               </button>
               <button
                 className="authentication-block__switch-to-register-btn"
@@ -206,100 +214,90 @@ function AuthenticationBlock() {
         </div>
       )}
 
-      {authenticationState.currentView === "register" && (
+      {/* VERIFIY USER PHONE NUMBER */}
+      {authUser && !authUser.isPhoneNumberVerified && (
         <div className="authentication-block__register">
-          {tokenState.isOpen ? (
-            <TokenInput handleSetToken={handleSetToken} />
-          ) : (
-            <>
-              <h3 className="authentication-block__register-title">
-                Регистрация
-              </h3>
-              <form
-                onSubmit={handleRegisterUser}
-                className="authentication-block__register-form"
+          <TokenInput onTokenReedeem={onTokenReedeem} />
+        </div>
+      )}
+
+      {/* REGISTER USER */}
+      {authenticationState.currentView === "register" && !authUser && (
+        <div className="authentication-block__register">
+          <h3 className="authentication-block__register-title">Регистрация</h3>
+          <form
+            onSubmit={handleRegisterUser}
+            className="authentication-block__register-form"
+          >
+            <div className="authentication-block__input-wrapper">
+              <Input
+                initialValue={authenticationState.registerState.name}
+                name="name"
+                placeholder="Имя"
+                onInputChange={onRegisterInputChange}
+                type="text"
+                hasError={authenticationState.errorFeilds.includes("name")}
+              />
+
+              <div className="authentication-block__input-email">
+                <Input
+                  initialValue={authenticationState.registerState.email}
+                  name="email"
+                  placeholder="Почта"
+                  type="email"
+                  onInputChange={onRegisterInputChange}
+                  hasError={authenticationState.errorFeilds.includes("email")}
+                />
+                {emailValidation?.isEmailInUse && (
+                  <span className="authentication-block__input-email-validation">
+                    почта используется
+                  </span>
+                )}
+              </div>
+
+              <div className="authentication-block__input-phone">
+                <Input
+                  initialValue={authenticationState.registerState.phoneNumber}
+                  name="phoneNumber"
+                  placeholder="Телефон"
+                  type="tel"
+                  onInputChange={onRegisterInputChange}
+                  hasError={authenticationState.errorFeilds.includes(
+                    "phoneNumber"
+                  )}
+                />
+                {phoneValidation?.isPhoneNumberInUse && (
+                  <span className="authentication-block__input-phone-validation">
+                    ТЕЛЕФОН используется
+                  </span>
+                )}
+              </div>
+
+              <Input
+                initialValue={authenticationState.registerState.password}
+                name="password"
+                placeholder="Пароль"
+                type="password"
+                onInputChange={onRegisterInputChange}
+                hasError={authenticationState.errorFeilds.includes("password")}
+              />
+            </div>
+            <div className="authentication-block__btn-wrapper">
+              <button
+                className="authentication-block__register-btn"
+                type="submit"
               >
-                <div className="authentication-block__input-wrapper">
-                  <Input
-                    initialValue={authenticationState.registerState.name}
-                    name="name"
-                    placeholder="Имя"
-                    onInputChange={onRegisterInputChange}
-                    type="text"
-                    hasError={authenticationState.errorFeilds.includes("name")}
-                  />
-
-                  <div className="authentication-block__input-email">
-                    <Input
-                      initialValue={authenticationState.registerState.email}
-                      name="email"
-                      placeholder="Почта"
-                      type="email"
-                      onInputChange={onRegisterInputChange}
-                      hasError={authenticationState.errorFeilds.includes(
-                        "email"
-                      )}
-                    />
-                    {emailValidation?.isEmailInUse && (
-                      <span className="authentication-block__input-email-validation">
-                        почта используется
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="authentication-block__input-phone">
-                    <Input
-                      initialValue={
-                        authenticationState.registerState.phoneNumber
-                      }
-                      name="phoneNumber"
-                      placeholder="Телефон"
-                      type="tel"
-                      onInputChange={onRegisterInputChange}
-                      hasError={authenticationState.errorFeilds.includes(
-                        "phoneNumber"
-                      )}
-                    />
-                    {phoneValidation?.isPhoneNumberInUse && (
-                      <span className="authentication-block__input-phone-validation">
-                        ТЕЛЕФОН используется
-                      </span>
-                    )}
-                  </div>
-
-                  <Input
-                    initialValue={authenticationState.registerState.password}
-                    name="password"
-                    placeholder="Пароль"
-                    type="password"
-                    onInputChange={onRegisterInputChange}
-                    hasError={authenticationState.errorFeilds.includes(
-                      "password"
-                    )}
-                  />
-                </div>
-                <div className="authentication-block__btn-wrapper">
-                  <button
-                    className="authentication-block__register-btn"
-                    type="submit"
-                  >
-                    {isRegisterLoading ? (
-                      <div className="loader"></div>
-                    ) : (
-                      "Зарегистрироваться"
-                    )}
-                  </button>
-                  <button
-                    className="authentication-block__switch-to-login-btn"
-                    onClick={() => setCurrentView("login")}
-                    type="button"
-                  >
-                    Уже есть аккаунт ?
-                  </button>
-                </div>
-              </form>
-            </>
-          )}
+                {isRegisterLoading ? <Loader /> : "Зарегистрироваться"}
+              </button>
+              <button
+                className="authentication-block__switch-to-login-btn"
+                onClick={() => setCurrentView("login")}
+                type="button"
+              >
+                Уже есть аккаунт ?
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

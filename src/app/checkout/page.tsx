@@ -183,7 +183,7 @@ function Checkout() {
   return (
     <div className="checkout">
       <div className="checkout__user-info">
-        {authUser ? (
+        {authUser && authUser.isPhoneNumberVerified ? (
           <>
             <section className="user-info__section profile">
               <h3 className="user-info__section-title">1. Мои данные</h3>
@@ -294,7 +294,7 @@ function Checkout() {
             </section>
           </>
         ) : (
-          <AuthenticationBlock />
+          <AuthenticationBlock authUser={authUser} />
         )}
       </div>
 
