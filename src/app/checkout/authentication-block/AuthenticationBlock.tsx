@@ -5,6 +5,7 @@ import { validateLoginFields } from "@/utils/validations";
 import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
 import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
+import { useVerifyPhoneNumber } from "@/hooks/useVerifyPhoneNumber";
 import Loader from "@/components/loader/Loader";
 import { User } from "@/types/__generated__/graphql";
 import "./authentication-block.scss";
@@ -48,8 +49,6 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
       currentView: "login",
     });
 
-  const onTokenReedeem = () => {};
-
   const {
     loading: isLoginLoading,
     authorizeUser,
@@ -67,6 +66,15 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
         currentView: "login",
       }));
     },
+  });
+
+  const {
+    reedeemPhoneToken,
+    error: verifyPhoneError,
+    loading: verifyPhoneLoading,
+  } = useVerifyPhoneNumber({
+    phoneNumber: authUser?.phoneNumber as string,
+    callback() {},
   });
 
   const {
@@ -165,6 +173,11 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     registerUser();
   };
 
+  // VERIFY USER BY PHONE NUMBER
+  const reedeemConfirmPhoneNumberToken = (token: string) => {
+    reedeemPhoneToken({ variables: { token } });
+  };
+
   return (
     <div className="authentication-block">
       {/* LOGIN USER */}
@@ -211,13 +224,6 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               </button>
             </div>
           </form>
-        </div>
-      )}
-
-      {/* VERIFIY USER PHONE NUMBER */}
-      {authUser && !authUser.isPhoneNumberVerified && (
-        <div className="authentication-block__register">
-          <TokenInput onTokenReedeem={onTokenReedeem} />
         </div>
       )}
 
@@ -298,6 +304,18 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* VERIFIY USER PHONE NUMBER */}
+      {authUser && !authUser.isPhoneNumberVerified && (
+        <div className="authentication-block__register">
+          <TokenInput
+            inputPhoneNumber={authUser?.phoneNumber as string}
+            reedeemToken={reedeemConfirmPhoneNumberToken}
+            error={verifyPhoneError}
+            loading={verifyPhoneLoading}
+          />
         </div>
       )}
     </div>
