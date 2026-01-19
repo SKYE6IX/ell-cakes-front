@@ -2,29 +2,18 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MockedProvider } from "@apollo/client/testing/react";
 import TokenInput from "../TokenInput";
-import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
-
-const mocks = [
-  {
-    request: {
-      query: AUTHORIZED_USER_QUERY,
-      variables: {},
-    },
-    result: {
-      data: { queryAuthorizedUser: null },
-    },
-    maxUsageCount: 2,
-  },
-];
 
 describe("Token input component", () => {
   it("render the component title and sub title", () => {
     // Arrange
-    const mockOnTokenReedeem = jest.fn();
-
     render(
-      <MockedProvider mocks={mocks}>
-        <TokenInput onTokenReedeem={mockOnTokenReedeem} />
+      <MockedProvider>
+        <TokenInput
+          inputPhoneNumber="12345678"
+          reedeemToken={() => {}}
+          error={undefined}
+          loading={false}
+        />
       </MockedProvider>
     );
 
@@ -41,13 +30,17 @@ describe("Token input component", () => {
   it("render all input and accept user input", async () => {
     // Arrange
     const user = userEvent.setup();
-    const mockOnTokenReedeem = jest.fn();
     const TOKEN_LENGTH = 6;
     const mockTokenArray = ["1", "2", "3", "4", "5", "6"];
 
     render(
-      <MockedProvider mocks={mocks}>
-        <TokenInput onTokenReedeem={mockOnTokenReedeem} />
+      <MockedProvider>
+        <TokenInput
+          inputPhoneNumber="12345678"
+          reedeemToken={() => {}}
+          error={undefined}
+          loading={false}
+        />
       </MockedProvider>
     );
 

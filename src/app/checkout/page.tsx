@@ -152,8 +152,8 @@ function Checkout() {
     }));
   };
 
-  // Checkout Action
-  const [checkoutOrder, { loading }] = useMutation(CHECKOUT_ORDER, {
+  //CHECKOUT MUTATION
+  const [checkoutOrder, { loading, error }] = useMutation(CHECKOUT_ORDER, {
     variables: {
       deliveryAddressId: authUser?.delivaryAddress?.id,
       shippingCost: checkoutState.deliveryCost,
@@ -163,11 +163,16 @@ function Checkout() {
 
     onCompleted(data) {
       const paymentUrl = data.checkOut.redirectUrl!;
+      const confirmationUrl = data.checkOut.confirmationUrl!;
+
+      window.history.replaceState({}, "", confirmationUrl);
       router.push(paymentUrl);
     },
+
     onError(error) {
       console.error("Error occur when try to checout order -> ", error);
     },
+
     refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
@@ -182,6 +187,7 @@ function Checkout() {
 
   return (
     <div className="checkout">
+      {/* CURRENT AUTHORIZED USER DETAILS*/}
       <div className="checkout__user-info">
         {authUser && authUser.isPhoneNumberVerified ? (
           <>
@@ -298,6 +304,7 @@ function Checkout() {
         )}
       </div>
 
+      {/* CART ITEMS WITH PAYMENT DETAILS */}
       <div className="checkout__order-info">
         <div className="order-info__cart-items">
           {cart?.cartItems!.map((cartItem) => (
@@ -344,6 +351,13 @@ function Checkout() {
               `ОПЛАТИТЬ ${checkoutState.orderTotalAmount || cart?.subTotal} ₽`
             )}
           </button>
+
+          {error && (
+            <span className="checkout__error-message">
+              Произошла ошибка! Пожалуйста, попробуйте еще раз.
+            </span>
+          )}
+
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
             <Link href="/policy">

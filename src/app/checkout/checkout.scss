@@ -263,10 +263,19 @@
   opacity: 0.9;
 }
 
+.checkout__error-message {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.85rem;
+  line-height: 16.1px;
+  font-weight: 500;
+  text-align: center;
+  color: $primary-accent;
+}
+
 .checkout__legal {
   margin: 0px auto;
   max-width: 400px;
-  font-family: $font-montserrat;
+  font-family: $font-montserrat, sans-serif;
   font-size: 0.875rem;
   line-height: 18.2px;
   font-weight: 400;

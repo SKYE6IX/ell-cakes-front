@@ -1151,7 +1151,7 @@ export type Mutation = {
   registerUser: User;
   removeFromCart: Maybe<Cart>;
   resendPhoneNumberToken: Scalars['String']['output'];
-  sendPasswordResetToken: PasswordResetTokenResponse;
+  sendPasswordResetToken: Scalars['String']['output'];
   updateCart: Maybe<Cart>;
   updateCartItem: Maybe<CartItem>;
   updateCartItems: Maybe<Array<Maybe<CartItem>>>;
@@ -2384,11 +2384,6 @@ export type PasswordFilter = {
   isSet: Scalars['Boolean']['input'];
 };
 
-export type PasswordResetTokenResponse = {
-  __typename: 'PasswordResetTokenResponse';
-  passwordResetUrl: Scalars['String']['output'];
-};
-
 export type PasswordState = {
   __typename: 'PasswordState';
   isSet: Scalars['Boolean']['output'];
@@ -2397,6 +2392,7 @@ export type PasswordState = {
 export type Payment = {
   __typename: 'Payment';
   amount: Maybe<Scalars['String']['output']>;
+  confirmationUrl: Maybe<Scalars['String']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   method: Maybe<Scalars['String']['output']>;
@@ -2411,6 +2407,7 @@ export type Payment = {
 
 export type PaymentCreateInput = {
   amount?: InputMaybe<Scalars['String']['input']>;
+  confirmationUrl?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   method?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToOneForCreateInput>;
@@ -2430,6 +2427,7 @@ export type PaymentManyRelationFilter = {
 
 export type PaymentOrderByInput = {
   amount?: InputMaybe<OrderDirection>;
+  confirmationUrl?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   method?: InputMaybe<OrderDirection>;
@@ -2470,6 +2468,7 @@ export type PaymentUpdateArgs = {
 
 export type PaymentUpdateInput = {
   amount?: InputMaybe<Scalars['String']['input']>;
+  confirmationUrl?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   method?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToOneForUpdateInput>;
@@ -2486,6 +2485,7 @@ export type PaymentWhereInput = {
   NOT?: InputMaybe<Array<PaymentWhereInput>>;
   OR?: InputMaybe<Array<PaymentWhereInput>>;
   amount?: InputMaybe<StringFilter>;
+  confirmationUrl?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   method?: InputMaybe<StringFilter>;
@@ -4187,7 +4187,7 @@ export type CheckOutMutationVariables = Exact<{
 }>;
 
 
-export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, redirectUrl: string | null } };
+export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, redirectUrl: string | null, confirmationUrl: string | null } };
 
 export type RedeemPhoneNumberTokenMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -4196,13 +4196,6 @@ export type RedeemPhoneNumberTokenMutationVariables = Exact<{
 
 
 export type RedeemPhoneNumberTokenMutation = { redeemPhoneNumberToken: { __typename: 'VerifyUserByPhoneNumberResponse', status: boolean | null, message: string | null } };
-
-export type ResendPhoneNumberTokenMutationVariables = Exact<{
-  phoneNumber: Scalars['String']['input'];
-}>;
-
-
-export type ResendPhoneNumberTokenMutation = { resendPhoneNumberToken: string };
 
 export type OrderIntentQueryVariables = Exact<{
   where: OrderIntentWhereUniqueInput;
@@ -4216,7 +4209,7 @@ export type SendPasswordResetTokenMutationVariables = Exact<{
 }>;
 
 
-export type SendPasswordResetTokenMutation = { sendPasswordResetToken: { __typename: 'PasswordResetTokenResponse', passwordResetUrl: string } };
+export type SendPasswordResetTokenMutation = { sendPasswordResetToken: string };
 
 export type ValidatePasswordResetTokenQueryVariables = Exact<{
   token: Scalars['String']['input'];
@@ -4333,7 +4326,7 @@ export type FeaturedProductsQueryVariables = Exact<{
 }>;
 
 
-export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
+export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: string | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4390,6 +4383,13 @@ export type QuerySimilarProductsQueryVariables = Exact<{
 
 
 export type QuerySimilarProductsQuery = { querySimilarProducts: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> };
+
+export type ResendPhoneNumberTokenMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ResendPhoneNumberTokenMutation = { resendPhoneNumberToken: string };
 
 export type EndSessionMutationVariables = Exact<{ [key: string]: never; }>;
 

@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client/react";
-import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
-import {
-  REEDEEM_PHONE_NUMBER_TOKEN,
-  RESEND_PHONE_NUMBER_TOKEN,
-} from "./operation";
+import { useMutation } from "@apollo/client/react";
+import { RESEND_PHONE_NUMBER_TOKEN } from "./operation";
+import { ErrorLike } from "@apollo/client";
 import Loader from "../loader/Loader";
 import "./token-input.scss";
 
 type TokenInputProps = {
-  onTokenReedeem: () => void;
+  inputPhoneNumber: string | undefined;
+  reedeemToken: (token: string) => void;
+  loading: boolean;
+  error: ErrorLike | undefined;
 };
 
 const maskPhoneNumber = (phoneNumber: string) => {
@@ -21,10 +21,12 @@ const maskPhoneNumber = (phoneNumber: string) => {
   return `${countryAndOperator} ${hiddenPart} ${lastDigits}`;
 };
 
-function TokenInput({ onTokenReedeem }: TokenInputProps) {
-  const { data } = useQuery(AUTHORIZED_USER_QUERY);
-  const authUser = data?.queryAuthorizedUser;
-
+function TokenInput({
+  inputPhoneNumber,
+  reedeemToken,
+  loading,
+  error,
+}: TokenInputProps) {
   const SECONDS = 60;
   const TOKEN_LENGTH = 6;
   const [secondsLeft, setSecondsLeft] = useState(SECONDS);
@@ -97,32 +99,10 @@ function TokenInput({ onTokenReedeem }: TokenInputProps) {
     RESEND_PHONE_NUMBER_TOKEN,
     {
       variables: {
-        phoneNumber: authUser?.phoneNumber || "",
+        phoneNumber: inputPhoneNumber,
       },
       onCompleted() {
         setSecondsLeft(SECONDS);
-      },
-    }
-  );
-
-  const [reedeemPhoneToken, { loading, error }] = useMutation(
-    REEDEEM_PHONE_NUMBER_TOKEN,
-    {
-      variables: {
-        token,
-        phoneNumber: authUser?.phoneNumber || "",
-      },
-      onCompleted(data) {
-        if (data.redeemPhoneNumberToken.status) {
-          onTokenReedeem();
-        }
-      },
-
-      refetchQueries(result) {
-        if (result.data.redeemPhoneNumberToken.status) {
-          return [AUTHORIZED_USER_QUERY];
-        }
-        return [];
       },
     }
   );
@@ -132,7 +112,7 @@ function TokenInput({ onTokenReedeem }: TokenInputProps) {
     if (token.length < TOKEN_LENGTH) {
       return;
     }
-    reedeemPhoneToken();
+    reedeemToken(token);
   };
 
   return (
@@ -140,7 +120,7 @@ function TokenInput({ onTokenReedeem }: TokenInputProps) {
       <h3 className="token-input__title">Подтвердите номер</h3>
       <h5 className="token-input__subtitle">
         Мы отправили 6-значный код на{" "}
-        {maskPhoneNumber(authUser?.phoneNumber || "79932334556")}
+        {maskPhoneNumber(inputPhoneNumber || "79932334556")}
       </h5>
 
       <form onSubmit={handleReedeemToken} className="token-input__form">

@@ -24,6 +24,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
     ) {
       id
       redirectUrl
+      confirmationUrl
     }
   }
 `;
