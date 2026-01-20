@@ -78,12 +78,20 @@ function ProductList({ products }: ProductListProps) {
               {product.badge && (
                 <li className="product-card__badge">{product.badge}</li>
               )}
-              {product.fillings![0].variants![0].pieces && (
+
+              {product.variantType === "pieces" && (
                 <li className="product-card__metric">
                   {product.fillings![0].variants![0].pieces} шт
                 </li>
               )}
-              {String(product.fillings![0].variants![0].weight) && (
+
+              {product.variantType === "size" && (
+                <li className="product-card__metric">
+                  {product.fillings![0].variants![0].size} см
+                </li>
+              )}
+
+              {product.variantType === "weight" && (
                 <li
                   className="product-card__metric"
                   data-testid="product-card-weight"

@@ -29,12 +29,14 @@ export const GET_PRODUCTS_BY_CATEGORY: TypedDocumentNode<
       slug
       badge
       baseDescription
+      variantType
       fillings(take: $takeFillings) {
         id
         variants(take: $takeVariants, orderBy: $orderVariantsBy) {
           id
           weight
           pieces
+          size
           price
         }
       }

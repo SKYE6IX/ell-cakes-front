@@ -59,6 +59,7 @@ export const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
         slug
         badge
         baseDescription
+        variantType
         fillings(take: $takeFillings) {
           id
           variants(take: $takeVariants, orderBy: $variantsOrderBy) {
