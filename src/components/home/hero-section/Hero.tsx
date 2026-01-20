@@ -28,18 +28,22 @@ function updateSlides(container: HTMLUListElement) {
 
 function Hero() {
   const BANNER_NUM = 3;
+
   const { data } = useQuery(GET_PRODUCT_HOME_BANNERS_QUERY, {
     variables: { take: BANNER_NUM },
   });
 
   const fetchBanners = data?.productHomeBanners;
 
-  const banners = fetchBanners
-    ? [defaultBanner, ...fetchBanners]
-    : [defaultBanner];
+  const banners =
+    fetchBanners && fetchBanners.length > 0
+      ? [defaultBanner, ...fetchBanners]
+      : [defaultBanner];
 
   const containerRef = useRef<HTMLUListElement>(null);
+
   const slideItemRefs = useRef<HTMLLIElement[]>([]);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -47,7 +51,7 @@ function Hero() {
     const container = containerRef.current;
     const sliderItems = slideItemRefs.current;
 
-    if (!container || !sliderItems || sliderItems.length < 4) {
+    if (!container || !sliderItems || sliderItems.length <= 1) {
       return;
     }
 
@@ -74,6 +78,7 @@ function Hero() {
     });
 
     sliderItems.forEach((slideItem) => observer.observe(slideItem));
+
     container.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -118,24 +123,29 @@ function Hero() {
             }}
           >
             <div className="hero__image-container">
-              <Image
-                src={banner.product?.images![0].image?.url || ""}
-                alt={banner.product?.name ?? ""}
-                fill
-                className="hero__product-image"
-                data-testid="hero-banner-image"
-                preload
-              />
+              {banner.product?.images && (
+                <Image
+                  src={banner.product?.images[0].image?.url || ""}
+                  alt={banner.product?.name ?? ""}
+                  fill
+                  className="hero__product-image"
+                  data-testid="hero-banner-image"
+                  preload
+                />
+              )}
             </div>
+
             <div className="hero__image-container">
-              <Image
-                src={banner.product?.images![1].image?.url || ""}
-                alt={banner.product?.name ?? ""}
-                fill
-                className="hero__product-image"
-                data-testid="hero-banner-image"
-                preload
-              />
+              {banner.product?.images && (
+                <Image
+                  src={banner.product?.images[1]?.image?.url || ""}
+                  alt={banner.product?.name ?? ""}
+                  fill
+                  className="hero__product-image"
+                  data-testid="hero-banner-image"
+                  preload
+                />
+              )}
             </div>
           </li>
         ))}
