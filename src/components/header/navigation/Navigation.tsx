@@ -11,12 +11,12 @@ import "./navigation.scss";
 
 const categories = [
   {
-    href: `/collections/${getTransliteration("Пироженые")}`,
-    label: "Пироженые",
+    href: `/collections/${getTransliteration("Пирожные")}`,
+    label: "Пирожные",
   },
   {
-    href: `/collections/${getTransliteration("Торты на День рождения")}`,
-    label: "ДЕНЬ РОЖДЕНИЯ",
+    href: `/collections/${getTransliteration("Новый Год")}`,
+    label: "Новый Год",
   },
 ];
 
