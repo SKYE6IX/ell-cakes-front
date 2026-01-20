@@ -1,9 +1,9 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { useReadQuery, QueryRef } from "@apollo/client/react";
-import Image from "next/image";
+import CustomImage from "@/components/custom-image/CustomImage";
 import { ProductImage, ProductVideo } from "@/types/__generated__/graphql";
-import "./product-image-gallery.scss";
+import "./product-gallery.scss";
 
 type ProductGalleryProps = {
   imagesQueryRef: QueryRef<{ productImages: ProductImage[] }>;
@@ -15,9 +15,15 @@ function ProductGallery({
   videoQueryRef,
 }: ProductGalleryProps) {
   const { data: imagesData } = useReadQuery(imagesQueryRef);
+
   const { data: videoData } = useReadQuery(videoQueryRef);
 
   const productImages = imagesData.productImages;
+  const productVideo = videoData.productVideo;
+
+  const productMedia = productVideo
+    ? [...productImages, productVideo]
+    : [...productImages];
 
   const [activeIdx, setActiveIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,7 +53,9 @@ function ProductGallery({
         threshold: 0.9,
       }
     );
+
     slideItemRefs.current?.forEach((slideItem) => observer.observe(slideItem));
+
     return () => {
       observer.disconnect();
       clearTimeout(timeout);
@@ -64,35 +72,46 @@ function ProductGallery({
   };
 
   return (
-    <div className="product-image-gallery">
-      <div className="product-image-gallery__thumbnails">
-        {productImages.map((productImage, idx) => (
+    <div className="product-gallery">
+      <div className="product-gallery__thumbnails">
+        {productMedia.map((media, idx) => (
           <div
-            key={productImage.id}
+            key={media.id}
             className={[
-              "product-image-gallery__thumbnail",
+              "product-gallery__thumbnail",
               idx === activeIdx ? "active" : "",
             ].join(" ")}
             onClick={() => changeActiveIdx(idx)}
           >
-            <Image
-              src={productImage.image?.url || ""}
-              alt={productImage.altText || "Product Image"}
-              fill={true}
-              className="product-image-gallery__thumbnail-image"
-              data-testid="product-image-thumbnail"
-              loading="eager"
-            />
+            {media.__typename === "ProductImage" && (
+              <CustomImage
+                src={media.image?.url || ""}
+                alt={media.altText || "Product Image"}
+                fill={true}
+                className="product-gallery__thumbnail-image"
+                data-testid="product-image-thumbnail"
+                loading="eager"
+              />
+            )}
+            {media.__typename === "ProductVideo" && (
+              <video
+                className="product-gallery__thumbnail-video"
+                autoPlay={false}
+                muted
+              >
+                <source src={videoData.productVideo.video?.url} />
+              </video>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="product-image-gallery__main" ref={containerRef}>
-        {productImages.map((productImage, idx) => (
+      <div className="product-gallery__main" ref={containerRef}>
+        {productMedia.map((media, idx) => (
           <div
-            key={productImage.id}
+            key={media.id}
             className={[
-              "product-image-gallery__image-stack",
+              "product-gallery__stack",
               idx === activeIdx ? "show" : "",
             ].join(" ")}
             ref={(el) => {
@@ -101,17 +120,26 @@ function ProductGallery({
               }
             }}
           >
-            <div className="product-image-gallery__image-container">
-              <Image
-                src={productImage.image?.url || ""}
-                alt={productImage.altText || "Product Image"}
-                fill={true}
-                className="product-image-gallery__image"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                data-testid="product-image-view"
-                loading="eager"
-              />
-            </div>
+            {media.__typename === "ProductImage" && (
+              <div className="product-gallery__image-container">
+                <CustomImage
+                  src={media.image?.url || ""}
+                  alt={media.altText || "Product Image"}
+                  fill={true}
+                  className="product-gallery__image"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  data-testid="product-image-view"
+                  loading="eager"
+                />
+              </div>
+            )}
+            {media.__typename === "ProductVideo" && (
+              <div className="product-gallery__video-container">
+                <video className="product-gallery__video" autoPlay muted loop>
+                  <source src={media.video?.url} />
+                </video>
+              </div>
+            )}
           </div>
         ))}
       </div>

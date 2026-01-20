@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useMutation } from "@apollo/client/react";
+import CustomImage from "../custom-image/CustomImage";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
 import CloseIcon from "@/components/icons/CloseIcon";
@@ -91,7 +91,7 @@ function CartItem({ cartItem, mode }: CartItemProps) {
         <CloseIcon />
       </button>
       <div className="cart-item__product-image-container">
-        <Image
+        <CustomImage
           src={cartItem.product?.images![0].image?.url ?? ""}
           alt={cartItem.product?.name || "Product Image"}
           fill
@@ -105,7 +105,6 @@ function CartItem({ cartItem, mode }: CartItemProps) {
           <span className="cart-item__details-metric">
             {`${cartItem.variant?.weight}`} г
           </span>
-          {/* <span className="cart-item__details-shape">Круг</span> */}
         </div>
         <div
           className={`cart-item__btn-wrapper ${

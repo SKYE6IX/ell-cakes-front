@@ -1,7 +1,7 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/shared-styles" as *;
 
-.product-image-gallery {
+.product-gallery {
   width: 100%;
   --left-gutter: 50px;
   padding-left: var(--left-gutter);
@@ -12,7 +12,7 @@
   }
 }
 
-.product-image-gallery__main {
+.product-gallery__main {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
@@ -35,41 +35,57 @@
   }
 }
 
-.product-image-gallery__main::-webkit-scrollbar {
+.product-gallery__main::-webkit-scrollbar {
   display: none;
 }
 
-.product-image-gallery__image-stack {
+.product-gallery__stack {
   flex-shrink: 0;
   width: 100%;
   height: 100%;
   position: absolute;
   inset: 0;
   z-index: 0;
+  opacity: 0;
+  transition: opacity 0.1s ease-in;
   @include max-breakpoint("md") {
+    opacity: 1;
     position: relative;
     width: calc(100% - var(--left-gutter) - var(--vertical-spacing));
     scroll-snap-align: center;
   }
 }
 
-.product-image-gallery__image-stack.show {
+.product-gallery__stack.show {
+  opacity: 1;
   z-index: 1;
 }
 
-.product-image-gallery__image-container {
+.product-gallery__image-container {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
   position: relative;
   border-radius: 15px;
 }
-.product-image-gallery__image {
+
+.product-gallery__image {
   border-radius: inherit;
   object-fit: cover;
 }
 
-.product-image-gallery__thumbnails {
+.product-gallery__video-container {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.product-gallery__video {
+  width: 100%;
+  height: 100%;
+}
+
+.product-gallery__thumbnails {
   overflow-x: hidden;
   flex-shrink: 0;
   padding-top: 15px;
@@ -84,7 +100,8 @@
     gap: 10px;
   }
 }
-.product-image-gallery__thumbnail {
+
+.product-gallery__thumbnail {
   flex-shrink: 0;
   width: 60px;
   height: 60px;
@@ -100,10 +117,18 @@
     height: 60px;
   }
 }
-.product-image-gallery__thumbnail.active {
+.product-gallery__thumbnail.active {
   border: 1px solid $primary-accent;
 }
-.product-image-gallery__thumbnail-image {
+
+.product-gallery__thumbnail-image {
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.product-gallery__thumbnail-video {
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
   object-fit: cover;
 }

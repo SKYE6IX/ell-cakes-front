@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ProductImageGallery from "./product-gallery/ProductImageGallery";
+import ProductGallery from "./product-gallery/ProductGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import SimilarProducts from "./SimilarProducts";
 import {
@@ -18,6 +18,7 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
+  console.log("Here is the slug -> ", productSlug);
   return (
     <div className="product-details">
       <div className="product-details__product-wrapper">
@@ -36,7 +37,7 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
               >
                 {(videoQueryRef) => (
                   <Suspense fallback={<ProductMediaSkeleton />}>
-                    <ProductImageGallery
+                    <ProductGallery
                       imagesQueryRef={imagesQueryRef}
                       videoQueryRef={videoQueryRef}
                     />

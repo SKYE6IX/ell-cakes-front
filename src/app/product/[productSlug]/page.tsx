@@ -12,7 +12,6 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = (await params).productSlug;
-
   const { product } = await getProductMeta(slug);
 
   return {

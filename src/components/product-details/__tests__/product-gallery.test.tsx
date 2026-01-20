@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { QueryRef, useReadQuery } from "@apollo/client/react";
-import ProductGallery from "../product-gallery/ProductImageGallery";
+import ProductGallery from "../product-gallery/ProductGallery";
 import { mockProduct } from "mock-data";
 import { ProductImage, ProductVideo } from "@/types/__generated__/graphql";
 

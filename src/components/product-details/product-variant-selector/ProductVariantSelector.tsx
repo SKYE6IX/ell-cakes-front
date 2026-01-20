@@ -73,11 +73,19 @@ function ProductVariantSelector({
             {selectedVariant.weight as string} кг
           </span>
         )}
+
         {variantType === "pieces" && (
           <span className="product-variant-selector__metric">
             {selectedVariant.pieces} шт
           </span>
         )}
+
+        {variantType === "size" && (
+          <span className="product-variant-selector__metric">
+            {selectedVariant.size} см
+          </span>
+        )}
+
         <span
           className="product-variant-selector__price"
           data-testid="product-variant-price"

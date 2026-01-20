@@ -90,6 +90,7 @@ export const GET_PRODUCT_FILLINGS_QUERY: TypedDocumentNode<
         id
         weight
         pieces
+        size
         serving
         price
       }

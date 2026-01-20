@@ -87,11 +87,12 @@ export const mockProducts: Product[] = [
             pieces: null,
             serving: 8,
             price: 7750,
-            isAvailable: true,
             __typename: "ProductVariant",
             createdAt: undefined,
             filling: null,
             updatedAt: undefined,
+            selectedValue: null,
+            size: null,
           },
           {
             id: "1ccb37c7-876f-40a3-b6cc-9ee090a81754",
@@ -99,11 +100,12 @@ export const mockProducts: Product[] = [
             pieces: null,
             serving: 48,
             price: 46500,
-            isAvailable: true,
             __typename: "ProductVariant",
             createdAt: undefined,
             filling: null,
             updatedAt: undefined,
+            selectedValue: null,
+            size: null,
           },
         ],
         __typename: "ProductFilling",
@@ -123,12 +125,11 @@ export const mockProducts: Product[] = [
     customization: null,
     fillingsCount: null,
     imagesCount: null,
-    mixBoxCompositions: null,
-    mixBoxCompositionsCount: null,
     slug: null,
     topping: null,
     updatedAt: undefined,
     categoriesCount: null,
+    mixBoxProduct: null,
   },
   {
     id: "b313f90f-3059-42f0-b805-a252840dcd33",
@@ -170,11 +171,12 @@ export const mockProducts: Product[] = [
             pieces: null,
             serving: 8,
             price: 7750,
-            isAvailable: true,
             __typename: "ProductVariant",
             createdAt: undefined,
             filling: null,
             updatedAt: undefined,
+            selectedValue: null,
+            size: null,
           },
           {
             id: "1ccb37c7-876f-40a3-b6cc-9ee090a81754",
@@ -182,11 +184,12 @@ export const mockProducts: Product[] = [
             pieces: null,
             serving: 48,
             price: 46500,
-            isAvailable: true,
             __typename: "ProductVariant",
             createdAt: undefined,
             filling: null,
             updatedAt: undefined,
+            selectedValue: null,
+            size: null,
           },
         ],
         __typename: "ProductFilling",
@@ -206,12 +209,11 @@ export const mockProducts: Product[] = [
     customization: null,
     fillingsCount: null,
     imagesCount: null,
-    mixBoxCompositions: null,
-    mixBoxCompositionsCount: null,
     slug: null,
     topping: null,
     updatedAt: undefined,
     categoriesCount: null,
+    mixBoxProduct: null,
   },
 ];
 
@@ -220,7 +222,7 @@ const mocks = [
     request: {
       query: GET_PRODUCTS_BY_CATEGORY,
       variables: {
-        where: { categories: { some: { slug: { equals: "pirozhenye" } } } },
+        where: { categories: { some: { slug: { equals: "pirozhnye" } } } },
         takeFillings: 1,
         takeVariants: 1,
         orderVariantsBy: [{ price: OrderDirection.Asc }],
@@ -241,8 +243,8 @@ describe("Collection Component", () => {
       render(
         <MockedProvider mocks={mocks}>
           <Collection
-            categorySlug="pirozhenye"
-            where={{ categories: { some: { slug: { equals: "pirozhenye" } } } }}
+            categorySlug="pirozhnye"
+            where={{ categories: { some: { slug: { equals: "pirozhnye" } } } }}
           />
         </MockedProvider>
       );
@@ -267,7 +269,7 @@ describe("Collection Component", () => {
       expect(el).toBeInTheDocument();
     }
     expect(heroSectionHeading).toBeInTheDocument();
-    expect(heroSectionHeading).toHaveTextContent("Пироженые");
+    expect(heroSectionHeading).toHaveTextContent("Пирожные");
     expect(heroSectionText).toBeInTheDocument();
     expect(deliveryInfoHeading).toBeInTheDocument();
     expect(deliveryInfoItems.length).toEqual(3);

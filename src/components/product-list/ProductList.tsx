@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import CustomImage from "../custom-image/CustomImage";
 import { Product } from "@/types/__generated__/graphql";
 import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
 import ProductNotFound from "../product-not-found/ProductNotFound";
@@ -38,7 +38,7 @@ function ProductList({ products }: ProductListProps) {
           <Link href={`/product/${product.slug}`}>
             <div className="product-card__info">
               <div className="product-card__image-container">
-                <Image
+                <CustomImage
                   src={product.images![0].image?.url || ""}
                   alt={product.name!}
                   fill

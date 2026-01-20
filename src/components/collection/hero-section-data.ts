@@ -9,7 +9,13 @@ const list = [
     images: [collectionDeliveryInfoImage, collectionDeliveryInfoImage],
   },
   {
-    name: "Пироженые",
+    name: "Пирожные",
+    description:
+      "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",
+    images: [collectionDeliveryInfoImage, collectionDeliveryInfoImage],
+  },
+  {
+    name: "Новый Год",
     description:
       "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",
     images: [collectionDeliveryInfoImage, collectionDeliveryInfoImage],
