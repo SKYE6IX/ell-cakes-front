@@ -11,7 +11,7 @@ async function Home() {
   return (
     <div className="home">
       <Hero />
-      {/* <FeaturedSection /> */}
+      <FeaturedSection />
       <CraftDescription />
       <WhyUs />
       <CustomizeInfo />

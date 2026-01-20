@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { useSuspenseQuery } from "@apollo/client/react";
 import ProductList from "@/components/product-list/ProductList";
 import ProductListSkeleton from "@/components/product-list/ProductListSkeleton";
+import ProductNotFound from "@/components/product-not-found/ProductNotFound";
 import { GET_FEATURED_PRODUCTS_QUERY } from "../operation";
 import { OrderDirection } from "@/types/__generated__/graphql";
 
@@ -21,8 +22,13 @@ function FeaturedProducts() {
     },
   });
 
-  const products = data.featuredProducts[0].products!;
+  const featured = data.featuredProducts;
 
+  if (featured && featured.length < 1) {
+    return <ProductNotFound />;
+  }
+
+  const products = featured[0].products!;
   return (
     <Suspense fallback={<ProductListSkeleton />}>
       <ProductList products={products} />
