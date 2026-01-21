@@ -3,7 +3,6 @@ import { generateUrl } from "@imgproxy/imgproxy-js-core";
 
 // The address of imgproxy server
 const imgproxyEndpoint = process.env.NEXT_PUBLIC_IMGPROXY_ENDPOINT;
-
 export default function imageProxyLoader({
   src,
   width,

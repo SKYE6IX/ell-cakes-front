@@ -98,6 +98,9 @@ function ProductGallery({
                 className="product-gallery__thumbnail-video"
                 autoPlay={false}
                 muted
+                controls={false}
+                disablePictureInPicture
+                disableRemotePlayback
               >
                 <source src={videoData.productVideo.video?.url} />
               </video>
@@ -135,7 +138,17 @@ function ProductGallery({
             )}
             {media.__typename === "ProductVideo" && (
               <div className="product-gallery__video-container">
-                <video className="product-gallery__video" autoPlay muted loop>
+                <video
+                  className="product-gallery__video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  webkit-playsinline
+                  controls={false}
+                  disablePictureInPicture
+                  disableRemotePlayback
+                >
                   <source src={media.video?.url} />
                 </video>
               </div>
