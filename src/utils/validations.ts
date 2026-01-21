@@ -6,7 +6,7 @@ const schema = z.object({
       error: "Invalid name input",
     })
     .min(3)
-    .regex(/^[a-zA-Z\s]+$/, {
+    .regex(/^[a-zA-Z\sА-Яа-яЁё]+$/, {
       error: "Invalid name",
     }),
   email: z.email({
@@ -39,7 +39,7 @@ const updateUserSchema = z.object({
       error: "Invalid name input",
     })
     .min(3)
-    .regex(/^[a-zA-Z\s]+$/, {
+    .regex(/^[a-zA-Z\sА-Яа-яЁё]+$/, {
       error: "Invalid name",
     }),
   email: z.email({
