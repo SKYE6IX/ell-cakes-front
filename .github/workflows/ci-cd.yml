@@ -33,6 +33,7 @@ jobs:
           build-args: |
             SERVER_URL=${{ secrets.SERVER_URL }}
             Y_MAP_API=${{secrets.Y_MAP_API}}
+            IMGPROXY_ENDPOINT=${{secrets.IMGPROXY_ENDPOINT}}
 
   deploy:
     runs-on: ubuntu-latest
