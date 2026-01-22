@@ -85,7 +85,7 @@ function ProductInfoPanel({
 
       {Number(product.fillingsCount) > 1 && (
         <ProductFillingSelector
-          fillings={product.fillings!}
+          fillings={fillingsResult.productFillings}
           dispatch={dispatch}
         />
       )}

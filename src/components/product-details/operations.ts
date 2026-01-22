@@ -35,6 +35,7 @@ export const GET_PRODUCT_QUERY: TypedDocumentNode<
       variantType
       stockQuantity
       isAvailable
+      fillingsCount
       customization {
         id
         customOptions {
