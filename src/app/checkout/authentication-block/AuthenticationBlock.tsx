@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { TypedDocumentNode, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import Input from "@/components/input/Input";
 import TokenInput from "@/components/token-input/TokenInput";
 import { validateLoginFields } from "@/utils/validations";
@@ -10,10 +12,22 @@ import Loader from "@/components/loader/Loader";
 import { User } from "@/types/__generated__/graphql";
 import "./authentication-block.scss";
 
+const RESEND_PHONE_NUMBER_TOKEN: TypedDocumentNode<
+  {
+    resendPhoneNumberToken: string;
+  },
+  { phoneNumber: string }
+> = gql`
+  mutation ResendPhoneNumberToken($phoneNumber: String!) {
+    resendPhoneNumberToken(phoneNumber: $phoneNumber)
+  }
+`;
+
 const loginState = {
   email: "",
   password: "",
 };
+
 const registerState = {
   name: "",
   email: "",
@@ -49,13 +63,22 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
       currentView: "login",
     });
 
+  // RESEND PHONE NUMBER TOKEN
+  const [resendPhoneNumberToken] = useMutation(RESEND_PHONE_NUMBER_TOKEN);
+
   const {
     loading: isLoginLoading,
     authorizeUser,
     error,
   } = useLoginUserMutation({
     formState: authenticationState.loginState,
-    onComplete() {},
+    onComplete(data) {
+      if (data && !data.authorizedUser.isPhoneNumberVerified) {
+        resendPhoneNumberToken({
+          variables: { phoneNumber: data.authorizedUser.phoneNumber! },
+        });
+      }
+    },
   });
 
   const { loading: isRegisterLoading, registerUser } = useRegisterUserMutation({
@@ -127,6 +150,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     if (name === "email") {
       debounceEmailInUse(value);
     }
+
     if (name === "phoneNumber") {
       debouncePhoneInUser(value);
     }
@@ -158,9 +182,11 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   // REGISTER USER
   const handleRegisterUser = (e: React.FormEvent) => {
     e.preventDefault();
+
     const validatedFields = validateLoginFields(
       authenticationState.registerState
     );
+
     if (validatedFields.error) {
       validatedFields.error.issues.forEach((issue) => {
         setAuthenticationState((prvState) => ({

@@ -7,6 +7,7 @@ import { validateUpdateFields } from "@/utils/validations";
 import { UPDATE_USER_PROFILE } from "./operation";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { useWriteUserQuery } from "@/hooks/useWriteUserQuery";
+import Loader from "@/components/loader/Loader";
 import "./dashboard.scss";
 
 type UserDataActions = "update_profile" | "none";
@@ -14,7 +15,6 @@ type UserDataActions = "update_profile" | "none";
 export default function Dashboard() {
   const writeUserQuery = useWriteUserQuery();
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
-
   const authUser = data?.queryAuthorizedUser;
 
   const [userDataActions, setUserDataActions] =
@@ -31,7 +31,6 @@ export default function Dashboard() {
   useMemo(() => {
     if (authUser) {
       const { name, email, phoneNumber } = authUser;
-
       setUpdateProfileForm({
         name: name!,
         email: email!,
@@ -164,11 +163,7 @@ export default function Dashboard() {
                   type="submit"
                   disabled={loading}
                 >
-                  {loading ? (
-                    <div className="dashboard__loader"></div>
-                  ) : (
-                    "Изменить"
-                  )}
+                  {loading ? <Loader /> : "Изменить"}
                 </button>
               </form>
             ) : (

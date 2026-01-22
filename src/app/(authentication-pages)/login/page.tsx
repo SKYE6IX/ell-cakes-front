@@ -6,6 +6,7 @@ import Button from "@/components/button/Button";
 import Input from "@/components/input/Input";
 import { validateLoginFields } from "@/utils/validations";
 import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
+import Loader from "@/components/loader/Loader";
 import "./login.scss";
 
 const initialState = {
@@ -81,7 +82,7 @@ function Login() {
         </div>
 
         <button type="submit" className="login-form__submit-button">
-          {loading ? <div className="loader"></div> : <span>Войти</span>}
+          {loading ? <Loader /> : <span>Войти</span>}
         </button>
       </form>
 
@@ -97,10 +98,6 @@ function Login() {
       <div className="login__divider" />
 
       <div className="login__footer">
-        <h4 className="login__footer__title" data-testid="login-page-title">
-          Зарегистрироваться
-        </h4>
-
         <h5
           className="login__footer__subtitle"
           data-testid="login-page-sub-title"

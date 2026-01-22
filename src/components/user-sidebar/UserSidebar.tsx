@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TypedDocumentNode, gql } from "@apollo/client";
-import { useMutation, useQuery } from "@apollo/client/react";
+import { useMutation } from "@apollo/client/react";
 import { GET_CART_QUERY } from "../cart/operations";
-import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
+import { User } from "@/types/__generated__/graphql";
 import "./user-sidebar.scss";
 
 export const END_SESSION: TypedDocumentNode<
@@ -17,16 +17,14 @@ export const END_SESSION: TypedDocumentNode<
 
 interface UserSidebarProps {
   active?: "dashboard" | "order-history";
+  authUser: User | null | undefined;
 }
 
 export default function UserSidebar({
   active = "dashboard",
+  authUser,
 }: UserSidebarProps) {
   const router = useRouter();
-
-  const { data } = useQuery(AUTHORIZED_USER_QUERY);
-
-  const authUser = data?.queryAuthorizedUser;
 
   const evictID = authUser?.__typename + ":" + authUser?.id;
 

@@ -21,7 +21,7 @@ describe("User sidebar component", () => {
     // Arrange
     render(
       <MockedProvider mocks={mocks}>
-        <UserSidebar />
+        <UserSidebar authUser={null} />
       </MockedProvider>
     );
 
@@ -37,7 +37,7 @@ describe("User sidebar component", () => {
     // Arrange
     render(
       <MockedProvider mocks={mocks}>
-        <UserSidebar />
+        <UserSidebar authUser={null} />
       </MockedProvider>
     );
 

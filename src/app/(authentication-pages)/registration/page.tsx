@@ -7,6 +7,7 @@ import Input from "@/components/input/Input";
 import { validateRegistrationFields } from "@/utils/validations";
 import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
+import Loader from "@/components/loader/Loader";
 import "./registration.scss";
 
 const initialState = {
@@ -121,11 +122,7 @@ function RegistrationPage() {
           type="submit"
           disabled={loading}
         >
-          {loading ? (
-            <div className="loader"></div>
-          ) : (
-            <span>Зарегистрироваться</span>
-          )}
+          {loading ? <Loader /> : <span>Зарегистрироваться</span>}
         </button>
       </form>
 

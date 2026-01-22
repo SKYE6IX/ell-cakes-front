@@ -29,7 +29,7 @@ function ProductList({ products }: ProductListProps) {
       ? Buffer.from(str).toString("base64")
       : window.btoa(str);
 
-  if (products.length === 0) return <ProductNotFound />;
+  if (products && products.length === 0) return <ProductNotFound />;
 
   return (
     <div className="product-list">

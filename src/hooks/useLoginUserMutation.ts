@@ -22,7 +22,7 @@ export const AUTHORIZED_USER: TypedDocumentNode<
 `;
 
 type Props = {
-  onComplete: () => void;
+  onComplete: (data?: { authorizedUser: User }) => void;
   formState: {
     email: string;
     password: string;
@@ -57,7 +57,7 @@ export function useLoginUserMutation({ formState, onComplete }: Props) {
     variables: formState,
 
     onCompleted(data) {
-      onComplete();
+      onComplete(data);
       if (cart) {
         connectCartToUser({ variables: { userId: data.authorizedUser.id } });
       }

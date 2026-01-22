@@ -144,7 +144,7 @@ function ProductGallery({
                   muted
                   loop
                   playsInline
-                  webkit-playsinline
+                  webkit-playsinline="true"
                   controls={false}
                   disablePictureInPicture
                   disableRemotePlayback
