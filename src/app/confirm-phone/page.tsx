@@ -23,12 +23,12 @@ function ConfirmPhonePage() {
     setNumberChange((prvState) => ({ ...prvState, newNumber: value }));
   };
 
-  const handleShowChangeNumber = () => {
-    setNumberChange((prvState) => ({
-      ...prvState,
-      showInput: !prvState.showInput,
-    }));
-  };
+  // const handleShowChangeNumber = () => {
+  //   setNumberChange((prvState) => ({
+  //     ...prvState,
+  //     showInput: !prvState.showInput,
+  //   }));
+  // };
 
   const { reedeemPhoneToken, error, loading } = useVerifyPhoneNumber({
     phoneNumber: authUser?.phoneNumber as string,
@@ -67,14 +67,13 @@ function ConfirmPhonePage() {
               loading={loading}
             />
 
-            <div className="confirm-phone__divider" />
-
+            {/* <div className="confirm-phone__divider" />
             <button
               className="confirm-phone__show-change-number-btn"
               onClick={handleShowChangeNumber}
             >
               Изменить номер
-            </button>
+            </button> */}
           </div>
         )}
       </div>

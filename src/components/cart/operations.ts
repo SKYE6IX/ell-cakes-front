@@ -24,6 +24,7 @@ export const CART_FRAGMENT = gql`
         id
         weight
         pieces
+        size
       }
       toppingOption {
         id
@@ -33,6 +34,7 @@ export const CART_FRAGMENT = gql`
       product {
         id
         name
+        variantType
         images(orderBy: $orderImagesBy) {
           id
           altText

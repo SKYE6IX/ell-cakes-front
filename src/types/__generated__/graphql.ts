@@ -508,7 +508,6 @@ export type CustomizeImage = {
   createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   image: Maybe<ImageFieldOutput>;
-  order: Maybe<Order>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -516,14 +515,7 @@ export type CustomizeImageCreateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
-  order?: InputMaybe<OrderRelateToOneForCreateInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type CustomizeImageManyRelationFilter = {
-  every?: InputMaybe<CustomizeImageWhereInput>;
-  none?: InputMaybe<CustomizeImageWhereInput>;
-  some?: InputMaybe<CustomizeImageWhereInput>;
 };
 
 export type CustomizeImageOrderByInput = {
@@ -531,18 +523,6 @@ export type CustomizeImageOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
-};
-
-export type CustomizeImageRelateToManyForCreateInput = {
-  connect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
-  create?: InputMaybe<Array<CustomizeImageCreateInput>>;
-};
-
-export type CustomizeImageRelateToManyForUpdateInput = {
-  connect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
-  create?: InputMaybe<Array<CustomizeImageCreateInput>>;
-  disconnect?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
-  set?: InputMaybe<Array<CustomizeImageWhereUniqueInput>>;
 };
 
 export type CustomizeImageUpdateArgs = {
@@ -554,7 +534,6 @@ export type CustomizeImageUpdateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
-  order?: InputMaybe<OrderRelateToOneForUpdateInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -565,7 +544,6 @@ export type CustomizeImageWhereInput = {
   altText?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
-  order?: InputMaybe<OrderWhereInput>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
@@ -1871,8 +1849,8 @@ export type MutationUpdateOrdersArgs = {
 
 
 export type MutationUpdatePasswordArgs = {
-  email: Scalars['String']['input'];
   newPassword: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
 
@@ -2019,11 +1997,10 @@ export type NestedStringFilter = {
 export type Order = {
   __typename: 'Order';
   createdAt: Maybe<Scalars['DateTime']['output']>;
-  customizeImages: Maybe<Array<CustomizeImage>>;
-  customizeImagesCount: Maybe<Scalars['Int']['output']>;
   deliveryAddress: Maybe<DelivaryAddress>;
   id: Scalars['ID']['output'];
   note: Maybe<Scalars['String']['output']>;
+  orderDetails: Maybe<Scalars['String']['output']>;
   orderIntent: Maybe<OrderIntent>;
   orderItems: Maybe<Array<OrderItem>>;
   orderItemsCount: Maybe<Scalars['Int']['output']>;
@@ -2035,20 +2012,6 @@ export type Order = {
   totalAmount: Maybe<Scalars['Int']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   user: Maybe<User>;
-};
-
-
-export type OrderCustomizeImagesArgs = {
-  cursor?: InputMaybe<CustomizeImageWhereUniqueInput>;
-  orderBy?: Array<CustomizeImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: CustomizeImageWhereInput;
-};
-
-
-export type OrderCustomizeImagesCountArgs = {
-  where?: CustomizeImageWhereInput;
 };
 
 
@@ -2067,7 +2030,6 @@ export type OrderOrderItemsCountArgs = {
 
 export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizeImages?: InputMaybe<CustomizeImageRelateToManyForCreateInput>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderIntent?: InputMaybe<OrderIntentRelateToOneForCreateInput>;
@@ -2337,7 +2299,6 @@ export type OrderUpdateArgs = {
 
 export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customizeImages?: InputMaybe<CustomizeImageRelateToManyForUpdateInput>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderIntent?: InputMaybe<OrderIntentRelateToOneForUpdateInput>;
@@ -2357,7 +2318,6 @@ export type OrderWhereInput = {
   NOT?: InputMaybe<Array<OrderWhereInput>>;
   OR?: InputMaybe<Array<OrderWhereInput>>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
-  customizeImages?: InputMaybe<CustomizeImageManyRelationFilter>;
   deliveryAddress?: InputMaybe<DelivaryAddressWhereInput>;
   id?: InputMaybe<IdFilter>;
   note?: InputMaybe<StringFilter>;
@@ -3207,7 +3167,6 @@ export type ProductWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   mixBoxProduct?: InputMaybe<MixBoxProductWhereUniqueInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  topping?: InputMaybe<ToppingWhereUniqueInput>;
   video?: InputMaybe<ProductVideoWhereUniqueInput>;
 };
 
@@ -3746,7 +3705,7 @@ export type QueryUsersCountArgs = {
 
 
 export type QueryValidatePasswordResetTokenArgs = {
-  email: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
 
@@ -3799,7 +3758,8 @@ export type Topping = {
   name: Maybe<Scalars['String']['output']>;
   options: Maybe<Array<ToppingOption>>;
   optionsCount: Maybe<Scalars['Int']['output']>;
-  product: Maybe<Product>;
+  products: Maybe<Array<Product>>;
+  productsCount: Maybe<Scalars['Int']['output']>;
   slug: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
@@ -3818,11 +3778,25 @@ export type ToppingOptionsCountArgs = {
   where?: ToppingOptionWhereInput;
 };
 
+
+export type ToppingProductsArgs = {
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  orderBy?: Array<ProductOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductWhereInput;
+};
+
+
+export type ToppingProductsCountArgs = {
+  where?: ProductWhereInput;
+};
+
 export type ToppingCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   options?: InputMaybe<ToppingOptionRelateToManyForCreateInput>;
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  products?: InputMaybe<ProductRelateToManyForCreateInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -3944,7 +3918,7 @@ export type ToppingUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   options?: InputMaybe<ToppingOptionRelateToManyForUpdateInput>;
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  products?: InputMaybe<ProductRelateToManyForUpdateInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -3957,7 +3931,7 @@ export type ToppingWhereInput = {
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringFilter>;
   options?: InputMaybe<ToppingOptionManyRelationFilter>;
-  product?: InputMaybe<ProductWhereInput>;
+  products?: InputMaybe<ProductManyRelationFilter>;
   slug?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
 };
@@ -3965,7 +3939,6 @@ export type ToppingWhereInput = {
 export type ToppingWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<ProductWhereUniqueInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4164,6 +4137,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { updateUser: { __typename: 'User', id: string, name: string | null, email: string | null, phoneNumber: string | null, isPhoneNumberVerified: boolean | null, delivaryAddress: { __typename: 'DelivaryAddress', id: string, address: string | null } | null, orders: Array<{ __typename: 'Order', id: string, createdAt: unknown | null, orderNumber: string | null, totalAmount: number | null, status: string | null, orderItems: Array<{ __typename: 'OrderItem', id: string, quantity: number | null, product: { __typename: 'Product', id: string, name: string | null } | null }> | null }> | null } | null };
 
+export type ResendPhoneNumberTokenMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type ResendPhoneNumberTokenMutation = { resendPhoneNumberToken: string };
+
 export type CreateDelivaryAddressMutationVariables = Exact<{
   data: DelivaryAddressCreateInput;
 }>;
@@ -4189,14 +4169,6 @@ export type CheckOutMutationVariables = Exact<{
 
 export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, redirectUrl: string | null, confirmationUrl: string | null } };
 
-export type RedeemPhoneNumberTokenMutationVariables = Exact<{
-  token: Scalars['String']['input'];
-  phoneNumber: Scalars['String']['input'];
-}>;
-
-
-export type RedeemPhoneNumberTokenMutation = { redeemPhoneNumberToken: { __typename: 'VerifyUserByPhoneNumberResponse', status: boolean | null, message: string | null } };
-
 export type OrderIntentQueryVariables = Exact<{
   where: OrderIntentWhereUniqueInput;
 }>;
@@ -4213,7 +4185,7 @@ export type SendPasswordResetTokenMutation = { sendPasswordResetToken: string };
 
 export type ValidatePasswordResetTokenQueryVariables = Exact<{
   token: Scalars['String']['input'];
-  email: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 }>;
 
 
@@ -4221,7 +4193,7 @@ export type ValidatePasswordResetTokenQuery = { validatePasswordResetToken: bool
 
 export type UpdatePasswordMutationVariables = Exact<{
   token: Scalars['String']['input'];
-  email: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
   newPassword: Scalars['String']['input'];
 }>;
 
@@ -4301,7 +4273,7 @@ export type CollectionProductsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
+export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: string | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
 
 export type GetCategoriesQueryVariables = Exact<{
   where: CategoryWhereInput;
@@ -4326,7 +4298,7 @@ export type FeaturedProductsQueryVariables = Exact<{
 }>;
 
 
-export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: string | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
+export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: string | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4334,7 +4306,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, stockQuantity: number | null, isAvailable: boolean | null, customization: { __typename: 'ProductCustomization', id: string, customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null, topping: { __typename: 'Topping', id: string, name: string | null, options: Array<{ __typename: 'ToppingOption', id: string, pieces: number | null, weight: unknown | null, extraPrice: number | null }> | null } | null } | null };
+export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, stockQuantity: number | null, isAvailable: boolean | null, fillingsCount: number | null, customization: { __typename: 'ProductCustomization', id: string, customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null, topping: { __typename: 'Topping', id: string, name: string | null, options: Array<{ __typename: 'ToppingOption', id: string, pieces: number | null, weight: unknown | null, extraPrice: number | null }> | null } | null } | null };
 
 export type ProductFillingsQueryVariables = Exact<{
   where: ProductFillingWhereInput;
@@ -4342,7 +4314,7 @@ export type ProductFillingsQueryVariables = Exact<{
 }>;
 
 
-export type ProductFillingsQuery = { productFillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', id: string, url: string } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, serving: number | null, price: number | null }> | null }> | null };
+export type ProductFillingsQuery = { productFillings: Array<{ __typename: 'ProductFilling', id: string, name: string | null, description: string | null, calories: unknown | null, fat: unknown | null, lifeShelf: number | null, ingredients: string | null, protein: unknown | null, carbonhydrate: unknown | null, image_icon: { __typename: 'ImageFieldOutput', id: string, url: string } | null, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: string | null, serving: number | null, price: number | null }> | null }> | null };
 
 export type MixBoxProductQueryVariables = Exact<{
   where: MixBoxProductWhereUniqueInput;
@@ -4384,13 +4356,6 @@ export type QuerySimilarProductsQueryVariables = Exact<{
 
 export type QuerySimilarProductsQuery = { querySimilarProducts: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> };
 
-export type ResendPhoneNumberTokenMutationVariables = Exact<{
-  phoneNumber: Scalars['String']['input'];
-}>;
-
-
-export type ResendPhoneNumberTokenMutation = { resendPhoneNumberToken: string };
-
 export type EndSessionMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4424,6 +4389,14 @@ export type IsPhoneNumberInUseQueryVariables = Exact<{
 
 
 export type IsPhoneNumberInUseQuery = { isPhoneNumberInUse: boolean };
+
+export type RedeemPhoneNumberTokenMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type RedeemPhoneNumberTokenMutation = { redeemPhoneNumberToken: { __typename: 'VerifyUserByPhoneNumberResponse', status: boolean | null, message: string | null } };
 
 export type ProductMetaQueryVariables = Exact<{
   where: ProductWhereUniqueInput;

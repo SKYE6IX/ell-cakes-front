@@ -96,7 +96,7 @@ function ProductList({ products }: ProductListProps) {
                   className="product-card__metric"
                   data-testid="product-card-weight"
                 >
-                  {String(product.fillings![0].variants![0].weight)} г
+                  {String(product.fillings![0].variants![0].weight)} кг
                 </li>
               )}
             </ul>

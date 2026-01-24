@@ -78,10 +78,12 @@ function AddCustomisePhoto({
       ...prvState,
       errorMessage: "",
     }));
+
     const files = e.target.files;
     const totalImageSelected = Number(
       customisePhotoState.customisePhotoOption.total
     );
+
     if (files) {
       if (totalImageSelected === 2 && files.length > totalImageSelected) {
         setCustomisePhotoState((prvState) => ({

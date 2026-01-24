@@ -23,6 +23,7 @@ type CartItemProps = {
 
 function CartItem({ cartItem, mode }: CartItemProps) {
   const writeCartQuery = useWriteCartQuery();
+
   const operationVariable = {
     cartItemId: cartItem.id,
     cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
@@ -102,9 +103,21 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       <div className="cart-item__info">
         <h4 className="cart-item__product-name">{cartItem.product?.name}</h4>
         <div className="cart-item__details">
-          <span className="cart-item__details-metric">
-            {`${cartItem.variant?.weight}`} г
-          </span>
+          {cartItem.product?.variantType === "weight" && (
+            <span className="cart-item__details-metric">
+              {`${cartItem.variant?.weight}`} кг
+            </span>
+          )}
+          {cartItem.product?.variantType === "pieces" && (
+            <span className="cart-item__details-metric">
+              {`${cartItem.variant?.pieces}`} шт
+            </span>
+          )}
+          {cartItem.product?.variantType === "size" && (
+            <span className="cart-item__details-metric">
+              {`${cartItem.variant?.size}`} см
+            </span>
+          )}
         </div>
         <div
           className={`cart-item__btn-wrapper ${
