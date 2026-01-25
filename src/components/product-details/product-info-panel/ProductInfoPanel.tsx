@@ -62,6 +62,7 @@ function ProductInfoPanel({
       (acc, cus) => acc + (cus.extraPrice ?? 0),
       0
     ) ?? 0;
+
   const toppingExtraPrice =
     productConfiguration.selectedTopping?.extraPrice ?? 0;
 

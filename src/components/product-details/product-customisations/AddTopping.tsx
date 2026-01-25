@@ -12,10 +12,13 @@ type AddToppingProps = {
 
 function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
   const [showModal, setShowModal] = useState(false);
+
   const [selectedToppingId, setSelectedToppingId] = useState("default");
+
   const handleSetShowModal = () => {
     setShowModal(!showModal);
   };
+
   const selectTopping = (topping: ToppingOption) => {
     setSelectedToppingId(topping.id);
     dispatch({ type: "add_topping", payload: topping });
@@ -26,11 +29,20 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
     dispatch({ type: "remove_topping" });
   };
 
+  const selectedOption = toppingOptions.find(
+    (option) => option.id === selectedToppingId
+  );
+
   return (
     <div className="add-topping">
       <button className="add-topping__button" onClick={handleSetShowModal}>
-        Добавить топпинг
+        {selectedOption
+          ? `топпинг (${selectedOption.weight!}кг)`
+          : "Добавить топпинг"}
+        {/*  */}
+        {}
       </button>
+
       <Modal
         showModal={showModal}
         headingText="Добавить ягоды"
@@ -46,6 +58,7 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
           >
             ничто
           </li>
+
           {toppingOptions.map((option) => (
             <li
               className={[
@@ -55,7 +68,7 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
               key={option.id}
               onClick={() => selectTopping(option)}
             >
-              {String(option.weight)} г - {option.extraPrice} руб.
+              {String(option.weight)}кг - {option.extraPrice} руб.
             </li>
           ))}
         </ul>
