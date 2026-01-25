@@ -31,39 +31,44 @@ function AddCustomisePhoto({
 
   const [customisePhotoState, setCustomisePhotoState] = useState(initialState);
 
-  const [addCustomizeImage, { loading }] = useMutation(ADD_CUSTOMIZE_IMAGE, {
-    context: {
-      headers: {
-        "apollo-require-preflight": true,
-      },
-    },
-
-    onCompleted(data) {
-      const preveiwsData = data.uploadImageCustomization.map((uploaded) => {
-        return {
-          id: uploaded.id,
-          name: uploaded.altText as string,
-        };
-      });
-
-      setCustomisePhotoState((prvState) => ({
-        ...prvState,
-        isAddCustomisePhoto: true,
-        previewsData: preveiwsData,
-      }));
-
-      dispatch({
-        type: "add_customization",
-        payload: {
-          optionId: customisePhotoState.customisePhotoOption.optionId,
-          valueId: customisePhotoState.customisePhotoOption.valueId,
-          imagesId: preveiwsData.map((preview) => preview.id),
-          extraPrice,
-          inscriptionText: null,
+  const [addCustomizeImage, { loading, error }] = useMutation(
+    ADD_CUSTOMIZE_IMAGE,
+    {
+      context: {
+        headers: {
+          "apollo-require-preflight": true,
         },
-      });
-    },
-  });
+      },
+
+      onCompleted(data) {
+        const preveiwsData = data.uploadImageCustomization.map((uploaded) => {
+          return {
+            id: uploaded.id,
+            name: uploaded.altText as string,
+          };
+        });
+
+        setCustomisePhotoState((prvState) => ({
+          ...prvState,
+          isAddCustomisePhoto: true,
+          previewsData: preveiwsData,
+        }));
+
+        dispatch({
+          type: "add_customization",
+          payload: {
+            optionId: customisePhotoState.customisePhotoOption.optionId,
+            valueId: customisePhotoState.customisePhotoOption.valueId,
+            imagesId: preveiwsData.map((preview) => preview.id),
+            extraPrice,
+            inscriptionText: null,
+          },
+        });
+      },
+    }
+  );
+
+  console.log("An erorr  occur -> ", error);
 
   const handleSetOpen = () => {
     setCustomisePhotoState((prvState) => ({
@@ -79,23 +84,23 @@ function AddCustomisePhoto({
       errorMessage: "",
     }));
 
-    const files = e.target.files;
+    const fileList = e.target.files;
+
     const totalImageSelected = Number(
       customisePhotoState.customisePhotoOption.total
     );
 
-    if (files) {
-      if (totalImageSelected === 2 && files.length > totalImageSelected) {
+    if (fileList) {
+      if (totalImageSelected === 2 && fileList.length > totalImageSelected) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
           errorMessage: "Максимум два изображения!",
         }));
-
         handleSetOpen();
         return;
       } else if (
         totalImageSelected === 2 &&
-        files.length < totalImageSelected
+        fileList.length < totalImageSelected
       ) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
@@ -104,7 +109,9 @@ function AddCustomisePhoto({
         handleSetOpen();
         return;
       } else {
-        addCustomizeImage({ variables: { files } });
+        addCustomizeImage({
+          variables: { files: fileList },
+        });
         handleSetOpen();
       }
     }
@@ -129,6 +136,7 @@ function AddCustomisePhoto({
   };
 
   if (!customPhoto) return null;
+
   return (
     <div className="add-customise-photo">
       {customisePhotoState.isAddCustomisePhoto ? (
@@ -164,12 +172,16 @@ function AddCustomisePhoto({
             </p>
           )}
           <button
-            className="add-customise-photo__button"
+            className={[
+              "add-customise-photo__button",
+              loading ? "in-flight" : "",
+            ].join(" ")}
             onClick={handleSetOpen}
             disabled={loading}
           >
             {loading ? "Загрузка..." : "добавить фото"}
           </button>
+
           <motion.ul
             className="customisation__drop-down photo"
             initial={false}
@@ -201,8 +213,10 @@ function AddCustomisePhoto({
                     +{customValue.extraPrice}
                   </span>
                 </label>
+
                 <input
                   type="file"
+                  accept="image/*"
                   id={
                     Number(customValue.value) > 1
                       ? "add-multiple-image"

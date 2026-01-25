@@ -9,15 +9,13 @@ const registerSchema = z.object({
     .regex(/^[a-zA-Z\sА-Яа-яЁё]+$/, {
       error: "Invalid name",
     }),
-
   email: z.email({
     error: "Invalid email address",
   }),
-
   password: z
     .string()
     .min(6, { error: "Password should have minimum of 8!" })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[\s\S]{8,}$/, {
+    .regex(/^[A-Za-z0-9!@#$%^&*()_\-+=.?]+$/, {
       error: "Invalid character!",
     }),
   phoneNumber: z.string().min(11).max(11),
@@ -27,15 +25,14 @@ const loginSchema = z.object({
   email: z.email({
     error: "Invalid email address",
   }),
-
   password: z
     .string()
     .min(6, { error: "Password should have minimum of 8!" })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[\s\S]{8,}$/, {
+    .regex(/^[A-Za-z0-9!@#$%^&*()_\-+=.?]+$/, {
       error: "Invalid character!",
     }),
 });
-
+// /^[A-Za-z0-9!@#$]+$/
 const updateUserSchema = z.object({
   name: z
     .string({
@@ -48,7 +45,6 @@ const updateUserSchema = z.object({
   email: z.email({
     error: "Invalid email address",
   }),
-
   phoneNumber: z.string().min(11).max(11),
 });
 

@@ -46,6 +46,8 @@ function SimilarProducts({ productSlug }: SimilarProductsProps) {
     return () => observer.disconnect();
   }, [data, getSimilarProducts, productSlug]);
 
+  console.log("Similar product -> ", similarProducts);
+
   return (
     <div
       className="product-details__similar-products"

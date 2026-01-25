@@ -28,10 +28,18 @@
   font-weight: 500;
   color: $neutral;
   cursor: pointer;
+  transition: opacity 0.2s ease-out;
   @include max-breakpoint("s") {
     font-size: 0.875rem;
     line-height: 16.8px;
   }
+}
+
+.add-customise-photo__button.in-flight {
+  opacity: 0.5;
+}
+.add-customise-photo__button:disabled {
+  cursor: not-allowed;
 }
 
 .product-shape__label,
