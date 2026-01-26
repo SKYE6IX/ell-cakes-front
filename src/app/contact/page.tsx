@@ -50,13 +50,13 @@ function Contact() {
               социальные сети:
             </div>
             <div>
-              <Link className="footer__link-wrapper-item__link" href="/">
+              <Link className="footer__link-wrapper-item__link" target="_blank" href="https://www.instagram.com/ell_cakes?igsh=aTBobjM1cXYzc2Y4">
                 <Instagram />
               </Link>
               <Link className="footer__link-wrapper-item__link" href="/">
                 <Vk />
               </Link>
-              <Link className="footer__link-wrapper-item__link" href="/">
+              <Link className="footer__link-wrapper-item__link" target="_blank" href="https://wa.me/79651950599">
                 <WhatsApp />
               </Link>
             </div>
