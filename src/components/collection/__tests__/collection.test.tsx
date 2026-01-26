@@ -9,6 +9,10 @@ import {
 } from "@/types/__generated__/graphql";
 import { GET_PRODUCTS_BY_CATEGORY } from "../operation";
 
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 const mockImages: ProductImage[] = [
   {
     id: "962134bd-33c5-4966-a6f0-6aa3bef6c771",

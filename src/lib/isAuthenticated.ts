@@ -14,20 +14,24 @@ const AUTHORIZED_USER_QUERY: TypedDocumentNode<
 `;
 
 export async function isAuthenticated() {
-  const { data, error } = await (
-    await getClient()
-  ).query({
-    query: AUTHORIZED_USER_QUERY,
-  });
+  try {
+    const { data, error } = await (
+      await getClient()
+    ).query({
+      query: AUTHORIZED_USER_QUERY,
+    });
 
-  if (error) {
+    if (error) {
+      console.error(error);
+      return false;
+    }
+
+    if (!data || data.queryAuthorizedUser === null) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
     console.error(error);
-    return false;
   }
-
-  if (!data || data.queryAuthorizedUser === null) {
-    return false;
-  }
-
-  return true;
 }

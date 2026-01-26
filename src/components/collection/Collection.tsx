@@ -8,6 +8,7 @@ import SmileyIcon from "../icons/SmileyIcon";
 import CollectionProducts from "./CollectionProducts";
 import { getHeroSectionData } from "./hero-section-data";
 import { ProductWhereInput } from "@/types/__generated__/graphql";
+import ErrorBoundaryWrapper from "../ErrorBoundaryWrapper";
 import "./collection.scss";
 
 type CollectionProps = {
@@ -54,9 +55,11 @@ function Collection({ categorySlug, where }: CollectionProps) {
       </section>
 
       <section className="collection__product-list">
-        <Suspense fallback={<ProductListSkeleton />}>
-          <CollectionProducts where={where} />
-        </Suspense>
+        <ErrorBoundaryWrapper>
+          <Suspense fallback={<ProductListSkeleton />}>
+            <CollectionProducts where={where} />
+          </Suspense>
+        </ErrorBoundaryWrapper>
       </section>
 
       <section className="collection__delivery-process">

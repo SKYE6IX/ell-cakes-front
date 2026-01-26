@@ -2,6 +2,7 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import { PreloadQuery } from "@/ApolloClient";
 import { GET_FEATURED_PRODUCTS_QUERY } from "../operation";
 import FeaturedProducts from "./FeaturedProducts";
+import ErrorBoundaryWrapper from "@/components/ErrorBoundaryWrapper";
 import "./feature-section.scss";
 
 const TAKE_FILLINGS_NUM = 1;
@@ -18,18 +19,20 @@ function FeaturedSection() {
         МЫ ПРЕДЛАГАЕМ ТОЛЬКО СВЕЖИЕ ИНГРЕДИЕНТЫ И САМЫЕ ЛУЧШИЕ РЕЦЕПТЫ!
       </h5>
       <div className="featured__products-wrapper">
-        <PreloadQuery
-          query={GET_FEATURED_PRODUCTS_QUERY}
-          variables={{
-            takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
-            takeFillings: TAKE_FILLINGS_NUM,
-            takeVariants: TAKE_VARIANTS_NUM,
-            variantsOrderBy: [{ price: OrderDirection.Asc }],
-            imagesOrderBy: [{ id: OrderDirection.Asc }],
-          }}
-        >
-          <FeaturedProducts />
-        </PreloadQuery>
+        <ErrorBoundaryWrapper>
+          <PreloadQuery
+            query={GET_FEATURED_PRODUCTS_QUERY}
+            variables={{
+              takeFeaturedProducts: TAKE_FEATURED_PRODUCTS,
+              takeFillings: TAKE_FILLINGS_NUM,
+              takeVariants: TAKE_VARIANTS_NUM,
+              variantsOrderBy: [{ price: OrderDirection.Asc }],
+              imagesOrderBy: [{ id: OrderDirection.Asc }],
+            }}
+          >
+            <FeaturedProducts />
+          </PreloadQuery>
+        </ErrorBoundaryWrapper>
       </div>
     </section>
   );

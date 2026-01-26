@@ -31,7 +31,7 @@ function Navigation() {
     variables: { where: { parent: { slug: { equals: "torty" } } } },
   });
 
-  const categories = data?.categories;
+  const categories = data?.categories ?? [];
   const pathname = usePathname();
   const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);

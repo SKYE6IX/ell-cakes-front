@@ -17,7 +17,7 @@ function UserMenu({ preloadQuery }: UserMenuProps) {
 
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
 
-  const authUser = data?.queryAuthorizedUser;
+  const authUser = data?.queryAuthorizedUser ?? null;
 
   useEffect(() => {
     if (initialLoad.current && preloadQuery) {
