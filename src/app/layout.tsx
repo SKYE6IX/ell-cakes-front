@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
+import { ApolloWrapper } from "@/ApolloWrapper";
 import type { Organization, WithContext } from "schema-dts";
 import Header from "src/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
-import { ApolloWrapper } from "@/ApolloWrapper";
+import ChatWidget from "@/components/chat-widget/ChatWidget";
 import "../global-styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -124,6 +125,7 @@ export default function RootLayout({
           <div className="app-container">
             <Header />
             <Cart />
+            <ChatWidget />
             {children}
             <Footer />
           </div>

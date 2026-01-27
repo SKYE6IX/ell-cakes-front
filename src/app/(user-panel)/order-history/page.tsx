@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@apollo/client/react";
 import OnWayIcon from "@/components/icons/OnWayIcon";
-import CheckMark from "@/components/icons/ CheckMark";
+import CheckMark from "@/components/icons/CheckMark";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { formatMoney } from "@/utils/formatMoney";
 import "./order-history.scss";

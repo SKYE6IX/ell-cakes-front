@@ -1,0 +1,113 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.chat-widget {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 100;
+
+  @include max-breakpoint("md") {
+    right: 40px;
+    bottom: 40px;
+  }
+  @include max-breakpoint("s") {
+    right: 20px;
+    bottom: 30px;
+  }
+}
+
+.chat-widget__content-wrapper {
+  --item-dimension: 50px;
+}
+
+.chat-widget__contact-list {
+  list-style: none;
+  height: 180px;
+  @include flex-layout(column, center, center, 10px);
+  position: relative;
+}
+
+.chat-widget__contact:nth-child(1) {
+  --move-down: calc(100% + (2 * var(--item-dimension)) + 20px);
+}
+.chat-widget__contact:nth-child(2) {
+  --move-down: calc(100% + (1 * var(--item-dimension)) + 10px);
+}
+.chat-widget__contact:nth-child(3) {
+  --move-down: calc(100% + 10px);
+}
+
+.chat-widget__contact {
+  position: relative;
+  z-index: 10;
+  width: var(--item-dimension);
+  height: var(--item-dimension);
+  opacity: 0;
+  transform: translateY(var(--move-down));
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+.chat-widget__contact-list.show-list .chat-widget__contact {
+  animation-name: shwoWidget;
+}
+.chat-widget__contact-list.hide-list .chat-widget__contact {
+  animation-name: hideWidget;
+}
+
+.chat-widget__link {
+  width: 100%;
+  height: 100%;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.chat-widget__control {
+  margin-top: 10px;
+  width: var(--item-dimension);
+  height: var(--item-dimension);
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: $primary;
+  cursor: pointer;
+  @include flex-layout(row, center, center, none);
+  position: relative;
+  z-index: 50;
+}
+
+.chat-widget__control.active {
+  svg {
+    path {
+      stroke: $neutral;
+      stroke-width: 2px;
+    }
+  }
+}
+
+@keyframes shwoWidget {
+  from {
+    transform: translateY(var(--move-down));
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes hideWidget {
+  from {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(var(--move-down));
+    opacity: 0;
+  }
+}
