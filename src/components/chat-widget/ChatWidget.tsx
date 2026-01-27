@@ -54,7 +54,6 @@ function ChatWidget() {
             isOpenWidget ? "active" : "",
           ].join(" ")}
           onClick={showWidgetList}
-          onMouseEnter={() => setIsOpenWidget(true)}
         >
           {isOpenWidget ? <CloseIcon /> : <ChatIcon />}
         </button>
