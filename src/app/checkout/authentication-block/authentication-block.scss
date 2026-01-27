@@ -96,3 +96,28 @@
   color: $primary-accent;
   font-weight: 500;
 }
+
+.authentication-block__need-help {
+}
+
+.authentication-block__need-help-heading {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 18.2px;
+  color: $primary-accent;
+}
+
+.authentication-block__need-help-list {
+  list-style: none;
+  margin-top: 10px;
+  @include flex-layout(column, none, center, 10px);
+}
+
+.authentication-block__need-help-item {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 0.85rem;
+  line-height: 16.2px;
+  font-weight: 500;
+  text-decoration: underline;
+}

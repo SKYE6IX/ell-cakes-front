@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
+import Link from "next/link";
 import Input from "@/components/input/Input";
 import TokenInput from "@/components/token-input/TokenInput";
 import { validateLoginFields } from "@/utils/validations";
@@ -250,6 +251,20 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               </button>
             </div>
           </form>
+
+          <div className="authentication-block__need-help">
+            <h4 className="authentication-block__need-help-heading">
+              Есть вопросы? Мы на связи!
+            </h4>
+            <ul className="authentication-block__need-help-list">
+              <li className="authentication-block__need-help-item">
+                <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
+              </li>
+              <li className="authentication-block__need-help-item">
+                <Link href="">Написать в Telegram</Link>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
 
