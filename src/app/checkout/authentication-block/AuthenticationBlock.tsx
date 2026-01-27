@@ -261,7 +261,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
                 <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
               </li>
               <li className="authentication-block__need-help-item">
-                <Link href="">Написать в Telegram</Link>
+                <Link href="https://t.me/ellcakes1" target="_blank">
+                  Написать в Telegram
+                </Link>
               </li>
             </ul>
           </div>

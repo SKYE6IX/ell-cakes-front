@@ -25,7 +25,11 @@ function ChatWidget() {
           ].join(" ")}
         >
           <li className="chat-widget__contact">
-            <Link href="" className="chat-widget__link">
+            <Link
+              href="https://t.me/ellcakes1"
+              target="_blank"
+              className="chat-widget__link"
+            >
               <TelegramIcon />
             </Link>
           </li>
