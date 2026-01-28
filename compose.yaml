@@ -8,6 +8,7 @@ services:
         - SERVER_URL=https://api.ellcakes.ru/api/graphql
         - Y_MAP_API=0ccc36c9-da58-40ad-a6b2-d93f797eea3a
         - IMGPROXY_ENDPOINT=http://localhost:8000
+        - IMGPROXY_BASE_URL=http://host.docker.internal:3000
     environment: 
       - NEXT_PUBLIC_SERVER_URL=https://api.ellcakes.ru/api/graphql
       - SERVER_URL=https://api.ellcakes.ru/api/graphql
