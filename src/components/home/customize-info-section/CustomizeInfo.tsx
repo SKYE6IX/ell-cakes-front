@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/button/Button";
 import customizeInfoImage from "./customize-info-image.jpg";
 import "./customize-info.scss";
 
 function CustomizeInfo() {
+  const tlUrl = new URL("https://t.me/Ell_Cakes");
+  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
   return (
     <section className="customize-info">
       <div className="customize-info__image-container">
@@ -18,7 +22,9 @@ function CustomizeInfo() {
       <div className="customize-info__text-wrapper">
         <h3 className="customize-info__heading">
           Торт твоей мечты — по{" "}
-          <span className="highlight">индивидуальному дизайну</span>
+          <Link href={tlUrl.toString()}>
+            <span className="highlight">индивидуальному дизайну</span>
+          </Link>
         </h3>
         <p className="customize-info__text" data-testid="customize-info-text">
           <span>

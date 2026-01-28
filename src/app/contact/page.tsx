@@ -7,6 +7,9 @@ import WhatsApp from "@/components/icons/WhatsApp";
 import "./contact.scss";
 
 function Contact() {
+  const tlUrl = new URL("https://t.me/Ell_Cakes");
+  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
   return (
     <section className="contact">
       <div className="contact__inner-wrapper">
@@ -16,18 +19,20 @@ function Contact() {
             Мы будем рады вашим вопросам, предложениям и заказам!
           </p>
         </div>
+
         <div className="contact__link-wrapper">
           <div className="footer__link-wrapper-item">
-            <div className="footer__link-wrapper-item__title">почта:</div>
+            <h4 className="footer__link-wrapper-item__title">почта:</h4>
             <Link
               href="mailto:info@ellcakes.net"
-              className="footer__link-wrapper-item__text"
+              className="footer__link-wrapper-item__text underline"
             >
               info@ellcakes.net
             </Link>
           </div>
+
           <div className="footer__link-wrapper-item">
-            <div className="footer__link-wrapper-item__title">адрес:</div>
+            <h4 className="footer__link-wrapper-item__title">адрес:</h4>
             <p
               className="footer__link-wrapper-item__text"
               data-testid="contact-address"
@@ -35,28 +40,49 @@ function Contact() {
               г. Москва, Жуков проезд, дом 8
             </p>
           </div>
+
           <div className="footer__link-wrapper-item">
-            <div className="footer__link-wrapper-item__title">телефон:</div>
+            <h4 className="footer__link-wrapper-item__title">связаться:</h4>
+            <Link
+              href={tlUrl}
+              target="_blank"
+              className="footer__link-wrapper-item__text underline"
+            >
+              Написать в Telegram
+            </Link>
+          </div>
+
+          <div className="footer__link-wrapper-item">
+            <h4 className="footer__link-wrapper-item__title">телефон:</h4>
             <Link
               href="tel:+79651950599"
-              className="footer__link-wrapper-item__text"
+              className="footer__link-wrapper-item__text underline"
               data-testid="contact-phone"
             >
               8(965)-195-05-99
             </Link>
           </div>
+
           <div className="footer__link-wrapper-item">
-            <div className="footer__link-wrapper-item__title">
+            <h4 className="footer__link-wrapper-item__title">
               социальные сети:
-            </div>
+            </h4>
             <div>
-              <Link className="footer__link-wrapper-item__link" target="_blank" href="https://www.instagram.com/ell_cakes?igsh=aTBobjM1cXYzc2Y4">
+              <Link
+                className="footer__link-wrapper-item__link"
+                target="_blank"
+                href="https://www.instagram.com/ell_cakes?igsh=aTBobjM1cXYzc2Y4"
+              >
                 <Instagram />
               </Link>
               <Link className="footer__link-wrapper-item__link" href="/">
                 <Vk />
               </Link>
-              <Link className="footer__link-wrapper-item__link" target="_blank" href="https://wa.me/79651950599">
+              <Link
+                className="footer__link-wrapper-item__link"
+                target="_blank"
+                href="https://wa.me/79651950599"
+              >
                 <WhatsApp />
               </Link>
             </div>

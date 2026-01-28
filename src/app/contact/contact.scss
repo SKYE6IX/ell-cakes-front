@@ -76,7 +76,7 @@
 }
 .footer__link-wrapper-item__title {
   margin-bottom: 10px;
-  font-family: $font-montserrat;
+  font-family: $font-montserrat, sans-serif;
   font-size: 20px;
   font-weight: 600;
   color: #8a8a8a;
@@ -84,13 +84,19 @@
     font-size: 16px;
   }
 }
+
 .footer__link-wrapper-item__text {
-  font-family: $font-montserrat;
-  font-size: 16px;
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
   color: $text-color;
   @include max-breakpoint("s") {
     max-width: 140px;
   }
+}
+
+.footer__link-wrapper-item__text.underline {
+  text-decoration: underline;
 }
 .footer__link-wrapper-item__link {
   margin-right: 8px;
