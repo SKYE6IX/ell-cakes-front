@@ -10,6 +10,10 @@ export const GET_CATEGORIES: TypedDocumentNode<
       id
       name
       slug
+      parent {
+        id
+        slug
+      }
     }
   }
 `;

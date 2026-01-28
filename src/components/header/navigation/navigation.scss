@@ -28,8 +28,9 @@
     transform: translateX(0%);
   }
 }
+
 .navigation__menu-wrapper {
-  @include flex-layout(row, none, none, 30px);
+  @include flex-layout(row, none, none, 20px);
   list-style: none;
   @include max-breakpoint("md") {
     flex-direction: column;
@@ -59,6 +60,7 @@
     line-height: 19.2px;
   }
 }
+
 .navigation__menu-item-label.active,
 .navigation__menu-item.active {
   color: $primary;

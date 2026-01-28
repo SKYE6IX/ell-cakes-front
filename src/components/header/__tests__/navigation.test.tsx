@@ -12,10 +12,22 @@ const mockCategories: Category[] = [
     slug: "torty-na-den-rozhdeniya",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "6a46fca0-e2cc-4954-8bf7-9e92600d5b70",
@@ -23,10 +35,22 @@ const mockCategories: Category[] = [
     slug: "korporativnye-torty",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "d032a8ec-28e7-473c-a628-7175cf84c631",
@@ -34,10 +58,22 @@ const mockCategories: Category[] = [
     slug: "torty-dlya-detey",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "e920de9b-fb78-485d-83f9-fa7793dd40fa",
@@ -45,10 +81,22 @@ const mockCategories: Category[] = [
     slug: "torty-dlya-nee",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "ed5bb33d-d6cd-44db-a8cd-0e56051eaf22",
@@ -56,10 +104,22 @@ const mockCategories: Category[] = [
     slug: "torty-dlya-nego",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "62ddac6b-5f2b-4db2-87be-b3fa4cdb7a3d",
@@ -67,10 +127,22 @@ const mockCategories: Category[] = [
     slug: "yagodnye-torty",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "2f385852-a2d9-44fb-b3f0-a8d22f8693d8",
@@ -78,10 +150,22 @@ const mockCategories: Category[] = [
     slug: "svadebnye-torty",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
+    isAvailable: null,
   },
   {
     id: "3cf79f1b-9a95-4ba0-9966-92aa7dd32ec5",
@@ -89,27 +173,22 @@ const mockCategories: Category[] = [
     slug: "bento-torty",
     __typename: "Category",
     createdAt: undefined,
-    parent: null,
+    parent: {
+      __typename: "Category",
+      createdAt: undefined,
+      id: "",
+      isAvailable: null,
+      name: null,
+      parent: null,
+      products: null,
+      productsCount: null,
+      slug: "torty",
+      updatedAt: undefined,
+    },
     products: null,
     productsCount: null,
     updatedAt: undefined,
-  },
-];
-
-const mocks = [
-  {
-    request: {
-      query: GET_CATEGORIES,
-      variables: {
-        where: { parent: { slug: { equals: "torty" } } },
-      },
-    },
-    result: {
-      data: {
-        categories: mockCategories,
-      },
-    },
-    maxUsageCount: 3,
+    isAvailable: null,
   },
 ];
 
@@ -117,14 +196,14 @@ describe("Navigation component", () => {
   it("render navigation menu item", () => {
     // Arrange
     render(
-      <MockedProvider mocks={mocks}>
-        <Navigation />
+      <MockedProvider>
+        <Navigation categories={mockCategories} />
       </MockedProvider>
     );
     // Act
     const navigationMenuItems = screen.getAllByTestId("navigation-menu-item");
     // Assert
-    expect(navigationMenuItems.length).toEqual(5);
+    expect(navigationMenuItems.length).toEqual(4);
     for (const el of navigationMenuItems) {
       expect(el).toBeInTheDocument();
     }
@@ -133,15 +212,17 @@ describe("Navigation component", () => {
   it("render navigation sub menu item", async () => {
     // Arrange
     render(
-      <MockedProvider mocks={mocks}>
-        <Navigation />
+      <MockedProvider>
+        <Navigation categories={mockCategories} />
       </MockedProvider>
     );
+
     await waitFor(() => {
       // Act
       const navigationSubMenuItems = screen.getAllByTestId(
         "navigation-sub-menu-item"
       );
+
       // Assert
       expect(navigationSubMenuItems.length).toEqual(8);
       for (const el of navigationSubMenuItems) {
@@ -154,8 +235,8 @@ describe("Navigation component", () => {
     // Arrange
     const user = userEvent.setup();
     render(
-      <MockedProvider mocks={mocks}>
-        <Navigation />
+      <MockedProvider>
+        <Navigation categories={mockCategories} />
       </MockedProvider>
     );
     // Act

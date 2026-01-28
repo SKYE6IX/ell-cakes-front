@@ -2,39 +2,51 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useReactiveVar, useQuery } from "@apollo/client/react";
+import { useReactiveVar } from "@apollo/client/react";
 import { isMenuOpenVar } from "@/lib/cache";
 import ArrowDown from "../../icons/ArrowDown";
 import { getTransliteration } from "@/utils/getTransliteration";
-import { GET_CATEGORIES } from "../operation";
+import { Category } from "@/types/__generated__/graphql";
 import "./navigation.scss";
 
-const categories = [
-  {
-    href: `/collections/${getTransliteration("Пирожные")}`,
-    label: "Пирожные",
-  },
-  {
-    href: `/collections/${getTransliteration("Новый Год")}`,
-    label: "Новый Год",
-  },
-];
-
-const navigationMenu = [
-  ...categories,
+const cupCakeCategory = {
+  href: `/collections/${getTransliteration("Пирожные")}`,
+  label: "Пирожные",
+};
+const appMenuList = [
   { href: "/contact", label: "КОНТАКТЫ" },
-  { href: "/collaboration", label: "СОТРУДНИЧЕСТВО" },
+  { href: "/delivery", label: "Доставка и оплата" },
 ];
 
-function Navigation() {
-  const { data } = useQuery(GET_CATEGORIES, {
-    variables: { where: { parent: { slug: { equals: "torty" } } } },
-  });
+type NavigationProps = {
+  categories: Category[] | null | undefined;
+};
 
-  const categories = data?.categories ?? [];
+function Navigation({ categories }: NavigationProps) {
+  const CAKE_SLUG = "torty";
+  const HOLIDAYS_SLUG = "holidays";
+
   const pathname = usePathname();
   const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
+
+  const cakeSubCategories = categories?.filter(
+    (cat) => cat.parent?.slug === CAKE_SLUG
+  );
+
+  const holidaysCategories = categories
+    ?.filter((cat) => cat.parent?.slug === HOLIDAYS_SLUG)
+    .map((cat) => {
+      return {
+        href: `/collections/${cat.slug}`,
+        label: cat.name!,
+      };
+    });
+
+  const navigationMenu = holidaysCategories
+    ? [cupCakeCategory, ...holidaysCategories, ...appMenuList]
+    : [cupCakeCategory, ...appMenuList];
+
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
   };
@@ -80,7 +92,7 @@ function Navigation() {
 
             <div className="navigation__sub-menu-wrapper">
               <div className="navigation__sub-menu">
-                {categories?.map((cat) => (
+                {cakeSubCategories?.map((cat) => (
                   <Link
                     key={cat.id}
                     href={`/collections/${cat.slug}`}

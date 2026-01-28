@@ -8,8 +8,6 @@ import AddCustomiseInscription from "../product-customisations/AddCustomiseInscr
 import AddTopping from "../product-customisations/AddTopping";
 import StorageInfo from "../storage-info/StorageInfo";
 import IngredientsInfo from "../ingredients-info/IngredientsInfo";
-import ProductReviews from "../product-reviews/ProductReviews";
-import ProductFAQ from "../product-faq/ProductFAQ";
 import MixProductOption from "../mix-product-option/MixProductOption";
 import AddToCartButton from "@/components/add-to-cart-btn/AddToCartButton";
 import {
@@ -140,9 +138,11 @@ function ProductInfoPanel({
 
       <StorageInfo />
 
-      <IngredientsInfo
-        productFilling={productConfiguration.selectedProductFilling}
-      />
+      {initialProductFilling.hasDetails && (
+        <IngredientsInfo
+          productFilling={productConfiguration.selectedProductFilling}
+        />
+      )}
 
       <div className="product-info-panel__promotion-section">
         <h5 className="product-info-panel__promotion-text1">
@@ -150,10 +150,6 @@ function ProductInfoPanel({
         </h5>
         <h5 className="product-info-panel__promotion-text2">с 15% скидкой!</h5>
       </div>
-
-      <ProductReviews />
-
-      <ProductFAQ />
     </div>
   );
 }

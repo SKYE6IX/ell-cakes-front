@@ -32,17 +32,28 @@
   pointer-events: none;
 }
 .product-variant-selector__details {
+  @include flex-layout(column, center, none, 1px);
+}
+.product-variant-selector__details-inner {
   @include flex-layout(row, center, none, 10px);
 }
+
 .product-variant-selector__metric,
 .product-variant-selector__price {
   font-family: $font-uncage, sans-serif;
-  font-size: 1.5rem;
-  line-height: 26.4px;
+  font-size: 1.3rem;
+  line-height: 21.4px;
   font-weight: 500;
   color: $neutral;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
     line-height: 21.6px;
   }
+}
+.product-variant-selector__serving {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 18.1px;
+  font-weight: 600;
+  color: $neutral;
 }

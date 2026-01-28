@@ -75,6 +75,7 @@ export const GET_PRODUCT_FILLINGS_QUERY: TypedDocumentNode<
     productFillings(where: $where) {
       id
       name
+      hasDetails
       description
       calories
       fat

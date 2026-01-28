@@ -65,34 +65,40 @@ function ProductVariantSelector({
         <MinusIcon />
       </button>
       <div className="product-variant-selector__details">
-        {variantType === "weight" && (
+        <div className="product-variant-selector__details-inner">
+          {variantType === "weight" && (
+            <span
+              className="product-variant-selector__metric"
+              data-testid="product-variant-weight"
+            >
+              {selectedVariant.weight as string} кг
+            </span>
+          )}
+
+          {variantType === "pieces" && (
+            <span className="product-variant-selector__metric">
+              {selectedVariant.pieces} шт
+            </span>
+          )}
+
+          {variantType === "size" && (
+            <span className="product-variant-selector__metric">
+              {selectedVariant.size} см
+            </span>
+          )}
+
           <span
-            className="product-variant-selector__metric"
-            data-testid="product-variant-weight"
+            className="product-variant-selector__price"
+            data-testid="product-variant-price"
           >
-            {selectedVariant.weight as string} кг
+            {selectedVariant.price} ₽
           </span>
-        )}
-
-        {variantType === "pieces" && (
-          <span className="product-variant-selector__metric">
-            {selectedVariant.pieces} шт
-          </span>
-        )}
-
-        {variantType === "size" && (
-          <span className="product-variant-selector__metric">
-            {selectedVariant.size} см
-          </span>
-        )}
-
-        <span
-          className="product-variant-selector__price"
-          data-testid="product-variant-price"
-        >
-          {selectedVariant.price} ₽
+        </div>
+        <span className="product-variant-selector__serving">
+          {selectedVariant.serving} Порции
         </span>
       </div>
+
       <button
         className={[
           "product-variant-selector__button",
