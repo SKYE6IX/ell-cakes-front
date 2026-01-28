@@ -205,6 +205,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     reedeemPhoneToken({ variables: { token } });
   };
 
+  const tlUrl = new URL("https://t.me/Ell_Cakes");
+  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
   return (
     <div className="authentication-block">
       {/* LOGIN USER */}
@@ -261,7 +264,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
                 <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
               </li>
               <li className="authentication-block__need-help-item">
-                <Link href="https://t.me/ellcakes1" target="_blank">
+                <Link href={tlUrl} target="_blank">
                   Написать в Telegram
                 </Link>
               </li>

@@ -11,6 +11,9 @@ import "./chat-widget.scss";
 function ChatWidget() {
   const [isOpenWidget, setIsOpenWidget] = useState(false);
 
+  const tlUrl = new URL("https://t.me/Ell_Cakes");
+  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
   const showWidgetList = () => {
     setIsOpenWidget(!isOpenWidget);
   };
@@ -23,10 +26,11 @@ function ChatWidget() {
             "chat-widget__contact-list",
             isOpenWidget ? "show-list" : "hide-list",
           ].join(" ")}
+          data-testid="chat-widget-contact-list"
         >
           <li className="chat-widget__contact">
             <Link
-              href="https://t.me/ellcakes1"
+              href={tlUrl.toString()}
               target="_blank"
               className="chat-widget__link"
             >
