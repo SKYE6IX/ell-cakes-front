@@ -11,8 +11,10 @@ import "./chat-widget.scss";
 function ChatWidget() {
   const [isOpenWidget, setIsOpenWidget] = useState(false);
 
-  const tlUrl = new URL("https://t.me/Ell_Cakes");
-  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const url = new URL("https://t.me/Ell_Cakes");
+  url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
+  const tlUrl = url.toString().replace(/\+/g, "%20");
 
   const showWidgetList = () => {
     setIsOpenWidget(!isOpenWidget);
@@ -29,11 +31,7 @@ function ChatWidget() {
           data-testid="chat-widget-contact-list"
         >
           <li className="chat-widget__contact">
-            <Link
-              href={tlUrl.toString()}
-              target="_blank"
-              className="chat-widget__link"
-            >
+            <Link href={tlUrl} target="_blank" className="chat-widget__link">
               <TelegramIcon />
             </Link>
           </li>

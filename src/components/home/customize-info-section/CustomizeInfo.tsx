@@ -5,8 +5,10 @@ import customizeInfoImage from "./customize-info-image.jpg";
 import "./customize-info.scss";
 
 function CustomizeInfo() {
-  const tlUrl = new URL("https://t.me/Ell_Cakes");
-  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const url = new URL("https://t.me/Ell_Cakes");
+  url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+
+  const tlUrl = url.toString().replace(/\+/g, "%20");
 
   return (
     <section className="customize-info">
@@ -22,7 +24,7 @@ function CustomizeInfo() {
       <div className="customize-info__text-wrapper">
         <h3 className="customize-info__heading">
           Торт твоей мечты — по{" "}
-          <Link href={tlUrl.toString()}>
+          <Link href={tlUrl}>
             <span className="highlight">индивидуальному дизайну</span>
           </Link>
         </h3>

@@ -7,8 +7,9 @@ import WhatsApp from "@/components/icons/WhatsApp";
 import "./contact.scss";
 
 function Contact() {
-  const tlUrl = new URL("https://t.me/Ell_Cakes");
-  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const url = new URL("https://t.me/Ell_Cakes");
+  url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const tlUrl = url.toString().replace(/\+/g, "%20");
 
   return (
     <section className="contact">

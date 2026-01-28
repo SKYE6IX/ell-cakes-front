@@ -205,8 +205,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     reedeemPhoneToken({ variables: { token } });
   };
 
-  const tlUrl = new URL("https://t.me/Ell_Cakes");
-  tlUrl.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const url = new URL("https://t.me/Ell_Cakes");
+  url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const tlUrl = url.toString().replace(/\+/g, "%20");
 
   return (
     <div className="authentication-block">
