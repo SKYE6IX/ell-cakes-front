@@ -33,7 +33,6 @@ export const GET_PRODUCT_QUERY: TypedDocumentNode<
       baseDescription
       type
       variantType
-      stockQuantity
       isAvailable
       fillingsCount
       customization {
@@ -79,7 +78,6 @@ export const GET_PRODUCT_FILLINGS_QUERY: TypedDocumentNode<
       description
       calories
       fat
-      lifeShelf
       ingredients
       protein
       carbonhydrate

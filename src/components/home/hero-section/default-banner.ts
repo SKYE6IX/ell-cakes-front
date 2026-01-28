@@ -61,7 +61,6 @@ export const defaultBanner: ProductHomeBanner = {
     mixBoxProduct: null,
     name: "Создаём сладкие моменты",
     slug: "collection",
-    stockQuantity: null,
     topping: null,
     type: null,
     updatedAt: undefined,

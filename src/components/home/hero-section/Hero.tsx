@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@apollo/client/react";
 import { wrap } from "motion/react";
+import CustomImage from "@/components/custom-image/CustomImage";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
 import { GET_PRODUCT_HOME_BANNERS_QUERY } from "../operation";
@@ -124,9 +124,9 @@ function Hero() {
           >
             <div className="hero__image-container">
               {banner.product?.images && (
-                <Image
+                <CustomImage
                   src={banner.product?.images[0].image?.url || ""}
-                  alt={banner.product?.name ?? ""}
+                  alt={banner.product?.name ?? "Hero Image"}
                   fill
                   className="hero__product-image"
                   data-testid="hero-banner-image"
@@ -137,9 +137,9 @@ function Hero() {
 
             <div className="hero__image-container">
               {banner.product?.images && (
-                <Image
+                <CustomImage
                   src={banner.product?.images[1]?.image?.url || ""}
-                  alt={banner.product?.name ?? ""}
+                  alt={banner.product?.name ?? "Hero Image"}
                   fill
                   className="hero__product-image"
                   data-testid="hero-banner-image"

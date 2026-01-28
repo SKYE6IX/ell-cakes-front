@@ -1,14 +1,19 @@
 import { type ImageLoaderProps } from "next/image";
 import { generateUrl } from "@imgproxy/imgproxy-js-core";
 
-// The address of imgproxy server
 const imgproxyEndpoint = process.env.NEXT_PUBLIC_IMGPROXY_ENDPOINT;
+const imgproxyBaseUrl = process.env.NEXT_PUBLIC_IMGPROXY_BASE_URL;
+
 export default function imageProxyLoader({
   src,
   width,
   quality,
 }: ImageLoaderProps) {
-  const fullSrc = new URL(src).toString();
+  const isLocal = src.startsWith("/");
+  const fullSrc = isLocal
+    ? new URL(src, imgproxyBaseUrl).toString()
+    : new URL(src).toString();
+
   const escapedSrc = fullSrc
     .replace("%", "%25")
     .replace("?", "%3F")
