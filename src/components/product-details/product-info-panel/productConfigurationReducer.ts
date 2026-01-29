@@ -61,10 +61,18 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
     }
 
     case "set_selected_product_variant": {
-      return {
-        ...state,
-        selectedProductVariant: action.payload,
-      };
+      if (state.compositions?.length) {
+        return {
+          ...state,
+          selectedProductVariant: action.payload,
+          compositions: null,
+        };
+      } else {
+        return {
+          ...state,
+          selectedProductVariant: action.payload,
+        };
+      }
     }
 
     case "add_customization": {
@@ -165,9 +173,11 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
     case "remove_composition_product": {
       // Check if the qty is greater than 1, and reduce it by one.
       // If not, remove it completey from the list
+
       const existComposition = state.compositions?.find(
         (product) => product.productId === action.payload.productId
       );
+
       if (existComposition && existComposition.quantity > 1) {
         const updatedComposition = state.compositions?.map((composition) =>
           composition.productId === existComposition.productId
@@ -198,6 +208,7 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
         }
       }
     }
+
     default:
       throw new Error();
   }

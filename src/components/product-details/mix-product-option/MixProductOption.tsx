@@ -1,17 +1,17 @@
-import { Dispatch, useEffect, useState } from "react";
-import Image from "next/image";
+import { Dispatch, useState, useMemo } from "react";
 import Link from "next/link";
 import { Variants } from "motion/react";
 import { useReadQuery, QueryRef } from "@apollo/client/react";
 import * as motion from "motion/react-client";
+import CustomImage from "@/components/custom-image/CustomImage";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
+import { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import {
   ProductVariant,
   CompositionOptionInput,
   MixBoxProduct,
 } from "@/types/__generated__/graphql";
-import { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./mix-product-option.scss";
 
 const plusVariant: Variants = {
@@ -22,6 +22,7 @@ const plusVariant: Variants = {
     translateX: "calc(-50% - 15px)",
   },
 };
+
 const minusVariant: Variants = {
   active: {
     translateX: 0,
@@ -42,7 +43,6 @@ type MixProductOptionProps = {
 
 // TODO:
 // Run test when created a product with mixed_box
-
 function MixProductOption({
   mixBoxQueryRef,
   selectedVariant,
@@ -50,18 +50,21 @@ function MixProductOption({
   dispatch,
 }: MixProductOptionProps) {
   const { data } = useReadQuery(mixBoxQueryRef);
+
   const [maxComposition, setMaxComposition] = useState(false);
 
   const compositionProducts = data.mixBoxProduct?.compositions;
 
-  useEffect(() => {
+  useMemo(() => {
     const variant = selectedVariant;
     const totalProductInComposition =
       compositionsConfig?.reduce(
         (acc, composition) => acc + composition.quantity,
         0
       ) ?? 0;
+
     const isMax = variant.pieces === totalProductInComposition;
+
     setMaxComposition(isMax);
   }, [compositionsConfig, selectedVariant]);
 
@@ -70,9 +73,11 @@ function MixProductOption({
       (composition) => composition.productId === productId
     );
   };
+
   const addComposition = (productId: string) => {
     dispatch({ type: "add_composition_product", payload: { productId } });
   };
+
   const removeComposition = (productId: string) => {
     dispatch({ type: "remove_composition_product", payload: { productId } });
   };
@@ -84,6 +89,7 @@ function MixProductOption({
       <ul className="mix-product-option__lists">
         {compositionProducts?.map((product) => {
           const isActive = getCompositionConfig(product.id) !== undefined;
+
           return (
             <li
               key={product.id}
@@ -94,7 +100,7 @@ function MixProductOption({
             >
               <Link href={product.slug!}>
                 <div className="mix-product-option__image-wrapper">
-                  <Image
+                  <CustomImage
                     src={product.images![0].image?.url || ""}
                     alt={product.name!}
                     fill
@@ -117,9 +123,11 @@ function MixProductOption({
                 >
                   <MinusIcon />
                 </motion.button>
+
                 <span className="mix-product-option__value">
                   {getCompositionConfig(product.id)?.quantity}
                 </span>
+
                 <motion.button
                   className="mix-product-option__btn plus"
                   onClick={() => addComposition(product.id)}

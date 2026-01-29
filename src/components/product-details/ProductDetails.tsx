@@ -18,7 +18,6 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import "./product-details.scss";
 
 function ProductDetails({ productSlug }: { productSlug: string }) {
-  console.log("Here is the slug -> ", productSlug);
   return (
     <div className="product-details">
       <div className="product-details__product-wrapper">

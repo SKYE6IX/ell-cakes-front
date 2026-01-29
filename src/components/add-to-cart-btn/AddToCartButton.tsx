@@ -19,6 +19,7 @@ function AddToCartButton({
   addToCartArgs,
 }: AddToCartButtonProps) {
   const writeCartQuery = useWriteCartQuery();
+
   const [addToCart, { loading }] = useMutation(ADD_TO_CART_MUTATION, {
     variables: {
       ...addToCartArgs,
