@@ -22,11 +22,13 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
   const selectTopping = (topping: ToppingOption) => {
     setSelectedToppingId(topping.id);
     dispatch({ type: "add_topping", payload: topping });
+    handleSetShowModal();
   };
 
   const removeTopping = () => {
     setSelectedToppingId("default");
     dispatch({ type: "remove_topping" });
+    handleSetShowModal();
   };
 
   const selectedOption = toppingOptions.find(
@@ -35,12 +37,16 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
 
   return (
     <div className="add-topping">
-      <button className="add-topping__button" onClick={handleSetShowModal}>
+      <button
+        className={[
+          "add-topping__button",
+          selectedOption ? "preview" : "",
+        ].join(" ")}
+        onClick={handleSetShowModal}
+      >
         {selectedOption
           ? `топпинг (${selectedOption.weight!}кг)`
           : "Добавить топпинг"}
-        {/*  */}
-        {}
       </button>
 
       <Modal

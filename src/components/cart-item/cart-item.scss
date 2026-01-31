@@ -63,7 +63,7 @@
   @include flex-layout(row, center, none, 10px);
 }
 .cart-item__details-metric,
-.cart-item__details-shape {
+.cart-item__details-customization {
   font-family: $font-montserrat, sans-serif;
   font-size: 0.75rem;
   line-height: 13.2px;
@@ -79,6 +79,7 @@
     line-height: 10.8px;
   }
 }
+
 .cart-item__customization-list {
   margin-top: 15px;
   max-width: 80%;

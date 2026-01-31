@@ -5,6 +5,7 @@ import ProductFillingSelector from "../product-filling-selector/ProductFillingSe
 import ProductVariantSelector from "../product-variant-selector/ProductVariantSelector";
 import AddCustomisePhoto from "../product-customisations/AddCustomisePhoto";
 import AddCustomiseInscription from "../product-customisations/AddCustomiseInscription";
+import AddCandle from "../product-customisations/AddCandle";
 import AddTopping from "../product-customisations/AddTopping";
 import StorageInfo from "../storage-info/StorageInfo";
 import IngredientsInfo from "../ingredients-info/IngredientsInfo";
@@ -110,6 +111,10 @@ function ProductInfoPanel({
               dispatch={dispatch}
             />
             <AddCustomiseInscription
+              customOptions={product.customizations}
+              dispatch={dispatch}
+            />
+            <AddCandle
               customOptions={product.customizations}
               dispatch={dispatch}
             />

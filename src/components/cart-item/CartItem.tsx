@@ -21,6 +21,13 @@ type CartItemProps = {
   mode: "read-only" | "read-write";
 };
 
+type CustomizationOption = {
+  name: "PHOTOS" | "INSCRIPTION" | "CANDLE";
+  customValue: {
+    value: string;
+  };
+};
+
 function CartItem({ cartItem, mode }: CartItemProps) {
   const writeCartQuery = useWriteCartQuery();
 
@@ -80,6 +87,21 @@ function CartItem({ cartItem, mode }: CartItemProps) {
 
   const loading = isCartDecreaasing || isCartIncreasing || isCartItemDeleting;
 
+  const getCustomizationIcon = (optionName: CustomizationOption["name"]) => {
+    switch (optionName) {
+      case "PHOTOS":
+        return "📷";
+      case "CANDLE":
+        return "🎂";
+      case "INSCRIPTION":
+        return "✍️";
+      default:
+        return "";
+    }
+  };
+
+  console.log("Here is cart item -> ", cartItem);
+
   return (
     <div className={["cart-item", loading ? "in-flight" : ""].join(" ")}>
       <button
@@ -102,6 +124,7 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       </div>
       <div className="cart-item__info">
         <h4 className="cart-item__product-name">{cartItem.product?.name}</h4>
+
         <div className="cart-item__details">
           {cartItem.product?.variantType === "weight" && (
             <span className="cart-item__details-metric">
@@ -118,7 +141,21 @@ function CartItem({ cartItem, mode }: CartItemProps) {
               {`${cartItem.variant?.size}`} см
             </span>
           )}
+
+          {/* Customizations */}
+          {(cartItem.customizations as CustomizationOption[])?.map(
+            (customize) => (
+              <span
+                key={customize.name.toLowerCase()}
+                className="cart-item__details-customization"
+              >
+                {`${getCustomizationIcon(customize.name)} 
+                ${customize.customValue?.value}`}
+              </span>
+            )
+          )}
         </div>
+
         <div
           className={`cart-item__btn-wrapper ${
             mode === "read-only" ? "hide" : ""

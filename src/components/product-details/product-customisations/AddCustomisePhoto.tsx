@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as motion from "motion/react-client";
-import { variant } from "./ProductShape";
-import PhotoIcon from "@/components/icons/PhotoIcon";
+import { Variants } from "motion";
 import { useMutation } from "@apollo/client/react";
+import PhotoIcon from "@/components/icons/PhotoIcon";
 import CloseIcon from "@/components/icons/CloseIcon";
 import { CustomiseComponentProps } from "./sharedType";
 import { CustomizationOptionValue } from "@/types/__generated__/graphql";
@@ -10,70 +10,108 @@ import { ADD_CUSTOMIZE_IMAGE } from "../operations";
 import "./product-customisations.scss";
 
 const initialState = {
-  isOpen: false,
+  openDropDown: false,
   isAddCustomisePhoto: false,
   previewsData: [] as { id: string; name: string }[],
   customisePhotoOption: { optionId: "", valueId: "", total: "" },
   errorMessage: "",
 };
 
+const variant: Variants = {
+  open: {
+    translateY: 0,
+    visibility: "visible",
+    opacity: 1,
+  },
+  close: {
+    translateY: -30,
+    opacity: 0,
+    visibility: "hidden",
+  },
+};
+
 function AddCustomisePhoto({
   customOptions,
   dispatch,
 }: CustomiseComponentProps) {
+  const dropDownRef = useRef<HTMLDivElement>(null);
   const customPhoto = customOptions.find(
     (option) => option.name?.toUpperCase() === "PHOTOS"
   );
-
   const optionId = customPhoto?.id ?? "";
-
   const extraPrice = customPhoto?.customValues![0].extraPrice ?? 0;
 
   const [customisePhotoState, setCustomisePhotoState] = useState(initialState);
 
-  const [addCustomizeImage, { loading, error }] = useMutation(
-    ADD_CUSTOMIZE_IMAGE,
-    {
-      context: {
-        headers: {
-          "apollo-require-preflight": true,
-        },
-      },
-
-      onCompleted(data) {
-        const preveiwsData = data.uploadImageCustomization.map((uploaded) => {
-          return {
-            id: uploaded.id,
-            name: uploaded.altText as string,
-          };
-        });
-
+  useEffect(() => {
+    const onClickOutsideRef = (e: MouseEvent) => {
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(e.target as Node)
+      ) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
-          isAddCustomisePhoto: true,
-          previewsData: preveiwsData,
+          openDropDown: false,
         }));
+      }
+    };
+    const onEscapeKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setCustomisePhotoState((prvState) => ({
+          ...prvState,
+          openDropDown: false,
+        }));
+      }
+    };
 
-        dispatch({
-          type: "add_customization",
-          payload: {
-            optionId: customisePhotoState.customisePhotoOption.optionId,
-            valueId: customisePhotoState.customisePhotoOption.valueId,
-            imagesId: preveiwsData.map((preview) => preview.id),
-            extraPrice,
-            inscriptionText: null,
-          },
-        });
-      },
+    if (customisePhotoState.openDropDown) {
+      document.addEventListener("mousedown", onClickOutsideRef);
+      document.addEventListener("keydown", onEscapeKeyPress);
     }
-  );
 
-  console.log("An erorr  occur -> ", error);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutsideRef);
+      document.removeEventListener("keydown", onEscapeKeyPress);
+    };
+  }, [customisePhotoState.openDropDown]);
+
+  const [addCustomizeImage, { loading }] = useMutation(ADD_CUSTOMIZE_IMAGE, {
+    context: {
+      headers: {
+        "apollo-require-preflight": true,
+      },
+    },
+
+    onCompleted(data) {
+      const preveiwsData = data.uploadImageCustomization.map((uploaded) => {
+        return {
+          id: uploaded.id,
+          name: uploaded.altText as string,
+        };
+      });
+
+      setCustomisePhotoState((prvState) => ({
+        ...prvState,
+        isAddCustomisePhoto: true,
+        previewsData: preveiwsData,
+      }));
+
+      dispatch({
+        type: "add_customization",
+        payload: {
+          optionId: customisePhotoState.customisePhotoOption.optionId,
+          valueId: customisePhotoState.customisePhotoOption.valueId,
+          imagesId: preveiwsData.map((preview) => preview.id),
+          extraPrice,
+        },
+      });
+    },
+  });
 
   const handleSetOpen = () => {
     setCustomisePhotoState((prvState) => ({
       ...prvState,
-      isOpen: !prvState.isOpen,
+      openDropDown: !prvState.openDropDown,
     }));
   };
 
@@ -138,7 +176,7 @@ function AddCustomisePhoto({
   if (!customPhoto) return null;
 
   return (
-    <div className="add-customise-photo">
+    <div className="add-customise-photo" ref={dropDownRef}>
       {customisePhotoState.isAddCustomisePhoto ? (
         <>
           <h5 className="add-customise-photo__preview-label">фото</h5>
@@ -185,7 +223,7 @@ function AddCustomisePhoto({
           <motion.ul
             className="customisation__drop-down photo"
             initial={false}
-            animate={customisePhotoState.isOpen ? "open" : "close"}
+            animate={customisePhotoState.openDropDown ? "open" : "close"}
             variants={variant}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >

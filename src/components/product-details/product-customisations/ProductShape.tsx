@@ -6,7 +6,7 @@ import { CustomiseComponentProps } from "./sharedType";
 import { CustomizationOptionValue } from "@/types/__generated__/graphql";
 import "./product-customisations.scss";
 
-export const variant: Variants = {
+const variant: Variants = {
   open: {
     translateY: 0,
     visibility: "visible",

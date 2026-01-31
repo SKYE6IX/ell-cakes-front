@@ -1,5 +1,5 @@
 import { Dispatch, useState } from "react";
-import Image from "next/image";
+import CustomImage from "@/components/custom-image/CustomImage";
 import { ProductFilling } from "@/types/__generated__/graphql";
 import type { ACTIONTYPE } from "../product-info-panel/productConfigurationReducer";
 import "./product-filling-selector.scss";
@@ -46,7 +46,7 @@ function ProductFillingSelector({
                   </span>
                 </div>
               ) : (
-                <Image
+                <CustomImage
                   src={filling.image_icon.url}
                   alt="Mock Image"
                   fill
