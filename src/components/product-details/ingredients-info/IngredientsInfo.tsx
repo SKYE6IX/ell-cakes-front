@@ -22,7 +22,7 @@ function IngredientsInfo({ productFilling }: IngredientsInfoProp) {
       <Modal
         showModal={showModal}
         handleCloseModal={handleSetShowModal}
-        headingText="Ингридиенты"
+        headingText="Ингредиенты"
       >
         <div className="ingredients-info__content">
           <div className="ingredients-info__nutrition-wrapper">
