@@ -47,7 +47,9 @@ function Footer() {
                   <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
                 </li>
                 <li className="footer__contact-list-item">
-                  Москва, Жуков проезд, дом 8
+                  <Link target="" href="https://yandex.ru/maps/-/CPA4mEP8">
+                    Московская область, город Котельники, ул. Кузьминская, 17
+                  </Link>
                 </li>
               </ul>
             </div>

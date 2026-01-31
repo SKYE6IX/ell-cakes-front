@@ -38,7 +38,7 @@ function Contact() {
               className="footer__link-wrapper-item__text"
               data-testid="contact-address"
             >
-              г. Москва, Жуков проезд, дом 8
+              Московская область, город Котельники, ул. Кузьминская, 17
             </p>
           </div>
 
