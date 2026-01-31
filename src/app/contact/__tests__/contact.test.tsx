@@ -18,7 +18,9 @@ describe("Contact page", () => {
     expect(pageText).toBeInTheDocument();
     expect(contactAddress).toBeInTheDocument();
     expect(contactPhone).toBeInTheDocument();
-    expect(contactAddress).toHaveTextContent("г. Москва, Жуков проезд, дом 8");
+    expect(contactAddress).toHaveTextContent(
+      "Московская область, город Котельники, ул. Кузьминская, 17"
+    );
     expect(contactPhone).toHaveTextContent("8(965)-195-05-99");
   });
 });

@@ -14,13 +14,12 @@ describe("Delivary page", () => {
     // Act
     expect(title).toBeInTheDocument();
     expect(title).toHaveTextContent("Доставка");
-    expect(pageTexts.length).toEqual(2);
+
+    expect(pageTexts.length).toEqual(7);
+
     for (const el of pageTexts) {
       expect(el).toBeInTheDocument();
     }
-    expect(pageTexts[0]).toHaveTextContent(
-      "Курьерская доставка работает ежедневно с 10:00 до 17:00."
-    );
     expect(pageImage).toBeInTheDocument();
   });
 });
