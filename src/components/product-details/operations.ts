@@ -35,16 +35,13 @@ export const GET_PRODUCT_QUERY: TypedDocumentNode<
       variantType
       isAvailable
       fillingsCount
-      customization {
+      customizations {
         id
-        customOptions {
+        name
+        customValues {
           id
-          name
-          customValues {
-            id
-            value
-            extraPrice
-          }
+          value
+          extraPrice
         }
       }
       topping {
@@ -206,6 +203,7 @@ export const QUERY_SIMILAR_PRODUCTS: TypedDocumentNode<
       }
       images(orderBy: $imagesOrderBy) {
         id
+        isMain
         image {
           url
         }

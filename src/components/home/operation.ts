@@ -72,6 +72,7 @@ export const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
         }
         images(orderBy: $imagesOrderBy) {
           id
+          isMain
           image {
             url
           }

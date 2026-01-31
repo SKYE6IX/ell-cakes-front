@@ -32,7 +32,7 @@ export const GET_PRODUCTS_BY_CATEGORY: TypedDocumentNode<
       variantType
       fillings(take: $takeFillings) {
         id
-        variants(take: $takeVariants, orderBy: $orderVariantsBy) {
+        variants(orderBy: $orderVariantsBy, take: $takeVariants) {
           id
           weight
           pieces
@@ -42,6 +42,7 @@ export const GET_PRODUCTS_BY_CATEGORY: TypedDocumentNode<
       }
       images(orderBy: $imagesOrderBy) {
         id
+        isMain
         image {
           url
         }

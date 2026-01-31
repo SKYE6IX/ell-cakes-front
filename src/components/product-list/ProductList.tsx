@@ -1,6 +1,6 @@
 import Link from "next/link";
 import CustomImage from "../custom-image/CustomImage";
-import { Product } from "@/types/__generated__/graphql";
+import { Product, ProductImage } from "@/types/__generated__/graphql";
 import AddToCartButton from "../add-to-cart-btn/AddToCartButton";
 import ProductNotFound from "../product-not-found/ProductNotFound";
 import "./product-list.scss";
@@ -8,6 +8,13 @@ import "./product-list.scss";
 type ProductListProps = {
   products: Product[];
 };
+
+enum BadgeLabel {
+  NEW = "NEW",
+  HIT = "HIT",
+  BEST_SELLER = "BEST_SELLER",
+  SALE = "SALE",
+}
 
 const shimmer = (w: number, h: number) => `
   <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -31,6 +38,29 @@ function ProductList({ products }: ProductListProps) {
 
   if (products && products.length === 0) return <ProductNotFound />;
 
+  const getProductImageUrl = (productImages: ProductImage[]) => {
+    const isMainUrl = productImages.find((pi) => pi.isMain === true);
+    if (isMainUrl) {
+      return isMainUrl.image?.url;
+    }
+    return productImages[0].image?.url;
+  };
+
+  const getBadgeLabelStyleClass = (badge: BadgeLabel) => {
+    switch (badge) {
+      case "NEW":
+        return "new";
+      case "HIT":
+        return "hit";
+      case "BEST_SELLER":
+        return "best_seller";
+      case "SALE":
+        return "sale";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="product-list">
       {products.map((product) => (
@@ -39,7 +69,7 @@ function ProductList({ products }: ProductListProps) {
             <div className="product-card__info">
               <div className="product-card__image-container">
                 <CustomImage
-                  src={product.images![0].image?.url || ""}
+                  src={getProductImageUrl(product.images!) || ""}
                   alt={product.name!}
                   fill
                   className="product-card__image"
@@ -76,7 +106,14 @@ function ProductList({ products }: ProductListProps) {
           <div className="product-card__banners">
             <ul className="product-card__banners-list">
               {product.badge && (
-                <li className="product-card__badge">{product.badge}</li>
+                <li
+                  className={[
+                    "product-card__badge",
+                    getBadgeLabelStyleClass(product.badge as BadgeLabel),
+                  ].join(" ")}
+                >
+                  {product.badge}
+                </li>
               )}
 
               {product.variantType === "pieces" && (

@@ -139,13 +139,22 @@
   background-color: $primary-accent;
   color: $neutral;
 }
-.product-card__badge {
+
+.product-card__badge.new {
+  background-color: $primary-accent;
+  color: $neutral;
+}
+.product-card__badge.hit {
+  background-color: #b9c889;
+  color: #262525;
+}
+.product-card__badge.best_seller,
+.product-card__badge.sale {
   background-color: $neutral;
   color: $primary-accent;
 }
 
 // SKELETON
-
 .product-card.skeleton {
   overflow: hidden;
   gap: 15px;

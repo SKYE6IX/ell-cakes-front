@@ -343,7 +343,9 @@ export type CustomizationOption = {
   customValuesCount: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   name: Maybe<Scalars['String']['output']>;
-  productCustomization: Maybe<ProductCustomization>;
+  product: Maybe<Array<Product>>;
+  productCount: Maybe<Scalars['Int']['output']>;
+  slug: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -361,11 +363,26 @@ export type CustomizationOptionCustomValuesCountArgs = {
   where?: CustomizationOptionValueWhereInput;
 };
 
+
+export type CustomizationOptionProductArgs = {
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  orderBy?: Array<ProductOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductWhereInput;
+};
+
+
+export type CustomizationOptionProductCountArgs = {
+  where?: ProductWhereInput;
+};
+
 export type CustomizationOptionCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   customValues?: InputMaybe<CustomizationOptionValueRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
-  productCustomization?: InputMaybe<ProductCustomizationRelateToOneForCreateInput>;
+  product?: InputMaybe<ProductRelateToManyForCreateInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -379,6 +396,7 @@ export type CustomizationOptionOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
+  slug?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
 };
 
@@ -414,7 +432,8 @@ export type CustomizationOptionUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   customValues?: InputMaybe<CustomizationOptionValueRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
-  productCustomization?: InputMaybe<ProductCustomizationRelateToOneForUpdateInput>;
+  product?: InputMaybe<ProductRelateToManyForUpdateInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -499,12 +518,14 @@ export type CustomizationOptionWhereInput = {
   customValues?: InputMaybe<CustomizationOptionValueManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringNullableFilter>;
-  productCustomization?: InputMaybe<ProductCustomizationWhereInput>;
+  product?: InputMaybe<ProductManyRelationFilter>;
+  slug?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
 export type CustomizationOptionWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CustomizeImage = {
@@ -1062,8 +1083,6 @@ export type Mutation = {
   createPayment: Maybe<Payment>;
   createPayments: Maybe<Array<Maybe<Payment>>>;
   createProduct: Maybe<Product>;
-  createProductCustomization: Maybe<ProductCustomization>;
-  createProductCustomizations: Maybe<Array<Maybe<ProductCustomization>>>;
   createProductFilling: Maybe<ProductFilling>;
   createProductFillings: Maybe<Array<Maybe<ProductFilling>>>;
   createProductHomeBanner: Maybe<ProductHomeBanner>;
@@ -1109,8 +1128,6 @@ export type Mutation = {
   deletePayment: Maybe<Payment>;
   deletePayments: Maybe<Array<Maybe<Payment>>>;
   deleteProduct: Maybe<Product>;
-  deleteProductCustomization: Maybe<ProductCustomization>;
-  deleteProductCustomizations: Maybe<Array<Maybe<ProductCustomization>>>;
   deleteProductFilling: Maybe<ProductFilling>;
   deleteProductFillings: Maybe<Array<Maybe<ProductFilling>>>;
   deleteProductHomeBanner: Maybe<ProductHomeBanner>;
@@ -1163,8 +1180,6 @@ export type Mutation = {
   updatePayment: Maybe<Payment>;
   updatePayments: Maybe<Array<Maybe<Payment>>>;
   updateProduct: Maybe<Product>;
-  updateProductCustomization: Maybe<ProductCustomization>;
-  updateProductCustomizations: Maybe<Array<Maybe<ProductCustomization>>>;
   updateProductFilling: Maybe<ProductFilling>;
   updateProductFillings: Maybe<Array<Maybe<ProductFilling>>>;
   updateProductHomeBanner: Maybe<ProductHomeBanner>;
@@ -1357,16 +1372,6 @@ export type MutationCreatePaymentsArgs = {
 
 export type MutationCreateProductArgs = {
   data: ProductCreateInput;
-};
-
-
-export type MutationCreateProductCustomizationArgs = {
-  data: ProductCustomizationCreateInput;
-};
-
-
-export type MutationCreateProductCustomizationsArgs = {
-  data: Array<ProductCustomizationCreateInput>;
 };
 
 
@@ -1592,16 +1597,6 @@ export type MutationDeletePaymentsArgs = {
 
 export type MutationDeleteProductArgs = {
   where: ProductWhereUniqueInput;
-};
-
-
-export type MutationDeleteProductCustomizationArgs = {
-  where: ProductCustomizationWhereUniqueInput;
-};
-
-
-export type MutationDeleteProductCustomizationsArgs = {
-  where: Array<ProductCustomizationWhereUniqueInput>;
 };
 
 
@@ -1874,17 +1869,6 @@ export type MutationUpdatePaymentsArgs = {
 export type MutationUpdateProductArgs = {
   data: ProductUpdateInput;
   where: ProductWhereUniqueInput;
-};
-
-
-export type MutationUpdateProductCustomizationArgs = {
-  data: ProductCustomizationUpdateInput;
-  where: ProductCustomizationWhereUniqueInput;
-};
-
-
-export type MutationUpdateProductCustomizationsArgs = {
-  data: Array<ProductCustomizationUpdateArgs>;
 };
 
 
@@ -2476,7 +2460,8 @@ export type Product = {
   categories: Maybe<Array<Category>>;
   categoriesCount: Maybe<Scalars['Int']['output']>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
-  customization: Maybe<ProductCustomization>;
+  customizations: Maybe<Array<CustomizationOption>>;
+  customizationsCount: Maybe<Scalars['Int']['output']>;
   fillings: Maybe<Array<ProductFilling>>;
   fillingsCount: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
@@ -2505,6 +2490,20 @@ export type ProductCategoriesArgs = {
 
 export type ProductCategoriesCountArgs = {
   where?: CategoryWhereInput;
+};
+
+
+export type ProductCustomizationsArgs = {
+  cursor?: InputMaybe<CustomizationOptionWhereUniqueInput>;
+  orderBy?: Array<CustomizationOptionOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CustomizationOptionWhereInput;
+};
+
+
+export type ProductCustomizationsCountArgs = {
+  where?: CustomizationOptionWhereInput;
 };
 
 
@@ -2540,7 +2539,7 @@ export type ProductCreateInput = {
   baseDescription?: InputMaybe<Scalars['String']['input']>;
   categories?: InputMaybe<CategoryRelateToManyForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customization?: InputMaybe<ProductCustomizationRelateToOneForCreateInput>;
+  customizations?: InputMaybe<CustomizationOptionRelateToManyForCreateInput>;
   fillings?: InputMaybe<ProductFillingRelateToManyForCreateInput>;
   images?: InputMaybe<ProductImageRelateToManyForCreateInput>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2552,82 +2551,6 @@ export type ProductCreateInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   variantType?: InputMaybe<Scalars['String']['input']>;
   video?: InputMaybe<ProductVideoRelateToOneForCreateInput>;
-};
-
-export type ProductCustomization = {
-  __typename: 'ProductCustomization';
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  customOptions: Maybe<Array<CustomizationOption>>;
-  customOptionsCount: Maybe<Scalars['Int']['output']>;
-  id: Scalars['ID']['output'];
-  product: Maybe<Product>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-};
-
-
-export type ProductCustomizationCustomOptionsArgs = {
-  cursor?: InputMaybe<CustomizationOptionWhereUniqueInput>;
-  orderBy?: Array<CustomizationOptionOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: CustomizationOptionWhereInput;
-};
-
-
-export type ProductCustomizationCustomOptionsCountArgs = {
-  where?: CustomizationOptionWhereInput;
-};
-
-export type ProductCustomizationCreateInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customOptions?: InputMaybe<CustomizationOptionRelateToManyForCreateInput>;
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type ProductCustomizationOrderByInput = {
-  createdAt?: InputMaybe<OrderDirection>;
-  id?: InputMaybe<OrderDirection>;
-  updatedAt?: InputMaybe<OrderDirection>;
-};
-
-export type ProductCustomizationRelateToOneForCreateInput = {
-  connect?: InputMaybe<ProductCustomizationWhereUniqueInput>;
-  create?: InputMaybe<ProductCustomizationCreateInput>;
-};
-
-export type ProductCustomizationRelateToOneForUpdateInput = {
-  connect?: InputMaybe<ProductCustomizationWhereUniqueInput>;
-  create?: InputMaybe<ProductCustomizationCreateInput>;
-  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type ProductCustomizationUpdateArgs = {
-  data: ProductCustomizationUpdateInput;
-  where: ProductCustomizationWhereUniqueInput;
-};
-
-export type ProductCustomizationUpdateInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customOptions?: InputMaybe<CustomizationOptionRelateToManyForUpdateInput>;
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type ProductCustomizationWhereInput = {
-  AND?: InputMaybe<Array<ProductCustomizationWhereInput>>;
-  NOT?: InputMaybe<Array<ProductCustomizationWhereInput>>;
-  OR?: InputMaybe<Array<ProductCustomizationWhereInput>>;
-  createdAt?: InputMaybe<DateTimeNullableFilter>;
-  customOptions?: InputMaybe<CustomizationOptionManyRelationFilter>;
-  id?: InputMaybe<IdFilter>;
-  product?: InputMaybe<ProductWhereInput>;
-  updatedAt?: InputMaybe<DateTimeNullableFilter>;
-};
-
-export type ProductCustomizationWhereUniqueInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-  product?: InputMaybe<ProductWhereUniqueInput>;
 };
 
 export type ProductFilling = {
@@ -2843,6 +2766,7 @@ export type ProductImage = {
   createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   image: Maybe<ImageFieldOutput>;
+  isMain: Maybe<Scalars['Boolean']['output']>;
   product: Maybe<Product>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
@@ -2851,6 +2775,7 @@ export type ProductImageCreateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
+  isMain?: InputMaybe<Scalars['Boolean']['input']>;
   product?: InputMaybe<ProductRelateToOneForCreateInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -2865,6 +2790,7 @@ export type ProductImageOrderByInput = {
   altText?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  isMain?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
 };
 
@@ -2889,6 +2815,7 @@ export type ProductImageUpdateInput = {
   altText?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   image?: InputMaybe<ImageFieldInput>;
+  isMain?: InputMaybe<Scalars['Boolean']['input']>;
   product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -2900,6 +2827,7 @@ export type ProductImageWhereInput = {
   altText?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
+  isMain?: InputMaybe<BooleanFilter>;
   product?: InputMaybe<ProductWhereInput>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
 };
@@ -2960,7 +2888,7 @@ export type ProductUpdateInput = {
   baseDescription?: InputMaybe<Scalars['String']['input']>;
   categories?: InputMaybe<CategoryRelateToManyForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  customization?: InputMaybe<ProductCustomizationRelateToOneForUpdateInput>;
+  customizations?: InputMaybe<CustomizationOptionRelateToManyForUpdateInput>;
   fillings?: InputMaybe<ProductFillingRelateToManyForUpdateInput>;
   images?: InputMaybe<ProductImageRelateToManyForUpdateInput>;
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2981,7 +2909,6 @@ export type ProductVariant = {
   id: Scalars['ID']['output'];
   pieces: Maybe<Scalars['Int']['output']>;
   price: Maybe<Scalars['Int']['output']>;
-  selectedValue: Maybe<Scalars['String']['output']>;
   serving: Maybe<Scalars['Int']['output']>;
   size: Maybe<Scalars['Int']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
@@ -3142,7 +3069,7 @@ export type ProductWhereInput = {
   baseDescription?: InputMaybe<StringFilter>;
   categories?: InputMaybe<CategoryManyRelationFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
-  customization?: InputMaybe<ProductCustomizationWhereInput>;
+  customizations?: InputMaybe<CustomizationOptionManyRelationFilter>;
   fillings?: InputMaybe<ProductFillingManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ProductImageManyRelationFilter>;
@@ -3158,7 +3085,6 @@ export type ProductWhereInput = {
 };
 
 export type ProductWhereUniqueInput = {
-  customization?: InputMaybe<ProductCustomizationWhereUniqueInput>;
   id?: InputMaybe<Scalars['ID']['input']>;
   mixBoxProduct?: InputMaybe<MixBoxProductWhereUniqueInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -3211,9 +3137,6 @@ export type Query = {
   payments: Maybe<Array<Payment>>;
   paymentsCount: Maybe<Scalars['Int']['output']>;
   product: Maybe<Product>;
-  productCustomization: Maybe<ProductCustomization>;
-  productCustomizations: Maybe<Array<ProductCustomization>>;
-  productCustomizationsCount: Maybe<Scalars['Int']['output']>;
   productFilling: Maybe<ProductFilling>;
   productFillings: Maybe<Array<ProductFilling>>;
   productFillingsCount: Maybe<Scalars['Int']['output']>;
@@ -3506,25 +3429,6 @@ export type QueryPaymentsCountArgs = {
 
 export type QueryProductArgs = {
   where: ProductWhereUniqueInput;
-};
-
-
-export type QueryProductCustomizationArgs = {
-  where: ProductCustomizationWhereUniqueInput;
-};
-
-
-export type QueryProductCustomizationsArgs = {
-  cursor?: InputMaybe<ProductCustomizationWhereUniqueInput>;
-  orderBy?: Array<ProductCustomizationOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: ProductCustomizationWhereInput;
-};
-
-
-export type QueryProductCustomizationsCountArgs = {
-  where?: ProductCustomizationWhereInput;
 };
 
 
@@ -4268,7 +4172,7 @@ export type CollectionProductsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
+export type CollectionProductsQuery = { products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, isMain: boolean | null, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null };
 
 export type GetCategoriesQueryVariables = Exact<{
   where: CategoryWhereInput;
@@ -4293,7 +4197,7 @@ export type FeaturedProductsQueryVariables = Exact<{
 }>;
 
 
-export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
+export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, isMain: boolean | null, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4301,7 +4205,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, isAvailable: boolean | null, fillingsCount: number | null, customization: { __typename: 'ProductCustomization', id: string, customOptions: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null } | null, topping: { __typename: 'Topping', id: string, name: string | null, options: Array<{ __typename: 'ToppingOption', id: string, pieces: number | null, weight: unknown | null, extraPrice: number | null }> | null } | null } | null };
+export type ProductQuery = { product: { __typename: 'Product', id: string, name: string | null, baseDescription: string | null, type: string | null, variantType: string | null, isAvailable: boolean | null, fillingsCount: number | null, customizations: Array<{ __typename: 'CustomizationOption', id: string, name: string | null, customValues: Array<{ __typename: 'CustomizationOptionValue', id: string, value: string | null, extraPrice: number | null }> | null }> | null, topping: { __typename: 'Topping', id: string, name: string | null, options: Array<{ __typename: 'ToppingOption', id: string, pieces: number | null, weight: unknown | null, extraPrice: number | null }> | null } | null } | null };
 
 export type ProductFillingsQueryVariables = Exact<{
   where: ProductFillingWhereInput;
@@ -4349,7 +4253,7 @@ export type QuerySimilarProductsQueryVariables = Exact<{
 }>;
 
 
-export type QuerySimilarProductsQuery = { querySimilarProducts: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> };
+export type QuerySimilarProductsQuery = { querySimilarProducts: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, isMain: boolean | null, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> };
 
 export type EndSessionMutationVariables = Exact<{ [key: string]: never; }>;
 

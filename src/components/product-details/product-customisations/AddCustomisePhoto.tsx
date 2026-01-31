@@ -22,7 +22,7 @@ function AddCustomisePhoto({
   dispatch,
 }: CustomiseComponentProps) {
   const customPhoto = customOptions.find(
-    (option) => option.name?.toUpperCase() === "PHOTO"
+    (option) => option.name?.toUpperCase() === "PHOTOS"
   );
 
   const optionId = customPhoto?.id ?? "";

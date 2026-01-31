@@ -103,14 +103,14 @@ function ProductInfoPanel({
       />
 
       <div className="product-info-panel__customisations-wrapper">
-        {product.customization && (
+        {product.customizations && (
           <>
             <AddCustomisePhoto
-              customOptions={product.customization.customOptions!}
+              customOptions={product.customizations}
               dispatch={dispatch}
             />
             <AddCustomiseInscription
-              customOptions={product.customization.customOptions!}
+              customOptions={product.customizations}
               dispatch={dispatch}
             />
           </>
