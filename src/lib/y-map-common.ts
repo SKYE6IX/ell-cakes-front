@@ -17,7 +17,10 @@ export type MapZone = {
   name: string;
 };
 
-export function calculateDeliveryPrice(destinationCoords: [number, number]) {
+export function calculateDeliveryPrice(
+  destinationCoords: [number, number],
+  initialZonePrice: number
+) {
   const destPoint = point(destinationCoords);
 
   const currentZone = ZONE;
@@ -29,13 +32,13 @@ export function calculateDeliveryPrice(destinationCoords: [number, number]) {
 
   if (pointIsInZones) {
     return {
-      price: currentZone.price,
+      price: initialZonePrice,
     };
   }
 
-  const outOfZoneDistance = outOfZoneLength(destinationCoords);
+  const outOfZoneDistance = Math.round(outOfZoneLength(destinationCoords));
 
-  const price = currentZone.price + OUT_OF_ZONES_PRICE * outOfZoneDistance;
+  const price = initialZonePrice + OUT_OF_ZONES_PRICE * outOfZoneDistance;
 
   return {
     price: Math.round(price),

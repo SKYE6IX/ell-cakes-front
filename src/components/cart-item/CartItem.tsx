@@ -100,8 +100,6 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     }
   };
 
-  console.log("Here is cart item -> ", cartItem);
-
   return (
     <div className={["cart-item", loading ? "in-flight" : ""].join(" ")}>
       <button

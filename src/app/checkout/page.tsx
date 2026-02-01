@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,23 @@ import spbIcon from "./sbp-icon.png";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
+type DeliveryOptionType = {
+  key: "regular-time" | "in-between-time" | "fixed-time";
+  chosenTime?: string;
+};
+
 type PaymentMethodId = "bank_card" | "sbp" | "tinkoff_bank" | "sberbank";
+interface CheckoutState {
+  paymentMethod: PaymentMethodId;
+  deliveryOption: string;
+  deliveryCost: number;
+  initialZonePrice: number;
+  customerComment: string;
+  modalAddress: {
+    show: boolean;
+    action: "create" | "update";
+  };
+}
 
 const paymentMethods = [
   {
@@ -42,85 +58,74 @@ const paymentMethods = [
   },
 ];
 
-interface CheckoutState {
-  customerComment: string;
-  paymentMethod: PaymentMethodId;
-  modalAddress: {
-    show: boolean;
-    action: "create" | "update";
-  };
-  deliveryCost: number;
-  orderTotalAmount: number;
-}
-
 function Checkout() {
   const router = useRouter();
 
   const [checkoutState, setCheckoutState] = useState<CheckoutState>({
-    customerComment: "",
     paymentMethod: "bank_card",
+    deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
+    deliveryCost: 0,
+    initialZonePrice: 990,
+    customerComment: "",
     modalAddress: {
       show: false,
       action: "create",
     },
-    deliveryCost: 0,
-    orderTotalAmount: 0,
   });
 
+  // query USER data
+  const { data: authResult } = useQuery(AUTHORIZED_USER_QUERY);
+  const authUser = authResult?.queryAuthorizedUser;
+
   // query CART data
-  const { data } = useQuery(GET_CART_QUERY, {
+  const { data: cartResult } = useQuery(GET_CART_QUERY, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },
   });
-  const cart = data?.queryCart;
+  const cart = cartResult?.queryCart;
 
-  const { data: authResult } = useQuery(AUTHORIZED_USER_QUERY);
-  const authUser = authResult?.queryAuthorizedUser;
-
-  // POPULATE INITIAL SUB TOTAL
-  useMemo(() => {
-    if (cart) {
-      setCheckoutState((prvState) => ({
-        ...prvState,
-        orderTotalAmount: cart.subTotal!,
-      }));
-    }
-  }, [cart]);
+  // CALCULATE ORDER TOTAL AMOUNT
+  const subTotal = cart?.subTotal ?? 0;
+  const orderTotalAmount = subTotal + checkoutState.deliveryCost;
 
   // Check for address delivary and calculate the price
-  const handleSetDeliveryCost = useCallback(
-    async (address: string | undefined, subTotal: number) => {
-      let orderTotalAmount = subTotal;
-      let deliveryCost = 0;
-      if (address) {
-        const coord = await getCoordinate(address);
-        const lng = coord?.geometry?.coordinates[0];
-        const lat = coord?.geometry?.coordinates[1];
-        if (lng && lat) {
-          const ROUTE_END: [number, number] = [lng, lat];
-          const { price } = calculateDeliveryPrice(ROUTE_END);
-          orderTotalAmount = price + subTotal;
-          deliveryCost = price;
-        }
-      }
+  useEffect(() => {
+    if (!authUser?.delivaryAddress?.address) {
       setCheckoutState((prvState) => ({
         ...prvState,
-        deliveryCost,
-        orderTotalAmount,
+        deliveryCost: 0,
       }));
-    },
-    []
-  );
-
-  useEffect(() => {
-    if (authUser && cart) {
-      const { delivaryAddress } = authUser;
-      const userAddress = delivaryAddress?.address;
-      handleSetDeliveryCost(userAddress!, cart.subTotal!);
+      return;
     }
-  }, [authUser, cart, handleSetDeliveryCost]);
+
+    const { delivaryAddress } = authUser;
+
+    const calculate = async () => {
+      const coord = await getCoordinate(delivaryAddress.address!);
+      const lng = coord?.geometry?.coordinates[0];
+      const lat = coord?.geometry?.coordinates[1];
+      if (!lng || !lat) {
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          deliveryCost: 0,
+        }));
+        return;
+      }
+      const ROUTE_END: [number, number] = [lng, lat];
+
+      const { price } = calculateDeliveryPrice(
+        ROUTE_END,
+        checkoutState.initialZonePrice
+      );
+      setCheckoutState((prvState) => ({
+        ...prvState,
+        deliveryCost: price,
+      }));
+    };
+    calculate();
+  }, [authUser, checkoutState.initialZonePrice]);
 
   const setModalAddresss = (action: "create" | "update") => {
     setCheckoutState((prvState) => ({
@@ -153,6 +158,41 @@ function Checkout() {
     }));
   };
 
+  const handleOnDeliveryOptionSet = ({
+    key,
+    chosenTime,
+  }: DeliveryOptionType) => {
+    switch (key as DeliveryOptionType["key"]) {
+      case "regular-time":
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          initialZonePrice: 990,
+          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
+        }));
+        break;
+      case "in-between-time":
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          initialZonePrice: 1290,
+          deliveryOption: `Выбрать интервал доставки (${chosenTime})`,
+        }));
+        break;
+      case "fixed-time":
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          initialZonePrice: 1590,
+          deliveryOption: `Доставка ко времени(${chosenTime})`,
+        }));
+        break;
+      default:
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          initialZonePrice: 990,
+          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
+        }));
+    }
+  };
+
   //CHECKOUT MUTATION
   const [checkoutOrder, { loading, error }] = useMutation(CHECKOUT_ORDER, {
     variables: {
@@ -160,8 +200,8 @@ function Checkout() {
       shippingCost: checkoutState.deliveryCost,
       paymentMethod: checkoutState.paymentMethod,
       customerNote: checkoutState.customerComment,
+      deliveryOptiion: checkoutState.deliveryOption,
     },
-
     onCompleted(data) {
       const paymentUrl = data.checkOut.redirectUrl!;
       const confirmationUrl = data.checkOut.confirmationUrl!;
@@ -169,12 +209,9 @@ function Checkout() {
       window.history.replaceState({}, "", confirmationUrl);
       router.push(paymentUrl);
     },
-
     onError(error) {
       console.error("Error occur when try to checout order -> ", error);
     },
-
-    refetchQueries: [GET_CART_QUERY, AUTHORIZED_USER_QUERY],
   });
 
   const isCheckout = canCheckout(
@@ -252,7 +289,7 @@ function Checkout() {
               <h3 className="user-info__section-title">
                 3. Выберите время доставки
               </h3>
-              <DeliveryOption />
+              <DeliveryOption onDeliveryOptionSet={handleOnDeliveryOptionSet} />
             </section>
 
             <section className="user-info__section comment">
@@ -344,7 +381,7 @@ function Checkout() {
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Итог</h5>
             <span className="order-info__summary-value">
-              {checkoutState.orderTotalAmount} ₽
+              {orderTotalAmount} ₽
             </span>
           </div>
 
@@ -356,7 +393,7 @@ function Checkout() {
             {loading ? (
               <div className="check-loader"></div>
             ) : (
-              `ОПЛАТИТЬ ${checkoutState.orderTotalAmount || cart?.subTotal} ₽`
+              `ОПЛАТИТЬ ${orderTotalAmount} ₽`
             )}
           </button>
 

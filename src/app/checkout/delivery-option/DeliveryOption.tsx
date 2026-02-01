@@ -11,28 +11,68 @@ const deliveryTimeInterval = [
   "с 19 до 21",
 ];
 
-function DeliveryOption() {
-  const [selectedInterval, setselectedInterval] = useState("");
-  const [chosenTime, setChoosenTime] = useState("");
+type DeliveryOptionType = {
+  key: "regular-time" | "in-between-time" | "fixed-time";
+  chosenTime?: string;
+};
 
-  const handleOnChosenTimeChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {};
+type DeliveryAddressProps = {
+  onDeliveryOptionSet: ({ key, chosenTime }: DeliveryOptionType) => void;
+};
+
+function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
+  const [currentValue, setCurrentValue] =
+    useState<DeliveryOptionType["key"]>("regular-time");
+  const [selectedInterval, setSelectedInterval] = useState(
+    deliveryTimeInterval[0]
+  );
+  const [fixedTime, setFixedTime] = useState("");
+
+  const handleSetDelivaryOption = ({ key, chosenTime }: DeliveryOptionType) => {
+    setCurrentValue(key);
+    onDeliveryOptionSet({ key, chosenTime });
+  };
+
+  const handleOnFixedTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFixedTime(value);
+    onDeliveryOptionSet({ key: "fixed-time", chosenTime: value });
+  };
+
   const handleOnSelectedIntervalChangeChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {};
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = e.target;
+    setSelectedInterval(value);
+    onDeliveryOptionSet({ key: "in-between-time", chosenTime: value });
+  };
 
   return (
     <div className="delivery-option">
       <ul className="delivery-option__list">
-        <li className="delivery-option__list-item">
+        <li
+          className={[
+            "delivery-option__list-item",
+            currentValue === "regular-time" ? "active" : "",
+          ].join(" ")}
+          onClick={() => handleSetDelivaryOption({ key: "regular-time" })}
+        >
           Интервал доставки (с 10:00 до 16:00) - с 990 руб
         </li>
 
         <li className="delivery-option__list-item delivery-interval">
           <label
             htmlFor="delivery-interval"
-            className="delivery-interval__label"
+            className={[
+              "delivery-interval__label",
+              currentValue === "in-between-time" ? "active" : "",
+            ].join(" ")}
+            onClick={() =>
+              handleSetDelivaryOption({
+                key: "in-between-time",
+                chosenTime: selectedInterval,
+              })
+            }
           >
             Выбрать интервал доставки - с 1290 руб
           </label>
@@ -40,6 +80,8 @@ function DeliveryOption() {
             name="delivery-interval"
             id="delivery-interval"
             className="delivery-interval__select"
+            value={selectedInterval}
+            onChange={handleOnSelectedIntervalChangeChange}
           >
             {deliveryTimeInterval.map((dti) => (
               <option
@@ -54,7 +96,14 @@ function DeliveryOption() {
         </li>
 
         <li className="delivery-option__list-item delivery-time">
-          <label htmlFor="delivery-time" className="delivery-time__label">
+          <label
+            htmlFor="delivery-time"
+            className={[
+              "delivery-time__label",
+              currentValue === "fixed-time" ? "active" : "",
+            ].join(" ")}
+            onClick={() => handleSetDelivaryOption({ key: "fixed-time" })}
+          >
             Доставка ко времени (с 9:00 до 21:00) - с 1590 руб
           </label>
           <input
@@ -65,7 +114,8 @@ function DeliveryOption() {
             max="21:00"
             lang="ru"
             className="delivery-time__input"
-            onChange={handleOnChosenTimeChange}
+            value={fixedTime}
+            onChange={handleOnFixedTimeChange}
           />
         </li>
       </ul>
@@ -74,10 +124,3 @@ function DeliveryOption() {
 }
 
 export default DeliveryOption;
-
-// Выберите время доставки
-// 1) Интервал доставки (с 10:00 до 16:00) - 990 руб
-// 2) Выбрать интервал доставки () - 1290
-// 3) Доставка ко времени () - 1590
-
-// Possible delivery time с 9:00 до 21:00

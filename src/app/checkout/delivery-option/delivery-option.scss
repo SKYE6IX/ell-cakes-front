@@ -21,7 +21,8 @@
 .delivery-option__list-item.delivery-time {
   @include flex-layout(column, none, none, 10px);
 }
-.delivery-option__list-item:nth-child(1):before,
+
+.delivery-option__list-item:nth-child(1)::before,
 .delivery-interval__label::before,
 .delivery-time__label::before {
   content: " ";
@@ -32,17 +33,25 @@
   height: 15px;
   border: 1px solid $primary;
   border-radius: 50%;
+  transition: background-color 0.2s ease-in;
 }
+
+.delivery-option__list-item.active:nth-child(1)::before,
+.delivery-interval__label.active::before,
+.delivery-time__label.active::before {
+  background-color: $primary;
+}
+
 .delivery-interval__label,
 .delivery-time__label {
   position: relative;
   cursor: pointer;
 }
+
+.delivery-time__input,
 .delivery-interval__select {
-}
-.delivery-interval__option {
-}
-.delivery-time__label {
-}
-.delivery-time__input {
+  width: 60%;
+  padding: 5px;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
 }
