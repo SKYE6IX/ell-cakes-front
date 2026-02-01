@@ -11,6 +11,7 @@ import CreditCardIcon from "@/components/icons/CreditCardIcon";
 import CartItem from "@/components/cart-item/CartItem";
 import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
+import DeliveryOption from "./delivery-option/DeliveryOption";
 import CartEmpty from "./CartEmpty";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
@@ -249,7 +250,14 @@ function Checkout() {
 
             <section className="user-info__section comment">
               <h3 className="user-info__section-title">
-                3. Пожелания к заказу
+                3. Выберите время доставки
+              </h3>
+              <DeliveryOption />
+            </section>
+
+            <section className="user-info__section comment">
+              <h3 className="user-info__section-title">
+                4. Пожелания к заказу
               </h3>
               <Input
                 name="comment"
@@ -262,7 +270,7 @@ function Checkout() {
             </section>
 
             <section className="user-info__section payment-method">
-              <h3 className="user-info__section-title">4. Способы оплаты</h3>
+              <h3 className="user-info__section-title">5. Способы оплаты</h3>
               <ul className="user-info__section-payment-method-list">
                 {paymentMethods.map((method) => (
                   <li

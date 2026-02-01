@@ -61,9 +61,11 @@ export const getCoordinate = async (address: string) => {
 
 export const isValidAddress = async (address: string) => {
   const MAX_DELIVERY = 99;
+
   if (!address || address.length < 5) {
     return false;
   }
+
   const addressCoord = await getCoordinate(address);
 
   if (addressCoord) {

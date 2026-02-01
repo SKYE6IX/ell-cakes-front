@@ -1,0 +1,48 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.delivery-option {
+}
+.delivery-option__list {
+  list-style: none;
+  @include flex-layout(column, none, none, 10px);
+  padding-left: 20px;
+}
+.delivery-option__list-item {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 500;
+  color: $text-color;
+  cursor: pointer;
+  position: relative;
+}
+.delivery-option__list-item.delivery-interval,
+.delivery-option__list-item.delivery-time {
+  @include flex-layout(column, none, none, 10px);
+}
+.delivery-option__list-item:nth-child(1):before,
+.delivery-interval__label::before,
+.delivery-time__label::before {
+  content: " ";
+  position: absolute;
+  left: -20px;
+  top: 3px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid $primary;
+  border-radius: 50%;
+}
+.delivery-interval__label,
+.delivery-time__label {
+  position: relative;
+  cursor: pointer;
+}
+.delivery-interval__select {
+}
+.delivery-interval__option {
+}
+.delivery-time__label {
+}
+.delivery-time__input {
+}
