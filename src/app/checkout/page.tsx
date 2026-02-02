@@ -22,6 +22,9 @@ import spbIcon from "./sbp-icon.png";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
+// TODO:
+// 1. Write test for all component inside checkout
+
 type DeliveryOptionType = {
   key: "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
@@ -200,7 +203,7 @@ function Checkout() {
       shippingCost: checkoutState.deliveryCost,
       paymentMethod: checkoutState.paymentMethod,
       customerNote: checkoutState.customerComment,
-      deliveryOptiion: checkoutState.deliveryOption,
+      deliveryOption: checkoutState.deliveryOption,
     },
     onCompleted(data) {
       const paymentUrl = data.checkOut.redirectUrl!;
