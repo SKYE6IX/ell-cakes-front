@@ -11,7 +11,7 @@ export const AUTHORIZED_USER_QUERY: TypedDocumentNode<
       name
       email
       phoneNumber
-      isPhoneNumberVerified
+      isUserVerified
       delivaryAddress {
         id
         address

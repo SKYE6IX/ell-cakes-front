@@ -24,7 +24,6 @@ import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
-
 type DeliveryOptionType = {
   key: "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
@@ -230,7 +229,7 @@ function Checkout() {
     <div className="checkout">
       {/* CURRENT AUTHORIZED USER DETAILS*/}
       <div className="checkout__user-info">
-        {authUser && authUser.isPhoneNumberVerified ? (
+        {authUser && authUser.isUserVerified ? (
           <>
             <section className="user-info__section profile">
               <h3 className="user-info__section-title">1. Мои данные</h3>

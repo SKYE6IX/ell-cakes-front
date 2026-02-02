@@ -1,28 +1,32 @@
 import { useState, useRef, useEffect } from "react";
 import { useMutation } from "@apollo/client/react";
-import { RESEND_PHONE_NUMBER_TOKEN } from "./operation";
+import { RESEND_USER_VERIFICATION_TOKEN } from "./operation";
 import { ErrorLike } from "@apollo/client";
 import Loader from "../loader/Loader";
 import "./token-input.scss";
 
 type TokenInputProps = {
-  inputPhoneNumber: string | undefined;
+  inputEmail: string | undefined;
   reedeemToken: (token: string) => void;
   loading: boolean;
   error: ErrorLike | undefined;
 };
 
-const maskPhoneNumber = (phoneNumber: string) => {
-  const cleaned = phoneNumber.replace(/\D/g, "");
-
-  const countryAndOperator = "+7 " + cleaned.slice(1, 4);
-  const hiddenPart = "*** **";
-  const lastDigits = cleaned.slice(-2);
-  return `${countryAndOperator} ${hiddenPart} ${lastDigits}`;
+const maskEmailAddress = (email: string | undefined) => {
+  if (email) {
+    const masked = email.replace(
+      /^(.)([^@]*)(@.*)$/,
+      (_, first, middle, domain) => {
+        return first + "*".repeat(middle.length) + domain;
+      }
+    );
+    return masked;
+  }
+  return "";
 };
 
 function TokenInput({
-  inputPhoneNumber,
+  inputEmail,
   reedeemToken,
   loading,
   error,
@@ -96,10 +100,10 @@ function TokenInput({
   };
 
   const [resendPhoneNumberToken, { loading: isResendLoading }] = useMutation(
-    RESEND_PHONE_NUMBER_TOKEN,
+    RESEND_USER_VERIFICATION_TOKEN,
     {
       variables: {
-        phoneNumber: inputPhoneNumber,
+        email: inputEmail,
       },
       onCompleted() {
         setSecondsLeft(SECONDS);
@@ -117,10 +121,9 @@ function TokenInput({
 
   return (
     <div className="token-input">
-      <h3 className="token-input__title">Подтвердите номер</h3>
+      <h3 className="token-input__title">Подтвердите почта</h3>
       <h5 className="token-input__subtitle">
-        Мы отправили 6-значный код на{" "}
-        {maskPhoneNumber(inputPhoneNumber || "79932334556")}
+        Мы отправили 6-значный код на {maskEmailAddress(inputEmail)}
       </h5>
 
       <form onSubmit={handleReedeemToken} className="token-input__form">

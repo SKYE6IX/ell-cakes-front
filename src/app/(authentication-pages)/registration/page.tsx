@@ -31,7 +31,7 @@ function RegistrationPage() {
   const { registerUser, loading } = useRegisterUserMutation({
     formState,
     onComplete() {
-      router.push("/confirm-phone");
+      router.push("/verify-user");
     },
   });
 
@@ -81,32 +81,38 @@ function RegistrationPage() {
             type="text"
             hasError={errorFeilds.includes("name")}
           />
-          <Input
-            initialValue={formState.phoneNumber}
-            name="phoneNumber"
-            placeholder="Телефон"
-            type="tel"
-            onInputChange={onInputChange}
-            hasError={errorFeilds.includes("phoneNumber")}
-          />
-          {phoneValidation?.isPhoneNumberInUse && (
-            <span className="registration__field-validation">
-              ТЕЛЕФОН используется
-            </span>
-          )}
-          <Input
-            initialValue={formState.email}
-            name="email"
-            placeholder="Почта"
-            type="email"
-            onInputChange={onInputChange}
-            hasError={errorFeilds.includes("email")}
-          />
-          {emailValidation?.isEmailInUse && (
-            <span className="registration__field-validation">
-              почта используется
-            </span>
-          )}
+          <div className="registration-form__fields-phone">
+            <Input
+              initialValue={formState.phoneNumber}
+              name="phoneNumber"
+              placeholder="Телефон"
+              type="tel"
+              onInputChange={onInputChange}
+              hasError={errorFeilds.includes("phoneNumber")}
+            />
+            {phoneValidation?.isPhoneNumberInUse && (
+              <span className="registration__field-validation">
+                ТЕЛЕФОН используется
+              </span>
+            )}
+          </div>
+
+          <div className="registration-form__fields-email">
+            <Input
+              initialValue={formState.email}
+              name="email"
+              placeholder="Почта"
+              type="email"
+              onInputChange={onInputChange}
+              hasError={errorFeilds.includes("email")}
+            />
+            {emailValidation?.isEmailInUse && (
+              <span className="registration__field-validation">
+                почта используется
+              </span>
+            )}
+          </div>
+
           <Input
             initialValue={formState.password}
             name="password"

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client/react";
 import DashboardPen from "@/components/icons/DashboardPen";
 import Address from "./Address";
@@ -28,16 +28,9 @@ export default function Dashboard() {
     phoneNumber: "",
   });
 
-  useMemo(() => {
-    if (authUser) {
-      const { name, email, phoneNumber } = authUser;
-      setUpdateProfileForm({
-        name: name!,
-        email: email!,
-        phoneNumber: phoneNumber!,
-      });
-    }
-  }, [authUser]);
+  const populatedName = authUser?.name ?? "";
+  const populatedEmail = authUser?.email ?? "";
+  const populuatePhoneNumber = authUser?.phoneNumber ?? "";
 
   const toggleAction = (action: UserDataActions) => {
     setUserDataActions((prvState) => {
@@ -129,7 +122,7 @@ export default function Dashboard() {
                       errorFeilds.includes("name") ? "error" : ""
                     }`}
                     name="name"
-                    value={updateProfileForm.name || ""}
+                    value={updateProfileForm.name || populatedName}
                     onChange={onChangeUpdateProfileInput}
                   />
                 </div>
@@ -141,7 +134,7 @@ export default function Dashboard() {
                       errorFeilds.includes("email") ? "error" : ""
                     }`}
                     name="email"
-                    value={updateProfileForm.email || ""}
+                    value={updateProfileForm.email || populatedEmail}
                     onChange={onChangeUpdateProfileInput}
                   />
                 </div>
@@ -153,7 +146,9 @@ export default function Dashboard() {
                       errorFeilds.includes("phoneNumber") ? "error" : ""
                     }`}
                     name="phoneNumber"
-                    value={updateProfileForm.phoneNumber || ""}
+                    value={
+                      updateProfileForm.phoneNumber || populuatePhoneNumber
+                    }
                     onChange={onChangeUpdateProfileInput}
                   />
                 </div>

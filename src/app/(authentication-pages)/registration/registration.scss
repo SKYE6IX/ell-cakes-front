@@ -34,14 +34,21 @@
     gap: 20px;
   }
 }
+.registration-form__fields-email,
+.registration-form__fields-phone {
+  width: 100%;
+}
 
 .registration__field-validation {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-montserrat, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 16px;
   color: $primary-accent;
   padding-left: 5px;
+  text-transform: lowercase;
+  display: inline-block;
+  margin-top: 5px;
 }
 
 .registration-form__submit-btn {

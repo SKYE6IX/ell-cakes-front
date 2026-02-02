@@ -8,19 +8,19 @@ import { validateLoginFields } from "@/utils/validations";
 import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
 import { useLoginUserMutation } from "@/hooks/useLoginUserMutation";
-import { useVerifyPhoneNumber } from "@/hooks/useVerifyPhoneNumber";
+import { useVerifyPhoneNumber } from "@/hooks/useVerifyUser";
 import Loader from "@/components/loader/Loader";
 import { User } from "@/types/__generated__/graphql";
 import "./authentication-block.scss";
 
-const RESEND_PHONE_NUMBER_TOKEN: TypedDocumentNode<
+const RESEND_USER_VERIFICATION_TOKEN: TypedDocumentNode<
   {
-    resendPhoneNumberToken: string;
+    resendUserVerificationToken: string;
   },
-  { phoneNumber: string }
+  { email: string }
 > = gql`
-  mutation ResendPhoneNumberToken($phoneNumber: String!) {
-    resendPhoneNumberToken(phoneNumber: $phoneNumber)
+  mutation ResendUserVerificationToken($email: String!) {
+    resendUserVerificationToken(email: $email)
   }
 `;
 
@@ -65,7 +65,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     });
 
   // RESEND PHONE NUMBER TOKEN
-  const [resendPhoneNumberToken] = useMutation(RESEND_PHONE_NUMBER_TOKEN);
+  const [resendUserVerificationToken] = useMutation(
+    RESEND_USER_VERIFICATION_TOKEN
+  );
 
   const {
     loading: isLoginLoading,
@@ -74,9 +76,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   } = useLoginUserMutation({
     formState: authenticationState.loginState,
     onComplete(data) {
-      if (data && !data.authorizedUser.isPhoneNumberVerified) {
-        resendPhoneNumberToken({
-          variables: { phoneNumber: data.authorizedUser.phoneNumber! },
+      if (data && !data.authorizedUser.isUserVerified) {
+        resendUserVerificationToken({
+          variables: { email: data.authorizedUser.email! },
         });
       }
     },
@@ -93,11 +95,11 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   });
 
   const {
-    reedeemPhoneToken,
+    reedeemUserVerificationToken,
     error: verifyPhoneError,
     loading: verifyPhoneLoading,
   } = useVerifyPhoneNumber({
-    phoneNumber: authUser?.phoneNumber as string,
+    email: authUser?.email as string,
     callback() {},
   });
 
@@ -200,9 +202,9 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     registerUser();
   };
 
-  // VERIFY USER BY PHONE NUMBER
+  // VERIFY USER BY EMAIL
   const reedeemConfirmPhoneNumberToken = (token: string) => {
-    reedeemPhoneToken({ variables: { token } });
+    reedeemUserVerificationToken({ variables: { token } });
   };
 
   const url = new URL("https://t.me/Ell_Cakes");
@@ -355,10 +357,10 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
       )}
 
       {/* VERIFIY USER PHONE NUMBER */}
-      {authUser && !authUser.isPhoneNumberVerified && (
+      {authUser && !authUser.isUserVerified && (
         <div className="authentication-block__register">
           <TokenInput
-            inputPhoneNumber={authUser?.phoneNumber as string}
+            inputEmail={authUser?.email as string}
             reedeemToken={reedeemConfirmPhoneNumberToken}
             error={verifyPhoneError}
             loading={verifyPhoneLoading}

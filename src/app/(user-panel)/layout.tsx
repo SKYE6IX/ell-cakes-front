@@ -8,14 +8,14 @@ import Loader from "@/components/loader/Loader";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import "./user-panel-layout.scss";
 
-const RESEND_PHONE_NUMBER_TOKEN: TypedDocumentNode<
+const RESEND_USER_VERIFICATION_TOKEN: TypedDocumentNode<
   {
-    resendPhoneNumberToken: string;
+    resendUserVerificationToken: string;
   },
-  { phoneNumber: string }
+  { email: string }
 > = gql`
-  mutation ResendPhoneNumberToken($phoneNumber: String!) {
-    resendPhoneNumberToken(phoneNumber: $phoneNumber)
+  mutation ResendUserVerificationToken($email: String!) {
+    resendUserVerificationToken(email: $email)
   }
 `;
 
@@ -28,18 +28,18 @@ function UserPanelLayout({ children }: { children: React.ReactNode }) {
   const authUser = data?.queryAuthorizedUser;
 
   const [resendPhoneNumberToken, { loading }] = useMutation(
-    RESEND_PHONE_NUMBER_TOKEN,
+    RESEND_USER_VERIFICATION_TOKEN,
     {
       variables: {
-        phoneNumber: authUser?.phoneNumber || "",
+        email: authUser?.email || "",
       },
       onCompleted() {
-        router.push("/confirm-phone");
+        router.push("/verify-user");
       },
     }
   );
 
-  if (authUser && !authUser.isPhoneNumberVerified) {
+  if (authUser && !authUser.isUserVerified) {
     return (
       <div className="user-panel-layout">
         <div className="user-panel-layout__verification">

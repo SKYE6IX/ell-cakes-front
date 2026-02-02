@@ -15,7 +15,7 @@ import "./reset-password.scss";
 
 interface IResetPasswordState {
   token: string;
-  phoneNumber: string;
+  email: string;
   password: string;
   stage: "request" | "confirm" | "reset";
 }
@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
   const [resetPasswordState, setResetPasswordState] =
     useState<IResetPasswordState>({
       token: "",
-      phoneNumber: "",
+      email: "",
       password: "",
       stage: "request",
     });
@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
     const { data } = await validatePasswordResetToken({
       variables: {
         token: token,
-        phoneNumber: resetPasswordState.phoneNumber,
+        email: resetPasswordState.email,
       },
     });
     if (data?.validatePasswordResetToken) {
@@ -62,7 +62,7 @@ export default function ResetPasswordPage() {
     requestPasswordResetToken,
     { loading: isRequestLoading, error: requestError },
   ] = useMutation(REQUEST_PASSWORD_RESET_TOKEN, {
-    variables: { phoneNumber: resetPasswordState.phoneNumber },
+    variables: { email: resetPasswordState.email },
     onCompleted(data) {
       if (data.sendPasswordResetToken) {
         setResetPasswordState((prvState) => ({
@@ -78,7 +78,7 @@ export default function ResetPasswordPage() {
     useMutation(UPDATE_PASSWORD, {
       variables: {
         token: resetPasswordState.token,
-        phoneNumber: resetPasswordState.phoneNumber,
+        email: resetPasswordState.email,
         newPassword: resetPasswordState.password,
       },
       onCompleted() {
@@ -95,7 +95,7 @@ export default function ResetPasswordPage() {
   // REQUEST PASSWORD TOKEN
   const handleRequestResetToken = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resetPasswordState.phoneNumber) {
+    if (!resetPasswordState.email) {
       return;
     }
     requestPasswordResetToken();
@@ -104,8 +104,8 @@ export default function ResetPasswordPage() {
   // UPDATE PASSOWRD!
   const handleUpdatePassword = (e: React.FormEvent) => {
     e.preventDefault();
-    const { token, phoneNumber, password } = resetPasswordState;
-    if (!token || !phoneNumber || !password) {
+    const { token, email, password } = resetPasswordState;
+    if (!token || !email || !password) {
       return;
     }
     updatePassword();
@@ -124,10 +124,10 @@ export default function ResetPasswordPage() {
                 onSubmit={handleRequestResetToken}
               >
                 <Input
-                  initialValue={resetPasswordState.phoneNumber}
-                  name="phoneNumber"
-                  placeholder="ТЕЛЕФОН"
-                  type="tel"
+                  initialValue={resetPasswordState.email}
+                  name="email"
+                  placeholder="Почта"
+                  type="email"
                   onInputChange={onInputChange}
                   hasError={false}
                 />
@@ -152,7 +152,7 @@ export default function ResetPasswordPage() {
           {/* SECOND STEP */}
           {resetPasswordState.stage === "confirm" && (
             <TokenInput
-              inputPhoneNumber={resetPasswordState.phoneNumber}
+              inputEmail={resetPasswordState.email}
               reedeemToken={reedeemPasswordResetToken}
               error={isValidateError}
               loading={isValidateLoading}

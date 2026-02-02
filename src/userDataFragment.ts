@@ -6,7 +6,7 @@ export const USER_DATA_FRAGMENT = gql`
     name
     email
     phoneNumber
-    isPhoneNumberVerified
+    isUserVerified
     delivaryAddress {
       id
       address

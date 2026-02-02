@@ -9,7 +9,7 @@ describe("Token input component", () => {
     render(
       <MockedProvider>
         <TokenInput
-          inputPhoneNumber="12345678"
+          inputEmail="test@mail.com"
           reedeemToken={() => {}}
           error={undefined}
           loading={false}
@@ -23,7 +23,7 @@ describe("Token input component", () => {
 
     // Act
     expect(componentTitle).toBeInTheDocument();
-    expect(componentTitle).toHaveTextContent("Подтвердите номер");
+    expect(componentTitle).toHaveTextContent("Подтвердите почта");
     expect(componentSubTitle).toBeInTheDocument();
   });
 
@@ -36,7 +36,7 @@ describe("Token input component", () => {
     render(
       <MockedProvider>
         <TokenInput
-          inputPhoneNumber="12345678"
+          inputEmail="test@mail.com"
           reedeemToken={() => {}}
           error={undefined}
           loading={false}

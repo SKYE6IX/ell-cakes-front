@@ -94,9 +94,12 @@ function ProductVariantSelector({
             {selectedVariant.price} ₽
           </span>
         </div>
-        <span className="product-variant-selector__serving">
-          {selectedVariant.serving} Порции
-        </span>
+
+        {selectedVariant.serving && (
+          <span className="product-variant-selector__serving">
+            {selectedVariant.serving} Порции
+          </span>
+        )}
       </div>
 
       <button

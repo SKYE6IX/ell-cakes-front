@@ -1,12 +1,12 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
 
-export const RESEND_PHONE_NUMBER_TOKEN: TypedDocumentNode<
+export const RESEND_USER_VERIFICATION_TOKEN: TypedDocumentNode<
   {
-    resendPhoneNumberToken: string;
+    resendUserVerificationToken: string;
   },
-  { phoneNumber: string }
+  { email: string }
 > = gql`
-  mutation ResendPhoneNumberToken($phoneNumber: String!) {
-    resendPhoneNumberToken(phoneNumber: $phoneNumber)
+  mutation ResendUserVerificationToken($email: String!) {
+    resendUserVerificationToken(email: $email)
   }
 `;

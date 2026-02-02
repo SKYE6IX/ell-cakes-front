@@ -3,36 +3,32 @@ import { User } from "@/types/__generated__/graphql";
 
 export const REQUEST_PASSWORD_RESET_TOKEN: TypedDocumentNode<
   { sendPasswordResetToken: string },
-  { phoneNumber: string }
+  { email: string }
 > = gql`
-  mutation SendPasswordResetToken($phoneNumber: String!) {
-    sendPasswordResetToken(phoneNumber: $phoneNumber)
+  mutation SendPasswordResetToken($email: String!) {
+    sendPasswordResetToken(email: $email)
   }
 `;
 
 export const VALIDATE_PASSWORD_RESET_TOKEN: TypedDocumentNode<
   { validatePasswordResetToken: boolean },
-  { token: string; phoneNumber: string }
+  { token: string; email: string }
 > = gql`
-  query ValidatePasswordResetToken($token: String!, $phoneNumber: String!) {
-    validatePasswordResetToken(token: $token, phoneNumber: $phoneNumber)
+  query ValidatePasswordResetToken($token: String!, $email: String!) {
+    validatePasswordResetToken(token: $token, email: $email)
   }
 `;
 
 export const UPDATE_PASSWORD: TypedDocumentNode<
   { updatePassword: User },
-  { token: string; phoneNumber: string; newPassword: string }
+  { token: string; email: string; newPassword: string }
 > = gql`
   mutation UpdatePassword(
     $token: String!
-    $phoneNumber: String!
+    $email: String!
     $newPassword: String!
   ) {
-    updatePassword(
-      token: $token
-      phoneNumber: $phoneNumber
-      newPassword: $newPassword
-    ) {
+    updatePassword(token: $token, email: $email, newPassword: $newPassword) {
       id
     }
   }

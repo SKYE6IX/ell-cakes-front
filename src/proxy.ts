@@ -13,7 +13,7 @@ export const config = {
   matcher: [
     "/dashboard",
     "/order-history",
-    "/confirm-phone",
+    "/verify-user",
     "/order/order-status",
   ],
 };
