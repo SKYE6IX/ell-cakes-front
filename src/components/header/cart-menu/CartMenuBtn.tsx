@@ -7,15 +7,17 @@ import { OrderDirection } from "@/types/__generated__/graphql";
 import "./cart-menu-btn.scss";
 
 function CartMenuBtn() {
-  const { data } = useQuery(GET_CART_QUERY, {
+  const { data, refetch } = useQuery(GET_CART_QUERY, {
     variables: {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },
   });
+
   const cart = data?.queryCart;
 
   const openCart = () => {
+    refetch();
     isCartOpenVar(true);
   };
 
