@@ -16,7 +16,7 @@ export const defaultBanner: ProductHomeBanner = {
     categories: null,
     categoriesCount: null,
     createdAt: undefined,
-    customization: null,
+    customizations: null,
     fillings: null,
     fillingsCount: null,
     id: "default-banner-product-id",
@@ -37,6 +37,7 @@ export const defaultBanner: ProductHomeBanner = {
         },
         createdAt: undefined,
         updatedAt: undefined,
+        isMain: false,
       },
       {
         id: "default-banner-image-id-2",
@@ -54,6 +55,7 @@ export const defaultBanner: ProductHomeBanner = {
         },
         createdAt: undefined,
         updatedAt: undefined,
+        isMain: false,
       },
     ],
     imagesCount: null,
@@ -66,6 +68,7 @@ export const defaultBanner: ProductHomeBanner = {
     updatedAt: undefined,
     variantType: null,
     video: null,
+    customizationsCount: null,
   },
   updatedAt: undefined,
 };
