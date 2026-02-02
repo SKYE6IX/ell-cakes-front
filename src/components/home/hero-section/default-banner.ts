@@ -28,7 +28,7 @@ export const defaultBanner: ProductHomeBanner = {
         altText: "",
         image: {
           id: "7FqLGlzXPbjoN7olp9MVtsj",
-          url: "/default-hero-images/mock-image.jpg",
+          url: "/default-hero-images/product-image-1.jpg",
           __typename: "ImageFieldOutput",
           extension: ImageExtension.Gif,
           filesize: 0,
@@ -46,7 +46,7 @@ export const defaultBanner: ProductHomeBanner = {
         product: null,
         image: {
           id: "7FqLGlzXPbjoN7olp9MVdhs",
-          url: "/default-hero-images/mock-image.jpg",
+          url: "/default-hero-images/product-image-2.jpg",
           __typename: "ImageFieldOutput",
           extension: ImageExtension.Gif,
           filesize: 0,
