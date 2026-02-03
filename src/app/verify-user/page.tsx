@@ -15,7 +15,7 @@ import {
   UserUpdateInput,
 } from "@/types/__generated__/graphql";
 import Loader from "@/components/loader/Loader";
-import "./confirm-phone.scss";
+import "./verify-user.scss";
 
 export const UPDATE_USER_PROFILE: TypedDocumentNode<
   { updateUser: User },
