@@ -78,7 +78,7 @@ function AddCustomisePhoto({
   const [addCustomizeImage, { loading }] = useMutation(ADD_CUSTOMIZE_IMAGE, {
     context: {
       headers: {
-        "apollo-require-preflight": true,
+        "apollo-require-preflight": "true",
       },
     },
 

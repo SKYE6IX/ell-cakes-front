@@ -44,7 +44,7 @@ function UserPanelLayout({ children }: { children: React.ReactNode }) {
       <div className="user-panel-layout">
         <div className="user-panel-layout__verification">
           <h4 className="user-panel-layout__verification-title">
-            Подтвердите свой номер телефона
+            Подтвердите свой Почта
           </h4>
           <button
             className="user-panel-layout__verification-btn"
