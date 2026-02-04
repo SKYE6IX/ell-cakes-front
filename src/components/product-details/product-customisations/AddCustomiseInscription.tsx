@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CloseIcon from "@/components/icons/CloseIcon";
 import { CustomiseComponentProps } from "./sharedType";
+import { ProductVariant } from "@/types/__generated__/graphql";
 import "./product-customisations.scss";
 
 function debounceFn(fn: (value: string) => void, time: number) {
@@ -13,12 +14,30 @@ function debounceFn(fn: (value: string) => void, time: number) {
   };
 }
 
+type InscriptionSizes = "SMALL" | "MEDIUM" | "LARGE";
+
+type AddCustomiseInscriptionProps = CustomiseComponentProps & {
+  selectedVariant: ProductVariant;
+};
+
 function AddCustomiseInscription({
+  selectedVariant,
   customOptions,
   dispatch,
-}: CustomiseComponentProps) {
+}: AddCustomiseInscriptionProps) {
   const [inscriptionInput, setInscriptionInput] = useState("");
   const [isAddInscription, setIsAddInscription] = useState(false);
+
+  // Reset when user change the variant
+  useEffect(() => {
+    setIsAddInscription(false);
+    setInscriptionInput("");
+  }, [selectedVariant]);
+
+  const chosenWeight = parseFloat(selectedVariant.weight as string);
+
+  const PRICE_TRACKER_BY_WEIGHT: InscriptionSizes =
+    chosenWeight >= 10 ? "LARGE" : chosenWeight >= 5 ? "MEDIUM" : "SMALL";
 
   const handleSetIsActive = () => {
     setIsAddInscription(!isAddInscription);
@@ -30,9 +49,12 @@ function AddCustomiseInscription({
 
   const optionId = customInscription?.id ?? "";
 
-  const valueId = customInscription?.customValues![0].id ?? "";
+  const optionValue = customInscription?.customValues!.find(
+    (cv) => cv.value === PRICE_TRACKER_BY_WEIGHT
+  );
 
-  const extraPrice = customInscription?.customValues![0].extraPrice ?? 0;
+  const valueId = optionValue?.id ?? "";
+  const extraPrice = optionValue?.extraPrice ?? 0;
 
   const addInscripiton = (value: string) => {
     dispatch({
@@ -78,7 +100,7 @@ function AddCustomiseInscription({
             id="inscription-input"
             className="add-customise-insription__input"
             value={inscriptionInput}
-            placeholder={`+ ${customInscription.customValues![0].extraPrice}`}
+            placeholder={`+ ${extraPrice} руб`}
             onChange={onInscriptionInputChange}
           />
           <button

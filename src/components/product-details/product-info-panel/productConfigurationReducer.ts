@@ -67,6 +67,12 @@ export function reducer(state: ProductConfiguration, action: ACTIONTYPE) {
           selectedProductVariant: action.payload,
           compositions: null,
         };
+      } else if (state.customizations?.length) {
+        return {
+          ...state,
+          selectedProductVariant: action.payload,
+          customizations: null,
+        };
       } else {
         return {
           ...state,

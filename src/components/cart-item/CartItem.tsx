@@ -148,7 +148,11 @@ function CartItem({ cartItem, mode }: CartItemProps) {
                 className="cart-item__details-customization"
               >
                 {`${getCustomizationIcon(customize.name)} 
-                ${customize.customValue?.value}`}
+                ${
+                  customize.name !== "INSCRIPTION"
+                    ? customize.customValue?.value
+                    : ""
+                }`}
               </span>
             )
           )}

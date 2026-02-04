@@ -111,6 +111,7 @@ function ProductInfoPanel({
               dispatch={dispatch}
             />
             <AddCustomiseInscription
+              selectedVariant={productConfiguration.selectedProductVariant}
               customOptions={product.customizations}
               dispatch={dispatch}
             />
