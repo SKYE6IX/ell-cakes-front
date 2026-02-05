@@ -176,7 +176,7 @@ function TokenInput({
         >
           Отправить ещё раз
           {secondsLeft > 0 &&
-            `через 00:${String(secondsLeft).padStart(2, "0")}`}
+            ` через 00:${String(secondsLeft).padStart(2, "0")}`}
         </button>
       </div>
     </div>
