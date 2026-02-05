@@ -123,10 +123,10 @@
 .footer__social-media-logo {
   margin-top: 60px;
   width: 170px;
-  height: 170px;
+  height: 50px;
   @include max-breakpoint("sm") {
     width: 150px;
-    height: 150px;
+    height: 40px;
   }
 }
 .footer__line {
