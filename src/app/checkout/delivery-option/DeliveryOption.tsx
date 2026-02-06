@@ -57,7 +57,7 @@ function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
           ].join(" ")}
           onClick={() => handleSetDelivaryOption({ key: "regular-time" })}
         >
-          Интервал доставки (с 10:00 до 16:00) - с 990 руб
+          Интервал доставки (с 10:00 до 16:00) - От 990 руб
         </li>
 
         <li className="delivery-option__list-item delivery-interval">
@@ -74,7 +74,7 @@ function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
               })
             }
           >
-            Выбрать интервал доставки - с 1290 руб
+            Выбрать интервал доставки - От 1290 руб
           </label>
           <select
             name="delivery-interval"
@@ -104,7 +104,7 @@ function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
             ].join(" ")}
             onClick={() => handleSetDelivaryOption({ key: "fixed-time" })}
           >
-            Доставка ко времени (с 9:00 до 21:00) - с 1590 руб
+            Доставка ко времени (с 9:00 до 21:00) - От 1590 руб
           </label>
           <input
             type="time"
