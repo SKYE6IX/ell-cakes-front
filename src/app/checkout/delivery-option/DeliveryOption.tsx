@@ -12,7 +12,7 @@ const deliveryTimeInterval = [
 ];
 
 type DeliveryOptionType = {
-  key: "regular-time" | "in-between-time" | "fixed-time";
+  key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
 };
 
@@ -22,7 +22,7 @@ type DeliveryAddressProps = {
 
 function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
   const [currentValue, setCurrentValue] =
-    useState<DeliveryOptionType["key"]>("regular-time");
+    useState<DeliveryOptionType["key"]>("self-pickup");
   const [selectedInterval, setSelectedInterval] = useState(
     deliveryTimeInterval[0]
   );
@@ -50,6 +50,16 @@ function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
   return (
     <div className="delivery-option">
       <ul className="delivery-option__list">
+        <li
+          className={[
+            "delivery-option__list-item",
+            currentValue === "self-pickup" ? "active" : "",
+          ].join(" ")}
+          onClick={() => handleSetDelivaryOption({ key: "self-pickup" })}
+        >
+          Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)
+        </li>
+
         <li
           className={[
             "delivery-option__list-item",

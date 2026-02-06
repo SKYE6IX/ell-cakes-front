@@ -1224,10 +1224,10 @@ export type MutationAuthorizedUserArgs = {
 
 export type MutationCheckOutArgs = {
   customerNote?: InputMaybe<Scalars['String']['input']>;
-  deliveryAddressId: Scalars['String']['input'];
+  deliveryAddressId?: InputMaybe<Scalars['String']['input']>;
   deliveryOption: Scalars['String']['input'];
   paymentMethod: Scalars['String']['input'];
-  shippingCost: Scalars['Int']['input'];
+  shippingCost?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -2338,10 +2338,6 @@ export type OrderWhereUniqueInput = {
   orderIntent?: InputMaybe<OrderIntentWhereUniqueInput>;
   orderNumber?: InputMaybe<Scalars['String']['input']>;
   payment?: InputMaybe<PaymentWhereUniqueInput>;
-};
-
-export type PasswordFilter = {
-  isSet: Scalars['Boolean']['input'];
 };
 
 export type PasswordState = {
@@ -3868,13 +3864,13 @@ export type User = {
   password: Maybe<PasswordState>;
   passwordResetIssuedAt: Maybe<Scalars['DateTime']['output']>;
   passwordResetRedeemedAt: Maybe<Scalars['DateTime']['output']>;
-  passwordResetToken: Maybe<PasswordState>;
+  passwordResetToken: Maybe<Scalars['String']['output']>;
   payments: Maybe<Array<Payment>>;
   paymentsCount: Maybe<Scalars['Int']['output']>;
   phoneNumber: Maybe<Scalars['String']['output']>;
   role: Maybe<Scalars['String']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
-  userVerificationToken: Maybe<PasswordState>;
+  userVerificationToken: Maybe<Scalars['String']['output']>;
   userVerificationTokenIssuedAt: Maybe<Scalars['DateTime']['output']>;
   userVerificationTokenRedeemedAt: Maybe<Scalars['DateTime']['output']>;
 };
@@ -3953,9 +3949,11 @@ export type UserOrderByInput = {
   name?: InputMaybe<OrderDirection>;
   passwordResetIssuedAt?: InputMaybe<OrderDirection>;
   passwordResetRedeemedAt?: InputMaybe<OrderDirection>;
+  passwordResetToken?: InputMaybe<OrderDirection>;
   phoneNumber?: InputMaybe<OrderDirection>;
   role?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
+  userVerificationToken?: InputMaybe<OrderDirection>;
   userVerificationTokenIssuedAt?: InputMaybe<OrderDirection>;
   userVerificationTokenRedeemedAt?: InputMaybe<OrderDirection>;
 };
@@ -4015,12 +4013,12 @@ export type UserWhereInput = {
   orders?: InputMaybe<OrderManyRelationFilter>;
   passwordResetIssuedAt?: InputMaybe<DateTimeNullableFilter>;
   passwordResetRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
-  passwordResetToken?: InputMaybe<PasswordFilter>;
+  passwordResetToken?: InputMaybe<StringNullableFilter>;
   payments?: InputMaybe<PaymentManyRelationFilter>;
   phoneNumber?: InputMaybe<StringFilter>;
   role?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeNullableFilter>;
-  userVerificationToken?: InputMaybe<PasswordFilter>;
+  userVerificationToken?: InputMaybe<StringNullableFilter>;
   userVerificationTokenIssuedAt?: InputMaybe<DateTimeNullableFilter>;
   userVerificationTokenRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
 };
@@ -4071,7 +4069,7 @@ export type UpdateDelivaryAddressMutation = { updateDelivaryAddress: { __typenam
 
 export type CheckOutMutationVariables = Exact<{
   deliveryAddressId: Scalars['String']['input'];
-  shippingCost: Scalars['Int']['input'];
+  shippingCost?: InputMaybe<Scalars['Int']['input']>;
   paymentMethod: Scalars['String']['input'];
   customerNote?: InputMaybe<Scalars['String']['input']>;
   deliveryOption: Scalars['String']['input'];

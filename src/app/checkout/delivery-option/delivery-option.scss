@@ -23,6 +23,7 @@
 }
 
 .delivery-option__list-item:nth-child(1)::before,
+.delivery-option__list-item:nth-child(2)::before,
 .delivery-interval__label::before,
 .delivery-time__label::before {
   content: " ";
@@ -37,6 +38,7 @@
 }
 
 .delivery-option__list-item.active:nth-child(1)::before,
+.delivery-option__list-item.active:nth-child(2)::before,
 .delivery-interval__label.active::before,
 .delivery-time__label.active::before {
   background-color: $primary;

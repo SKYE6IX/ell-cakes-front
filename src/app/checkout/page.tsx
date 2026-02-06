@@ -24,12 +24,14 @@ import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
+
 type DeliveryOptionType = {
-  key: "regular-time" | "in-between-time" | "fixed-time";
+  key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
 };
 
 type PaymentMethodId = "bank_card" | "sbp" | "tinkoff_bank" | "sberbank";
+
 interface CheckoutState {
   paymentMethod: PaymentMethodId;
   deliveryOption: string;
@@ -67,7 +69,7 @@ function Checkout() {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
     deliveryCost: 0,
-    initialZonePrice: 990,
+    initialZonePrice: 0,
     customerComment: "",
     modalAddress: {
       show: false,
@@ -94,7 +96,10 @@ function Checkout() {
 
   // Check for address delivary and calculate the price
   useEffect(() => {
-    if (!authUser?.delivaryAddress?.address) {
+    if (
+      !authUser?.delivaryAddress?.address ||
+      checkoutState.initialZonePrice == 0
+    ) {
       setCheckoutState((prvState) => ({
         ...prvState,
         deliveryCost: 0,
@@ -115,6 +120,7 @@ function Checkout() {
         }));
         return;
       }
+
       const ROUTE_END: [number, number] = [lng, lat];
 
       const { price } = calculateDeliveryPrice(
@@ -126,6 +132,7 @@ function Checkout() {
         deliveryCost: price,
       }));
     };
+
     calculate();
   }, [authUser, checkoutState.initialZonePrice]);
 
@@ -189,8 +196,9 @@ function Checkout() {
       default:
         setCheckoutState((prvState) => ({
           ...prvState,
-          initialZonePrice: 990,
-          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
+          initialZonePrice: 0,
+          deliveryOption:
+            "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
         }));
     }
   };
@@ -216,12 +224,12 @@ function Checkout() {
     },
   });
 
-  const isCheckout = canCheckout(
-    authUser?.id,
-    authUser?.delivaryAddress?.id,
-    checkoutState.deliveryCost,
-    checkoutState.paymentMethod
-  );
+  const isCheckout = canCheckout({
+    userId: authUser?.id,
+    deliveryZonePrice: checkoutState.initialZonePrice,
+    deliveryAddressId: authUser?.delivaryAddress?.id,
+    paymentMethod: checkoutState.paymentMethod,
+  });
 
   if (!cart) return <CartEmpty />;
 
