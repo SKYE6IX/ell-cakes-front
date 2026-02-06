@@ -62,7 +62,7 @@ function AddTopping({ toppingOptions, dispatch }: AddToppingProps) {
             ].join(" ")}
             onClick={removeTopping}
           >
-            ничто
+            без добавления
           </li>
 
           {toppingOptions.map((option) => (
