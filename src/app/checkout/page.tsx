@@ -69,7 +69,7 @@ function Checkout() {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
     deliveryCost: 0,
-    initialZonePrice: 0,
+    initialZonePrice: 990,
     customerComment: "",
     modalAddress: {
       show: false,
@@ -193,12 +193,19 @@ function Checkout() {
           deliveryOption: `Доставка ко времени(${chosenTime})`,
         }));
         break;
-      default:
+      case "self-pickup":
         setCheckoutState((prvState) => ({
           ...prvState,
           initialZonePrice: 0,
           deliveryOption:
             "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
+        }));
+        break;
+      default:
+        setCheckoutState((prvState) => ({
+          ...prvState,
+          initialZonePrice: 990,
+          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
         }));
     }
   };

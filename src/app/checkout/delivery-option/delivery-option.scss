@@ -1,8 +1,6 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/shared-styles" as *;
 
-.delivery-option {
-}
 .delivery-option__list {
   list-style: none;
   @include flex-layout(column, none, none, 10px);
