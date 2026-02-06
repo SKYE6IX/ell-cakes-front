@@ -31,7 +31,7 @@ async function Header() {
         <div className="header__site-icon">
           <Link href="/">
             <Image
-              src="/app-logo.png" 
+              src="/app-logo.png"
               width={98}
               height={63}
               alt="Site Icon"
