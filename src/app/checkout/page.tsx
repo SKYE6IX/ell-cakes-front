@@ -194,7 +194,7 @@ function Checkout() {
                     onClick={() =>
                       dispatch({
                         type: "manage_address_modal",
-                        payload: "create",
+                        payload: "update",
                       })
                     }
                   >
@@ -214,7 +214,7 @@ function Checkout() {
                     onClick={() =>
                       dispatch({
                         type: "manage_address_modal",
-                        payload: "update",
+                        payload: "create",
                       })
                     }
                   >
