@@ -18,7 +18,6 @@ export function canCheckout({
     return true;
     // If useer pick diffrent option for delively that include a price
   }
-
   if (!isDeliveryPickUp && deliveryAddressId && userId && paymentMethod) {
     return true;
   }

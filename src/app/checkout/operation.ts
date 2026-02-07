@@ -1,22 +1,24 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
-import { Payment } from "@/types/__generated__/graphql";
+import { Payment, OrderReceiverInput } from "@/types/__generated__/graphql";
 
 export const CHECKOUT_ORDER: TypedDocumentNode<
   { checkOut: Payment },
   {
     deliveryAddressId?: string;
-    shippingCost?: number;
-    paymentMethod: string;
     customerNote?: string;
+    orderReceiver?: OrderReceiverInput;
+    shippingCost: number;
+    paymentMethod: string;
     deliveryOption: string;
   }
 > = gql`
   mutation CheckOut(
     $deliveryAddressId: String
-    $shippingCost: Int
+    $shippingCost: Int!
     $paymentMethod: String!
     $customerNote: String
     $deliveryOption: String!
+    $orderReceiver: OrderReceiverInput
   ) {
     checkOut(
       deliveryAddressId: $deliveryAddressId
@@ -24,6 +26,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
       paymentMethod: $paymentMethod
       customerNote: $customerNote
       deliveryOption: $deliveryOption
+      orderReceiver: $orderReceiver
     ) {
       id
       redirectUrl

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,38 +12,20 @@ import CartItem from "@/components/cart-item/CartItem";
 import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
 import DeliveryOption from "./delivery-option/DeliveryOption";
+import OrderReceiver from "./order-receiver/OrderReceiver";
 import CartEmpty from "./CartEmpty";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { calculateDeliveryPrice, getCoordinate } from "@/lib/y-map-common";
 import { canCheckout } from "./canCheckout";
+import { checkoutReducer, PaymentMethodId } from "./checkoutReducer";
 import spbIcon from "./sbp-icon.png";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
-
-type DeliveryOptionType = {
-  key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
-  chosenTime?: string;
-};
-
-type PaymentMethodId = "bank_card" | "sbp" | "tinkoff_bank" | "sberbank";
-
-interface CheckoutState {
-  paymentMethod: PaymentMethodId;
-  deliveryOption: string;
-  deliveryCost: number;
-  initialZonePrice: number;
-  customerComment: string;
-  modalAddress: {
-    show: boolean;
-    action: "create" | "update";
-  };
-}
-
 const paymentMethods = [
   {
     id: "bank_card",
@@ -65,15 +47,19 @@ const paymentMethods = [
 function Checkout() {
   const router = useRouter();
 
-  const [checkoutState, setCheckoutState] = useState<CheckoutState>({
+  const [checkoutState, dispatch] = useReducer(checkoutReducer, {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
     deliveryCost: 0,
     initialZonePrice: 990,
     customerComment: "",
+    orderReceiver: {
+      name: "",
+      phoneNumber: "",
+    },
     modalAddress: {
       show: false,
-      action: "create",
+      mutationType: "create",
     },
   });
 
@@ -88,11 +74,18 @@ function Checkout() {
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },
   });
+
   const cart = cartResult?.queryCart;
 
   // CALCULATE ORDER TOTAL AMOUNT
   const subTotal = cart?.subTotal ?? 0;
   const orderTotalAmount = subTotal + checkoutState.deliveryCost;
+
+  // Derives the order receiver data
+  const orderReceiverData =
+    checkoutState.orderReceiver.name && checkoutState.orderReceiver.name
+      ? checkoutState.orderReceiver
+      : undefined;
 
   // Check for address delivary and calculate the price
   useEffect(() => {
@@ -100,114 +93,33 @@ function Checkout() {
       !authUser?.delivaryAddress?.address ||
       checkoutState.initialZonePrice == 0
     ) {
-      setCheckoutState((prvState) => ({
-        ...prvState,
-        deliveryCost: 0,
-      }));
+      dispatch({ type: "manage_delivery_cost", payload: 0 });
       return;
     }
 
     const { delivaryAddress } = authUser;
-
     const calculate = async () => {
       const coord = await getCoordinate(delivaryAddress.address!);
       const lng = coord?.geometry?.coordinates[0];
       const lat = coord?.geometry?.coordinates[1];
       if (!lng || !lat) {
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          deliveryCost: 0,
-        }));
+        dispatch({ type: "manage_delivery_cost", payload: 0 });
         return;
       }
-
       const ROUTE_END: [number, number] = [lng, lat];
-
       const { price } = calculateDeliveryPrice(
         ROUTE_END,
         checkoutState.initialZonePrice
       );
-      setCheckoutState((prvState) => ({
-        ...prvState,
-        deliveryCost: price,
-      }));
+      dispatch({ type: "manage_delivery_cost", payload: price });
     };
 
     calculate();
   }, [authUser, checkoutState.initialZonePrice]);
 
-  const setModalAddresss = (action: "create" | "update") => {
-    setCheckoutState((prvState) => ({
-      ...prvState,
-      modalAddress: {
-        show: !prvState.modalAddress.show,
-        action,
-      },
-    }));
-  };
-
-  const closeModal = () => {
-    setCheckoutState((prvState) => ({
-      ...prvState,
-      modalAddress: {
-        show: !prvState.modalAddress.show,
-        action: "create",
-      },
-    }));
-  };
-
+  // ON INPUT CHANGE FOR CLIENT COMMENT
   const onInputChange = ({ value }: { name: string; value: string }) => {
-    setCheckoutState((prvState) => ({ ...prvState, customerComment: value }));
-  };
-
-  const setPaymentMethod = (paymentMethod: string) => {
-    setCheckoutState((prvState) => ({
-      ...prvState,
-      paymentMethod: paymentMethod as PaymentMethodId,
-    }));
-  };
-
-  const handleOnDeliveryOptionSet = ({
-    key,
-    chosenTime,
-  }: DeliveryOptionType) => {
-    switch (key as DeliveryOptionType["key"]) {
-      case "regular-time":
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          initialZonePrice: 990,
-          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
-        }));
-        break;
-      case "in-between-time":
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          initialZonePrice: 1290,
-          deliveryOption: `Выбрать интервал доставки (${chosenTime})`,
-        }));
-        break;
-      case "fixed-time":
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          initialZonePrice: 1590,
-          deliveryOption: `Доставка ко времени(${chosenTime})`,
-        }));
-        break;
-      case "self-pickup":
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          initialZonePrice: 0,
-          deliveryOption:
-            "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
-        }));
-        break;
-      default:
-        setCheckoutState((prvState) => ({
-          ...prvState,
-          initialZonePrice: 990,
-          deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
-        }));
-    }
+    dispatch({ type: "manage_client_comment_input", payload: value });
   };
 
   //CHECKOUT MUTATION
@@ -218,7 +130,9 @@ function Checkout() {
       paymentMethod: checkoutState.paymentMethod,
       customerNote: checkoutState.customerComment,
       deliveryOption: checkoutState.deliveryOption,
+      orderReceiver: orderReceiverData,
     },
+
     onCompleted(data) {
       const paymentUrl = data.checkOut.redirectUrl!;
       const confirmationUrl = data.checkOut.confirmationUrl!;
@@ -239,7 +153,6 @@ function Checkout() {
   });
 
   if (!cart) return <CartEmpty />;
-
   return (
     <div className="checkout">
       {/* CURRENT AUTHORIZED USER DETAILS*/}
@@ -264,39 +177,54 @@ function Checkout() {
               </div>
             </section>
 
+            <section className="user-info__section comment">
+              <h3 className="user-info__section-title">2. Заказ в подарок</h3>
+              <OrderReceiver dispatch={dispatch} />
+            </section>
+
             <section className="user-info__section address">
-              <h3 className="user-info__section-title">2. Адрес</h3>
-              {authUser.delivaryAddress && authUser.delivaryAddress ? (
+              <h3 className="user-info__section-title">3. Адрес</h3>
+              {authUser.delivaryAddress ? (
                 <>
                   <p className="user-info__section-address-text">
                     {authUser.delivaryAddress.address}
                   </p>
                   <button
                     className="user-info__add-address-btn"
-                    onClick={() => setModalAddresss("update")}
+                    onClick={() =>
+                      dispatch({
+                        type: "manage_address_modal",
+                        payload: "create",
+                      })
+                    }
                   >
                     Изменить адрес
                   </button>
                   <DeliveryAddress
                     showModalAddress={checkoutState.modalAddress.show}
-                    closeModal={closeModal}
-                    action={checkoutState.modalAddress.action}
+                    mutationType={checkoutState.modalAddress.mutationType}
                     authUser={authUser}
+                    dispatch={dispatch}
                   />
                 </>
               ) : (
                 <>
                   <button
                     className="user-info__add-address-btn"
-                    onClick={() => setModalAddresss("create")}
+                    onClick={() =>
+                      dispatch({
+                        type: "manage_address_modal",
+                        payload: "update",
+                      })
+                    }
                   >
                     Добавить адрес
                   </button>
                   <DeliveryAddress
                     showModalAddress={checkoutState.modalAddress.show}
-                    closeModal={closeModal}
-                    action={checkoutState.modalAddress.action}
+                    mutationType={checkoutState.modalAddress.mutationType}
                     authUser={authUser}
+                    dispatch={dispatch}
                   />
                 </>
               )}
@@ -304,14 +232,14 @@ function Checkout() {
 
             <section className="user-info__section comment">
               <h3 className="user-info__section-title">
-                3. Выберите время доставки
+                4. Выберите время доставки
               </h3>
-              <DeliveryOption onDeliveryOptionSet={handleOnDeliveryOptionSet} />
+              <DeliveryOption dispatch={dispatch} />
             </section>
 
             <section className="user-info__section comment">
               <h3 className="user-info__section-title">
-                4. Пожелания к заказу
+                5. Пожелания к заказу
               </h3>
               <Input
                 name="comment"
@@ -324,7 +252,7 @@ function Checkout() {
             </section>
 
             <section className="user-info__section payment-method">
-              <h3 className="user-info__section-title">5. Способы оплаты</h3>
+              <h3 className="user-info__section-title">6. Способы оплаты</h3>
               <ul className="user-info__section-payment-method-list">
                 {paymentMethods.map((method) => (
                   <li
@@ -334,7 +262,12 @@ function Checkout() {
                         ? "selected"
                         : ""
                     }`}
-                    onClick={() => setPaymentMethod(method.id)}
+                    onClick={() =>
+                      dispatch({
+                        type: "add_payment_method",
+                        payload: method.id as PaymentMethodId,
+                      })
+                    }
                   >
                     <div className="user-info__section-payment-method-icon">
                       <method.logo />
@@ -348,7 +281,9 @@ function Checkout() {
                   className={`user-info__section-payment-method-item ${
                     checkoutState.paymentMethod === "sbp" ? "selected" : ""
                   }`}
-                  onClick={() => setPaymentMethod("sbp")}
+                  onClick={() =>
+                    dispatch({ type: "add_payment_method", payload: "sbp" })
+                  }
                 >
                   <div className="user-info__section-payment-method-icon">
                     <Image

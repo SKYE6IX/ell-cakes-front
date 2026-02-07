@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
+import { ACTIONTYPE } from "../checkoutReducer";
 import "./delivery-option.scss";
 
 const deliveryTimeInterval = [
@@ -17,27 +18,55 @@ type DeliveryOptionType = {
 };
 
 type DeliveryAddressProps = {
-  onDeliveryOptionSet: ({ key, chosenTime }: DeliveryOptionType) => void;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
 
-function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
+function DeliveryOption({ dispatch }: DeliveryAddressProps) {
   const [currentValue, setCurrentValue] =
     useState<DeliveryOptionType["key"]>("regular-time");
+
   const [selectedInterval, setSelectedInterval] = useState(
     deliveryTimeInterval[0]
   );
-
   const [fixedTime, setFixedTime] = useState("");
 
   const handleSetDelivaryOption = ({ key, chosenTime }: DeliveryOptionType) => {
     setCurrentValue(key);
-    onDeliveryOptionSet({ key, chosenTime });
-  };
 
-  const handleOnFixedTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setFixedTime(value);
-    onDeliveryOptionSet({ key: "fixed-time", chosenTime: value });
+    if (key === "regular-time") {
+      dispatch({
+        type: "manage_delivery_option",
+        payload: {
+          zonePrice: 990,
+          option: "Интервал доставки (с 10:00 до 16:00)",
+        },
+      });
+    } else if (key === "in-between-time") {
+      dispatch({
+        type: "manage_delivery_option",
+        payload: {
+          zonePrice: 1290,
+          option: `Выбрать интервал доставки (${chosenTime})`,
+        },
+      });
+    } else if (key === "fixed-time") {
+      dispatch({
+        type: "manage_delivery_option",
+        payload: {
+          zonePrice: 1590,
+          option: `Доставка ко времени(${chosenTime})`,
+        },
+      });
+    } else if (key === "self-pickup") {
+      dispatch({
+        type: "manage_delivery_option",
+        payload: {
+          zonePrice: 0,
+          option:
+            "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
+        },
+      });
+    }
   };
 
   const handleOnSelectedIntervalChangeChange = (
@@ -45,7 +74,28 @@ function DeliveryOption({ onDeliveryOptionSet }: DeliveryAddressProps) {
   ) => {
     const { value } = e.target;
     setSelectedInterval(value);
-    onDeliveryOptionSet({ key: "in-between-time", chosenTime: value });
+
+    // Reuse for when user select a different value from the default
+    dispatch({
+      type: "manage_delivery_option",
+      payload: {
+        zonePrice: 1290,
+        option: `Выбрать интервал доставки (${value})`,
+      },
+    });
+  };
+
+  const handleOnFixedTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFixedTime(value);
+    // Reuse for when user select a different value from the default
+    dispatch({
+      type: "manage_delivery_option",
+      payload: {
+        zonePrice: 1590,
+        option: `Доставка ко времени(${value})`,
+      },
+    });
   };
 
   return (

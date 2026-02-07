@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import Input from "@/components/input/Input";
 import Modal from "@/components/modal/Modal";
 import { User } from "@/types/__generated__/graphql";
 import YandexMapAddress from "@/components/yandex-address/YandexMapAddress";
 import { useCreateDeliveryAddress, useUpdateDeliveryAddress } from "./actions";
 import { isValidAddress } from "@/lib/y-map-common";
+import { ACTIONTYPE } from "../checkoutReducer";
 import "./delivery-address.scss";
 
 type DeliveryAddressProps = {
   showModalAddress: boolean;
-  closeModal: () => void;
-  action: "create" | "update";
+  mutationType: "create" | "update";
   authUser: User | null | undefined;
+  dispatch: Dispatch<ACTIONTYPE>;
 };
 
 const initialValue = {
@@ -23,12 +24,16 @@ const initialValue = {
 
 function DeliveryAddress({
   showModalAddress,
-  closeModal,
-  action,
+  mutationType,
   authUser,
+  dispatch,
 }: DeliveryAddressProps) {
   const [formState, setFormState] = useState(initialValue);
   const [isAddressError, setIsAddressError] = useState(false);
+
+  const closeModal = () => {
+    dispatch({ type: "manage_address_modal", payload: "create" });
+  };
 
   const { createDelivaryAddress, loading: createLoading } =
     useCreateDeliveryAddress({
@@ -52,9 +57,9 @@ function DeliveryAddress({
       return;
     }
 
-    if (action === "create") {
+    if (mutationType === "create") {
       createDelivaryAddress();
-    } else if (action === "update") {
+    } else if (mutationType === "update") {
       updateDelivaryAddress();
     }
   };
