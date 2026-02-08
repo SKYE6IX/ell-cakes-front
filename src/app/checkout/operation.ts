@@ -10,6 +10,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
     shippingCost: number;
     paymentMethod: string;
     deliveryOption: string;
+    deliveryDate: string;
   }
 > = gql`
   mutation CheckOut(
@@ -19,6 +20,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
     $customerNote: String
     $deliveryOption: String!
     $orderReceiver: OrderReceiverInput
+    $deliveryDate: DateTime!
   ) {
     checkOut(
       deliveryAddressId: $deliveryAddressId
@@ -27,6 +29,7 @@ export const CHECKOUT_ORDER: TypedDocumentNode<
       customerNote: $customerNote
       deliveryOption: $deliveryOption
       orderReceiver: $orderReceiver
+      deliveryDate: $deliveryDate
     ) {
       id
       redirectUrl

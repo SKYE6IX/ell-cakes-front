@@ -1231,6 +1231,7 @@ export type MutationAuthorizedUserArgs = {
 export type MutationCheckOutArgs = {
   customerNote?: InputMaybe<Scalars['String']['input']>;
   deliveryAddressId?: InputMaybe<Scalars['String']['input']>;
+  deliveryDate: Scalars['DateTime']['input'];
   deliveryOption: Scalars['String']['input'];
   orderReceiver?: InputMaybe<OrderReceiverInput>;
   paymentMethod: Scalars['String']['input'];
@@ -2026,6 +2027,7 @@ export type Order = {
   __typename: 'Order';
   createdAt: Maybe<Scalars['DateTime']['output']>;
   deliveryAddress: Maybe<DelivaryAddress>;
+  deliveryDate: Maybe<Scalars['DateTime']['output']>;
   deliveryOption: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   note: Maybe<Scalars['String']['output']>;
@@ -2042,6 +2044,7 @@ export type Order = {
   totalAmount: Maybe<Scalars['Int']['output']>;
   updatedAt: Maybe<Scalars['DateTime']['output']>;
   user: Maybe<User>;
+  virtualDeliveryDate: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -2061,6 +2064,7 @@ export type OrderOrderItemsCountArgs = {
 export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
+  deliveryDate?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryOption?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderIntent?: InputMaybe<OrderIntentRelateToOneForCreateInput>;
@@ -2086,6 +2090,7 @@ export type OrderIntent = {
   cart: Maybe<Cart>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
   deliveryAddress: Maybe<DelivaryAddress>;
+  deliveryDate: Maybe<Scalars['DateTime']['output']>;
   deliveryOption: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   intentId: Maybe<Scalars['String']['output']>;
@@ -2105,6 +2110,7 @@ export type OrderIntentCreateInput = {
   cart?: InputMaybe<CartRelateToOneForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForCreateInput>;
+  deliveryDate?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryOption?: InputMaybe<Scalars['String']['input']>;
   intentId?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
@@ -2121,6 +2127,7 @@ export type OrderIntentCreateInput = {
 
 export type OrderIntentOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
+  deliveryDate?: InputMaybe<OrderDirection>;
   deliveryOption?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   intentId?: InputMaybe<OrderDirection>;
@@ -2153,6 +2160,7 @@ export type OrderIntentUpdateInput = {
   cart?: InputMaybe<CartRelateToOneForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
+  deliveryDate?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryOption?: InputMaybe<Scalars['String']['input']>;
   intentId?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
@@ -2174,6 +2182,7 @@ export type OrderIntentWhereInput = {
   cart?: InputMaybe<CartWhereInput>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   deliveryAddress?: InputMaybe<DelivaryAddressWhereInput>;
+  deliveryDate?: InputMaybe<DateTimeNullableFilter>;
   deliveryOption?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   intentId?: InputMaybe<StringFilter>;
@@ -2300,6 +2309,7 @@ export type OrderManyRelationFilter = {
 
 export type OrderOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
+  deliveryDate?: InputMaybe<OrderDirection>;
   deliveryOption?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   note?: InputMaybe<OrderDirection>;
@@ -2313,6 +2323,7 @@ export type OrderOrderByInput = {
 
 export type OrderReceiver = {
   __typename: 'OrderReceiver';
+  benefactor: Maybe<User>;
   createdAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   name: Maybe<Scalars['String']['output']>;
@@ -2322,6 +2333,7 @@ export type OrderReceiver = {
 };
 
 export type OrderReceiverCreateInput = {
+  benefactor?: InputMaybe<UserRelateToOneForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToOneForCreateInput>;
@@ -2334,12 +2346,30 @@ export type OrderReceiverInput = {
   phoneNumber: Scalars['String']['input'];
 };
 
+export type OrderReceiverManyRelationFilter = {
+  every?: InputMaybe<OrderReceiverWhereInput>;
+  none?: InputMaybe<OrderReceiverWhereInput>;
+  some?: InputMaybe<OrderReceiverWhereInput>;
+};
+
 export type OrderReceiverOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   phoneNumber?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
+};
+
+export type OrderReceiverRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<OrderReceiverWhereUniqueInput>>;
+  create?: InputMaybe<Array<OrderReceiverCreateInput>>;
+};
+
+export type OrderReceiverRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<OrderReceiverWhereUniqueInput>>;
+  create?: InputMaybe<Array<OrderReceiverCreateInput>>;
+  disconnect?: InputMaybe<Array<OrderReceiverWhereUniqueInput>>;
+  set?: InputMaybe<Array<OrderReceiverWhereUniqueInput>>;
 };
 
 export type OrderReceiverRelateToOneForCreateInput = {
@@ -2359,6 +2389,7 @@ export type OrderReceiverUpdateArgs = {
 };
 
 export type OrderReceiverUpdateInput = {
+  benefactor?: InputMaybe<UserRelateToOneForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToOneForUpdateInput>;
@@ -2370,6 +2401,7 @@ export type OrderReceiverWhereInput = {
   AND?: InputMaybe<Array<OrderReceiverWhereInput>>;
   NOT?: InputMaybe<Array<OrderReceiverWhereInput>>;
   OR?: InputMaybe<Array<OrderReceiverWhereInput>>;
+  benefactor?: InputMaybe<UserWhereInput>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringFilter>;
@@ -2414,6 +2446,7 @@ export type OrderUpdateArgs = {
 export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryAddress?: InputMaybe<DelivaryAddressRelateToOneForUpdateInput>;
+  deliveryDate?: InputMaybe<Scalars['DateTime']['input']>;
   deliveryOption?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderIntent?: InputMaybe<OrderIntentRelateToOneForUpdateInput>;
@@ -2435,6 +2468,7 @@ export type OrderWhereInput = {
   OR?: InputMaybe<Array<OrderWhereInput>>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   deliveryAddress?: InputMaybe<DelivaryAddressWhereInput>;
+  deliveryDate?: InputMaybe<DateTimeNullableFilter>;
   deliveryOption?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   note?: InputMaybe<StringFilter>;
@@ -2596,6 +2630,7 @@ export type Product = {
   isAvailable: Maybe<Scalars['Boolean']['output']>;
   mixBoxProduct: Maybe<MixBoxProduct>;
   name: Maybe<Scalars['String']['output']>;
+  preparationDays: Maybe<Scalars['Int']['output']>;
   slug: Maybe<Scalars['String']['output']>;
   topping: Maybe<Topping>;
   type: Maybe<Scalars['String']['output']>;
@@ -2671,6 +2706,7 @@ export type ProductCreateInput = {
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   mixBoxProduct?: InputMaybe<MixBoxProductRelateToOneForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
+  preparationDays?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   topping?: InputMaybe<ToppingRelateToOneForCreateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
@@ -2975,6 +3011,7 @@ export type ProductOrderByInput = {
   id?: InputMaybe<OrderDirection>;
   isAvailable?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
+  preparationDays?: InputMaybe<OrderDirection>;
   slug?: InputMaybe<OrderDirection>;
   type?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
@@ -3020,6 +3057,7 @@ export type ProductUpdateInput = {
   isAvailable?: InputMaybe<Scalars['Boolean']['input']>;
   mixBoxProduct?: InputMaybe<MixBoxProductRelateToOneForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
+  preparationDays?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   topping?: InputMaybe<ToppingRelateToOneForUpdateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
@@ -3202,6 +3240,7 @@ export type ProductWhereInput = {
   isAvailable?: InputMaybe<BooleanFilter>;
   mixBoxProduct?: InputMaybe<MixBoxProductWhereInput>;
   name?: InputMaybe<StringFilter>;
+  preparationDays?: InputMaybe<IntNullableFilter>;
   slug?: InputMaybe<StringFilter>;
   topping?: InputMaybe<ToppingWhereInput>;
   type?: InputMaybe<StringFilter>;
@@ -4000,6 +4039,8 @@ export type User = {
   isUserVerified: Maybe<Scalars['Boolean']['output']>;
   lastLogin: Maybe<Scalars['DateTime']['output']>;
   name: Maybe<Scalars['String']['output']>;
+  orderBeneficiaries: Maybe<Array<OrderReceiver>>;
+  orderBeneficiariesCount: Maybe<Scalars['Int']['output']>;
   orders: Maybe<Array<Order>>;
   ordersCount: Maybe<Scalars['Int']['output']>;
   password: Maybe<PasswordState>;
@@ -4014,6 +4055,20 @@ export type User = {
   userVerificationToken: Maybe<Scalars['String']['output']>;
   userVerificationTokenIssuedAt: Maybe<Scalars['DateTime']['output']>;
   userVerificationTokenRedeemedAt: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type UserOrderBeneficiariesArgs = {
+  cursor?: InputMaybe<OrderReceiverWhereUniqueInput>;
+  orderBy?: Array<OrderReceiverOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: OrderReceiverWhereInput;
+};
+
+
+export type UserOrderBeneficiariesCountArgs = {
+  where?: OrderReceiverWhereInput;
 };
 
 
@@ -4066,6 +4121,7 @@ export type UserCreateInput = {
   isUserVerified?: InputMaybe<Scalars['Boolean']['input']>;
   lastLogin?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  orderBeneficiaries?: InputMaybe<OrderReceiverRelateToManyForCreateInput>;
   orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4124,6 +4180,7 @@ export type UserUpdateInput = {
   isUserVerified?: InputMaybe<Scalars['Boolean']['input']>;
   lastLogin?: InputMaybe<Scalars['DateTime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  orderBeneficiaries?: InputMaybe<OrderReceiverRelateToManyForUpdateInput>;
   orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4151,6 +4208,7 @@ export type UserWhereInput = {
   isUserVerified?: InputMaybe<BooleanFilter>;
   lastLogin?: InputMaybe<DateTimeNullableFilter>;
   name?: InputMaybe<StringFilter>;
+  orderBeneficiaries?: InputMaybe<OrderReceiverManyRelationFilter>;
   orders?: InputMaybe<OrderManyRelationFilter>;
   passwordResetIssuedAt?: InputMaybe<DateTimeNullableFilter>;
   passwordResetRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
@@ -4215,6 +4273,7 @@ export type CheckOutMutationVariables = Exact<{
   customerNote?: InputMaybe<Scalars['String']['input']>;
   deliveryOption: Scalars['String']['input'];
   orderReceiver?: InputMaybe<OrderReceiverInput>;
+  deliveryDate: Scalars['DateTime']['input'];
 }>;
 
 

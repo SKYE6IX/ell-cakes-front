@@ -50,6 +50,7 @@ function Checkout() {
   const [checkoutState, dispatch] = useReducer(checkoutReducer, {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
+    deliveryDate: "",
     deliveryCost: 0,
     initialZonePrice: 990,
     customerComment: "",
@@ -131,6 +132,7 @@ function Checkout() {
       customerNote: checkoutState.customerComment,
       deliveryOption: checkoutState.deliveryOption,
       orderReceiver: orderReceiverData,
+      deliveryDate: checkoutState.deliveryDate,
     },
 
     onCompleted(data) {

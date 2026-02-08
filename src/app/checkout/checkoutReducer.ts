@@ -37,12 +37,17 @@ export type ACTIONTYPE =
     }
   | {
       type: "remove_order_receiver";
+    }
+  | {
+      type: "add_delivery_date";
+      payload: string;
     };
 
 interface CheckoutState {
   paymentMethod: PaymentMethodId;
   deliveryOption: string;
   deliveryCost: number;
+  deliveryDate: string;
   initialZonePrice: number;
   customerComment: string;
   orderReceiver: OrderReceiverInput;
@@ -107,6 +112,12 @@ export function checkoutReducer(
           name: "",
           phoneNumber: "",
         },
+      };
+
+    case "add_delivery_date":
+      return {
+        ...state,
+        deliveryDate: action.payload,
       };
   }
 }
