@@ -26,6 +26,9 @@ import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
+// 2. Re write the verification before user checkout.
+// some fields are not required, and some field are required based on user selections
+
 const paymentMethods = [
   {
     id: "bank_card",
