@@ -1,14 +1,17 @@
 "use client";
 import React, { Dispatch, useState, useRef } from "react";
 import { ACTIONTYPE } from "../checkoutReducer";
+import { Cart } from "@/types/__generated__/graphql";
 import "./delivery-option.scss";
 
 type DeliveryOptionType = {
   key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
 };
+
 type DeliveryAddressProps = {
   dispatch: Dispatch<ACTIONTYPE>;
+  cart: Cart;
 };
 
 const deliveryTimeInterval = [
@@ -29,7 +32,7 @@ function getFutureDate(daysToAdd: number) {
   return `${year}-${month}-${day}`;
 }
 
-function DeliveryOption({ dispatch }: DeliveryAddressProps) {
+function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
   const dateInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
 
@@ -130,6 +133,12 @@ function DeliveryOption({ dispatch }: DeliveryAddressProps) {
   const showTimePicker = () => {
     timeInputRef.current?.showPicker();
   };
+
+  // Get preparation data
+  const maxPreparationDays =
+    cart.cartItems?.reduce((max, item) => {
+      return Math.max(max, item.product!.preparationDays!);
+    }, 0) ?? 3;
 
   return (
     <div className="delivery-option">
@@ -239,7 +248,7 @@ function DeliveryOption({ dispatch }: DeliveryAddressProps) {
             id="delivery-date"
             lang="ru"
             className="delivery-option__date"
-            min={getFutureDate(3)}
+            min={getFutureDate(maxPreparationDays)}
             value={delivaryDate}
             onChange={handleOnDeliveryDateChange}
             required

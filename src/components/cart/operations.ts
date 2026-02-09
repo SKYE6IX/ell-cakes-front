@@ -35,6 +35,7 @@ export const CART_FRAGMENT = gql`
         id
         name
         variantType
+        preparationDays
         images(orderBy: $orderImagesBy) {
           id
           altText

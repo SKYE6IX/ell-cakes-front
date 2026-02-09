@@ -157,6 +157,7 @@ function Checkout() {
   });
 
   if (!cart) return <CartEmpty />;
+
   return (
     <div className="checkout">
       {/* CURRENT AUTHORIZED USER DETAILS*/}
@@ -238,7 +239,7 @@ function Checkout() {
               <h3 className="user-info__section-title">
                 4. Выберите время доставки
               </h3>
-              <DeliveryOption dispatch={dispatch} />
+              <DeliveryOption cart={cart} dispatch={dispatch} />
             </section>
 
             <section className="user-info__section comment">
