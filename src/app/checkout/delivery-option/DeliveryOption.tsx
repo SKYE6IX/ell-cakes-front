@@ -242,6 +242,7 @@ function DeliveryOption({ dispatch }: DeliveryAddressProps) {
             min={getFutureDate(3)}
             value={delivaryDate}
             onChange={handleOnDeliveryDateChange}
+            required
           />
           <button
             className="delivery-option__date-picker-btn"

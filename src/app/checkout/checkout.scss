@@ -248,7 +248,7 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background: $text-color;
+  background-color: $text-color;
   color: $neutral;
   width: 100%;
   padding: 15px 0px;
@@ -256,11 +256,13 @@
   font-size: 1rem;
   line-height: 19px;
   cursor: pointer;
+  transition: background-color 0.2s ease-out;
 }
 
 .checkout__button:disabled {
   cursor: not-allowed;
   opacity: 0.9;
+  background-color: #929aab;
 }
 
 .checkout__error-message {
@@ -286,39 +288,6 @@
   }
   @include max-breakpoint("s") {
     max-width: 100%;
-  }
-}
-
-.check-loader {
-  width: 80px;
-  display: grid;
-  background: radial-gradient(farthest-side, #fff 98%, #0000) center/20px 100%
-    no-repeat;
-  --mask: radial-gradient(7px at left 10px top 50%, #0000 95%, #000),
-    radial-gradient(7px at center, #0000 95%, #000),
-    radial-gradient(7px at right 10px top 50%, #0000 95%, #000);
-  -webkit-mask: var(--mask);
-  mask: var(--mask);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  animation: l2 1s infinite alternate;
-}
-
-.check-loader:before,
-.check-loader:after {
-  content: "";
-  grid-area: 1/1;
-  height: 20px;
-  aspect-ratio: 1;
-  background: #fff;
-  border-radius: 50%;
-}
-.check-loader:after {
-  margin-left: auto;
-}
-@keyframes l2 {
-  to {
-    width: 40px;
   }
 }
 

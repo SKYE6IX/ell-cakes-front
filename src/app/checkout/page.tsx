@@ -13,6 +13,7 @@ import AuthenticationBlock from "./authentication-block/AuthenticationBlock";
 import DeliveryAddress from "./delivery-address/DeliveryAddress";
 import DeliveryOption from "./delivery-option/DeliveryOption";
 import OrderReceiver from "./order-receiver/OrderReceiver";
+import Loader from "@/components/loader/Loader";
 import CartEmpty from "./CartEmpty";
 import { CHECKOUT_ORDER } from "./operation";
 import { GET_CART_QUERY } from "@/components/cart/operations";
@@ -345,11 +346,7 @@ function Checkout() {
             onClick={() => checkoutOrder()}
             disabled={!allowedToCheckout || loading}
           >
-            {loading ? (
-              <div className="check-loader"></div>
-            ) : (
-              `ОПЛАТИТЬ ${orderTotalAmount} ₽`
-            )}
+            {loading ? <Loader /> : `ОПЛАТИТЬ ${orderTotalAmount} ₽`}
           </button>
 
           {error && (
