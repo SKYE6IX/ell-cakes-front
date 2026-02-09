@@ -1,10 +1,15 @@
 import { render, screen } from "@testing-library/react";
+import { MockedProvider } from "@apollo/client/testing/react";
 import Contact from "../page";
 
 describe("Contact page", () => {
   it("render contact content", () => {
     // Arrange
-    render(<Contact />);
+    render(
+      <MockedProvider>
+        <Contact />
+      </MockedProvider>
+    );
 
     // Assert
     const title = screen.getByRole("heading", { level: 2 });
