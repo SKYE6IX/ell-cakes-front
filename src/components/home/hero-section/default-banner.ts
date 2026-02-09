@@ -69,6 +69,7 @@ export const defaultBanner: ProductHomeBanner = {
     variantType: null,
     video: null,
     customizationsCount: null,
+    preparationDays: null,
   },
   updatedAt: undefined,
 };
