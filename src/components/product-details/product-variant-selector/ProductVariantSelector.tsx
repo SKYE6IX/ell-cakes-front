@@ -97,7 +97,7 @@ function ProductVariantSelector({
 
         {selectedVariant.serving && (
           <span className="product-variant-selector__serving">
-            {selectedVariant.serving} Порции
+            {selectedVariant.serving} Порций
           </span>
         )}
       </div>

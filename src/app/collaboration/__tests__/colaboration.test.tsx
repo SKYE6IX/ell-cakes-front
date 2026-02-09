@@ -13,7 +13,7 @@ describe("Colaboration page", () => {
 
     // Act
     expect(title).toBeInTheDocument();
-    expect(title).toHaveTextContent("Сотрудничество");
+    expect(title).toHaveTextContent("Мы открыты к сотрудничеству!");
 
     expect(pageText).toBeInTheDocument();
     expect(pageImage).toBeInTheDocument();

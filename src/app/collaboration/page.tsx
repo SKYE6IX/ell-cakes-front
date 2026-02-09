@@ -7,19 +7,23 @@ function Collaboration() {
   return (
     <section className="colaboration">
       <div className="colaboration__text-wrapper">
-        <h2 className="colaboration__title">Сотрудничество</h2>
+        <h2 className="colaboration__title">Мы открыты к сотрудничеству!</h2>
         <p className="colaboration__text" data-testid="page-text">
-          Партнерская программа EllCakes совершенно бесплатна и позволяет
-          участникам получать дополнительный доход, путем размещения ссылок как
-          на Наш магазин EllCakes или на отдельные товары. Каждая покупка,
-          совершенная по партнерской ссылке, приносит агентскую комиссию.
-          Стандартный размер комиссии составляет 5%.
+          Предлагаем партнёрство для:
         </p>
         <p className="colaboration__text">
-          За подробной информацией свяжитесь с нами по номеру телефона или по
-          почте.
+          - кафе и ресторанов<br/>
+          - фотостудий и организаторов мероприятий<br/>
+          - корпоративных клиентов<br/>
+          - свадебных и праздничных агентств
         </p>
-        <Button textKey="Связаться" href="/contact" />
+        <p className="colaboration__text">
+          Гарантируем индивидуальный подход, стабильное качество и сладкие условия сотрудничества.
+        </p>
+        <p className="colaboration__text">
+          Свяжитесь с нами - будем рады обсудить детали!
+        </p>
+        <Button textKey="Связаться" tagre-="_blank" href="https://clck.ru/3Rgodu" />
       </div>
 
       <div className="colaboration__media">
