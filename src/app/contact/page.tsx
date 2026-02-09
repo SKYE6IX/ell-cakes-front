@@ -1,9 +1,8 @@
-"use client";
-import React from "react";
 import Link from "next/link";
 import Instagram from "@/components/icons/Instagram";
 import Vk from "@/components/icons/Vk";
 import WhatsApp from "@/components/icons/WhatsApp";
+import RequestCall from "./request-call/RequestCall";
 import "./contact.scss";
 
 function Contact() {
@@ -19,6 +18,8 @@ function Contact() {
           <p className="contact__text" data-testid="page-text">
             Мы будем рады вашим вопросам, предложениям и заказам!
           </p>
+
+          <RequestCall />
         </div>
 
         <div className="contact__link-wrapper">

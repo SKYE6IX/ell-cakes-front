@@ -1154,6 +1154,7 @@ export type Mutation = {
   redeemUserVerificationToken: VerifyUserResponse;
   registerUser: User;
   removeFromCart: Maybe<Cart>;
+  requestCall: Scalars['String']['output'];
   resendUserVerificationToken: Scalars['String']['output'];
   sendPasswordResetToken: Scalars['String']['output'];
   updateCart: Maybe<Cart>;
@@ -1732,6 +1733,11 @@ export type MutationRegisterUserArgs = {
 
 export type MutationRemoveFromCartArgs = {
   cartItemId: Scalars['String']['input'];
+};
+
+
+export type MutationRequestCallArgs = {
+  phoneNumber: Scalars['String']['input'];
 };
 
 
@@ -4279,6 +4285,13 @@ export type CheckOutMutationVariables = Exact<{
 
 export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, redirectUrl: string | null, confirmationUrl: string | null } };
 
+export type RequestCallMutationVariables = Exact<{
+  phoneNumber: Scalars['String']['input'];
+}>;
+
+
+export type RequestCallMutation = { requestCall: string };
+
 export type OrderIntentQueryVariables = Exact<{
   where: OrderIntentWhereUniqueInput;
 }>;
@@ -4326,9 +4339,9 @@ export type AddToCartMutationVariables = Exact<{
 }>;
 
 
-export type AddToCartMutation = { addToCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } };
+export type AddToCartMutation = { addToCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } };
 
-export type CartFragmentFragment = { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
+export type CartFragmentFragment = { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null };
 
 export type QueryCartQueryVariables = Exact<{
   cartItemsOrderBy: Array<CartItemOrderByInput> | CartItemOrderByInput;
@@ -4336,7 +4349,7 @@ export type QueryCartQueryVariables = Exact<{
 }>;
 
 
-export type QueryCartQuery = { queryCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
+export type QueryCartQuery = { queryCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
 
 export type IncreaseCartItemMutationVariables = Exact<{
   cartItemId: Scalars['String']['input'];
@@ -4345,7 +4358,7 @@ export type IncreaseCartItemMutationVariables = Exact<{
 }>;
 
 
-export type IncreaseCartItemMutation = { increaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } };
+export type IncreaseCartItemMutation = { increaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } };
 
 export type DecreaseCartItemMutationVariables = Exact<{
   cartItemId: Scalars['String']['input'];
@@ -4354,7 +4367,7 @@ export type DecreaseCartItemMutationVariables = Exact<{
 }>;
 
 
-export type DecreaseCartItemMutation = { decreaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
+export type DecreaseCartItemMutation = { decreaseCartItem: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
 
 export type RemoveFromCartMutationVariables = Exact<{
   cartItemId: Scalars['String']['input'];
@@ -4363,7 +4376,7 @@ export type RemoveFromCartMutationVariables = Exact<{
 }>;
 
 
-export type RemoveFromCartMutation = { removeFromCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
+export type RemoveFromCartMutation = { removeFromCart: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
 
 export type ConnectCartToUserMutationVariables = Exact<{
   userId: Scalars['String']['input'];
@@ -4372,7 +4385,7 @@ export type ConnectCartToUserMutationVariables = Exact<{
 }>;
 
 
-export type ConnectCartToUserMutation = { connectCartToUser: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
+export type ConnectCartToUserMutation = { connectCartToUser: { __typename: 'Cart', id: string, subTotal: number | null, cartItems: Array<{ __typename: 'CartItem', id: string, subTotal: number | null, quantity: number | null, customizations: unknown | null, compositions: unknown | null, variant: { __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null } | null, toppingOption: { __typename: 'ToppingOption', id: string, weight: unknown | null, extraPrice: number | null } | null, product: { __typename: 'Product', id: string, name: string | null, variantType: string | null, preparationDays: number | null, images: Array<{ __typename: 'ProductImage', id: string, altText: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null } | null }> | null } | null };
 
 export type CollectionProductsQueryVariables = Exact<{
   where: ProductWhereInput;

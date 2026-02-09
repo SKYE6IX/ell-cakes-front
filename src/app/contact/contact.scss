@@ -1,5 +1,5 @@
 @use "@/global-styles/variables" as *;
-@use "@/global-styles/globals.scss" as *;
+@use "@/global-styles/shared-styles" as *;
 
 .contact {
   overflow: hidden;
@@ -18,39 +18,36 @@
     padding: 20px;
   }
 }
+
 .contact__inner-wrapper {
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @include max-breakpoint("sm") {
+  @include max-breakpoint("md") {
     flex-direction: column;
     align-items: start;
   }
 }
+
 .contact__text-wrapper {
   max-width: 640px;
-  margin-right: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  @include max-breakpoint("md") {
-    max-width: 520px;
+  @include flex-layout(column, none, none, 20px);
+  @include max-breakpoint("sm") {
+    max-width: 100%;
   }
 }
+
 .contact__title {
   font-family: $font-uncage;
   font-weight: 500;
   font-size: 36px;
-  margin-bottom: 40px;
   color: $text-color;
   @include max-breakpoint("md") {
     font-size: 32px;
   }
-  @include max-breakpoint("sm") {
-    margin-bottom: 20px;
-  }
 }
+
 .contact__text {
   font-family: $font-montserrat;
   font-weight: 300;

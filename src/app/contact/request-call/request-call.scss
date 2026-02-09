@@ -1,0 +1,47 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.request-call {
+  width: 100%;
+}
+
+.request-call__form {
+  width: 50%;
+  @include flex-layout(column, none, center, 15px);
+  @include max-breakpoint("md") {
+    width: 60%;
+  }
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+
+.request-call__form-title {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 500;
+}
+
+.request-call__form-btn {
+  width: 150px;
+  padding: 10px 25px;
+  @include flex-layout(row, center, center, none);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background-color: $text-color;
+  color: $neutral;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  line-height: 19px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+  align-self: flex-start;
+  transition: background-color 0.2s ease-out;
+}
+
+.request-call__form-btn:disabled {
+  cursor: not-allowed;
+  background-color: #929aab;
+}
