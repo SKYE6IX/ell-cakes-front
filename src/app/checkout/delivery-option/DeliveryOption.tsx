@@ -265,7 +265,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
 
       <p className="delivery-option__urgent">
         Нужен срочный заказ? можете позвонить по номеру{" "}
-        <Link href="tel:+79651950599">+79651950599</Link>, узнать о наличиию.
+        <Link href="tel:+79651950599">+79651950599</Link>, узнать о наличии.
       </p>
     </div>
   );
