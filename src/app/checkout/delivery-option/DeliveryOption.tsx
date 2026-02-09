@@ -3,6 +3,7 @@ import React, { Dispatch, useState, useRef } from "react";
 import { ACTIONTYPE } from "../checkoutReducer";
 import { Cart } from "@/types/__generated__/graphql";
 import "./delivery-option.scss";
+import Link from "next/link";
 
 type DeliveryOptionType = {
   key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
@@ -261,6 +262,11 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
           </button>
         </div>
       </div>
+
+      <p className="delivery-option__urgent">
+        Нужен срочный заказ? можете позвонить по номеру{" "}
+        <Link href="tel:+79651950599">+79651950599</Link>, узнать о наличиию.
+      </p>
     </div>
   );
 }

@@ -3,11 +3,13 @@
 
 .delivery-option {
 }
+
 .delivery-option__list {
   list-style: none;
   @include flex-layout(column, none, none, 10px);
   padding-left: 20px;
 }
+
 .delivery-option__list-item {
   font-family: $font-montserrat, sans-serif;
   font-size: 1rem;
@@ -52,10 +54,26 @@
 
 .delivery-interval__select {
   width: 60%;
+  height: 50px;
   border: 1px solid #d5d5d5;
   border-radius: 5px;
   padding: 8px 5px;
   background: #fff;
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+
+.delivery-option__time-wrapper {
+  width: 60%;
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+
+.delivery-option__delivery-date,
+.delivery-option__time-wrapper {
+  position: relative;
 }
 
 .delivery-option__date-selection-wrapper {
@@ -63,6 +81,9 @@
   margin-top: 15px;
   padding-left: 20px;
   @include flex-layout(column, none, none, 5px);
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
 }
 
 .delivery-option__date-selection-label {
@@ -72,21 +93,14 @@
   font-weight: 500;
   color: $text-color;
 }
-.delivery-option__time-wrapper {
-  width: 60%;
-}
 
-.delivery-option__delivery-date,
-.delivery-option__time-wrapper {
-  position: relative;
-}
 .delivery-option__date-picker-btn,
 .delivery-option__time-picker-btn {
   border: none;
   background: #fff;
   outline: none;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -98,7 +112,7 @@
 .delivery-time__input {
   padding: 8px 5px;
   width: 100%;
-  height: 100%;
+  height: 50px;
   border: 1px solid #d5d5d5;
   border-radius: 5px;
   -moz-appearance: textfield;
@@ -109,4 +123,18 @@
 .delivery-time__input::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
+}
+
+.delivery-option__urgent {
+  font-family: $font-montserrat, sans-serif;
+  font-size: 1rem;
+  line-height: 19.2px;
+  font-weight: 400;
+  color: $text-color;
+  padding-left: 20px;
+  margin-top: 20px;
+  & a {
+    color: $primary-accent;
+    font-weight: 500;
+  }
 }
