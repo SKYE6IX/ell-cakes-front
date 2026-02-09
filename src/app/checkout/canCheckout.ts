@@ -1,26 +1,31 @@
-interface Args {
+import type { CheckoutState } from "./checkoutReducer";
+
+type Args = CheckoutState & {
   userId: string | undefined;
-  deliveryZonePrice: number;
   deliveryAddressId: string | undefined;
-  paymentMethod: string;
-}
+};
 
 export function canCheckout({
   userId,
+  hasOrderReceiver,
+  orderReceiver,
+  initialZonePrice,
   deliveryAddressId,
-  deliveryZonePrice,
-  paymentMethod,
+  deliveryDate,
 }: Args) {
-  const isDeliveryPickUp = deliveryZonePrice === 0;
-  // If user pick a self- pcikup then let it passed without checking for
-  // delivey address
-  if (isDeliveryPickUp && userId && paymentMethod) {
-    return true;
-    // If useer pick diffrent option for delively that include a price
-  }
-  if (!isDeliveryPickUp && deliveryAddressId && userId && paymentMethod) {
-    return true;
+  if (!userId) return false;
+
+  if (!deliveryDate) return false;
+
+  if (hasOrderReceiver) {
+    if (!orderReceiver) return false;
+    const hasValidName = orderReceiver.name?.trim().length > 0;
+    const hasValidPhone = orderReceiver.phoneNumber?.trim().length > 0;
+    if (!hasValidName || !hasValidPhone) return false;
   }
 
-  return false;
+  const isSelfPickup = initialZonePrice === 0;
+  if (!isSelfPickup && !deliveryAddressId) return false;
+
+  return true;
 }

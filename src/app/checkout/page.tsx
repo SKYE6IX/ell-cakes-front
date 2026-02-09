@@ -26,8 +26,6 @@ import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
-// 2. Re write the verification before user checkout.
-// some fields are not required, and some field are required based on user selections
 
 const paymentMethods = [
   {
@@ -57,6 +55,7 @@ function Checkout() {
     deliveryCost: 0,
     initialZonePrice: 990,
     customerComment: "",
+    hasOrderReceiver: false,
     orderReceiver: {
       name: "",
       phoneNumber: "",
@@ -150,11 +149,10 @@ function Checkout() {
     },
   });
 
-  const isCheckout = canCheckout({
+  const allowedToCheckout = canCheckout({
+    ...checkoutState,
     userId: authUser?.id,
-    deliveryZonePrice: checkoutState.initialZonePrice,
     deliveryAddressId: authUser?.delivaryAddress?.id,
-    paymentMethod: checkoutState.paymentMethod,
   });
 
   if (!cart) return <CartEmpty />;
@@ -345,7 +343,7 @@ function Checkout() {
           <button
             className="checkout__button"
             onClick={() => checkoutOrder()}
-            disabled={!isCheckout || loading}
+            disabled={!allowedToCheckout || loading}
           >
             {loading ? (
               <div className="check-loader"></div>

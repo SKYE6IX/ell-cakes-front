@@ -32,6 +32,9 @@ export type ACTIONTYPE =
       payload: number;
     }
   | {
+      type: "manage_order_receiver";
+    }
+  | {
       type: "manage_order_receiver_inputs";
       payload: { name: string; value: string };
     }
@@ -43,13 +46,14 @@ export type ACTIONTYPE =
       payload: string;
     };
 
-interface CheckoutState {
+export interface CheckoutState {
   paymentMethod: PaymentMethodId;
   deliveryOption: string;
   deliveryCost: number;
   deliveryDate: string;
   initialZonePrice: number;
   customerComment: string;
+  hasOrderReceiver: boolean;
   orderReceiver: OrderReceiverInput;
   modalAddress: {
     show: boolean;
@@ -94,6 +98,12 @@ export function checkoutReducer(
       return {
         ...state,
         deliveryCost: action.payload,
+      };
+
+    case "manage_order_receiver":
+      return {
+        ...state,
+        hasOrderReceiver: !state.hasOrderReceiver,
       };
 
     case "manage_order_receiver_inputs":

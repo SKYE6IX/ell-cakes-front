@@ -12,6 +12,7 @@ function OrderReceiver({ dispatch }: OrderReceiverProps) {
 
   const handleSetShowInputs = () => {
     setShowInputs(!showInputs);
+    dispatch({ type: "manage_order_receiver" });
   };
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
