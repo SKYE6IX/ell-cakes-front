@@ -54,7 +54,7 @@ function OrderReceiver({ dispatch }: OrderReceiverProps) {
             className="order-receiver__close-btn"
             onClick={removeOrderReceiver}
           >
-            Закрывать
+            Заказ для себя
           </button>
         </div>
       ) : (
