@@ -27,7 +27,6 @@ import "./checkout.scss";
 
 // TODO:
 // 1. Write test for all component inside checkout
-
 const paymentMethods = [
   {
     id: "bank_card",
@@ -157,6 +156,8 @@ function Checkout() {
   });
 
   if (!cart) return <CartEmpty />;
+
+  console.log("Checkout State -> ", checkoutState);
 
   return (
     <div className="checkout">

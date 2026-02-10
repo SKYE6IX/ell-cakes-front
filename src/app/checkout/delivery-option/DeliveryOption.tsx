@@ -1,13 +1,22 @@
 "use client";
 import React, { Dispatch, useState, useRef } from "react";
+import Link from "next/link";
+import DatePicker from "react-datepicker";
 import { ACTIONTYPE } from "../checkoutReducer";
 import { Cart } from "@/types/__generated__/graphql";
 import "./delivery-option.scss";
-import Link from "next/link";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 type DeliveryOptionType = {
   key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
   chosenTime?: string;
+};
+
+type CustomInputProps = {
+  value?: string;
+  onClick?: () => void;
+  buttonRef?: React.RefObject<HTMLButtonElement | null>;
 };
 
 type DeliveryAddressProps = {
@@ -27,15 +36,26 @@ const deliveryTimeInterval = [
 function getFutureDate(daysToAdd: number) {
   const date = new Date();
   date.setDate(date.getDate() + daysToAdd + 1);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return new Date(date);
+}
+
+function getDateAt0900() {
+  const date = new Date();
+  date.setHours(9, 0, 0, 0);
+  return date;
+}
+
+function getDateAt2100() {
+  const date = new Date();
+  date.setHours(21, 0, 0, 0);
+  return date;
 }
 
 function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
-  const dateInputRef = useRef<HTMLInputElement>(null);
-  const timeInputRef = useRef<HTMLInputElement>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+  const dateButtonRef = useRef<HTMLButtonElement>(null);
+  const timeButtonRef = useRef<HTMLButtonElement>(null);
 
   const [currentValue, setCurrentValue] =
     useState<DeliveryOptionType["key"]>("regular-time");
@@ -43,12 +63,9 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
   const [selectedInterval, setSelectedInterval] = useState(
     deliveryTimeInterval[0]
   );
-  const [fixedTime, setFixedTime] = useState("");
-  const [delivaryDate, setDeliveryDate] = useState("");
 
   const handleSetDelivaryOption = ({ key, chosenTime }: DeliveryOptionType) => {
     setCurrentValue(key);
-
     if (key === "regular-time") {
       dispatch({
         type: "manage_delivery_option",
@@ -88,10 +105,9 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
   const handleOnSelectedIntervalChangeChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    setCurrentValue("in-between-time");
     const { value } = e.target;
     setSelectedInterval(value);
-
-    // Reuse for when user select a different value from the default
     dispatch({
       type: "manage_delivery_option",
       payload: {
@@ -101,38 +117,29 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
     });
   };
 
-  const handleOnFixedTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setFixedTime(value);
-    // Reuse for when user select a different value from the default
+  const handleOnFixedTimeChange = (date: Date | null) => {
+    setCurrentValue("fixed-time");
+    setSelectedTime(date);
+    const localeTime = date?.toLocaleTimeString("ru-RU");
     dispatch({
       type: "manage_delivery_option",
       payload: {
         zonePrice: 1590,
-        option: `Доставка ко времени(${value})`,
+        option: `Доставка ко времени(${localeTime})`,
       },
     });
   };
 
-  const handleOnDeliveryDateChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { value } = e.target;
-    setDeliveryDate(value);
-
-    const date = new Date(value).toISOString();
-
-    dispatch({
-      type: "add_delivery_date",
-      payload: date,
-    });
-  };
-
-  const showDatePicker = () => {
-    dateInputRef.current?.showPicker();
-  };
-  const showTimePicker = () => {
-    timeInputRef.current?.showPicker();
+  const handleOnDeliveryDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    if (date) {
+      const offset = date.getTimezoneOffset() * 60000;
+      const newDate = new Date(date.getTime() - offset).toISOString();
+      dispatch({
+        type: "add_delivery_date",
+        payload: newDate,
+      });
+    }
   };
 
   // Get preparation data
@@ -140,6 +147,10 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
     cart.cartItems?.reduce((max, item) => {
       return Math.max(max, item.product!.preparationDays!);
     }, 0) ?? 3;
+
+  const url = new URL("https://t.me/Ell_Cakes");
+  url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
+  const tlUrl = url.toString().replace(/\+/g, "%20");
 
   return (
     <div className="delivery-option">
@@ -211,61 +222,38 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
             Доставка ко времени (с 9:00 до 21:00) - От 1590 руб
           </label>
 
-          <div className="delivery-option__time-wrapper">
-            <input
-              ref={timeInputRef}
-              type="time"
-              name="delivery-time"
-              id="delivery-time"
-              min="09:00"
-              max="21:00"
-              lang="ru"
-              className="delivery-time__input"
-              value={fixedTime}
-              onChange={handleOnFixedTimeChange}
-            />
-            <button
-              className="delivery-option__time-picker-btn"
-              onClick={showTimePicker}
-            >
-              <TimePicker />
-            </button>
-          </div>
+          <DatePicker
+            selected={selectedTime}
+            onChange={handleOnFixedTimeChange}
+            customInput={<CustomTimeInputWithButton />}
+            popperTargetRef={timeButtonRef}
+            showTimeSelect
+            showTimeSelectOnly
+            minTime={getDateAt0900()}
+            maxTime={getDateAt2100()}
+            dateFormat="h:mm aa"
+          />
         </li>
       </ul>
 
       <div className="delivery-option__date-selection-wrapper">
-        <label
-          htmlFor="delivery-date"
-          className="delivery-option__date-selection-label"
-        >
+        <label className="delivery-option__date-selection-label">
           На какое число приготовить?
         </label>
-        <div className="delivery-option__delivery-date">
-          <input
-            ref={dateInputRef}
-            type="date"
-            name="delivery-date"
-            id="delivery-date"
-            lang="ru"
-            className="delivery-option__date"
-            min={getFutureDate(maxPreparationDays)}
-            value={delivaryDate}
-            onChange={handleOnDeliveryDateChange}
-            required
-          />
-          <button
-            className="delivery-option__date-picker-btn"
-            onClick={showDatePicker}
-          >
-            <CalenderPicker />
-          </button>
-        </div>
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleOnDeliveryDateChange}
+          customInput={<CustomDateInputWithButton buttonRef={dateButtonRef} />}
+          popperTargetRef={dateButtonRef}
+          minDate={getFutureDate(maxPreparationDays)}
+        />
       </div>
-
       <p className="delivery-option__urgent">
-        Нужен срочный заказ? можете позвонить по номеру{" "}
-        <Link href="tel:+79651950599">+79651950599</Link>, узнать о наличии.
+        Нужен срочный заказ? можете{" "}
+        <Link href={tlUrl} target="_blank">
+          Написать в Telegram{" "}
+        </Link>
+        узнать о наличии.
       </p>
     </div>
   );
@@ -273,30 +261,51 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
 
 export default DeliveryOption;
 
-function CalenderPicker() {
-  return (
-    <svg
-      role="presentation"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 69.5 76.2"
+const CustomDateInputWithButton: React.FC<CustomInputProps> = ({
+  value,
+  onClick,
+  buttonRef,
+}) => (
+  <div className="delivery-option__custom-date">
+    <span className="delivery-option__custom-date-text">
+      {value || "Выберите дату"}
+    </span>
+    <button
+      className="delivery-option__custom-date-btn"
+      ref={buttonRef}
+      onClick={onClick}
+      type="button"
     >
-      <path
-        fill="#ff5c5f"
-        d="M9.6 42.9H21V31.6H9.6v11.3zm3-8.3H18v5.3h-5.3v-5.3zm16.5 8.3h11.3V31.6H29.1v11.3zm3-8.3h5.3v5.3h-5.3v-5.3zM48 42.9h11.3V31.6H48v11.3zm3-8.3h5.3v5.3H51v-5.3zM9.6 62H21V50.6H9.6V62zm3-8.4H18V59h-5.3v-5.4zM29.1 62h11.3V50.6H29.1V62zm3-8.4h5.3V59h-5.3v-5.4zM48 62h11.3V50.6H48V62zm3-8.4h5.3V59H51v-5.4z"
-      ></path>{" "}
-      <path
-        fill="#ff5c5f"
-        d="M59.7 6.8V5.3c0-2.9-2.4-5.3-5.3-5.3s-5.3 2.4-5.3 5.3v1.5H40V5.3C40 2.4 37.6 0 34.7 0s-5.3 2.4-5.3 5.3v1.5h-9.1V5.3C20.3 2.4 18 0 15 0c-2.9 0-5.3 2.4-5.3 5.3v1.5H0v69.5h69.5V6.8h-9.8zm-7.6-1.5c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3v7.1c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3V5.3zm-19.7 0c0-1.3 1-2.3 2.3-2.3S37 4 37 5.3v7.1c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3V5.3zm-19.6 0C12.8 4 13.8 3 15 3c1.3 0 2.3 1 2.3 2.3v7.1c0 1.3-1 2.3-2.3 2.3-1.3 0-2.3-1-2.3-2.3V5.3zm53.7 67.9H3V9.8h6.8v2.6c0 2.9 2.4 5.3 5.3 5.3s5.3-2.4 5.3-5.3V9.8h9.1v2.6c0 2.9 2.4 5.3 5.3 5.3s5.3-2.4 5.3-5.3V9.8h9.1v2.6c0 2.9 2.4 5.3 5.3 5.3s5.3-2.4 5.3-5.3V9.8h6.8l-.1 63.4z"
-      ></path>{" "}
-    </svg>
-  );
-}
+      📅
+    </button>
+  </div>
+);
+
+const CustomTimeInputWithButton: React.FC<CustomInputProps> = ({
+  value,
+  onClick,
+  buttonRef,
+}) => (
+  <div className="delivery-option__custom-time">
+    <span className="delivery-option__custom-time-text">
+      {value || "Выберите время"}
+    </span>
+    <button
+      className="delivery-option__custom-time-btn"
+      ref={buttonRef}
+      onClick={onClick}
+      type="button"
+    >
+      <TimePicker />
+    </button>
+  </div>
+);
 
 function TimePicker() {
   return (
     <svg
-      width="18"
-      height="18"
+      width="16"
+      height="16"
       viewBox="0 0 570 589"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
