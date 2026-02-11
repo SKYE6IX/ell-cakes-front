@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useMutation } from "@apollo/client/react";
-import { useReactiveVar } from "@apollo/client/react";
 import CustomImage from "../custom-image/CustomImage";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
@@ -32,7 +31,6 @@ type CustomizationOption = {
 };
 
 function CartItem({ cartItem, mode }: CartItemProps) {
-  const isCartOpen = useReactiveVar(isCartOpenVar);
   const writeCartQuery = useWriteCartQuery();
 
   const operationVariable = {
