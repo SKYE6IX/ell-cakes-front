@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { useMutation } from "@apollo/client/react";
+import { useReactiveVar } from "@apollo/client/react";
 import CustomImage from "../custom-image/CustomImage";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
@@ -14,6 +16,7 @@ import {
 } from "../cart/operations";
 import { GET_CART_QUERY } from "../cart/operations";
 import { useWriteCartQuery } from "@/hooks/useWriteCartQuery";
+import { isCartOpenVar } from "@/lib/cache";
 import "./cart-item.scss";
 
 type CartItemProps = {
@@ -29,6 +32,7 @@ type CustomizationOption = {
 };
 
 function CartItem({ cartItem, mode }: CartItemProps) {
+  const isCartOpen = useReactiveVar(isCartOpenVar);
   const writeCartQuery = useWriteCartQuery();
 
   const operationVariable = {
@@ -100,6 +104,10 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     }
   };
 
+  const handleCloseModal = () => {
+    isCartOpenVar(false);
+  };
+
   return (
     <div className={["cart-item", loading ? "in-flight" : ""].join(" ")}>
       <button
@@ -111,15 +119,22 @@ function CartItem({ cartItem, mode }: CartItemProps) {
       >
         <CloseIcon />
       </button>
-      <div className="cart-item__product-image-container">
-        <CustomImage
-          src={cartItem.product?.images![0].image?.url ?? ""}
-          alt={cartItem.product?.name || "Product Image"}
-          fill
-          className="cart-item__product-image"
-          loading="lazy"
-        />
-      </div>
+
+      <Link
+        href={`/product/${cartItem.product?.slug}`}
+        onClick={handleCloseModal}
+      >
+        <div className="cart-item__product-image-container">
+          <CustomImage
+            src={cartItem.product?.images![0].image?.url ?? ""}
+            alt={cartItem.product?.name || "Product Image"}
+            fill
+            className="cart-item__product-image"
+            loading="lazy"
+          />
+        </div>
+      </Link>
+
       <div className="cart-item__info">
         <h4 className="cart-item__product-name">{cartItem.product?.name}</h4>
 

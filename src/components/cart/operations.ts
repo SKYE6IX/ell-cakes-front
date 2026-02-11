@@ -34,6 +34,7 @@ export const CART_FRAGMENT = gql`
       product {
         id
         name
+        slug
         variantType
         preparationDays
         images(orderBy: $orderImagesBy) {
