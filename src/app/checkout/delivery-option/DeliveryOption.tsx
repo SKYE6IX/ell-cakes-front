@@ -249,7 +249,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
         />
       </div>
       <p className="delivery-option__urgent">
-        Нужен срочный заказ? можете{" "}
+        Нужен срочный заказ? Можете{" "}
         <Link href={tlUrl} target="_blank">
           Написать в Telegram{" "}
         </Link>
