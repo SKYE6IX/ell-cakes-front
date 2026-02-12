@@ -101,14 +101,17 @@ function Checkout() {
     }
 
     const { delivaryAddress } = authUser;
+
     const calculate = async () => {
       const coord = await getCoordinate(delivaryAddress.address!);
       const lng = coord?.geometry?.coordinates[0];
       const lat = coord?.geometry?.coordinates[1];
+
       if (!lng || !lat) {
         dispatch({ type: "manage_delivery_cost", payload: 0 });
         return;
       }
+
       const ROUTE_END: [number, number] = [lng, lat];
       const { price } = calculateDeliveryPrice(
         ROUTE_END,
@@ -156,8 +159,6 @@ function Checkout() {
   });
 
   if (!cart) return <CartEmpty />;
-
-  console.log("Checkout State -> ", checkoutState);
 
   return (
     <div className="checkout">
