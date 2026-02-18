@@ -9,7 +9,7 @@ import "./delivery-option.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 type DeliveryOptionType = {
-  key: "self-pickup" | "regular-time" | "in-between-time" | "fixed-time";
+  key: "self-pickup" | "regular-time" | "in-between-time";
   chosenTime?: string;
 };
 
@@ -65,14 +65,6 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
         payload: {
           zonePrice: 1290,
           option: `Выбрать интервал доставки (${chosenTime})`,
-        },
-      });
-    } else if (key === "fixed-time") {
-      dispatch({
-        type: "manage_delivery_option",
-        payload: {
-          zonePrice: 1590,
-          option: `Доставка ко времени(${chosenTime})`,
         },
       });
     } else if (key === "self-pickup") {
