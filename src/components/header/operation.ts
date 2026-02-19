@@ -10,6 +10,7 @@ export const GET_CATEGORIES: TypedDocumentNode<
       id
       name
       slug
+      priority
       parent {
         id
         slug

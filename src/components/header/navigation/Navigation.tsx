@@ -30,9 +30,14 @@ function Navigation({ categories }: NavigationProps) {
   const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
 
-  const cakeSubCategories = categories?.filter(
-    (cat) => cat.parent?.slug === CAKE_SLUG
-  );
+  const cakeSubCategories = categories
+    ?.filter((cat) => cat.parent?.slug === CAKE_SLUG)
+    .sort((a, b) => {
+      if (a.priority === null && b.priority === null) return 0;
+      if (a.priority === null) return 1;
+      if (b.priority === null) return -1;
+      return a.priority - b.priority;
+    });
 
   const holidaysCategories = categories
     ?.filter((cat) => cat.parent?.slug === HOLIDAYS_SLUG)
