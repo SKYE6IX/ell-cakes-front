@@ -23,7 +23,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
     <div className="collection">
       <section className="collection__hero-section">
         <div className="collection__media">
-          {heroSectionData.images.map((image, i) => (
+          {heroSectionData.images?.map((image, i) => (
             <div
               className="collection__hero-image-container"
               key={i + heroSectionData.name}

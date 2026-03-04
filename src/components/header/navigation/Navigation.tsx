@@ -119,10 +119,10 @@ function Navigation({ categories }: NavigationProps) {
               </div>
               <div className="navigation__banner">
                 <h5 className="navigation__banner-text">
-                  скидка на первый заказ 15 %
+                  Доставка по Москве и области
                 </h5>
-                <Link href="/registration" className="navigation__banner-link">
-                  регистрация
+                <Link href="/collections" className="navigation__banner-link">
+                  Купить сейчас
                 </Link>
               </div>
             </div>

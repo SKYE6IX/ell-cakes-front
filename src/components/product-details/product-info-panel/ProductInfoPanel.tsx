@@ -154,7 +154,7 @@ function ProductInfoPanel({
         <h5 className="product-info-panel__promotion-text1">
           Первая покупка — еще вкуснее
         </h5>
-        <h5 className="product-info-panel__promotion-text2">с 15% скидкой!</h5>
+        <h5 className="product-info-panel__promotion-text2">Купить сейчас!</h5>
       </div>
     </div>
   );
