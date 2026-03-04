@@ -117,10 +117,10 @@ const list = [
   {
     name: "8 марта",
     description:
-      "Маленькие тортики, которые дарят большие эмоции. Идеально подойдет для уютных праздников и сюрпризов!",
+      "Бенто-торты в виде очаровательных горшочков с живыми герберами - идеальный подарок на 8 марта, символизирующий весну и нежность",
     images: [
-      "/collection-images/bento-1.jpg",
-      "/collection-images/bento-2.jpg",
+      "/collection-images/woman-day-1.jpeg",
+      "/collection-images/woman-day-2.jpeg",
     ],
   },
   {
