@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import Image, { ImageProps } from "next/image";
 import imageProxyLoaders from "./imageLoader";
 

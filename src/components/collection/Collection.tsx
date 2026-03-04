@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import Image from "next/image";
 import ProductListSkeleton from "../product-list/ProductListSkeleton";
 import collectionDeliveryInfoImage from "./collection-delivery-section-image.png";
 import CandleCakeIcon from "../icons/CandleCakeIcon";
 import PresentIcon from "../icons/PresentIcon";
 import SmileyIcon from "../icons/SmileyIcon";
 import CollectionProducts from "./CollectionProducts";
+import CustomImage from "../custom-image/CustomImage";
 import { getHeroSectionData } from "./hero-section-data";
 import { ProductWhereInput } from "@/types/__generated__/graphql";
 import ErrorBoundaryWrapper from "../ErrorBoundaryWrapper";
@@ -28,7 +28,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
               className="collection__hero-image-container"
               key={i + heroSectionData.name}
             >
-              <Image
+              <CustomImage
                 src={image}
                 alt="Collection Image"
                 fill
@@ -131,7 +131,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
         </div>
 
         <div className="collection__delivery-info-image-container">
-          <Image
+          <CustomImage
             src={collectionDeliveryInfoImage}
             alt="An image used for giving information about delivery process"
             className="collection__delivery-info-image"
