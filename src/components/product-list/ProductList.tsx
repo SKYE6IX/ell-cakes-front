@@ -116,26 +116,29 @@ function ProductList({ products }: ProductListProps) {
                 </li>
               )}
 
-              {product.variantType === "pieces" && (
-                <li className="product-card__metric">
-                  {product.fillings![0].variants![0].pieces} шт
-                </li>
-              )}
+              {product.variantType === "pieces" &&
+                product.fillings![0].variants![0].pieces && (
+                  <li className="product-card__metric">
+                    {product.fillings![0].variants![0].pieces} шт
+                  </li>
+                )}
 
-              {product.variantType === "size" && (
-                <li className="product-card__metric">
-                  {product.fillings![0].variants![0].size} см
-                </li>
-              )}
+              {product.variantType === "size" &&
+                product.fillings![0].variants![0].size && (
+                  <li className="product-card__metric">
+                    {product.fillings![0].variants![0].size} см
+                  </li>
+                )}
 
-              {product.variantType === "weight" && (
-                <li
-                  className="product-card__metric"
-                  data-testid="product-card-weight"
-                >
-                  {String(product.fillings![0].variants![0].weight)} кг
-                </li>
-              )}
+              {product.variantType === "weight" &&
+                String(product.fillings![0].variants![0].weight) && (
+                  <li
+                    className="product-card__metric"
+                    data-testid="product-card-weight"
+                  >
+                    {String(product.fillings![0].variants![0].weight)} кг
+                  </li>
+                )}
             </ul>
           </div>
         </div>
