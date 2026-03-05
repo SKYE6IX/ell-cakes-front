@@ -131,7 +131,7 @@ function ProductList({ products }: ProductListProps) {
                 )}
 
               {product.variantType === "weight" &&
-                String(product.fillings![0].variants![0].weight) && (
+                (product.fillings![0].variants![0].weight as never) && (
                   <li
                     className="product-card__metric"
                     data-testid="product-card-weight"
