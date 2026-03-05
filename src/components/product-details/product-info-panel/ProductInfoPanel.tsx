@@ -90,11 +90,14 @@ function ProductInfoPanel({
         />
       )}
 
-      <ProductVariantSelector
-        variants={productConfiguration.selectedProductFilling.variants!}
-        variantType={product.variantType!}
-        dispatch={dispatch}
-      />
+      {Number(productConfiguration.selectedProductFilling.variants?.length) >
+        1 && (
+        <ProductVariantSelector
+          variants={productConfiguration.selectedProductFilling.variants!}
+          variantType={product.variantType!}
+          dispatch={dispatch}
+        />
+      )}
 
       <MixProductOption
         mixBoxQueryRef={mixBoxQueryRef}
