@@ -77,7 +77,7 @@ function Footer() {
         <div className="footer__line"></div>
         <div className="footer__bottom-section">
           <h2 className="footer__bottom-title">EllCakes</h2>
-          <Link href="/privacy-policy" className="footer__bottom-text">
+          <Link href="/privacy" className="footer__bottom-text">
             Политика конфиденциальности
           </Link>
         </div>
