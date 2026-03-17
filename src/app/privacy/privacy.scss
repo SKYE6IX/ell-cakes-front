@@ -1,0 +1,60 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.privacy {
+  flex: 1;
+  width: 100%;
+  @include flex-layout(row, center, space-between, 100px);
+  margin-top: 50px;
+  margin-bottom: 100px;
+  padding: 0px 50px;
+  @include max-breakpoint("md") {
+    margin-top: 40px;
+    margin-bottom: 80px;
+    padding: 0px 40px;
+    gap: 50px;
+  }
+  @include max-breakpoint("s") {
+    margin-top: 0px;
+    margin-bottom: 40px;
+    padding: 20px;
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+}
+
+.privacy__text-wrapper {
+  @include flex-layout(column, none, none, 20px);
+}
+
+.privacy__title {
+  font-family: $font-uncage, sans-serif;
+  font-weight: 500;
+  font-size: 2.25rem;
+  line-height: 39.6px;
+  color: $text-color;
+  @include max-breakpoint("md") {
+    font-size: 1.75rem;
+    line-height: 30.8px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1.5rem;
+    line-height: 24.4px;
+  }
+}
+
+.privacy__text {
+  font-family: $font-montserrat;
+  font-size: 1.25rem;
+  line-height: 26px;
+  font-weight: 400;
+  color: $text-color;
+  @include max-breakpoint("md") {
+    font-size: 1.125rem;
+    line-height: 23.4px;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1rem;
+    line-height: 20.8px;
+  }
+}
