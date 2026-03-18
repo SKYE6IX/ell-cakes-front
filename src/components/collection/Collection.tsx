@@ -23,18 +23,34 @@ function Collection({ categorySlug, where }: CollectionProps) {
     <div className="collection">
       <section className="collection__hero-section">
         <div className="collection__media">
-          {heroSectionData.images?.map((image, i) => (
+          {heroSectionData.media?.map((m, i) => (
             <div
               className="collection__hero-image-container"
               key={i + heroSectionData.name}
             >
-              <CustomImage
-                src={image}
-                alt="Collection Image"
-                fill
-                className="collection__hero-image"
-                data-testid="collection-hero-image"
-              />
+              {!m.isVideo ? (
+                <CustomImage
+                  src={m.href}
+                  alt="Collection Image"
+                  fill
+                  className="collection__hero-image"
+                  data-testid="collection-hero-image"
+                />
+              ) : (
+                <video
+                  className="collection__hero-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  webkit-playsinline="true"
+                  controls={false}
+                  disablePictureInPicture
+                  disableRemotePlayback
+                >
+                  <source src={m.href.toString()} />
+                </video>
+              )}
             </div>
           ))}
         </div>
