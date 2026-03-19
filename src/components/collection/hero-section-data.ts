@@ -128,7 +128,7 @@ const list = [
     ],
   },
   {
-    name: "Пасаха",
+    name: "Пасха",
     description:
       "Пасха — это вкус тепла, уюта и семейных традиций. Мы создаём нежные десерты и ароматные куличи вручную, с любовью к каждой детали. Оформите предзаказ заранее и подарите себе и близким настоящее праздничное настроение!",
     media: [
@@ -144,5 +144,3 @@ const list = [
 export const getHeroSectionData = (categorySlug: string) => {
   return list.find((item) => getTransliteration(item.name) === categorySlug)!;
 };
-
-// https://storage.yandexcloud.net/ell-cake-files-prod/IMG_2583.MOV
