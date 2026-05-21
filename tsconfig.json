@@ -18,10 +18,9 @@
         "name": "next"
       }
     ],
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "ymaps3": ["node_modules/@yandex/ymaps3-types"]
+      "@/*": ["./src/*"],
+      "ymaps3": ["./node_modules/@yandex/ymaps3-types"]
     }
   },
   "include": [

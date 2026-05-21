@@ -2,10 +2,7 @@ import { Suspense } from "react";
 import ProductGallery from "./product-gallery/ProductGallery";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import SimilarProducts from "./SimilarProducts";
-import {
-  ProductMediaSkeleton,
-  ProductPanelSkeleton,
-} from "./skeleton/ProductDetailsSkeleton";
+import { ProductMediaSkeleton, ProductPanelSkeleton } from "./skeleton/ProductDetailsSkeleton";
 import { PreloadQuery } from "@/ApolloClient";
 import {
   GET_PRODUCT_IMAGES_QUERY,
@@ -36,10 +33,7 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
               >
                 {(videoQueryRef) => (
                   <Suspense fallback={<ProductMediaSkeleton />}>
-                    <ProductGallery
-                      imagesQueryRef={imagesQueryRef}
-                      videoQueryRef={videoQueryRef}
-                    />
+                    <ProductGallery imagesQueryRef={imagesQueryRef} videoQueryRef={videoQueryRef} />
                   </Suspense>
                 )}
               </PreloadQuery>

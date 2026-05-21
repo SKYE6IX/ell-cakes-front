@@ -5,7 +5,7 @@ import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import { ApolloWrapper } from "@/ApolloWrapper";
 import type { Organization, WithContext } from "schema-dts";
-import Header from "src/components/header/Header";
+import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
 import ChatWidget from "@/components/chat-widget/ChatWidget";

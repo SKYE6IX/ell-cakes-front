@@ -32,9 +32,7 @@ const shimmer = (w: number, h: number) => `
 
 function ProductList({ products }: ProductListProps) {
   const toBase64 = (str: string) =>
-    typeof window === "undefined"
-      ? Buffer.from(str).toString("base64")
-      : window.btoa(str);
+    typeof window === "undefined" ? Buffer.from(str).toString("base64") : window.btoa(str);
 
   if (products && products.length === 0) return <ProductNotFound />;
 
@@ -75,17 +73,12 @@ function ProductList({ products }: ProductListProps) {
                   className="product-card__image"
                   data-testid="product-card-image"
                   placeholder="blur"
-                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(350, 350)
-                  )}`}
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(350, 350))}`}
                   loading="lazy"
                 />
               </div>
               <h3 className="product-card__name">{product.name}</h3>
-              <p
-                className="product-card__description"
-                data-testid="product-card-description"
-              >
+              <p className="product-card__description" data-testid="product-card-description">
                 {product.baseDescription}
               </p>
             </div>
@@ -116,26 +109,21 @@ function ProductList({ products }: ProductListProps) {
                 </li>
               )}
 
-              {product.variantType === "pieces" &&
-                product.fillings![0].variants![0].pieces && (
-                  <li className="product-card__metric">
-                    {product.fillings![0].variants![0].pieces} шт
-                  </li>
-                )}
+              {product.variantType === "pieces" && product.fillings![0].variants![0].pieces && (
+                <li className="product-card__metric">
+                  {product.fillings![0].variants![0].pieces} шт
+                </li>
+              )}
 
-              {product.variantType === "size" &&
-                product.fillings![0].variants![0].size && (
-                  <li className="product-card__metric">
-                    {product.fillings![0].variants![0].size} см
-                  </li>
-                )}
+              {product.variantType === "size" && product.fillings![0].variants![0].size && (
+                <li className="product-card__metric">
+                  {product.fillings![0].variants![0].size} см
+                </li>
+              )}
 
               {product.variantType === "weight" &&
                 (product.fillings![0].variants![0].weight as never) && (
-                  <li
-                    className="product-card__metric"
-                    data-testid="product-card-weight"
-                  >
+                  <li className="product-card__metric" data-testid="product-card-weight">
                     {String(product.fillings![0].variants![0].weight)} кг
                   </li>
                 )}
