@@ -1,0 +1,49 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.product-details__berry-notice {
+  width: calc(100% - 50px);
+  margin: 20px 0 0 50px;
+  padding: 20px;
+  border-radius: 16px;
+  background: $primary-mute;
+  @include flex-layout(row, center, flex-start, 22px);
+
+  @include max-breakpoint("md") {
+    width: calc(100% - 80px);
+    margin: 20px 40px 0;
+  }
+
+  @include max-breakpoint("s") {
+    width: calc(100% - 40px);
+    margin: 20px 20px 0;
+    padding: 16px;
+    border-radius: 14px;
+    gap: 14px;
+  }
+}
+
+.product-details__berry-content {
+  @include flex-layout(column, flex-start, center, 8px);
+
+  @include max-breakpoint("s") {
+    gap: 6px;
+  }
+}
+
+.product-details__berry-title {
+  margin: 0;
+  font-family: $font-uncage, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $primary-accent;
+  text-transform: uppercase;
+}
+
+.product-details__berry-text {
+  font-family: $font-uncage, sans-serif;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: $text-color;
+}
