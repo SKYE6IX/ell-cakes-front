@@ -14,31 +14,22 @@ type TokenInputProps = {
 
 const maskEmailAddress = (email: string | undefined) => {
   if (email) {
-    const masked = email.replace(
-      /^(.)([^@]*)(@.*)$/,
-      (_, first, middle, domain) => {
-        return first + "*".repeat(middle.length) + domain;
-      }
-    );
+    const masked = email.replace(/^(.)([^@]*)(@.*)$/, (_, first, middle, domain) => {
+      return first + "*".repeat(middle.length) + domain;
+    });
     return masked;
   }
   return "";
 };
 
-function TokenInput({
-  inputEmail,
-  reedeemToken,
-  loading,
-  error,
-}: TokenInputProps) {
+function TokenInput({ inputEmail, reedeemToken, loading, error }: TokenInputProps) {
   const SECONDS = 60;
   const TOKEN_LENGTH = 6;
   const [secondsLeft, setSecondsLeft] = useState(SECONDS);
+
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const [token, setToken] = useState("");
-  const [values, setValues] = useState<string[]>(
-    new Array(TOKEN_LENGTH).fill("")
-  );
+  const [values, setValues] = useState<string[]>(new Array(TOKEN_LENGTH).fill(""));
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -46,10 +37,7 @@ function TokenInput({
     return () => clearInterval(t);
   }, [secondsLeft]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
     const input = inputRefs.current[index];
 
@@ -108,7 +96,7 @@ function TokenInput({
       onCompleted() {
         setSecondsLeft(SECONDS);
       },
-    }
+    },
   );
 
   const handleReedeemToken = (e: React.FormEvent) => {
@@ -152,17 +140,9 @@ function TokenInput({
           ))}
         </div>
 
-        {error && (
-          <span className="token-input__error">
-            Неверный или устаревший код!
-          </span>
-        )}
+        {error && <span className="token-input__error">Неверный или устаревший код!</span>}
 
-        <button
-          className="token-input__submit"
-          type="submit"
-          disabled={loading}
-        >
+        <button className="token-input__submit" type="submit" disabled={loading}>
           {loading ? <Loader /> : "Подтвердить"}
         </button>
       </form>
@@ -175,8 +155,7 @@ function TokenInput({
           onClick={() => resendPhoneNumberToken()}
         >
           Отправить ещё раз
-          {secondsLeft > 0 &&
-            ` через 00:${String(secondsLeft).padStart(2, "0")}`}
+          {secondsLeft > 0 && ` через 00:${String(secondsLeft).padStart(2, "0")}`}
         </button>
       </div>
     </div>

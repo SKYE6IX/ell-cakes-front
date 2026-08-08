@@ -38,9 +38,11 @@ function ProductList({ products }: ProductListProps) {
 
   const getProductImageUrl = (productImages: ProductImage[]) => {
     const isMainUrl = productImages.find((pi) => pi.isMain === true);
+
     if (isMainUrl) {
       return isMainUrl.image?.url;
     }
+
     return productImages[0].image?.url;
   };
 

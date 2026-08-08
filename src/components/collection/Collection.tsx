@@ -23,11 +23,8 @@ function Collection({ categorySlug, where }: CollectionProps) {
     <div className="collection">
       <section className="collection__hero-section">
         <div className="collection__media">
-          {heroSectionData.media?.map((m, i) => (
-            <div
-              className="collection__hero-image-container"
-              key={i + heroSectionData.name}
-            >
+          {heroSectionData?.media?.map((m, i) => (
+            <div className="collection__hero-image-container" key={i + heroSectionData.name}>
               {!m.isVideo ? (
                 <CustomImage
                   src={m.href}
@@ -55,17 +52,11 @@ function Collection({ categorySlug, where }: CollectionProps) {
           ))}
         </div>
         <div className="collection__text-wrapper">
-          <h3
-            className="collection__hero-heading"
-            data-testid="collection-hero-heading"
-          >
-            {heroSectionData.name}
+          <h3 className="collection__hero-heading" data-testid="collection-hero-heading">
+            {heroSectionData?.name}
           </h3>
-          <p
-            className="collection__hero-text"
-            data-testid="collection-hero-text"
-          >
-            {heroSectionData.description}
+          <p className="collection__hero-text" data-testid="collection-hero-text">
+            {heroSectionData?.description}
           </p>
         </div>
       </section>
@@ -96,12 +87,9 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">
-                  Выбери свой десерт
-                </h5>
+                <h5 className="collection__delivery-info-item-heading">Выбери свой десерт</h5>
                 <p className="collection__delivery-info-item-text">
-                  Для подарка, для друзей или просто для себя — выбери то, что
-                  хочется прямо сейчас!
+                  Для подарка, для друзей или просто для себя — выбери то, что хочется прямо сейчас!
                 </p>
               </div>
             </li>
@@ -115,12 +103,10 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">
-                  Назначь дату доставки
-                </h5>
+                <h5 className="collection__delivery-info-item-heading">Назначь дату доставки</h5>
                 <p className="collection__delivery-info-item-text">
-                  Планируешь заранее или заказываешь в последний момент? Мы
-                  доставляем 7 дней в неделю
+                  Планируешь заранее или заказываешь в последний момент? Мы доставляем 7 дней в
+                  неделю
                 </p>
               </div>
             </li>
@@ -134,12 +120,10 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">
-                  Жди с нетерпением!
-                </h5>
+                <h5 className="collection__delivery-info-item-heading">Жди с нетерпением!</h5>
                 <p className="collection__delivery-info-item-text">
-                  Мы аккуратно упакуем и отправим твой десерт так, чтобы он
-                  приехал свежим и в идеальном виде.
+                  Мы аккуратно упакуем и отправим твой десерт так, чтобы он приехал свежим и в
+                  идеальном виде.
                 </p>
               </div>
             </li>

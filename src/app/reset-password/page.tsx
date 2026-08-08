@@ -13,7 +13,7 @@ import {
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import "./reset-password.scss";
 
-interface IResetPasswordState {
+interface ResetPasswordState {
   token: string;
   email: string;
   password: string;
@@ -22,23 +22,20 @@ interface IResetPasswordState {
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const [resetPasswordState, setResetPasswordState] =
-    useState<IResetPasswordState>({
-      token: "",
-      email: "",
-      password: "",
-      stage: "request",
-    });
+  const [resetPasswordState, setResetPasswordState] = useState<ResetPasswordState>({
+    token: "",
+    email: "",
+    password: "",
+    stage: "request",
+  });
 
   const onInputChange = ({ value, name }: { name: string; value: string }) => {
     setResetPasswordState((prvState) => ({ ...prvState, [name]: value }));
   };
 
   // VALIDATE PASSWORD RESET TOKEN
-  const [
-    validatePasswordResetToken,
-    { error: isValidateError, loading: isValidateLoading },
-  ] = useLazyQuery(VALIDATE_PASSWORD_RESET_TOKEN);
+  const [validatePasswordResetToken, { error: isValidateError, loading: isValidateLoading }] =
+    useLazyQuery(VALIDATE_PASSWORD_RESET_TOKEN);
 
   const reedeemPasswordResetToken = async (token: string) => {
     const { data } = await validatePasswordResetToken({
@@ -58,24 +55,23 @@ export default function ResetPasswordPage() {
   };
 
   // REQUEST PASSWORD TOKEN MUTATION!
-  const [
-    requestPasswordResetToken,
-    { loading: isRequestLoading, error: requestError },
-  ] = useMutation(REQUEST_PASSWORD_RESET_TOKEN, {
-    variables: { email: resetPasswordState.email },
-    onCompleted(data) {
-      if (data.sendPasswordResetToken) {
-        setResetPasswordState((prvState) => ({
-          ...prvState,
-          stage: "confirm",
-        }));
-      }
-    },
-  });
+  const [requestPasswordResetToken, { loading: isRequestLoading, error: requestError }] =
+    useMutation(REQUEST_PASSWORD_RESET_TOKEN, {
+      variables: { email: resetPasswordState.email },
+      onCompleted(data) {
+        if (data.sendPasswordResetToken) {
+          setResetPasswordState((prvState) => ({
+            ...prvState,
+            stage: "confirm",
+          }));
+        }
+      },
+    });
 
   // UPDATE PASSOWRD MUTATION!
-  const [updatePassword, { loading: isUpdateLoading, error: updateError }] =
-    useMutation(UPDATE_PASSWORD, {
+  const [updatePassword, { loading: isUpdateLoading, error: updateError }] = useMutation(
+    UPDATE_PASSWORD,
+    {
       variables: {
         token: resetPasswordState.token,
         email: resetPasswordState.email,
@@ -90,7 +86,8 @@ export default function ResetPasswordPage() {
         }
         return [];
       },
-    });
+    },
+  );
 
   // REQUEST PASSWORD TOKEN
   const handleRequestResetToken = (e: React.FormEvent) => {
@@ -119,10 +116,7 @@ export default function ResetPasswordPage() {
           {resetPasswordState.stage === "request" && (
             <>
               <h3 className="reset-password-card__title">Смена пароля</h3>
-              <form
-                className="reset-password-form"
-                onSubmit={handleRequestResetToken}
-              >
+              <form className="reset-password-form" onSubmit={handleRequestResetToken}>
                 <Input
                   initialValue={resetPasswordState.email}
                   name="email"
@@ -133,9 +127,7 @@ export default function ResetPasswordPage() {
                 />
 
                 {requestError && (
-                  <span className="reset-password__error">
-                    Пользователь не существует!
-                  </span>
+                  <span className="reset-password__error">Пользователь не существует!</span>
                 )}
 
                 <button
@@ -162,9 +154,7 @@ export default function ResetPasswordPage() {
           {/* LAST STEP */}
           {resetPasswordState.stage === "reset" && (
             <div className="reset-password__new-password">
-              <h3 className="reset-password__new-password-header">
-                Введите новый пароль
-              </h3>
+              <h3 className="reset-password__new-password-header">Введите новый пароль</h3>
               <form onSubmit={handleUpdatePassword}>
                 <Input
                   initialValue={resetPasswordState.password}

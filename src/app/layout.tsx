@@ -130,10 +130,12 @@ export default function RootLayout({
             <Footer />
           </div>
         </ApolloWrapper>
+
         <Script
           src={`https://api-maps.yandex.ru/v3/?apikey=${process.env.NEXT_PUBLIC_Y_MAP_API_KEY}&lang=ru_RU`}
           strategy="beforeInteractive"
         />
+
         <Script
           id="yandex-metrica"
           strategy="afterInteractive"
@@ -149,6 +151,7 @@ export default function RootLayout({
             `,
           }}
         />
+
         <noscript>
           <div>
             <img
@@ -158,6 +161,7 @@ export default function RootLayout({
             />
           </div>
         </noscript>
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
