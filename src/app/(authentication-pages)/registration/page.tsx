@@ -22,13 +22,10 @@ function RegistrationPage() {
   const [formState, setFormState] = useState(initialState);
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
 
-  const {
-    emailValidation,
-    phoneValidation,
-    debounceEmailInUse,
-    debouncePhoneInUser,
-  } = useUserDataExistQuery();
-  const { registerUser, loading } = useRegisterUserMutation({
+  const { emailValidation, phoneValidation, debounceEmailInUse, debouncePhoneInUser } =
+    useUserDataExistQuery();
+
+  const { registerUser, loading, error } = useRegisterUserMutation({
     formState,
     onComplete() {
       router.push("/verify-user");
@@ -64,10 +61,7 @@ function RegistrationPage() {
 
   return (
     <section className="registration">
-      <h3
-        className="registration__heading"
-        data-testid="registration-page-heading"
-      >
+      <h3 className="registration__heading" data-testid="registration-page-heading">
         Регистрация
       </h3>
 
@@ -91,9 +85,7 @@ function RegistrationPage() {
               hasError={errorFeilds.includes("phoneNumber")}
             />
             {phoneValidation?.isPhoneNumberInUse && (
-              <span className="registration__field-validation">
-                ТЕЛЕФОН используется
-              </span>
+              <span className="registration__field-validation">ТЕЛЕФОН используется</span>
             )}
           </div>
 
@@ -107,9 +99,7 @@ function RegistrationPage() {
               hasError={errorFeilds.includes("email")}
             />
             {emailValidation?.isEmailInUse && (
-              <span className="registration__field-validation">
-                почта используется
-              </span>
+              <span className="registration__field-validation">почта используется</span>
             )}
           </div>
 
@@ -123,19 +113,14 @@ function RegistrationPage() {
           />
         </div>
 
-        <button
-          className="registration-form__submit-btn"
-          type="submit"
-          disabled={loading}
-        >
+        {error && <p className="registration__error">Что-то пошло не так, попробуйте еще раз</p>}
+
+        <button className="registration-form__submit-btn" type="submit" disabled={loading}>
           {loading ? <Loader /> : <span>Зарегистрироваться</span>}
         </button>
       </form>
 
-      <p
-        className="registration-form__policy"
-        data-testid="registration-page-policy"
-      >
+      <p className="registration-form__policy" data-testid="registration-page-policy">
         нажимая кнопку вы соглашаетесь{" "}
         <Link href="/policy" data-testid="registration-page-policy-link">
           с согласием на обработку персональных данных
@@ -145,12 +130,7 @@ function RegistrationPage() {
       <div className="registration__divider" />
 
       <div className="registration-form__login">
-        <Button
-          href="/login"
-          textKey="Уже есть аккаунт"
-          fullWidth
-          variant="outline"
-        />
+        <Button href="/login" textKey="Уже есть аккаунт" fullWidth variant="outline" />
       </div>
     </section>
   );

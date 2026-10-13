@@ -1,14 +1,7 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
-import {
-  OrderDirection,
-  RegisterUserInput,
-  User,
-} from "@/types/__generated__/graphql";
-import {
-  CONNECT_CART_TO_USER,
-  GET_CART_QUERY,
-} from "@/components/cart/operations";
+import { OrderDirection, RegisterUserInput, User } from "@/types/__generated__/graphql";
+import { CONNECT_CART_TO_USER, GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { USER_DATA_FRAGMENT } from "../userDataFragment";
 import { useWriteCartQuery } from "./useWriteCartQuery";
@@ -52,6 +45,7 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
       cartItemsOrderBy: [{ createdAt: OrderDirection.Asc }],
       orderImagesBy: [{ createdAt: OrderDirection.Asc }],
     },
+
     update(cache, { data }) {
       if (data?.connectCartToUser) {
         writeCartQuery(cache, data.connectCartToUser);
@@ -59,7 +53,7 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
     },
   });
 
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+  const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
     variables: { registerData: formState },
     onCompleted(data) {
       onComplete();
@@ -68,16 +62,22 @@ export function useRegisterUserMutation({ onComplete, formState }: Props) {
       }
     },
 
+    onError(error) {
+      console.error("An error occur when try to register! ", error);
+    },
+
     refetchQueries(result) {
       if (result.data.registerUser) {
         return [AUTHORIZED_USER_QUERY, GET_CART_QUERY];
       }
+
       return [GET_CART_QUERY];
     },
   });
 
   return {
     loading,
+    error,
     registerUser,
   };
 }
