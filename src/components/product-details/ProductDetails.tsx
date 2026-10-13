@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import ProductGallery from "./product-gallery/ProductGallery";
+import ProductBerryNotice from "./product-berries-notice/ProductBerryNotice";
 import ProductInfoPanel from "./product-info-panel/ProductInfoPanel";
 import SimilarProducts from "./SimilarProducts";
 import { ProductMediaSkeleton, ProductPanelSkeleton } from "./skeleton/ProductDetailsSkeleton";
@@ -39,6 +40,7 @@ function ProductDetails({ productSlug }: { productSlug: string }) {
               </PreloadQuery>
             )}
           </PreloadQuery>
+          <ProductBerryNotice />
         </section>
 
         <section className="product-details__product-info-section">
