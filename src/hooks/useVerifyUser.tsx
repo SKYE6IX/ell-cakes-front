@@ -39,7 +39,7 @@ export function useVerifyPhoneNumber({ email, callback }: Props) {
         }
         return [];
       },
-    }
+    },
   );
 
   return {

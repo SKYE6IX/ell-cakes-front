@@ -1,10 +1,7 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { OrderDirection, User } from "@/types/__generated__/graphql";
-import {
-  CONNECT_CART_TO_USER,
-  GET_CART_QUERY,
-} from "@/components/cart/operations";
+import { CONNECT_CART_TO_USER, GET_CART_QUERY } from "@/components/cart/operations";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { USER_DATA_FRAGMENT } from "../userDataFragment";
 import { useWriteCartQuery } from "./useWriteCartQuery";

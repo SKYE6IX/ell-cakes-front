@@ -27,25 +27,20 @@ function UserPanelLayout({ children }: { children: React.ReactNode }) {
 
   const authUser = data?.queryAuthorizedUser;
 
-  const [resendPhoneNumberToken, { loading }] = useMutation(
-    RESEND_USER_VERIFICATION_TOKEN,
-    {
-      variables: {
-        email: authUser?.email || "",
-      },
-      onCompleted() {
-        router.push("/verify-user");
-      },
-    }
-  );
+  const [resendPhoneNumberToken, { loading }] = useMutation(RESEND_USER_VERIFICATION_TOKEN, {
+    variables: {
+      email: authUser?.email || "",
+    },
+    onCompleted() {
+      router.push("/verify-user");
+    },
+  });
 
   if (authUser && !authUser.isUserVerified) {
     return (
       <div className="user-panel-layout">
         <div className="user-panel-layout__verification">
-          <h4 className="user-panel-layout__verification-title">
-            Подтвердите свою почту
-          </h4>
+          <h4 className="user-panel-layout__verification-title">Подтвердите свою почту</h4>
           <button
             className="user-panel-layout__verification-btn"
             disabled={loading}

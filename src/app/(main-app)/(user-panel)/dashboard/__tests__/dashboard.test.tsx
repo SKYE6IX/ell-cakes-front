@@ -21,7 +21,7 @@ describe("Dashboard component page", () => {
     render(
       <MockedProvider mocks={mocks}>
         <Dashboard />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     // Assert

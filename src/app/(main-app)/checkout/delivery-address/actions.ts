@@ -42,34 +42,27 @@ type Props = {
   callBack: () => void;
 };
 
-export function useCreateDeliveryAddress({
-  formState,
-  callBack,
-  userId,
-}: Props) {
-  const [createDelivaryAddress, { loading }] = useMutation(
-    CREATE_DELIVARY_ADDRESS,
-    {
-      variables: {
-        data: {
-          ...formState,
-          user: { connect: { id: userId } },
-        },
+export function useCreateDeliveryAddress({ formState, callBack, userId }: Props) {
+  const [createDelivaryAddress, { loading }] = useMutation(CREATE_DELIVARY_ADDRESS, {
+    variables: {
+      data: {
+        ...formState,
+        user: { connect: { id: userId } },
       },
-      onCompleted() {
-        callBack();
-      },
-      onError(error) {
-        console.error("Error occur when creating new address -> ", error);
-      },
-      refetchQueries(result) {
-        if (result.data) {
-          return [AUTHORIZED_USER_QUERY];
-        }
-        return [];
-      },
-    }
-  );
+    },
+    onCompleted() {
+      callBack();
+    },
+    onError(error) {
+      console.error("Error occur when creating new address -> ", error);
+    },
+    refetchQueries(result) {
+      if (result.data) {
+        return [AUTHORIZED_USER_QUERY];
+      }
+      return [];
+    },
+  });
 
   return {
     createDelivaryAddress,
@@ -77,36 +70,29 @@ export function useCreateDeliveryAddress({
   };
 }
 
-export function useUpdateDeliveryAddress({
-  formState,
-  callBack,
-  userId,
-}: Props) {
-  const [updateDelivaryAddress, { loading }] = useMutation(
-    UPDATE_DELIVARY_ADDRESS,
-    {
-      variables: {
-        data: {
-          ...formState,
-        },
-        where: { user: { id: userId } },
+export function useUpdateDeliveryAddress({ formState, callBack, userId }: Props) {
+  const [updateDelivaryAddress, { loading }] = useMutation(UPDATE_DELIVARY_ADDRESS, {
+    variables: {
+      data: {
+        ...formState,
       },
-      onCompleted() {
-        callBack();
-      },
+      where: { user: { id: userId } },
+    },
+    onCompleted() {
+      callBack();
+    },
 
-      onError(error) {
-        console.error("Error occur when creating new address -> ", error);
-      },
+    onError(error) {
+      console.error("Error occur when creating new address -> ", error);
+    },
 
-      refetchQueries(result) {
-        if (result.data) {
-          return [AUTHORIZED_USER_QUERY];
-        }
-        return [];
-      },
-    }
-  );
+    refetchQueries(result) {
+      if (result.data) {
+        return [AUTHORIZED_USER_QUERY];
+      }
+      return [];
+    },
+  });
 
   return {
     updateDelivaryAddress,

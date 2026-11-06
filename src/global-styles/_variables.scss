@@ -1,4 +1,15 @@
 @use "sass:map";
+
+// New colors for adpotions
+$bg-primary: #f1f0ea;
+$dark-primary: #273728;
+$light-accent: #f9d1d9;
+$bg-secondary: #c7d2bd;
+$dark-accent: #5b041e;
+
+// This color variables are @depricated. The above color variable need to be adopt in all code base.
+// None of these depricated varibales must be deleted until the whole app has fully,
+// adpot the new color rules.
 // Colors
 $primary: #ff9698;
 $primary-mute: #ffdfdf;
@@ -8,6 +19,14 @@ $neutral: #fcfdff;
 $text-color: #262525;
 $text-color-mute: #434343;
 $dark-color: #000;
+
+// New fonts for adoptions
+$font-tenor-sans: var(--tenor-sans-font); // For heading.
+$font-manrope: var(--manrope-font); // For body
+
+// This fonts variable are @depricated. The above fonts varibale need to be adpot in all code base.
+// None of these depricated font variable must be deleted until the whole app has fully adopt
+// the new variable rules
 
 // Font
 $font-uncage: var(--font-uncage);

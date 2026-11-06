@@ -27,9 +27,7 @@ export default function OrdersHistory() {
       <h3 className="order-history__title">История заказов</h3>
 
       {authUser?.orders?.length === 0 && (
-        <p className="order-history__empty">
-          Тут пока пусто, но мы очень ждём Ваших заказов!
-        </p>
+        <p className="order-history__empty">Тут пока пусто, но мы очень ждём Ваших заказов!</p>
       )}
 
       {authUser?.orders && authUser.orders.length > 0 && (
@@ -45,22 +43,17 @@ export default function OrdersHistory() {
                 <ul className="order-history__product-list">
                   {order.orderItems?.map((item) => (
                     <li key={item.id} className="order-history__product-item">
-                      {item.product?.name}{" "}
-                      <span className="qty"> x{item.quantity}</span>
+                      {item.product?.name} <span className="qty"> x{item.quantity}</span>
                     </li>
                   ))}
                 </ul>
 
                 <div className="order-history__price-wrapper">
-                  <span className="order-history__price">
-                    {formatMoney(order.totalAmount!)}
-                  </span>
+                  <span className="order-history__price">{formatMoney(order.totalAmount!)}</span>
                 </div>
               </div>
 
-              <div className="order-history__icon">
-                {renderStatusIcon(order.status!)}
-              </div>
+              <div className="order-history__icon">{renderStatusIcon(order.status!)}</div>
             </div>
           ))}
         </div>

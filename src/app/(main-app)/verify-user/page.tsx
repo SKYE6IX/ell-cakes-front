@@ -9,11 +9,7 @@ import { useVerifyPhoneNumber } from "@/hooks/useVerifyUser";
 import { useWriteUserQuery } from "@/hooks/useWriteUserQuery";
 import { AUTHORIZED_USER_QUERY } from "@/authentication/operation";
 import { USER_DATA_FRAGMENT } from "@/userDataFragment";
-import {
-  User,
-  UserWhereUniqueInput,
-  UserUpdateInput,
-} from "@/types/__generated__/graphql";
+import { User, UserWhereUniqueInput, UserUpdateInput } from "@/types/__generated__/graphql";
 import Loader from "@/components/loader/Loader";
 import "./verify-user.scss";
 
@@ -52,48 +48,40 @@ function ConfirmPhonePage() {
     }));
   };
 
-  const { reedeemUserVerificationToken, error, loading } = useVerifyPhoneNumber(
-    {
-      email: authUser?.email as string,
-      callback() {
-        router.push("/dashboard");
-      },
-    }
-  );
+  const { reedeemUserVerificationToken, error, loading } = useVerifyPhoneNumber({
+    email: authUser?.email as string,
+    callback() {
+      router.push("/dashboard");
+    },
+  });
 
   const reedeemConfirmPhoneNumberToken = (token: string) => {
     reedeemUserVerificationToken({ variables: { token } });
   };
 
-  const [updateUserProfile, { loading: updateEmailLoading }] = useMutation(
-    UPDATE_USER_PROFILE,
-    {
-      variables: {
-        data: { email: confirmPageState.newEmail },
-        where: { id: authUser?.id },
-      },
+  const [updateUserProfile, { loading: updateEmailLoading }] = useMutation(UPDATE_USER_PROFILE, {
+    variables: {
+      data: { email: confirmPageState.newEmail },
+      where: { id: authUser?.id },
+    },
 
-      onCompleted() {
-        setConfirmPageState((prvState) => ({
-          ...prvState,
-          showInput: !prvState.showInput,
-        }));
-      },
+    onCompleted() {
+      setConfirmPageState((prvState) => ({
+        ...prvState,
+        showInput: !prvState.showInput,
+      }));
+    },
 
-      update(cache, { data }) {
-        if (data?.updateUser) {
-          writeUserQuery(cache, data.updateUser);
-        }
-      },
+    update(cache, { data }) {
+      if (data?.updateUser) {
+        writeUserQuery(cache, data.updateUser);
+      }
+    },
 
-      onError(error) {
-        console.error(
-          "A new error occur when try to update user profile -> ",
-          error.message
-        );
-      },
-    }
-  );
+    onError(error) {
+      console.error("A new error occur when try to update user profile -> ", error.message);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,10 +125,7 @@ function ConfirmPhonePage() {
 
             <div className="verify-user__divider" />
 
-            <button
-              className="verify-user__show-change-email-btn"
-              onClick={handleShowChangeNumber}
-            >
+            <button className="verify-user__show-change-email-btn" onClick={handleShowChangeNumber}>
               Изменить номер
             </button>
           </div>

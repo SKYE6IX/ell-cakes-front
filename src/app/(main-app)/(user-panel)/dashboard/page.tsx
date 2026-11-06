@@ -17,8 +17,7 @@ export default function Dashboard() {
   const { data } = useQuery(AUTHORIZED_USER_QUERY);
   const authUser = data?.queryAuthorizedUser;
 
-  const [userDataActions, setUserDataActions] =
-    useState<UserDataActions>("none");
+  const [userDataActions, setUserDataActions] = useState<UserDataActions>("none");
 
   const [errorFeilds, setErrorFeilds] = useState<string[]>([]);
 
@@ -41,9 +40,7 @@ export default function Dashboard() {
     });
   };
 
-  const onChangeUpdateProfileInput = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const onChangeUpdateProfileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUpdateProfileForm((prvState) => ({ ...prvState, [name]: value }));
     if (errorFeilds.includes(name)) {
@@ -65,10 +62,7 @@ export default function Dashboard() {
 
     onError(error) {
       setUserDataActions("none");
-      console.error(
-        "A new error occur when try to update user profile -> ",
-        error.message
-      );
+      console.error("A new error occur when try to update user profile -> ", error.message);
     },
   });
 
@@ -94,9 +88,7 @@ export default function Dashboard() {
       <div className="dashboard__grid">
         <article
           className={`dashboard__card dashboard__card--profile ${
-            userDataActions === "update_profile"
-              ? "dashboard__card--editing"
-              : ""
+            userDataActions === "update_profile" ? "dashboard__card--editing" : ""
           }`}
         >
           <div className="dashboard__card-head">
@@ -146,18 +138,12 @@ export default function Dashboard() {
                       errorFeilds.includes("phoneNumber") ? "error" : ""
                     }`}
                     name="phoneNumber"
-                    value={
-                      updateProfileForm.phoneNumber || populuatePhoneNumber
-                    }
+                    value={updateProfileForm.phoneNumber || populuatePhoneNumber}
                     onChange={onChangeUpdateProfileInput}
                   />
                 </div>
 
-                <button
-                  className="dashboard__update-profile-btn"
-                  type="submit"
-                  disabled={loading}
-                >
+                <button className="dashboard__update-profile-btn" type="submit" disabled={loading}>
                   {loading ? <Loader /> : "Изменить"}
                 </button>
               </form>
@@ -165,23 +151,17 @@ export default function Dashboard() {
               <>
                 <div className="dashboard__card-row">
                   <h5 className="dashboard__card-label">Имя</h5>
-                  <span className="dashboard__card-value">
-                    {authUser?.name}
-                  </span>
+                  <span className="dashboard__card-value">{authUser?.name}</span>
                 </div>
 
                 <div className="dashboard__card-row">
                   <h5 className="dashboard__card-label">Почта</h5>
-                  <span className="dashboard__card-value">
-                    {authUser?.email}
-                  </span>
+                  <span className="dashboard__card-value">{authUser?.email}</span>
                 </div>
 
                 <div className="dashboard__card-row">
                   <h5 className="dashboard__card-label">Телефон</h5>
-                  <span className="dashboard__card-value">
-                    {authUser?.phoneNumber}
-                  </span>
+                  <span className="dashboard__card-value">{authUser?.phoneNumber}</span>
                 </div>
               </>
             )}

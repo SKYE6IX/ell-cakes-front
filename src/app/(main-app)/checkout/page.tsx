@@ -92,10 +92,7 @@ function Checkout() {
 
   // Check for address delivary and calculate the price
   useEffect(() => {
-    if (
-      !authUser?.delivaryAddress?.address ||
-      checkoutState.initialZonePrice == 0
-    ) {
+    if (!authUser?.delivaryAddress?.address || checkoutState.initialZonePrice == 0) {
       dispatch({ type: "manage_delivery_cost", payload: 0 });
       return;
     }
@@ -113,10 +110,7 @@ function Checkout() {
       }
 
       const ROUTE_END: [number, number] = [lng, lat];
-      const { price } = calculateDeliveryPrice(
-        ROUTE_END,
-        checkoutState.initialZonePrice
-      );
+      const { price } = calculateDeliveryPrice(ROUTE_END, checkoutState.initialZonePrice);
       dispatch({ type: "manage_delivery_cost", payload: price });
     };
 
@@ -171,15 +165,11 @@ function Checkout() {
               <div className="user-info__profile">
                 <div className="user-info__profile-name">
                   <h5 className="user-info__profile-name-title">Имя</h5>
-                  <span className="user-info__profile-name-text">
-                    {authUser.name}
-                  </span>
+                  <span className="user-info__profile-name-text">{authUser.name}</span>
                 </div>
                 <div className="user-info__profile-number">
                   <h5 className="user-info__profile-number-title">Телефон</h5>
-                  <span className="user-info__profile-number-text">
-                    {authUser.phoneNumber}
-                  </span>
+                  <span className="user-info__profile-number-text">{authUser.phoneNumber}</span>
                 </div>
               </div>
             </section>
@@ -238,16 +228,12 @@ function Checkout() {
             </section>
 
             <section className="user-info__section comment">
-              <h3 className="user-info__section-title">
-                4. Выберите время доставки
-              </h3>
+              <h3 className="user-info__section-title">4. Выберите время доставки</h3>
               <DeliveryOption cart={cart} dispatch={dispatch} />
             </section>
 
             <section className="user-info__section comment">
-              <h3 className="user-info__section-title">
-                5. Пожелания к заказу
-              </h3>
+              <h3 className="user-info__section-title">5. Пожелания к заказу</h3>
               <Input
                 name="comment"
                 initialValue={checkoutState.customerComment}
@@ -265,9 +251,7 @@ function Checkout() {
                   <li
                     key={method.id}
                     className={`user-info__section-payment-method-item ${
-                      checkoutState.paymentMethod === method.id
-                        ? "selected"
-                        : ""
+                      checkoutState.paymentMethod === method.id ? "selected" : ""
                     }`}
                     onClick={() =>
                       dispatch({
@@ -279,25 +263,17 @@ function Checkout() {
                     <div className="user-info__section-payment-method-icon">
                       <method.logo />
                     </div>
-                    <h4 className="user-info__section-payment-method-name">
-                      {method.title}
-                    </h4>
+                    <h4 className="user-info__section-payment-method-name">{method.title}</h4>
                   </li>
                 ))}
                 <li
                   className={`user-info__section-payment-method-item ${
                     checkoutState.paymentMethod === "sbp" ? "selected" : ""
                   }`}
-                  onClick={() =>
-                    dispatch({ type: "add_payment_method", payload: "sbp" })
-                  }
+                  onClick={() => dispatch({ type: "add_payment_method", payload: "sbp" })}
                 >
                   <div className="user-info__section-payment-method-icon">
-                    <Image
-                      src={spbIcon}
-                      alt="An icon for SBP payment system"
-                      fill
-                    />
+                    <Image src={spbIcon} alt="An icon for SBP payment system" fill />
                   </div>
                 </li>
               </ul>
@@ -319,18 +295,14 @@ function Checkout() {
         <div className="order-info__summary">
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Сумма заказа</h5>
-            <span className="order-info__summary-value">
-              {cart?.subTotal} ₽
-            </span>
+            <span className="order-info__summary-value">{cart?.subTotal} ₽</span>
           </div>
 
           <div className="order-info__summary-row">
             {checkoutState.deliveryCost ? (
               <>
                 <h5 className="order-info__summary-label">Доставка</h5>
-                <span className="order-info__summary-value">
-                  {checkoutState.deliveryCost} ₽
-                </span>
+                <span className="order-info__summary-value">{checkoutState.deliveryCost} ₽</span>
               </>
             ) : null}
           </div>
@@ -339,9 +311,7 @@ function Checkout() {
 
           <div className="order-info__summary-row">
             <h5 className="order-info__summary-label">Итог</h5>
-            <span className="order-info__summary-value">
-              {orderTotalAmount} ₽
-            </span>
+            <span className="order-info__summary-value">{orderTotalAmount} ₽</span>
           </div>
 
           <button
@@ -360,9 +330,7 @@ function Checkout() {
 
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
-            <Link href="/policy">
-              с согласием на обработку персональных данных
-            </Link>
+            <Link href="/policy">с согласием на обработку персональных данных</Link>
           </p>
         </div>
       </div>

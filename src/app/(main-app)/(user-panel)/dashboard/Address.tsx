@@ -7,7 +7,7 @@ import Input from "@/components/input/Input";
 import {
   useCreateDeliveryAddress,
   useUpdateDeliveryAddress,
-} from "@/app/checkout/delivery-address/actions";
+} from "@/app/(main-app)/checkout/delivery-address/actions";
 import { isValidAddress } from "@/lib/y-map-common";
 import "./dashboard.scss";
 
@@ -29,8 +29,7 @@ function Address({ authUser }: AddressProps) {
 
   const [isAddressError, setIsAddressError] = useState(false);
 
-  const [userDataActions, setUserDataActions] =
-    useState<UserDataActions>("none");
+  const [userDataActions, setUserDataActions] = useState<UserDataActions>("none");
 
   const toggleAction = (action: UserDataActions) => {
     setUserDataActions((prvState) => {
@@ -41,23 +40,21 @@ function Address({ authUser }: AddressProps) {
     });
   };
 
-  const { createDelivaryAddress, loading: createLoading } =
-    useCreateDeliveryAddress({
-      formState,
-      callBack() {
-        toggleAction("none");
-      },
-      userId: authUser?.id,
-    });
+  const { createDelivaryAddress, loading: createLoading } = useCreateDeliveryAddress({
+    formState,
+    callBack() {
+      toggleAction("none");
+    },
+    userId: authUser?.id,
+  });
 
-  const { updateDelivaryAddress, loading: updateLoading } =
-    useUpdateDeliveryAddress({
-      formState,
-      callBack() {
-        toggleAction("none");
-      },
-      userId: authUser?.id,
-    });
+  const { updateDelivaryAddress, loading: updateLoading } = useUpdateDeliveryAddress({
+    formState,
+    callBack() {
+      toggleAction("none");
+    },
+    userId: authUser?.id,
+  });
 
   const onInputChange = ({ name, value }: { name: string; value: string }) => {
     setFormState((prvState) => ({ ...prvState, [name]: value }));
@@ -149,18 +146,12 @@ function Address({ authUser }: AddressProps) {
                   type="submit"
                   disabled={updateLoading}
                 >
-                  {updateLoading ? (
-                    <div className="dashboard__loader"></div>
-                  ) : (
-                    "Обновлять"
-                  )}
+                  {updateLoading ? <div className="dashboard__loader"></div> : "Обновлять"}
                 </button>
               </form>
             ) : (
               <div className="dashboard__card-row">
-                <span className="dashboard__card-value">
-                  {authUser.delivaryAddress.address}
-                </span>
+                <span className="dashboard__card-value">{authUser.delivaryAddress.address}</span>
               </div>
             )}
           </>
@@ -207,11 +198,7 @@ function Address({ authUser }: AddressProps) {
                   type="submit"
                   disabled={createLoading}
                 >
-                  {createLoading ? (
-                    <div className="dashboard__loader"></div>
-                  ) : (
-                    "Добавить адрес"
-                  )}
+                  {createLoading ? <div className="dashboard__loader"></div> : "Добавить адрес"}
                 </button>
               </form>
             ) : (
