@@ -1,7 +1,4 @@
-import {
-  ImageExtension,
-  ProductHomeBanner,
-} from "@/types/__generated__/graphql";
+import { ImageExtension, ProductHomeBanner } from "@/types/__generated__/graphql";
 
 export const defaultBanner: ProductHomeBanner = {
   __typename: "ProductHomeBanner",

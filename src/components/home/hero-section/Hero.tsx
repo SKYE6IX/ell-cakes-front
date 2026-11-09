@@ -36,9 +36,7 @@ function Hero() {
   const fetchBanners = data?.productHomeBanners;
 
   const banners =
-    fetchBanners && fetchBanners.length > 0
-      ? [defaultBanner, ...fetchBanners]
-      : [defaultBanner];
+    fetchBanners && fetchBanners.length > 0 ? [defaultBanner, ...fetchBanners] : [defaultBanner];
 
   const containerRef = useRef<HTMLUListElement>(null);
 
@@ -68,9 +66,7 @@ function Hero() {
     const observer = new IntersectionObserver((entries) => {
       const visibleSlide = entries.filter((entry) => entry.isIntersecting)[0];
       if (visibleSlide) {
-        const nextIndex = sliderItems.indexOf(
-          visibleSlide.target as HTMLLIElement
-        );
+        const nextIndex = sliderItems.indexOf(visibleSlide.target as HTMLLIElement);
         if (nextIndex !== -1) {
           setActiveIndex(nextIndex);
         }
@@ -153,16 +149,9 @@ function Hero() {
 
       <div className="hero__info">
         <div className="hero__info-text-wrapper">
-          {activeIndex !== 0 && (
-            <h5 className="hero__product-badge">Хит продаж</h5>
-          )}
-          <h3 className="hero__product-name">
-            {banners[activeIndex].product?.name}
-          </h3>
-          <p
-            className="hero__product-description"
-            data-testid="hero-banner-text"
-          >
+          {activeIndex !== 0 && <h5 className="hero__product-badge">Хит продаж</h5>}
+          <h3 className="hero__product-name">{banners[activeIndex].product?.name}</h3>
+          <p className="hero__product-description" data-testid="hero-banner-text">
             {banners[activeIndex].bannerText}
           </p>
 
@@ -202,10 +191,7 @@ function Hero() {
             {banners.map((_, idx) => (
               <li
                 key={idx}
-                className={[
-                  "hero__pagination-item",
-                  activeIndex === idx ? "active" : "",
-                ].join(" ")}
+                className={["hero__pagination-item", activeIndex === idx ? "active" : ""].join(" ")}
               />
             ))}
           </ul>
