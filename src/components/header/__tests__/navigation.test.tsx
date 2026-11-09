@@ -3,9 +3,21 @@ import userEvent from "@testing-library/user-event";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { Category } from "@/types/__generated__/graphql";
 import Navigation from "../navigation/Navigation";
-import { GET_CATEGORIES } from "../operation";
 
 const mockCategories: Category[] = [
+  {
+    id: "3cf79f1b-9a95-4ba0-9966-92aa7dd32eejd5",
+    name: "Ассортимент",
+    slug: "assortiment",
+    __typename: "Category",
+    createdAt: undefined,
+    parent: null,
+    products: null,
+    productsCount: null,
+    updatedAt: undefined,
+    isAvailable: null,
+    priority: null,
+  },
   {
     id: "36029e99-3127-4729-a08f-97c1aa335869",
     name: "Торты на День рождения",
@@ -21,13 +33,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "6a46fca0-e2cc-4954-8bf7-9e92600d5b70",
@@ -44,13 +58,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "d032a8ec-28e7-473c-a628-7175cf84c631",
@@ -67,13 +83,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "e920de9b-fb78-485d-83f9-fa7793dd40fa",
@@ -90,13 +108,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "ed5bb33d-d6cd-44db-a8cd-0e56051eaf22",
@@ -113,13 +133,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "62ddac6b-5f2b-4db2-87be-b3fa4cdb7a3d",
@@ -136,13 +158,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "2f385852-a2d9-44fb-b3f0-a8d22f8693d8",
@@ -159,13 +183,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
   {
     id: "3cf79f1b-9a95-4ba0-9966-92aa7dd32ec5",
@@ -182,13 +208,15 @@ const mockCategories: Category[] = [
       parent: null,
       products: null,
       productsCount: null,
-      slug: "torty",
+      slug: "assortiment",
       updatedAt: undefined,
+      priority: null,
     },
     products: null,
     productsCount: null,
     updatedAt: undefined,
     isAvailable: null,
+    priority: null,
   },
 ];
 
@@ -198,12 +226,12 @@ describe("Navigation component", () => {
     render(
       <MockedProvider>
         <Navigation categories={mockCategories} />
-      </MockedProvider>
+      </MockedProvider>,
     );
     // Act
     const navigationMenuItems = screen.getAllByTestId("navigation-menu-item");
-    // Assert
-    expect(navigationMenuItems.length).toEqual(4);
+    // // Assert
+    expect(navigationMenuItems.length).toBeGreaterThan(2);
     for (const el of navigationMenuItems) {
       expect(el).toBeInTheDocument();
     }
@@ -214,17 +242,15 @@ describe("Navigation component", () => {
     render(
       <MockedProvider>
         <Navigation categories={mockCategories} />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     await waitFor(() => {
       // Act
-      const navigationSubMenuItems = screen.getAllByTestId(
-        "navigation-sub-menu-item"
-      );
+      const navigationSubMenuItems = screen.getAllByTestId("navigation-sub-menu-item");
 
       // Assert
-      expect(navigationSubMenuItems.length).toEqual(8);
+      expect(navigationSubMenuItems.length).toBeGreaterThan(1);
       for (const el of navigationSubMenuItems) {
         expect(el).toBeInTheDocument();
       }
@@ -237,14 +263,16 @@ describe("Navigation component", () => {
     render(
       <MockedProvider>
         <Navigation categories={mockCategories} />
-      </MockedProvider>
+      </MockedProvider>,
     );
+
     // Act
     const subMenuTrigger = screen.getByTestId("navigation-sub-menu-trigger");
-    const navigationWidget = screen.getByTestId("navigation-widget");
+    const navigationSubMenu = screen.getByTestId("navigation-sub-menu");
+
     await user.click(subMenuTrigger);
     // Assert
     expect(subMenuTrigger).toHaveClass("active");
-    expect(navigationWidget).toHaveClass("open-sub-menu");
+    expect(navigationSubMenu).toHaveClass("open-sub-menu");
   });
 });

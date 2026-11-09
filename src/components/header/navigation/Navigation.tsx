@@ -5,15 +5,11 @@ import Link from "next/link";
 import { useReactiveVar } from "@apollo/client/react";
 import { isMenuOpenVar } from "@/lib/cache";
 import ArrowDown from "../../icons/ArrowDown";
-import { getTransliteration } from "@/utils/getTransliteration";
 import { Category } from "@/types/__generated__/graphql";
 import "./navigation.scss";
 
-const cupCakeCategory = {
-  href: `/collections/${getTransliteration("Пирожные")}`,
-  label: "Пирожные",
-};
-const appMenuList = [
+const STATIC_NAV_MENU = [
+  { href: "/quick-order", label: "Срочные заказы" },
   { href: "/contact", label: "КОНТАКТЫ" },
   { href: "/delivery", label: "Доставка и оплата" },
 ];
@@ -23,15 +19,14 @@ type NavigationProps = {
 };
 
 function Navigation({ categories }: NavigationProps) {
-  const CAKE_SLUG = "torty";
-  const HOLIDAYS_SLUG = "holidays";
-
   const pathname = usePathname();
   const isMenuOpen = useReactiveVar(isMenuOpenVar);
   const [isSubMenuActive, setIsSubMenuActive] = useState(false);
 
-  const cakeSubCategories = categories
-    ?.filter((cat) => cat.parent?.slug === CAKE_SLUG)
+  const topLevelCategory = categories?.find((cat) => !cat.parent);
+
+  const subLevelCategories = categories
+    ?.filter((cat) => cat.parent?.slug === topLevelCategory?.slug)
     .sort((a, b) => {
       if (a.priority === null && b.priority === null) return 0;
       if (a.priority === null) return 1;
@@ -39,32 +34,21 @@ function Navigation({ categories }: NavigationProps) {
       return a.priority - b.priority;
     });
 
-  const holidaysCategories = categories
-    ?.filter((cat) => cat.parent?.slug === HOLIDAYS_SLUG)
-    .map((cat) => {
-      return {
-        href: `/collections/${cat.slug}`,
-        label: cat.name!,
-      };
-    });
-
-  const navigationMenu = holidaysCategories
-    ? [cupCakeCategory, ...holidaysCategories, ...appMenuList]
-    : [cupCakeCategory, ...appMenuList];
+  // Used on menu item and sub-menu item to close the menu when
+  // click to naavigate
+  const closeMenu = () => {
+    isMenuOpenVar(false);
+  };
 
   const handleSubMenuActive = () => {
     setIsSubMenuActive(!isSubMenuActive);
   };
 
-  const closeMenu = () => {
-    isMenuOpenVar(false);
-  };
-
   return (
     <nav className={["navigation", isMenuOpen ? "active" : ""].join(" ")}>
       <ul className="navigation__menu-wrapper">
-        {/* Navigation menu with sub-menu */}
-        <li className="navigation__menu-item show-widget">
+        {/* Top level category navigation menu  */}
+        <li className="navigation__menu-item">
           <span
             className={[
               "navigation__menu-item-label",
@@ -72,12 +56,12 @@ function Navigation({ categories }: NavigationProps) {
             ].join(" ")}
             data-testid="navigation-menu-item"
           >
-            ТОрты
+            {topLevelCategory?.name}
           </span>
 
           <span
             className={[
-              "navigation__sub-menu-trigger",
+              "navigation__sub-menu_mobile-trigger",
               isSubMenuActive ? "active" : "",
             ].join(" ")}
             onClick={handleSubMenuActive}
@@ -86,18 +70,23 @@ function Navigation({ categories }: NavigationProps) {
             <ArrowDown />
           </span>
 
+          {/* Sub level category navigation menu */}
           <div
-            className={[
-              "navigation__widget",
-              isSubMenuActive ? "open-sub-menu" : "",
-            ].join(" ")}
-            data-testid="navigation-widget"
+            className={["navigation__sub-menu", isSubMenuActive ? "open-sub-menu" : ""].join(" ")}
+            data-testid="navigation-sub-menu"
           >
-            <div className="navigation__widget-anchor" />
+            <div className="navigation__sub-menu-list-wrapper">
+              <div className="navigation__sub-menu-list">
+                <Link
+                  href="/fillings"
+                  className="navigation__sub-menu-item"
+                  onClick={closeMenu}
+                  data-testid="navigation-sub-menu-item"
+                >
+                  Начинки
+                </Link>
 
-            <div className="navigation__sub-menu-wrapper">
-              <div className="navigation__sub-menu">
-                {cakeSubCategories?.map((cat) => (
+                {subLevelCategories?.map((cat) => (
                   <Link
                     key={cat.id}
                     href={`/collections/${cat.slug}`}
@@ -111,17 +100,14 @@ function Navigation({ categories }: NavigationProps) {
               </div>
             </div>
 
-            <div className="navigation__banner-wrapper">
-              <div className="navigation__banner">
-                <h5 className="navigation__banner-text">
-                  БОЛЕЕ 20 000 ВЫПОЛНЕННЫХ ЗАКАЗОВ
-                </h5>
+            <div className="navigation__sub-menu-bottom">
+              <div className="navigation__sub-menu-bottom-item">
+                <h5>БОЛЕЕ 20 000 ВЫПОЛНЕННЫХ ЗАКАЗОВ</h5>
               </div>
-              <div className="navigation__banner">
-                <h5 className="navigation__banner-text">
-                  Доставка по Москве и области
-                </h5>
-                <Link href="/collections" className="navigation__banner-link">
+
+              <div className="navigation__sub-menu-bottom-item">
+                <h5>Доставка по Москве и области</h5>
+                <Link href="/collections" className="navigation__sub-menu-bottom-link">
                   Купить сейчас
                 </Link>
               </div>
@@ -129,26 +115,22 @@ function Navigation({ categories }: NavigationProps) {
           </div>
         </li>
 
-        {navigationMenu.map((menu, i) => (
-          <Link
-            key={i + menu.href}
-            href={menu.href}
-            className="navigation__menu-link"
+        {/* Static navigation menu list */}
+        {STATIC_NAV_MENU.map((menu, i) => (
+          <li
+            key={i + menu.label}
+            className={["navigation__menu-item", pathname === menu.href ? "active" : ""].join(" ")}
+            data-testid="navigation-menu-item"
+            onClick={closeMenu}
           >
-            <li
-              className={[
-                "navigation__menu-item",
-                pathname === menu.href ? "active" : "",
-              ].join(" ")}
-              data-testid="navigation-menu-item"
-              onClick={closeMenu}
-            >
+            <Link href={menu.href} className="navigation__menu-link">
               {menu.label}
-            </li>
-          </Link>
+            </Link>
+          </li>
         ))}
       </ul>
     </nav>
   );
 }
+
 export default Navigation;

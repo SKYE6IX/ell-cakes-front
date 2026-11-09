@@ -24,7 +24,6 @@ async function getCategories() {
 
 async function Header() {
   const categories = await getCategories();
-
   return (
     <header className="header">
       <div className="header__inner-wrapper">

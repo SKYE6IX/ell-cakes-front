@@ -11,6 +11,7 @@
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
+
 .header__inner-wrapper {
   width: 100%;
   position: relative;
@@ -66,7 +67,9 @@
 .header__menu-button .menu-bar__middle {
   transform-origin: left center;
   transform-box: fill-box;
-  transition: transform 0.2s linear, opacity 0.2s ease-in;
+  transition:
+    transform 0.2s linear,
+    opacity 0.2s ease-in;
 }
 
 .header__menu-button.active .menu-bar__top {

@@ -248,7 +248,7 @@ describe("Collection Component", () => {
             categorySlug="pirozhnye"
             where={{ categories: { some: { slug: { equals: "pirozhnye" } } } }}
           />
-        </MockedProvider>
+        </MockedProvider>,
       );
     });
 
@@ -256,15 +256,9 @@ describe("Collection Component", () => {
     const heroSectionImages = screen.getAllByTestId("collection-hero-image");
     const heroSectionHeading = screen.getByTestId("collection-hero-heading");
     const heroSectionText = screen.getByTestId("collection-hero-text");
-    const deliveryInfoHeading = screen.getByTestId(
-      "collection-delivery-info-heading"
-    );
-    const deliveryInfoItems = screen.getAllByTestId(
-      "collection-delivery-info-item"
-    );
-    const deliveryInfoSectionImage = screen.getByTestId(
-      "collection-delivery-info-image"
-    );
+    const deliveryInfoHeading = screen.getByTestId("collection-delivery-info-heading");
+    const deliveryInfoItems = screen.getAllByTestId("collection-delivery-info-item");
+    const deliveryInfoSectionImage = screen.getByTestId("collection-delivery-info-image");
     // Act
     expect(heroSectionImages.length).toEqual(2);
     for (const el of heroSectionImages) {

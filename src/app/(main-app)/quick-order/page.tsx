@@ -1,0 +1,7 @@
+import React from "react";
+
+function page() {
+  return <div>Quick Order!</div>;
+}
+
+export default page;

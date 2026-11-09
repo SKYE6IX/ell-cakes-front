@@ -15,6 +15,7 @@
     box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.15);
     border-radius: 0px 0px 30px 0px;
   }
+
   @include max-breakpoint("s") {
     width: 90%;
     padding: 20px;
@@ -32,16 +33,19 @@
 .navigation__menu-wrapper {
   @include flex-layout(row, none, none, 20px);
   list-style: none;
+
   @include max-breakpoint("md") {
     flex-direction: column;
     gap: 50px;
   }
+
   @include max-breakpoint("s") {
     gap: 40px;
   }
 }
 
-.navigation__menu-item {
+.navigation__menu-item,
+.navigation__sub-menu-item {
   font-family: $font-uncage, sans-serif;
   text-transform: uppercase;
   font-size: 1rem;
@@ -50,6 +54,7 @@
   letter-spacing: 0.5px;
   color: $text-color;
   transition: color 0.2s ease-in;
+  cursor: pointer;
   @include max-breakpoint("md") {
     font-size: 1.5rem;
     line-height: 28.8px;
@@ -61,12 +66,16 @@
   }
 }
 
+.navigation__menu-item:hover,
+.navigation__sub-menu-item:hover {
+  color: $primary;
+}
+
 .navigation__menu-item-label.active,
 .navigation__menu-item.active {
   color: $primary;
 }
 
-// Label item inside the sub-menu
 .navigation__menu-item .navigation__menu-item-label {
   cursor: pointer;
   transition: color 0.2s ease-in;
@@ -75,28 +84,47 @@
   }
 }
 
-.navigation__menu-link:hover > .navigation__menu-item,
-.navigation__sub-menu-item:hover {
-  color: $primary;
+.navigation__sub-menu_mobile-trigger {
+  display: none;
+  @include max-breakpoint("1100px") {
+    display: flex;
+    width: 100px;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    svg {
+      transition: transform 0.2s linear;
+    }
+  }
+
+  @include max-breakpoint("s") {
+    svg {
+      width: 19px;
+      height: 19px;
+    }
+  }
 }
 
-.navigation__menu-item.show-widget:has(:hover) > .navigation__menu-item-label {
-  color: $primary;
+.navigation__sub-menu_mobile-trigger.active {
+  svg {
+    transform: rotate(180deg);
+  }
 }
 
-.navigation__menu-item.show-widget:has(:hover) > .navigation__widget {
+.navigation__menu-item:first-of-type:hover > .navigation__sub-menu {
   opacity: 1;
   pointer-events: all;
 }
 
-.navigation__widget {
-  @include flex-layout(column, none, none, none);
+.navigation__sub-menu {
   position: absolute;
-  height: 320px;
-  width: 100%;
-  background: $neutral;
-  left: 0px;
   top: calc(100% + 1px);
+  left: 0px;
+  right: 0px;
+  min-height: 320px;
+  background: $neutral;
+  @include flex-layout(column, none, none, none);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.1s ease-in;
@@ -112,7 +140,19 @@
   }
 }
 
-.navigation__widget.open-sub-menu {
+.navigation__sub-menu::before {
+  content: " ";
+  position: absolute;
+  top: -40px;
+  left: 0px;
+  right: 0px;
+  height: 40px;
+  @include max-breakpoint("md") {
+    display: none;
+  }
+}
+
+.navigation__sub-menu.open-sub-menu {
   grid-template-rows: 1fr;
   height: auto;
   & .navigation__sub-menu-wrapper {
@@ -120,78 +160,40 @@
   }
 }
 
-.navigation__widget-anchor {
-  position: absolute;
+.navigation__sub-menu-list-wrapper {
+  overflow: hidden;
+  height: auto;
+}
+
+.navigation__sub-menu-list {
   width: 100%;
-  height: 50px;
-  left: 0px;
-  top: -50px;
-  @include max-breakpoint("md") {
-    display: none;
-  }
-}
-
-.navigation__sub-menu-wrapper {
-  margin-left: 180px;
-  @include max-breakpoint("lg") {
-    margin-left: 160px;
-  }
-  @include max-breakpoint("md") {
-    margin-left: 0px;
-    overflow: hidden;
-    height: auto;
-  }
-}
-
-.navigation__sub-menu-trigger {
-  width: 100px;
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  svg {
-    transition: transform 0.2s linear;
-  }
-  @include max-breakpoint("s") {
-    svg {
-      width: 19px;
-      height: 19px;
-    }
-  }
-  @include min-breakpoint("1100px") {
-    display: none;
-  }
-}
-.navigation__sub-menu-trigger.active {
-  svg {
-    transform: rotate(180deg);
-  }
-}
-
-.navigation__sub-menu {
   padding-top: 20px;
-  width: 500px;
+  padding-left: 180px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid: repeat(4, 50px) / auto-flow 180px;
+  column-gap: 40px;
+  row-gap: 10px;
+
   @include max-breakpoint("md") {
-    padding-top: 15px;
-    margin-top: 15px;
+    grid: unset;
+    grid-template-columns: repeat(2, 1fr);
     border-top: 1px solid #d5d5d5;
+    margin-top: 15px;
+    padding-top: 15px;
+    padding-left: 10px;
   }
+
   @include max-breakpoint("s") {
-    width: 100%;
-    gap: 16px;
+    gap: 15px;
   }
 }
 
 .navigation__sub-menu-item {
-  transition: color 0.2s ease-in;
   @include max-breakpoint("md") {
     max-width: fit-content;
     font-size: 1rem;
   }
+
   @include max-breakpoint("s") {
     font-size: 0.75rem;
     line-height: 14.4px;
@@ -199,36 +201,22 @@
   }
 }
 
-.navigation__banner-wrapper {
+.navigation__sub-menu-bottom {
   margin-top: auto;
-  @include flex-layout(row, none, space-between, none);
-}
-
-.navigation__banner {
+  width: 100%;
   @include flex-layout(row, center, center, none);
-  padding: 20px 0px;
-  flex-grow: 1;
-  @include max-breakpoint("lg") {
-    padding: 15px 0px;
-  }
   @include max-breakpoint("md") {
     display: none;
   }
 }
 
-.navigation__banner:nth-of-type(1) {
-  background-color: $primary;
-}
-
-.navigation__banner:nth-of-type(2) {
-  background-color: $text-color;
-  gap: 60px;
-}
-
-.navigation__banner-text {
+.navigation__sub-menu-bottom-item {
+  width: 100%;
+  height: 66.4px;
+  @include flex-layout(row, center, center, none);
+  font-family: $font-uncage, sans-serif;
   font-size: 1.5rem;
   font-weight: 500;
-  text-align: center;
   color: $neutral;
   line-height: 26.4px;
   @include max-breakpoint("lg") {
@@ -237,10 +225,18 @@
   }
 }
 
-.navigation__banner-link {
+.navigation__sub-menu-bottom-item:first-child {
   background-color: $primary;
-  padding: 11px 13px;
-  color: $neutral;
+}
+
+.navigation__sub-menu-bottom-item:last-child {
+  background-color: $text-color;
+  gap: 60px;
+}
+
+.navigation__sub-menu-bottom-link {
+  background-color: $primary;
+  padding: 8px 12px;
   font-size: 1rem;
   font-weight: 500;
   border-radius: 10px;
