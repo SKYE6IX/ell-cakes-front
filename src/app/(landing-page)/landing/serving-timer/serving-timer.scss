@@ -1,0 +1,42 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.serving-timer {
+  padding-top: 16px;
+  border-top: 1px solid rgba($bg-secondary, 0.4);
+  @include flex-layout(row, center, space-between, 12px);
+  flex-wrap: wrap;
+}
+
+.serving-timer__clock {
+  font-family: $font-tenor-sans, serif;
+  font-size: 40px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.serving-timer__btns {
+  @include flex-layout(row, none, none, 8px);
+}
+.serving-timer__btn {
+  min-height: 44px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 999px;
+  background: $light-accent;
+  color: $dark-primary;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.serving-timer__btn.ghost {
+  background: transparent;
+  color: $bg-primary;
+  border: 1px solid $bg-primary;
+}
+
+.serving-timer__done {
+  color: $light-accent;
+  font-weight: 700;
+}
