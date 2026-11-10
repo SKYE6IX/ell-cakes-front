@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { GET_PRODUCT_HOME_BANNERS_QUERY } from "../operation";
 import Hero from "../hero-section/Hero";
-import { mockBannerData } from "mock-data";
+import { mockBannerData } from "../../../../mock-data";
 
 beforeEach(() => {
   global.IntersectionObserver = class {
@@ -39,7 +39,7 @@ describe("Hero Section Component", () => {
     render(
       <MockedProvider mocks={mocks}>
         <Hero />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     // Assert
@@ -56,7 +56,7 @@ describe("Hero Section Component", () => {
     render(
       <MockedProvider mocks={mocks}>
         <Hero />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     // Assert

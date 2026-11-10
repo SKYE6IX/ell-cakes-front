@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useQuery } from "@apollo/client/react";
-import { wrap } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import CustomImage from "@/components/custom-image/CustomImage";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon";
@@ -10,112 +10,81 @@ import { GET_PRODUCT_HOME_BANNERS_QUERY } from "../operation";
 import { defaultBanner } from "./default-banner";
 import "./hero-section.scss";
 
-function updateSlides(container: HTMLUListElement) {
-  const scrollWidth = container.scrollWidth;
-  const scrollLeft = container.scrollLeft;
-  const containerWidth = container.offsetWidth;
-  const slides = container.children;
-
-  if (scrollLeft <= containerWidth) {
-    container.prepend(slides[slides.length - 1]);
-    container.scrollLeft = scrollLeft + containerWidth;
-  }
-  if (scrollWidth - scrollLeft <= containerWidth) {
-    container.append(slides[0]);
-    container.scrollLeft = scrollLeft - containerWidth;
-  }
-}
+const variants = {
+  enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0.4 }),
+  center: { x: 0, opacity: 1 },
+  exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0.4 }),
+};
 
 function Hero() {
   const BANNER_NUM = 3;
-
   const { data } = useQuery(GET_PRODUCT_HOME_BANNERS_QUERY, {
     variables: { take: BANNER_NUM },
   });
 
   const fetchBanners = data?.productHomeBanners;
-
   const banners =
     fetchBanners && fetchBanners.length > 0 ? [defaultBanner, ...fetchBanners] : [defaultBanner];
+  const totalBanners = banners.length;
+  const wrap = (i: number) => ((i % totalBanners) + totalBanners) % totalBanners;
 
-  const containerRef = useRef<HTMLUListElement>(null);
+  const isSliderActive = totalBanners > 1;
 
-  const slideItemRefs = useRef<HTMLLIElement[]>([]);
+  const autoSlideId = useRef<NodeJS.Timeout | null>(null);
+  const [autoSlideFlag, setAutoSlideFlag] = useState(false);
+  const [[currentSlide, direction], setCurrentSlide] = useState([0, 0]);
+  const activeIndex = wrap(currentSlide);
+  const banner = banners[activeIndex];
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const paginate = useCallback((direction: number) => {
+    setCurrentSlide(([p]) => [p + direction, direction]);
+  }, []);
+
+  const changeSlide = (direction: 1 | -1) => {
+    if (autoSlideId.current) {
+      clearInterval(autoSlideId.current);
+      setAutoSlideFlag((prvState) => !prvState);
+    }
+    paginate(direction);
+  };
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    const container = containerRef.current;
-    const sliderItems = slideItemRefs.current;
-
-    if (!container || !sliderItems || sliderItems.length <= 1) {
-      return;
+    if (isSliderActive) {
+      autoSlideId.current = setInterval(() => {
+        paginate(1);
+      }, 7000);
     }
 
-    updateSlides(container);
-    const handleScroll = () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => {
-        updateSlides(container);
-      }, 50);
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      const visibleSlide = entries.filter((entry) => entry.isIntersecting)[0];
-      if (visibleSlide) {
-        const nextIndex = sliderItems.indexOf(visibleSlide.target as HTMLLIElement);
-        if (nextIndex !== -1) {
-          setActiveIndex(nextIndex);
-        }
-      }
-    });
-
-    sliderItems.forEach((slideItem) => observer.observe(slideItem));
-
-    container.addEventListener("scroll", handleScroll);
-
     return () => {
-      observer.disconnect();
-      container.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeout);
+      if (autoSlideId.current) {
+        clearInterval(autoSlideId.current);
+      }
     };
-  }, [fetchBanners]);
-
-  function changeSlide(newDirection: 1 | -1) {
-    const container = containerRef.current;
-    const slides = slideItemRefs.current;
-
-    if (!container || !slides) return;
-
-    setTimeout(() => {
-      const nextSlideIndex = wrap(0, slides.length, activeIndex - newDirection);
-
-      setActiveIndex(nextSlideIndex);
-
-      const nextSlide = slides[nextSlideIndex] as HTMLLIElement;
-
-      container.scrollTo({
-        left: nextSlide.offsetLeft,
-        behavior: "smooth",
-      });
-    }, 150);
-  }
+  }, [paginate, autoSlideFlag, isSliderActive]);
 
   return (
     <section className="hero">
-      <ul className="hero__media" ref={containerRef}>
-        {banners.map((banner, i) => (
-          <li
-            className="hero__images-wrapper"
-            id={`id-${i}`}
-            key={banner.id}
-            ref={(el) => {
-              if (el) {
-                slideItemRefs.current[i] = el;
-              }
+      <div className="hero__slider">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentSlide}
+            className="hero__slider-item"
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 32 },
+              opacity: { duration: 0.25 },
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.6}
+            onDragEnd={(_, { offset, velocity }) => {
+              const power = Math.abs(offset.x) * velocity.x;
+              if (offset.x < -80 || power < -8000) paginate(1);
+              else if (offset.x > 80 || power > 8000) paginate(-1);
             }}
           >
             <div className="hero__image-container">
@@ -143,9 +112,9 @@ function Hero() {
                 />
               )}
             </div>
-          </li>
-        ))}
-      </ul>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="hero__info">
         <div className="hero__info-text-wrapper">
@@ -169,32 +138,38 @@ function Hero() {
           )}
         </div>
 
-        <div className="hero__carousel-control">
-          <button
-            className="hero__carousel-btn"
-            onClick={() => changeSlide(-1)}
-            disabled={fetchBanners === undefined}
-          >
-            <ArrowLeftIcon />
-          </button>
-          <button
-            className="hero__carousel-btn"
-            onClick={() => changeSlide(1)}
-            disabled={fetchBanners === undefined}
-          >
-            <ArrowRightIcon />
-          </button>
-        </div>
+        {/* Controller */}
+        {isSliderActive && (
+          <>
+            <div className="hero__carousel-control">
+              <button
+                className="hero__carousel-btn"
+                onClick={() => changeSlide(-1)}
+                disabled={fetchBanners === undefined}
+              >
+                <ArrowLeftIcon />
+              </button>
+              <button
+                className="hero__carousel-btn"
+                onClick={() => changeSlide(1)}
+                disabled={fetchBanners === undefined}
+              >
+                <ArrowRightIcon />
+              </button>
+            </div>
 
-        {fetchBanners && (
-          <ul className="hero__pagination-list">
-            {banners.map((_, idx) => (
-              <li
-                key={idx}
-                className={["hero__pagination-item", activeIndex === idx ? "active" : ""].join(" ")}
-              />
-            ))}
-          </ul>
+            {/* Paginations */}
+            <ul className="hero__pagination-list">
+              {banners.map((_, idx) => (
+                <li
+                  key={idx}
+                  className={["hero__pagination-item", activeIndex === idx ? "active" : ""].join(
+                    " ",
+                  )}
+                />
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </section>
