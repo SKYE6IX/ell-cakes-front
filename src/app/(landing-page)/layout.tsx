@@ -1,8 +1,8 @@
 import React from "react";
-import "../../global-styles/globals.scss";
+import "./landing-layout.scss";
 
 function LandingLayout({ children }: { children: React.ReactNode }) {
-  return <main>{children}</main>;
+  return <main className="landing-layout">{children}</main>;
 }
 
 export default LandingLayout;
