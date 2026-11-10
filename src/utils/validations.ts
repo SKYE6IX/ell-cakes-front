@@ -32,6 +32,7 @@ const loginSchema = z.object({
       error: "Invalid character!",
     }),
 });
+
 // /^[A-Za-z0-9!@#$]+$/
 const updateUserSchema = z.object({
   name: z
@@ -48,9 +49,24 @@ const updateUserSchema = z.object({
   phoneNumber: z.string().min(11).max(11),
 });
 
-export function validateRegistrationFields(
-  registerData: z.output<typeof registerSchema>
-) {
+const requestCallSchema = z.object({
+  email: z.email({
+    error: "Invalid email address",
+  }),
+  company: z
+    .string({
+      error: "Invalid company input",
+    })
+    .min(1),
+  message: z
+    .string({
+      error: "Invalid message input",
+    })
+    .min(3),
+  phoneNumber: z.string().min(11).max(11),
+});
+
+export function validateRegistrationFields(registerData: z.output<typeof registerSchema>) {
   return registerSchema.safeParse(registerData);
 }
 
@@ -58,8 +74,10 @@ export function validateLoginFields(loginData: z.output<typeof loginSchema>) {
   return loginSchema.safeParse(loginData);
 }
 
-export function validateUpdateFields(
-  updateData: z.output<typeof updateUserSchema>
-) {
+export function validateUpdateFields(updateData: z.output<typeof updateUserSchema>) {
   return updateUserSchema.safeParse(updateData);
+}
+
+export function validaterequestCallFields(requestCallField: z.output<typeof requestCallSchema>) {
+  return requestCallSchema.safeParse(requestCallField);
 }

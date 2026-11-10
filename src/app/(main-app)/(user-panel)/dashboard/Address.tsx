@@ -116,7 +116,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="floor"
-                  initialValue={formState.floor}
+                  value={formState.floor}
                   placeholder="Этаж"
                   type="text"
                   autoComplete="off"
@@ -125,7 +125,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="apartmentNumber"
-                  initialValue={formState.apartmentNumber}
+                  value={formState.apartmentNumber}
                   placeholder="Квартира"
                   type="text"
                   autoComplete="off"
@@ -134,7 +134,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="intercomCode"
-                  initialValue={formState.intercomCode}
+                  value={formState.intercomCode}
                   placeholder="Домофон"
                   type="text"
                   autoComplete="off"
@@ -168,7 +168,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="floor"
-                  initialValue={formState.floor}
+                  value={formState.floor}
                   placeholder="Этаж"
                   type="text"
                   autoComplete="off"
@@ -177,7 +177,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="apartmentNumber"
-                  initialValue={formState.apartmentNumber}
+                  value={formState.apartmentNumber}
                   placeholder="Квартира"
                   type="text"
                   autoComplete="off"
@@ -186,7 +186,7 @@ function Address({ authUser }: AddressProps) {
                 />
                 <Input
                   name="intercomCode"
-                  initialValue={formState.intercomCode}
+                  value={formState.intercomCode}
                   placeholder="Домофон"
                   type="text"
                   autoComplete="off"

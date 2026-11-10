@@ -57,7 +57,7 @@ function Login() {
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="login-form__fields">
           <Input
-            initialValue={formState.email}
+            value={formState.email}
             name="email"
             placeholder="Почта"
             type="email"
@@ -66,7 +66,7 @@ function Login() {
           />
 
           <Input
-            initialValue={formState.password}
+            value={formState.password}
             name="password"
             placeholder="Пароль"
             type="password"
@@ -74,11 +74,7 @@ function Login() {
             hasError={errorFeilds.includes("password")}
           />
 
-          {error && (
-            <span className="login-form__error-message">
-              Неверный почты или пароль
-            </span>
-          )}
+          {error && <span className="login-form__error-message">Неверный почты или пароль</span>}
         </div>
 
         <button type="submit" className="login-form__submit-button">
@@ -98,20 +94,12 @@ function Login() {
       <div className="login__divider" />
 
       <div className="login__footer">
-        <h5
-          className="login__footer__subtitle"
-          data-testid="login-page-sub-title"
-        >
+        <h5 className="login__footer__subtitle" data-testid="login-page-sub-title">
           зарегистрируйтесь и получите скидку 15% на первую покупку!
         </h5>
 
         <div className="login__footer-btn">
-          <Button
-            textKey="Создать аккаунт"
-            href="/registration"
-            fullWidth
-            variant="outline"
-          />
+          <Button textKey="Создать аккаунт" href="/registration" fullWidth variant="outline" />
         </div>
       </div>
     </section>

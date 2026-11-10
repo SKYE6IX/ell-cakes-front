@@ -9,6 +9,7 @@ import { useUserDataExistQuery } from "@/hooks/useUserDataExistQuery";
 import { useRegisterUserMutation } from "@/hooks/useRegisterUserMutation";
 import Loader from "@/components/loader/Loader";
 import "./registration.scss";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 
 const initialState = {
   name: "",
@@ -68,7 +69,7 @@ function RegistrationPage() {
       <form className="registration-form" onSubmit={handleSubmit}>
         <div className="registration-form__fields">
           <Input
-            initialValue={formState.name}
+            value={formState.name}
             name="name"
             placeholder="Имя"
             onInputChange={onInputChange}
@@ -77,7 +78,7 @@ function RegistrationPage() {
           />
           <div className="registration-form__fields-phone">
             <Input
-              initialValue={formState.phoneNumber}
+              value={formState.phoneNumber ? formatPhoneNumber(formState.phoneNumber) : ""}
               name="phoneNumber"
               placeholder="Телефон"
               type="tel"
@@ -91,7 +92,7 @@ function RegistrationPage() {
 
           <div className="registration-form__fields-email">
             <Input
-              initialValue={formState.email}
+              value={formState.email}
               name="email"
               placeholder="Почта"
               type="email"
@@ -104,7 +105,7 @@ function RegistrationPage() {
           </div>
 
           <Input
-            initialValue={formState.password}
+            value={formState.password}
             name="password"
             placeholder="Пароль"
             type="password"

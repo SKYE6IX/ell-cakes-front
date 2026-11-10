@@ -98,7 +98,7 @@ function ConfirmPhonePage() {
           <form onSubmit={handleSubmit}>
             <div className="verify-user__change-email-wrapper">
               <Input
-                initialValue={confirmPageState.newEmail}
+                value={confirmPageState.newEmail}
                 name="email"
                 placeholder="Почта"
                 type="email"

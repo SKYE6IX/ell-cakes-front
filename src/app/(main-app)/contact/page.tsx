@@ -24,7 +24,14 @@ function Contact() {
 
         <div className="contact__link-wrapper">
           <div className="footer__link-wrapper-item">
-            <h4 className="footer__link-wrapper-item__title">почта:</h4>
+            <h4 className="footer__link-wrapper-item__title">Сотрудничество:</h4>
+            <Link href="/collaboration" className="footer__link-wrapper-item__text underline">
+              Давайте сотрудничать.
+            </Link>
+          </div>
+
+          <div className="footer__link-wrapper-item">
+            <h4 className="footer__link-wrapper-item__title">Почта:</h4>
             <Link
               href="mailto:info@ellcakes.net"
               className="footer__link-wrapper-item__text underline"
@@ -34,17 +41,14 @@ function Contact() {
           </div>
 
           <div className="footer__link-wrapper-item">
-            <h4 className="footer__link-wrapper-item__title">адрес:</h4>
-            <p
-              className="footer__link-wrapper-item__text"
-              data-testid="contact-address"
-            >
+            <h4 className="footer__link-wrapper-item__title">Адрес:</h4>
+            <p className="footer__link-wrapper-item__text" data-testid="contact-address">
               Московская область, город Котельники, ул. Кузьминская, 17
             </p>
           </div>
 
           <div className="footer__link-wrapper-item">
-            <h4 className="footer__link-wrapper-item__title">связаться:</h4>
+            <h4 className="footer__link-wrapper-item__title">Связаться:</h4>
             <Link
               href={tlUrl}
               target="_blank"
@@ -55,7 +59,7 @@ function Contact() {
           </div>
 
           <div className="footer__link-wrapper-item">
-            <h4 className="footer__link-wrapper-item__title">телефон:</h4>
+            <h4 className="footer__link-wrapper-item__title">Телефон:</h4>
             <Link
               href="tel:+79651950599"
               className="footer__link-wrapper-item__text underline"
@@ -66,9 +70,7 @@ function Contact() {
           </div>
 
           <div className="footer__link-wrapper-item">
-            <h4 className="footer__link-wrapper-item__title">
-              социальные сети:
-            </h4>
+            <h4 className="footer__link-wrapper-item__title">Социальные сети:</h4>
             <div>
               <Link
                 className="footer__link-wrapper-item__link"

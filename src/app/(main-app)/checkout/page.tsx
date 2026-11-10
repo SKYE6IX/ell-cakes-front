@@ -236,7 +236,7 @@ function Checkout() {
               <h3 className="user-info__section-title">5. Пожелания к заказу</h3>
               <Input
                 name="comment"
-                initialValue={checkoutState.customerComment}
+                value={checkoutState.customerComment}
                 placeholder="Комментарий *"
                 onInputChange={onInputChange}
                 type="text"

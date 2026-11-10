@@ -36,7 +36,7 @@ function OrderReceiver({ dispatch }: OrderReceiverProps) {
         <div className="order-receiver__inputs-wrapper">
           <Input
             name="name"
-            initialValue=""
+            value=""
             placeholder="Имя"
             onInputChange={onInputChange}
             type="text"
@@ -44,24 +44,18 @@ function OrderReceiver({ dispatch }: OrderReceiverProps) {
           />
           <Input
             name="phoneNumber"
-            initialValue=""
+            value=""
             placeholder="Телефон"
             onInputChange={onInputChange}
             type="tel"
             hasError={false}
           />
-          <button
-            className="order-receiver__close-btn"
-            onClick={removeOrderReceiver}
-          >
+          <button className="order-receiver__close-btn" onClick={removeOrderReceiver}>
             Заказ для себя
           </button>
         </div>
       ) : (
-        <button
-          className="order-receiver__open-btn"
-          onClick={handleSetShowInputs}
-        >
+        <button className="order-receiver__open-btn" onClick={handleSetShowInputs}>
           Добавить
         </button>
       )}

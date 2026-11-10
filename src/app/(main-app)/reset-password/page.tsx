@@ -118,7 +118,7 @@ export default function ResetPasswordPage() {
               <h3 className="reset-password-card__title">Смена пароля</h3>
               <form className="reset-password-form" onSubmit={handleRequestResetToken}>
                 <Input
-                  initialValue={resetPasswordState.email}
+                  value={resetPasswordState.email}
                   name="email"
                   placeholder="Почта"
                   type="email"
@@ -157,7 +157,7 @@ export default function ResetPasswordPage() {
               <h3 className="reset-password__new-password-header">Введите новый пароль</h3>
               <form onSubmit={handleUpdatePassword}>
                 <Input
-                  initialValue={resetPasswordState.password}
+                  value={resetPasswordState.password}
                   name="password"
                   placeholder="ПАРОЛЬ"
                   type="password"

@@ -56,18 +56,15 @@ type AuthenticationBlockProps = {
 };
 
 function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
-  const [authenticationState, setAuthenticationState] =
-    useState<AuthenticationState>({
-      errorFeilds: [],
-      loginState: loginState,
-      registerState: registerState,
-      currentView: "login",
-    });
+  const [authenticationState, setAuthenticationState] = useState<AuthenticationState>({
+    errorFeilds: [],
+    loginState: loginState,
+    registerState: registerState,
+    currentView: "login",
+  });
 
   // RESEND PHONE NUMBER TOKEN
-  const [resendUserVerificationToken] = useMutation(
-    RESEND_USER_VERIFICATION_TOKEN
-  );
+  const [resendUserVerificationToken] = useMutation(RESEND_USER_VERIFICATION_TOKEN);
 
   const {
     loading: isLoginLoading,
@@ -103,12 +100,8 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
     callback() {},
   });
 
-  const {
-    debounceEmailInUse,
-    debouncePhoneInUser,
-    emailValidation,
-    phoneValidation,
-  } = useUserDataExistQuery();
+  const { debounceEmailInUse, debouncePhoneInUser, emailValidation, phoneValidation } =
+    useUserDataExistQuery();
 
   const setCurrentView = (view: "login" | "register") => {
     setAuthenticationState((prvState) => ({
@@ -118,13 +111,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   };
 
   // CONTROL LOGIN INPUT
-  const onLoginInputChange = ({
-    name,
-    value,
-  }: {
-    name: string;
-    value: string;
-  }) => {
+  const onLoginInputChange = ({ name, value }: { name: string; value: string }) => {
     setAuthenticationState((preState) => ({
       ...preState,
       loginState: { ...preState.loginState, [name]: value },
@@ -138,13 +125,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   };
 
   // CONTROL REGISTER INPUT
-  const onRegisterInputChange = ({
-    name,
-    value,
-  }: {
-    name: string;
-    value: string;
-  }) => {
+  const onRegisterInputChange = ({ name, value }: { name: string; value: string }) => {
     setAuthenticationState((preState) => ({
       ...preState,
       registerState: { ...preState.registerState, [name]: value },
@@ -186,9 +167,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
   const handleRegisterUser = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validatedFields = validateLoginFields(
-      authenticationState.registerState
-    );
+    const validatedFields = validateLoginFields(authenticationState.registerState);
 
     if (validatedFields.error) {
       validatedFields.error.issues.forEach((issue) => {
@@ -217,14 +196,11 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
       {authenticationState.currentView === "login" && !authUser && (
         <div className="authentication-block__login">
           <h3 className="authentication-block__login-title"> Авторизация</h3>
-          <form
-            onSubmit={handleLoginUser}
-            className="authentication-block__login-form"
-          >
+          <form onSubmit={handleLoginUser} className="authentication-block__login-form">
             <div className="authentication-block__input-wrapper">
               <Input
                 name="email"
-                initialValue={authenticationState.loginState.email}
+                value={authenticationState.loginState.email}
                 placeholder="Почта"
                 type="email"
                 onInputChange={onLoginInputChange}
@@ -232,16 +208,14 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               />
               <Input
                 name="password"
-                initialValue={authenticationState.loginState.password}
+                value={authenticationState.loginState.password}
                 placeholder="Пароль"
                 type="password"
                 onInputChange={onLoginInputChange}
                 hasError={authenticationState.errorFeilds.includes("password")}
               />
               {error && (
-                <span className="authentication-block__login-error">
-                  Неверный почты или пароль
-                </span>
+                <span className="authentication-block__login-error">Неверный почты или пароль</span>
               )}
             </div>
             <div className="authentication-block__btn-wrapper">
@@ -259,9 +233,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
           </form>
 
           <div className="authentication-block__need-help">
-            <h4 className="authentication-block__need-help-heading">
-              Есть вопросы? Мы на связи!
-            </h4>
+            <h4 className="authentication-block__need-help-heading">Есть вопросы? Мы на связи!</h4>
             <ul className="authentication-block__need-help-list">
               <li className="authentication-block__need-help-item">
                 <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
@@ -280,13 +252,10 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
       {authenticationState.currentView === "register" && !authUser && (
         <div className="authentication-block__register">
           <h3 className="authentication-block__register-title">Регистрация</h3>
-          <form
-            onSubmit={handleRegisterUser}
-            className="authentication-block__register-form"
-          >
+          <form onSubmit={handleRegisterUser} className="authentication-block__register-form">
             <div className="authentication-block__input-wrapper">
               <Input
-                initialValue={authenticationState.registerState.name}
+                value={authenticationState.registerState.name}
                 name="name"
                 placeholder="Имя"
                 onInputChange={onRegisterInputChange}
@@ -296,7 +265,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
 
               <div className="authentication-block__input-email">
                 <Input
-                  initialValue={authenticationState.registerState.email}
+                  value={authenticationState.registerState.email}
                   name="email"
                   placeholder="Почта"
                   type="email"
@@ -312,14 +281,12 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
 
               <div className="authentication-block__input-phone">
                 <Input
-                  initialValue={authenticationState.registerState.phoneNumber}
+                  value={authenticationState.registerState.phoneNumber}
                   name="phoneNumber"
                   placeholder="Телефон"
                   type="tel"
                   onInputChange={onRegisterInputChange}
-                  hasError={authenticationState.errorFeilds.includes(
-                    "phoneNumber"
-                  )}
+                  hasError={authenticationState.errorFeilds.includes("phoneNumber")}
                 />
                 {phoneValidation?.isPhoneNumberInUse && (
                   <span className="authentication-block__input-phone-validation">
@@ -329,7 +296,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               </div>
 
               <Input
-                initialValue={authenticationState.registerState.password}
+                value={authenticationState.registerState.password}
                 name="password"
                 placeholder="Пароль"
                 type="password"
@@ -338,10 +305,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
               />
             </div>
             <div className="authentication-block__btn-wrapper">
-              <button
-                className="authentication-block__register-btn"
-                type="submit"
-              >
+              <button className="authentication-block__register-btn" type="submit">
                 {isRegisterLoading ? <Loader /> : "Зарегистрироваться"}
               </button>
               <button

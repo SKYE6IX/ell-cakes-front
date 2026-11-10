@@ -35,19 +35,17 @@ function DeliveryAddress({
     dispatch({ type: "manage_address_modal", payload: "create" });
   };
 
-  const { createDelivaryAddress, loading: createLoading } =
-    useCreateDeliveryAddress({
-      formState,
-      callBack: closeModal,
-      userId: authUser?.id,
-    });
+  const { createDelivaryAddress, loading: createLoading } = useCreateDeliveryAddress({
+    formState,
+    callBack: closeModal,
+    userId: authUser?.id,
+  });
 
-  const { updateDelivaryAddress, loading: updateLoading } =
-    useUpdateDeliveryAddress({
-      formState,
-      callBack: closeModal,
-      userId: authUser?.id,
-    });
+  const { updateDelivaryAddress, loading: updateLoading } = useUpdateDeliveryAddress({
+    formState,
+    callBack: closeModal,
+    userId: authUser?.id,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,11 +77,7 @@ function DeliveryAddress({
   };
 
   return (
-    <Modal
-      showModal={showModalAddress}
-      handleCloseModal={closeModal}
-      headingText="Новый адрес"
-    >
+    <Modal showModal={showModalAddress} handleCloseModal={closeModal} headingText="Новый адрес">
       <div className="delivery-address">
         <form onSubmit={handleSubmit} className="delivery-address__form">
           <div className="delivery-address__input-list">
@@ -94,7 +88,7 @@ function DeliveryAddress({
             <div className="delivery-address__input-list-middle">
               <Input
                 name="floor"
-                initialValue={formState.floor}
+                value={formState.floor}
                 placeholder="Этаж"
                 type="text"
                 autoComplete="off"
@@ -103,7 +97,7 @@ function DeliveryAddress({
               />
               <Input
                 name="apartmentNumber"
-                initialValue={formState.apartmentNumber}
+                value={formState.apartmentNumber}
                 placeholder="Квартира"
                 type="text"
                 autoComplete="off"
@@ -113,7 +107,7 @@ function DeliveryAddress({
             </div>
             <Input
               name="intercomCode"
-              initialValue={formState.intercomCode}
+              value={formState.intercomCode}
               placeholder="Домофон"
               type="text"
               autoComplete="off"
@@ -122,11 +116,7 @@ function DeliveryAddress({
             />
           </div>
           <button className="delivery-address__submit" type="submit">
-            {createLoading || updateLoading ? (
-              <div className="loader"></div>
-            ) : (
-              "Добавить адрес"
-            )}
+            {createLoading || updateLoading ? <div className="loader"></div> : "Добавить адрес"}
           </button>
         </form>
       </div>
