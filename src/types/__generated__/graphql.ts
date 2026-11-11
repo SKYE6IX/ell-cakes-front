@@ -1101,6 +1101,8 @@ export type Mutation = {
   createProductVideo: Maybe<ProductVideo>;
   createProductVideos: Maybe<Array<Maybe<ProductVideo>>>;
   createProducts: Maybe<Array<Maybe<Product>>>;
+  createReview: Maybe<Review>;
+  createReviews: Maybe<Array<Maybe<Review>>>;
   createTopping: Maybe<Topping>;
   createToppingOption: Maybe<ToppingOption>;
   createToppingOptions: Maybe<Array<Maybe<ToppingOption>>>;
@@ -1148,6 +1150,8 @@ export type Mutation = {
   deleteProductVideo: Maybe<ProductVideo>;
   deleteProductVideos: Maybe<Array<Maybe<ProductVideo>>>;
   deleteProducts: Maybe<Array<Maybe<Product>>>;
+  deleteReview: Maybe<Review>;
+  deleteReviews: Maybe<Array<Maybe<Review>>>;
   deleteTopping: Maybe<Topping>;
   deleteToppingOption: Maybe<ToppingOption>;
   deleteToppingOptions: Maybe<Array<Maybe<ToppingOption>>>;
@@ -1203,6 +1207,8 @@ export type Mutation = {
   updateProductVideo: Maybe<ProductVideo>;
   updateProductVideos: Maybe<Array<Maybe<ProductVideo>>>;
   updateProducts: Maybe<Array<Maybe<Product>>>;
+  updateReview: Maybe<Review>;
+  updateReviews: Maybe<Array<Maybe<Review>>>;
   updateTopping: Maybe<Topping>;
   updateToppingOption: Maybe<ToppingOption>;
   updateToppingOptions: Maybe<Array<Maybe<ToppingOption>>>;
@@ -1455,6 +1461,16 @@ export type MutationCreateProductsArgs = {
 };
 
 
+export type MutationCreateReviewArgs = {
+  data: ReviewCreateInput;
+};
+
+
+export type MutationCreateReviewsArgs = {
+  data: Array<ReviewCreateInput>;
+};
+
+
 export type MutationCreateToppingArgs = {
   data: ToppingCreateInput;
 };
@@ -1690,6 +1706,16 @@ export type MutationDeleteProductsArgs = {
 };
 
 
+export type MutationDeleteReviewArgs = {
+  where: ReviewWhereUniqueInput;
+};
+
+
+export type MutationDeleteReviewsArgs = {
+  where: Array<ReviewWhereUniqueInput>;
+};
+
+
 export type MutationDeleteToppingArgs = {
   where: ToppingWhereUniqueInput;
 };
@@ -1742,7 +1768,7 @@ export type MutationRemoveFromCartArgs = {
 
 
 export type MutationRequestCallArgs = {
-  phoneNumber: Scalars['String']['input'];
+  requestCallInput: RequestCallInput;
 };
 
 
@@ -1980,6 +2006,17 @@ export type MutationUpdateProductVideosArgs = {
 
 export type MutationUpdateProductsArgs = {
   data: Array<ProductUpdateArgs>;
+};
+
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewUpdateInput;
+  where: ReviewWhereUniqueInput;
+};
+
+
+export type MutationUpdateReviewsArgs = {
+  data: Array<ReviewUpdateArgs>;
 };
 
 
@@ -3336,6 +3373,9 @@ export type Query = {
   queryAuthorizedUser: Maybe<User>;
   queryCart: Maybe<Cart>;
   querySimilarProducts: Array<Product>;
+  review: Maybe<Review>;
+  reviews: Maybe<Array<Review>>;
+  reviewsCount: Maybe<Scalars['Int']['output']>;
   topping: Maybe<Topping>;
   toppingOption: Maybe<ToppingOption>;
   toppingOptions: Maybe<Array<ToppingOption>>;
@@ -3744,6 +3784,25 @@ export type QueryQuerySimilarProductsArgs = {
 };
 
 
+export type QueryReviewArgs = {
+  where: ReviewWhereUniqueInput;
+};
+
+
+export type QueryReviewsArgs = {
+  cursor?: InputMaybe<ReviewWhereUniqueInput>;
+  orderBy?: Array<ReviewOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ReviewWhereInput;
+};
+
+
+export type QueryReviewsCountArgs = {
+  where?: ReviewWhereInput;
+};
+
+
 export type QueryToppingArgs = {
   where: ToppingWhereUniqueInput;
 };
@@ -3816,6 +3875,67 @@ export type RegisterUserInput = {
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
+};
+
+export type RequestCallInput = {
+  company: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+};
+
+export type Review = {
+  __typename: 'Review';
+  createdAt: Maybe<Scalars['DateTime']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  image: Maybe<ImageFieldOutput>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
+  user: Maybe<Scalars['String']['output']>;
+};
+
+export type ReviewCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ReviewOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  description?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+  user?: InputMaybe<OrderDirection>;
+};
+
+export type ReviewUpdateArgs = {
+  data: ReviewUpdateInput;
+  where: ReviewWhereUniqueInput;
+};
+
+export type ReviewUpdateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<ImageFieldInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ReviewWhereInput = {
+  AND?: InputMaybe<Array<ReviewWhereInput>>;
+  NOT?: InputMaybe<Array<ReviewWhereInput>>;
+  OR?: InputMaybe<Array<ReviewWhereInput>>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  updatedAt?: InputMaybe<DateTimeNullableFilter>;
+  user?: InputMaybe<StringFilter>;
+};
+
+export type ReviewWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type StringFilter = {
@@ -4291,7 +4411,7 @@ export type CheckOutMutationVariables = Exact<{
 export type CheckOutMutation = { checkOut: { __typename: 'Payment', id: string, redirectUrl: string | null, confirmationUrl: string | null } };
 
 export type RequestCallMutationVariables = Exact<{
-  phoneNumber: Scalars['String']['input'];
+  requestCallInput: RequestCallInput;
 }>;
 
 
@@ -4408,7 +4528,7 @@ export type GetCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null, parent: { __typename: 'Category', id: string, slug: string | null } | null }> | null };
+export type GetCategoriesQuery = { categories: Array<{ __typename: 'Category', id: string, name: string | null, slug: string | null, priority: number | null, parent: { __typename: 'Category', id: string, slug: string | null } | null }> | null };
 
 export type ProductHomeBannersQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;

@@ -1,2 +1,106 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/shared-styles" as *;
+
+.review-section {
+  padding: 50px 0px;
+  @include flex-layout(column, none, center, 50px);
+  @include max-breakpoint("s") {
+    padding: 30px 0px;
+    gap: 30px;
+  }
+}
+
+.review-section__header {
+  padding: 0px 50px;
+  @include max-breakpoint("s") {
+    padding: 0px 20px;
+  }
+}
+
+.review-section__header-title {
+  font-family: $font-tenor-sans, sans-serif;
+  font-size: 2.5rem;
+  line-height: 44px;
+  font-weight: 500;
+  color: $dark-primary;
+  @include max-breakpoint("s") {
+    font-size: 2rem;
+    line-height: 30px;
+  }
+}
+
+.review-section__body {
+  width: 100%;
+}
+
+.review-section__testimonial {
+  --gutter: 30px;
+  width: 100%;
+  @include flex-layout(row, none, center, var(--gutter));
+  padding: 0px var(--gutter);
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  touch-action: pan-x;
+  scroll-snap-type: x mandatory;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include max-breakpoint("s") {
+    --gutter: 20px;
+  }
+}
+
+.review-section__testimonial.scroll {
+  justify-content: flex-start;
+}
+
+.review-section__testimonial.scroll .review-section__testimonial-item {
+  flex-shrink: 0;
+}
+
+.review-section__testimonial-item {
+  width: 100%;
+  max-width: 400px;
+  @include flex-layout(column, none, none, 15px);
+
+  @include max-breakpoint("s") {
+    max-width: 300px;
+  }
+}
+
+.review-section__testimonial-title {
+  padding: 0px 10px;
+  font-family: $font-tenor-sans, sans-serif;
+  font-size: 1.125rem;
+  line-height: 21.6px;
+  color: $dark-primary;
+  font-weight: 800;
+}
+
+.review-section__testimonial-media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  border-radius: 15px;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+}
+
+.review-section__testimonial-description {
+  padding: 0px 10px;
+  font-family: $font-manrope, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 19.2px;
+  color: $dark-primary;
+}
