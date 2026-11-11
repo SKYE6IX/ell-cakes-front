@@ -6,6 +6,7 @@ import AboutUs from "./about-us-section/AboutUs";
 import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
 import "./home.scss";
+import Reviews from "./reviews/Reviews";
 
 async function Home() {
   return (
@@ -17,6 +18,7 @@ async function Home() {
       <CustomizeInfo />
       <AboutUs />
       <GeneralFaq />
+      <Reviews />
     </div>
   );
 }
