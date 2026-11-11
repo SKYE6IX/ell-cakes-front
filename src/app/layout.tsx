@@ -13,7 +13,7 @@ const tenorSans = Tenor_Sans({
 const manrope = Manrope({
   subsets: ["cyrillic"],
   display: "swap",
-  weight: ["200", "300", "400", "500", "600"],
+  weight: ["200", "300", "400", "500", "600", "700"],
   variable: "--manrope-font",
   preload: true,
 });
