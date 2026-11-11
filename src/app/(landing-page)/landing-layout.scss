@@ -1,0 +1,21 @@
+@use "@/global-styles/variables" as *;
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: $bg-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.landing-layout {
+  width: 100%;
+  min-height: 100vh;
+  background: $bg-primary;
+}
