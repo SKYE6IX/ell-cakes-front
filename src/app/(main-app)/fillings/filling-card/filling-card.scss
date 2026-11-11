@@ -1,0 +1,84 @@
+@use "@/global-styles/variables" as *;
+@use "@/global-styles/shared-styles" as *;
+
+.filling-card {
+  width: 100%;
+  @include flex-layout(column, center, none, 20px);
+  @include max-breakpoint("s") {
+    gap: 15px;
+  }
+}
+
+.filling-card__media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  border-radius: 15px;
+  overflow: hidden;
+  background: $bg-secondary;
+}
+.filling-card__image {
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.filling-card:hover .filling-card__image {
+  transform: scale(1.05);
+}
+
+.filling-card__content {
+  width: 100%;
+  text-align: center;
+  @include flex-layout(column, center, none, 12px);
+}
+
+.filling-card__name {
+  font-family: $font-tenor-sans, sans-serif;
+  font-weight: 400;
+  font-size: 1.375rem;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: $dark-primary;
+  // Reserve two lines so the price blocks line up across a grid row.
+  min-height: 2.5em;
+  @include flex-layout(row, center, center, none);
+  @include max-breakpoint("lg") {
+    font-size: 1.25rem;
+  }
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+    min-height: auto;
+  }
+}
+
+.filling-card__prices {
+  padding: 10px 16px;
+  border-top: 1px solid $bg-secondary;
+  border-bottom: 1px solid $bg-secondary;
+  @include flex-layout(column, center, none, 2px);
+}
+.filling-card__price {
+  font-family: $font-manrope, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: $dark-primary;
+  @include max-breakpoint("s") {
+    font-size: 0.875rem;
+  }
+}
+
+.filling-card__description {
+  list-style: none;
+  @include flex-layout(column, center, none, 2px);
+}
+.filling-card__description-item {
+  font-family: $font-manrope, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  font-weight: 400;
+  color: $dark-primary;
+  @include max-breakpoint("s") {
+    font-size: 0.875rem;
+  }
+}
