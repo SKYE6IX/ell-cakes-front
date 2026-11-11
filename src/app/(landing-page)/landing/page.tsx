@@ -26,9 +26,7 @@ function LandingPage() {
 
       <div className="care-card__hero">
         <span className="care-card__label">Ваш торт уже у вас</span>
-        <h1 className="care-card__title">
-          Пусть он запомнится таким же вкусным
-        </h1>
+        <h1 className="care-card__title">Пусть он запомнится таким же вкусным</h1>
         <p className="care-card__hero-text">
           Пара простых советов, чтобы торт был таким, каким мы его задумали.
         </p>
@@ -60,41 +58,31 @@ function LandingPage() {
           </div>
           <div className="care-card__fact">
             <b className="care-card__fact-value">24 часа</b>
-            <span className="care-card__fact-text">
-              свежесть ягод в украшении
-            </span>
+            <span className="care-card__fact-text">свежесть ягод в украшении</span>
           </div>
         </div>
       </section>
 
-      <section
-        className="care-card__section care-card__section--secret"
-        aria-labelledby="h-secret"
-      >
-        <span className="care-card__label">
-          Маленький секрет идеальной подачи
-        </span>
+      <section className="care-card__section care-card__section--secret" aria-labelledby="h-secret">
+        <span className="care-card__label">Маленький секрет идеальной подачи</span>
         <h2 className="care-card__heading" id="h-secret">
           15–30 минут при комнатной температуре
         </h2>
         <p className="care-card__secret-text">
-          Дайте торту постоять 15–30 минут перед подачей — так его текстура
-          станет нежнее, а вкус раскроется во всей полноте.
+          Дайте торту постоять 15–30 минут перед подачей — так его текстура станет нежнее, а вкус
+          раскроется во всей полноте.
         </p>
         <ServingTimer />
       </section>
 
-      <section
-        className="care-card__section care-card__section--review"
-        aria-labelledby="h-review"
-      >
+      <section className="care-card__section care-card__section--review" aria-labelledby="h-review">
         <span className="care-card__label">Будем рады отзыву</span>
         <h2 className="care-card__heading" id="h-review">
           Понравился торт? Расскажите об этом
         </h2>
         <p className="care-card__review-text">
-          Ваш отзыв на Яндекс Картах помогает другим выбрать торт к своему
-          празднику — и очень радует нашу команду.
+          Ваш отзыв на Яндекс Картах помогает другим выбрать торт к своему празднику — и очень
+          радует нашу команду.
         </p>
         <a
           className="care-card__cta"
@@ -106,9 +94,7 @@ function LandingPage() {
         </a>
         <div className="care-card__qr">
           <ReviewQr className="care-card__qr-image" />
-          <small className="care-card__qr-text">
-            или отсканируйте с другого телефона
-          </small>
+          <small className="care-card__qr-text">или отсканируйте с другого телефона</small>
         </div>
       </section>
 
