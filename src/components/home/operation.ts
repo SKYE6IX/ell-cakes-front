@@ -4,6 +4,7 @@ import {
   ProductHomeBanner,
   ProductImageOrderByInput,
   ProductVariantOrderByInput,
+  Review,
 } from "@/types/__generated__/graphql";
 
 export const GET_PRODUCT_HOME_BANNERS_QUERY: TypedDocumentNode<
@@ -77,6 +78,20 @@ export const GET_FEATURED_PRODUCTS_QUERY: TypedDocumentNode<
             url
           }
         }
+      }
+    }
+  }
+`;
+
+export const GET_REVEIW_QUERY: TypedDocumentNode<{ reviews: Review[] }> = gql`
+  query Reviews {
+    reviews {
+      id
+      user
+      description
+      image {
+        id
+        url
       }
     }
   }

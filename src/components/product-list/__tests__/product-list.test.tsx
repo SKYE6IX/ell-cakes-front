@@ -9,7 +9,7 @@ describe("Product List Component", () => {
     render(
       <MockedProvider>
         <ProductList products={mockProducts} />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     // Assert
@@ -27,22 +27,18 @@ describe("Product List Component", () => {
     render(
       <MockedProvider>
         <ProductList products={mockProducts} />
-      </MockedProvider>
+      </MockedProvider>,
     );
 
     // Assert
     const productCardNames = screen.getAllByRole("heading", { level: 3 });
-    const productCardDescription = screen.getAllByTestId(
-      "product-card-description"
-    );
+    const productCardDescription = screen.getAllByTestId("product-card-description");
 
     // Act
     expect(productCardNames[0]).toBeInTheDocument();
     expect(productCardNames[0]).toHaveTextContent(mockProducts[0].name!);
     expect(productCardDescription[0]).toBeInTheDocument();
-    expect(productCardDescription[0]).toHaveTextContent(
-      mockProducts[0].baseDescription!
-    );
+    expect(productCardDescription[0]).toHaveTextContent(mockProducts[0].baseDescription!);
   });
 
   // it("render product price and weight", () => {

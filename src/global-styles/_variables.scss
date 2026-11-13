@@ -10,7 +10,8 @@ $dark-accent: #5b041e;
 // This color variables are @depricated. The above color variable need to be adopt in all code base.
 // None of these depricated varibales must be deleted until the whole app has fully,
 // adpot the new color rules.
-// Colors
+
+// Colors @deprecated
 $primary: #ff9698;
 $primary-mute: #ffdfdf;
 $primary-accent: #ff5c5f;
@@ -28,7 +29,7 @@ $font-manrope: var(--manrope-font); // For body
 // None of these depricated font variable must be deleted until the whole app has fully adopt
 // the new variable rules
 
-// Font
+// Font @deprecated
 $font-uncage: var(--font-uncage);
 $font-montserrat: var(--font-montserrat);
 
