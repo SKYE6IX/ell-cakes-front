@@ -5,7 +5,7 @@
   margin-top: 100px;
   width: 100%;
   padding: 50px;
-  background-color: $secondary;
+  background-color: $dark-primary;
   @include flex-layout(column, center, center, 100px);
   @include max-breakpoint("md") {
     margin-top: 80px;
@@ -18,15 +18,14 @@
   }
 }
 .why-us__heading {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 2.5rem;
-  line-height: 44px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $bg-primary;
   text-align: center;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 19.8px;
   }
 }
 .why-us__lists {
@@ -44,30 +43,28 @@
 }
 .why-us__item-heading {
   margin-top: 30px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.25rem;
-  line-height: 22px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $bg-primary;
   text-align: center;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 19.8px;
   }
   @include max-breakpoint("s") {
     font-size: 1rem;
-    line-height: 19px;
   }
 }
 .why-us__item-text {
   margin-top: 10px;
   width: 300px;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19.2px;
+  line-height: 1.5;
   font-weight: 400;
   text-align: center;
-  color: $text-color;
+  color: $bg-primary;
   @include max-breakpoint("md") {
     max-width: 100%;
   }

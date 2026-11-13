@@ -74,7 +74,7 @@ export default function UserSidebar({
 
           {authUser && (
             <button className="user-sidebar__link" onClick={handleEndSession}>
-              выход
+              Выход
             </button>
           )}
         </nav>

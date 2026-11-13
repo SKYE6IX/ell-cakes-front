@@ -66,10 +66,10 @@ function LandingPage() {
       <section className="care-card__section care-card__section--secret" aria-labelledby="h-secret">
         <span className="care-card__label">Маленький секрет идеальной подачи</span>
         <h2 className="care-card__heading" id="h-secret">
-          15–30 минут при комнатной температуре
+          15-30 минут при комнатной температуре
         </h2>
         <p className="care-card__secret-text">
-          Дайте торту постоять 15–30 минут перед подачей — так его текстура станет нежнее, а вкус
+          Дайте торту постоять 15-30 минут перед подачей - так его текстура станет нежнее, а вкус
           раскроется во всей полноте.
         </p>
         <ServingTimer />
@@ -81,7 +81,7 @@ function LandingPage() {
           Понравился торт? Расскажите об этом
         </h2>
         <p className="care-card__review-text">
-          Ваш отзыв на Яндекс Картах помогает другим выбрать торт к своему празднику — и очень
+          Ваш отзыв на Яндекс Картах помогает другим выбрать торт к своему празднику - и очень
           радует нашу команду.
         </p>
         <a

@@ -21,7 +21,7 @@ function StorageInfo() {
       >
         <div className="storage-info__wrapper">
           <h5 className="storage-info__heading">
-            Мы заботимся о каждом торте так же, как вы — о празднике{" "}
+            Мы заботимся о каждом торте так же, как вы - о празднике{" "}
           </h5>
           <p className="storage-info__text p1">
             Каждый десерт аккуратно упакован в фирменную коробку, чтобы

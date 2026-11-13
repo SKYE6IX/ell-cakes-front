@@ -101,7 +101,7 @@ function AddCandle({ customOptions, dispatch }: CustomiseComponentProps) {
             className="add-customise-candle__button"
             onClick={handleSetOpenDropDown}
           >
-            добавить Свеча
+            Добавить свечу
           </button>
 
           <motion.ul

@@ -23,14 +23,13 @@
 }
 .authentication-block__login-title,
 .authentication-block__register-title {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.5rem;
-  line-height: 26.4px;
-  font-weight: 500;
-  color: $text-color;
+  line-height: 1.2;
+  font-weight: 400;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 19.8px;
   }
 }
 .authentication-block__input-wrapper {
@@ -43,11 +42,11 @@
 }
 .authentication-block__input-email-validation,
 .authentication-block__input-phone-validation {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.75rem;
   font-weight: 400;
-  line-height: 15px;
-  color: $primary-accent;
+  line-height: 1.5;
+  color: $dark-accent;
   padding-left: 5px;
 }
 .authentication-block__btn-wrapper {
@@ -63,12 +62,13 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   padding: 15px 0px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   cursor: pointer;
   @include max-breakpoint("s") {
     width: 100%;
@@ -80,20 +80,21 @@
   background: none;
   outline: none;
   border: none;
-  font-family: $font-montserrat, sans-serif;
-  font-size: 1rem;
-  line-height: 19px;
+  font-family: $font-manrope, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.2;
   cursor: pointer;
-  color: $primary-accent;
+  color: $dark-primary;
+  text-decoration: underline;
   @include max-breakpoint("s") {
     align-self: flex-start;
   }
 }
 .authentication-block__login-error {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.875rem;
-  line-height: 16px;
-  color: $primary-accent;
+  line-height: 1.5;
+  color: $dark-accent;
   font-weight: 500;
 }
 
@@ -101,11 +102,11 @@
 }
 
 .authentication-block__need-help-heading {
-  font-family: $font-montserrat, sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 18.2px;
-  color: $primary-accent;
+  font-family: $font-tenor-sans, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: $dark-primary;
 }
 
 .authentication-block__need-help-list {
@@ -115,9 +116,9 @@
 }
 
 .authentication-block__need-help-item {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.85rem;
-  line-height: 16.2px;
+  line-height: 1.5;
   font-weight: 500;
   text-decoration: underline;
 }

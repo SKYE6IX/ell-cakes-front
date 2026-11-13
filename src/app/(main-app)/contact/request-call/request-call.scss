@@ -24,32 +24,33 @@
   min-height: 120px;
   resize: none;
   padding: 15px;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19px;
-  font-weight: 500;
-  border: 1px solid $text-color;
+  line-height: 1.5;
+  font-weight: 400;
+  border: 1px solid $dark-primary;
   border-radius: 10px;
-  background: #fff;
+  background: $bg-primary;
   &::placeholder {
     font-size: 0.875rem;
-    line-height: 16.8px;
-    color: $text-color;
+    line-height: 1.2;
+    color: $dark-primary;
   }
   &:focus {
-    border-color: $primary;
+    border-color: $dark-primary;
+    box-shadow: 0 0 0 1px $dark-primary;
   }
 }
 
 .request-call__input-wrapper .message-text-area.error {
-  border: 1px solid red;
+  border: 1px solid $dark-accent;
 }
 
 .request-call__form-title {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19.2px;
-  font-weight: 500;
+  line-height: 1.2;
+  font-weight: 400;
 }
 
 .request-call__form-btn {
@@ -59,11 +60,12 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background-color: $text-color;
-  color: $neutral;
-  font-family: $font-uncage, sans-serif;
+  background-color: $dark-primary;
+  color: $bg-primary;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   cursor: pointer;
   transition: background-color 0.2s ease-out;
   align-self: flex-start;
@@ -72,5 +74,6 @@
 
 .request-call__form-btn:disabled {
   cursor: not-allowed;
-  background-color: #929aab;
+  background-color: $dark-primary;
+  opacity: 0.5;
 }

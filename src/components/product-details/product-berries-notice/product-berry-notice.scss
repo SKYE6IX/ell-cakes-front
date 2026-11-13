@@ -6,7 +6,7 @@
   margin: 20px 0 0 50px;
   padding: 20px;
   border-radius: 16px;
-  background: $primary-mute;
+  background: $light-accent;
   @include flex-layout(row, center, flex-start, 22px);
 
   @include max-breakpoint("md") {
@@ -24,7 +24,7 @@
 }
 
 .product-details__berry-content {
-  @include flex-layout(column, flex-start, center, 8px);
+  @include flex-layout(column, flex-start, center, 10px);
 
   @include max-breakpoint("s") {
     gap: 6px;
@@ -33,17 +33,24 @@
 
 .product-details__berry-title {
   margin: 0;
-  font-family: $font-uncage, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: $primary-accent;
-  text-transform: uppercase;
+  font-family: $font-tenor-sans, sans-serif;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  font-weight: 400;
+  color: $dark-primary;
+  @include max-breakpoint("s") {
+    font-size: 1.125rem;
+  }
 }
 
 .product-details__berry-text {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
   font-weight: 400;
-  color: $text-color;
+  color: $dark-primary;
+  @include max-breakpoint("s") {
+    font-size: 0.9375rem;
+  }
 }

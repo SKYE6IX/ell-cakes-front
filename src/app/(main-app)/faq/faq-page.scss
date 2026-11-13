@@ -23,20 +23,18 @@
 }
 
 .faq-help__title {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.75rem;
-  line-height: 20.8px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   margin-bottom: 30px;
   @include max-breakpoint("md") {
     font-family: 1.5rem;
-    line-height: 26px;
     margin-bottom: 15px;
   }
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 22px;
   }
 }
 
@@ -52,8 +50,10 @@
 }
 
 .faq-help__link {
-  font-family: $font-montserrat;
+  font-family: $font-manrope;
+  line-height: 1.2;
   font-size: 20px;
+  color: $dark-primary;
   padding: 12px 0;
   @include max-breakpoint("s") {
     font-size: 18px;
@@ -78,10 +78,11 @@
 }
 
 .faq__title {
-  font-family: $font-uncage;
+  font-family: $font-tenor-sans;
+  line-height: 1.2;
   font-size: 36px;
   font-weight: 400;
-  color: $primary;
+  color: $dark-primary;
   margin-bottom: 30px;
   @include max-breakpoint("lg") {
     font-size: 32px;

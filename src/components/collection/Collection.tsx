@@ -89,7 +89,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
               <div className="collection__delivery-info-item-inner">
                 <h5 className="collection__delivery-info-item-heading">Выбери свой десерт</h5>
                 <p className="collection__delivery-info-item-text">
-                  Для подарка, для друзей или просто для себя — выбери то, что хочется прямо сейчас!
+                  Для подарка, для друзей или просто для себя - выбери то, что хочется прямо сейчас!
                 </p>
               </div>
             </li>

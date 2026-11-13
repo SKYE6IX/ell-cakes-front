@@ -179,7 +179,7 @@ function AddCustomisePhoto({
     <div className="add-customise-photo" ref={dropDownRef}>
       {customisePhotoState.isAddCustomisePhoto ? (
         <>
-          <h5 className="add-customise-photo__preview-label">фото</h5>
+          <h5 className="add-customise-photo__preview-label">Фото</h5>
           <div className="add-customise-photo__preview">
             <span className="add-customise-photo__photo-count">
               {customisePhotoState.customisePhotoOption.total}x
@@ -217,7 +217,7 @@ function AddCustomisePhoto({
             onClick={handleSetOpen}
             disabled={loading}
           >
-            {loading ? "Загрузка..." : "добавить фото"}
+            {loading ? "Загрузка..." : "Добавить фото"}
           </button>
 
           <motion.ul

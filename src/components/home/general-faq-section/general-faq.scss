@@ -17,18 +17,16 @@
   }
 }
 .general-faq__heading {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 2.25rem;
-  line-height: 39.6px;
-  color: $primary;
+  line-height: 1.2;
+  color: $dark-primary;
   font-weight: 500;
   @include max-breakpoint("md") {
     font-size: 1.75rem;
-    line-height: 30.8px;
   }
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 19.2px;
   }
 }
 .general-faq__list {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "../button/Button";
 import "./footer.scss";
-import logo from "./logo.png";
+import logo from "./logo-pink.svg";
 import Instagram from "../icons/Instagram";
 import Vk from "../icons/Vk";
 import WhatsApp from "../icons/WhatsApp";

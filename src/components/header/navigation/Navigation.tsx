@@ -102,7 +102,7 @@ function Navigation({ categories }: NavigationProps) {
 
             <div className="navigation__sub-menu-bottom">
               <div className="navigation__sub-menu-bottom-item">
-                <h5>БОЛЕЕ 20 000 ВЫПОЛНЕННЫХ ЗАКАЗОВ</h5>
+                <h5>Более 20 000 выполненных заказов</h5>
               </div>
 
               <div className="navigation__sub-menu-bottom-item">
