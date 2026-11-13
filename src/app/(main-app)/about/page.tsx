@@ -1,14 +1,16 @@
+import { StaticImageData } from "next/image";
 import AboutMedia from "./about-media/AboutMedia";
+import aestheticsImage from "@/components/home/about-us-section/about-us-section-image.jpg";
 import "./about.scss";
 
 const aboutImages: Record<
   "intro" | "principles" | "aesthetics" | "awards",
-  string | null
+  StaticImageData | string | null
 > = {
-  intro: null,
-  principles: null,
-  aesthetics: null,
-  awards: null,
+  intro: "/default-hero-images/product-image-2.jpg",
+  principles: "/collection-images/birthday-1.jpg",
+  aesthetics: aestheticsImage,
+  awards: "/collection-images/woman-day-1.jpeg",
 };
 
 const stats = [
@@ -73,16 +75,12 @@ function About() {
       </div>
 
       <div className="about__row about__row--reversed">
-        <div className="about__panel">
-          <div className="about__polaroid">
-            <AboutMedia
-              src={aboutImages.principles}
-              alt="Ell Cakes"
-              sizes="(max-width: 912px) 80vw, 35vw"
-              className="about__polaroid-media"
-            />
-          </div>
-        </div>
+        <AboutMedia
+          src={aboutImages.principles}
+          alt="Ell Cakes"
+          sizes="(max-width: 912px) 100vw, 50vw"
+          className="about__media about__media--square"
+        />
         <div className="about__text-wrapper">
           <p className="about__text">
             Поэтому мы постоянно работаем над качеством продукта, расширяем

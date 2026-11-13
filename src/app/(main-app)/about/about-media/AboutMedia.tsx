@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import "./about-media.scss";
 
 type AboutMediaProps = {
-  src: string | null;
+  src: StaticImageData | string | null;
   alt: string;
   sizes: string;
   className?: string;
