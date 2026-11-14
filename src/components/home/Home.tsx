@@ -7,12 +7,14 @@ import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
 import "./home.scss";
 import Reviews from "./reviews/Reviews";
+import CustomRequest from "./custom-request/CustomRequest";
 
 async function Home() {
   return (
     <div className="home">
       <Hero />
       <FeaturedSection />
+      <CustomRequest />
       <CraftDescription />
       <WhyUs />
       <CustomizeInfo />
