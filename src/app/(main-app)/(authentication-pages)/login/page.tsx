@@ -95,7 +95,7 @@ function Login() {
 
       <div className="login__footer">
         <h5 className="login__footer__subtitle" data-testid="login-page-sub-title">
-          зарегистрируйтесь и получите скидку 15% на первую покупку!
+          Зарегистрируйтесь и получите скидку 15% на первую покупку!
         </h5>
 
         <div className="login__footer-btn">

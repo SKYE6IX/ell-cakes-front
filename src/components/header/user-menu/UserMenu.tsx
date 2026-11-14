@@ -34,7 +34,7 @@ function UserMenu({ preloadQuery }: UserMenuProps) {
       {authUser ? (
         <span className="user-menu__text">{authUser.name}</span>
       ) : (
-        <span className="user-menu__text">войти</span>
+        <span className="user-menu__text">Войти</span>
       )}
       <PersonIcon />
     </Link>

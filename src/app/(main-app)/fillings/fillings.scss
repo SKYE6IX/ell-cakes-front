@@ -32,32 +32,27 @@
   font-family: $font-tenor-sans, sans-serif;
   font-weight: 400;
   font-size: 2.25rem;
-  line-height: 39.6px;
-  text-transform: uppercase;
+  line-height: 1.2;
   color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 1.75rem;
-    line-height: 30.8px;
   }
   @include max-breakpoint("s") {
     font-size: 1.5rem;
-    line-height: 24.4px;
   }
 }
 
 .fillings__text {
   font-family: $font-manrope, sans-serif;
   font-size: 1.25rem;
-  line-height: 26px;
+  line-height: 1.5;
   font-weight: 400;
   color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 1.125rem;
-    line-height: 23.4px;
   }
   @include max-breakpoint("s") {
     font-size: 1rem;
-    line-height: 20.8px;
   }
 }
 
@@ -108,27 +103,23 @@
   font-family: $font-tenor-sans, sans-serif;
   font-weight: 400;
   font-size: 1.75rem;
-  line-height: 30.8px;
-  text-transform: uppercase;
+  line-height: 1.2;
   color: $light-accent;
   @include max-breakpoint("md") {
     font-size: 1.5rem;
-    line-height: 26.4px;
   }
   @include max-breakpoint("s") {
     font-size: 1.25rem;
-    line-height: 22px;
   }
 }
 .fillings__notice-text {
   font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 23.4px;
+  line-height: 1.5;
   font-weight: 400;
   color: $bg-primary;
   @include max-breakpoint("s") {
     font-size: 1rem;
-    line-height: 20.8px;
   }
 }
 
@@ -147,6 +138,7 @@
   border-radius: 10px;
   @include flex-layout(row, center, center, none);
   font-family: $font-manrope, sans-serif;
+  line-height: 1.2;
   font-size: 1rem;
   font-weight: 600;
   white-space: nowrap;

@@ -6,15 +6,15 @@
   height: 46px;
   padding: 0 15px;
 
-  border: 1px solid $text-color;
+  border: 1px solid $dark-primary;
   border-radius: 10px;
-  background: #fff;
+  background: $bg-primary;
 
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19px;
-  font-weight: 500;
-  color: $text-color;
+  line-height: 1.2;
+  font-weight: 400;
+  color: $dark-primary;
 
   outline: none;
   transition: border-color 0.2s ease;
@@ -26,16 +26,17 @@
 }
 
 .input::placeholder {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.875rem;
-  line-height: 16.8px;
-  color: $text-color;
+  line-height: 1.2;
+  color: $dark-primary;
 }
 
 .input:focus {
-  border-color: $primary;
+  border-color: $dark-primary;
+  box-shadow: 0 0 0 1px $dark-primary;
 }
 
 .input.error {
-  border-color: red;
+  border-color: $dark-accent;
 }

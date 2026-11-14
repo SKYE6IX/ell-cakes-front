@@ -319,7 +319,7 @@ function Checkout() {
             onClick={() => checkoutOrder()}
             disabled={!allowedToCheckout || loading}
           >
-            {loading ? <Loader /> : `ОПЛАТИТЬ ${orderTotalAmount} ₽`}
+            {loading ? <Loader /> : `Оплатить ${orderTotalAmount} ₽`}
           </button>
 
           {error && (

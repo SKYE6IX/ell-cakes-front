@@ -49,14 +49,13 @@
 }
 
 .user-info__section-title {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.125rem;
-  line-height: 19.8px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 1rem;
-    line-height: 19px;
   }
 }
 
@@ -70,25 +69,23 @@
 .user-info__profile-name-title,
 .user-info__profile-number-title,
 .user-info__section-address-text {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.5;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 0.875rem;
-    line-height: 16.2px;
   }
 }
 .user-info__profile-name-text,
 .user-info__profile-number-text {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.9375rem;
-  line-height: 18px;
+  line-height: 1.2;
   font-weight: 400;
   @include max-breakpoint("s") {
     font-size: 0.8125rem;
-    line-height: 15.6px;
   }
 }
 .user-info__add-address-btn {
@@ -96,12 +93,13 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   padding: 10px 0px;
-  font-family: $font-uncage, sans-serif;
-  font-size: 0.75rem;
-  line-height: 16.8px;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.2;
   cursor: pointer;
   @include max-breakpoint("s") {
     width: 100%;
@@ -121,10 +119,10 @@
   flex: 1;
   max-height: 65px;
   max-width: 170px;
-  background: $neutral;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  background: $bg-primary;
+  box-shadow: 0 8px 20px rgba($dark-primary, 0.05);
   border-radius: 15px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid $bg-secondary;
   @include flex-layout(row, center, center, 10px);
   padding: 5px;
   cursor: pointer;
@@ -134,8 +132,8 @@
   }
 }
 .user-info__section-payment-method-item.selected {
-  border-color: $primary;
-  background: $primary-mute;
+  border-color: $dark-primary;
+  background: $bg-primary;
 }
 .user-info__section-payment-method-icon {
   width: 50px;
@@ -162,23 +160,22 @@
   }
 }
 .user-info__section-payment-method-name {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 0.875rem;
-    line-height: 16.2px;
   }
 }
 .user-info__section-payment-method-item:first-child
   .user-info__section-payment-method-name {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.75rem;
-  line-height: 15.6px;
+  line-height: 1.2;
   font-weight: 400;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     max-width: 70%;
   }
@@ -218,73 +215,73 @@
   @include flex-layout(row, center, space-between, none);
 }
 .order-info__summary-label {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 21.6px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 1rem;
-    line-height: 19px;
   }
 }
 .order-info__summary-value {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.25rem;
-  line-height: 24px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $primary-accent;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 21.6px;
   }
 }
 .order-info__summary-divider {
   height: 1.5px;
-  background: #ececec;
+  background: $bg-secondary;
 }
 .checkout__button {
   @include flex-layout(row, center, center, none);
   border: none;
   outline: none;
   border-radius: 10px;
-  background-color: $text-color;
-  color: $neutral;
+  background-color: $dark-primary;
+  color: $bg-primary;
   width: 100%;
   padding: 15px 0px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   cursor: pointer;
   transition: background-color 0.2s ease-out;
 }
 
 .checkout__button:disabled {
   cursor: not-allowed;
-  opacity: 0.9;
-  background-color: #929aab;
+  opacity: 0.5;
+  background-color: $dark-primary;
 }
 
 .checkout__error-message {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.85rem;
-  line-height: 16.1px;
+  line-height: 1.5;
   font-weight: 500;
   text-align: center;
-  color: $primary-accent;
+  color: $dark-accent;
 }
 
 .checkout__legal {
   margin: 0px auto;
   max-width: 400px;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.875rem;
-  line-height: 18.2px;
+  line-height: 1.5;
   font-weight: 400;
-  color: $text-color-mute;
+  color: $dark-primary;
   text-align: center;
   a {
-    color: $primary-accent;
+    color: $dark-primary;
+    text-decoration: underline;
   }
   @include max-breakpoint("s") {
     max-width: 100%;
@@ -298,20 +295,21 @@
   @include flex-layout(column, center, center, 30px);
 }
 .cart-empty__heading {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 24px;
-  font-weight: 600;
-  color: $text-color;
+  line-height: 1.2;
+  font-weight: 400;
+  color: $dark-primary;
   text-align: center;
   padding: 0px 20px;
 }
 .cart-empty__link {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  line-height: 1.2;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   padding: 10px 20px;
-  color: $neutral;
-  background: $text-color;
+  color: $bg-primary;
+  background: $dark-primary;
   border-radius: 15px;
 }

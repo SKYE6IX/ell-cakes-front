@@ -38,7 +38,7 @@ function FallBackBanner() {
           праздников, подарков и просто хорошего настроения - красиво, вкусно и
           всегда вовремя!
         </p>
-        <Button textKey="ЗАказать" />
+        <Button textKey="Заказать" />
       </div>
     </section>
   );

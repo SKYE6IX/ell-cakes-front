@@ -71,18 +71,16 @@
   }
 }
 .similar-products__heading {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 2.25rem;
-  line-height: 39.6px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 1.75rem;
-    line-height: 30.8px;
   }
   @include max-breakpoint("s") {
     font-size: 1.25rem;
-    line-height: 22px;
   }
 }
 

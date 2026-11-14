@@ -7,7 +7,7 @@ function AboutUs() {
   return (
     <section className="about-us">
       <div className="about-us__text-wrapper">
-        <h3 className="about-us__heading">о нас</h3>
+        <h3 className="about-us__heading">О нас</h3>
         <p className="about-us__text" data-testid="about-us-text">
           <span>
             Ell Cakes - кондитерская с 14-летней историей, более чем 20 000

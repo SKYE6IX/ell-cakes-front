@@ -10,16 +10,16 @@
   height: 44px;
   width: 160px;
 
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   border: none;
   border-radius: 10px;
   cursor: pointer;
 
-  font-family: $font-uncage;
+  font-family: $font-manrope;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 1;
+  font-size: 1rem;
+  line-height: 1.2;
   transition: opacity 0.2s ease;
 
   &:disabled {
@@ -35,16 +35,16 @@
 
 /* PRIMARY (black) */
 .button--primary {
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   border: none;
 }
 
 /* OUTLINE (border) */
 .button--outline {
-  background: transparent;
-  color: $primary;
-  border: 1.5px solid $primary;
+  background: $bg-primary;
+  color: $dark-primary;
+  border: 1.5px solid $dark-primary;
 }
 
 .button__text {

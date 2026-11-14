@@ -36,8 +36,7 @@
   font-family: $font-tenor-sans, sans-serif;
   font-weight: 400;
   font-size: 1.375rem;
-  line-height: 1.25;
-  text-transform: uppercase;
+  line-height: 1.2;
   color: $dark-primary;
   // Reserve two lines so the price blocks line up across a grid row.
   min-height: 2.5em;
@@ -60,7 +59,7 @@
 .filling-card__price {
   font-family: $font-manrope, sans-serif;
   font-size: 0.9375rem;
-  line-height: 1.4;
+  line-height: 1.2;
   font-weight: 500;
   color: $dark-primary;
   @include max-breakpoint("s") {
@@ -75,7 +74,7 @@
 .filling-card__description-item {
   font-family: $font-manrope, sans-serif;
   font-size: 0.9375rem;
-  line-height: 1.45;
+  line-height: 1.5;
   font-weight: 400;
   color: $dark-primary;
   @include max-breakpoint("s") {

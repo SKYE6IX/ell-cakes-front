@@ -71,9 +71,9 @@
   width: var(--item-dimension);
   height: var(--item-dimension);
   border-radius: 50%;
-  border: none;
   outline: none;
-  background-color: #ff6060;
+  background-color: $dark-primary;
+  border: 2px solid $bg-primary;
   cursor: pointer;
   @include flex-layout(row, center, center, none);
   position: relative;
@@ -83,7 +83,7 @@
 .chat-widget__control.active {
   svg {
     path {
-      stroke: $neutral;
+      stroke: $bg-primary;
       stroke-width: 2px;
     }
   }

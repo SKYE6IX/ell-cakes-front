@@ -60,15 +60,14 @@
   border-radius: inherit;
 }
 .mix-product-option__name {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.875rem;
-  line-height: 16.8px;
+  line-height: 1.2;
   font-weight: 400;
-  color: $text-color-mute;
+  color: $dark-primary;
   text-align: center;
   @include max-breakpoint("md") {
     font-size: 1rem;
-    line-height: 19.2px;
   }
   @include max-breakpoint("s") {
     width: 100px;
@@ -88,7 +87,7 @@
     width: 15px;
     height: 15px;
     path {
-      fill: $primary-accent;
+      fill: $dark-primary;
     }
   }
   @include max-breakpoint("md") {
@@ -113,17 +112,15 @@
 }
 
 .mix-product-option__value {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.9375rem;
-  line-height: 18px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color-mute;
+  color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 1.2rem;
-    line-height: 23px;
   }
   @include max-breakpoint("s") {
     font-size: 0.9375rem;
-    line-height: 18px;
   }
 }
