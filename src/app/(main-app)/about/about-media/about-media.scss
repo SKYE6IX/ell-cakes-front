@@ -1,0 +1,14 @@
+@use "@/global-styles/variables" as *;
+
+.about-media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  overflow: hidden;
+  background: $bg-secondary;
+}
+
+.about-media__image {
+  object-fit: cover;
+}
