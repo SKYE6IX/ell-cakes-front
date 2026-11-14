@@ -21,14 +21,15 @@
 
 .delivery-address__input-list .yandex-map-address__input {
   height: 46px;
-  border: 1px solid $text-color;
+  border: 1px solid $dark-primary;
   border-radius: 10px;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 .delivery-address__input-list .yandex-map-address__input:focus {
-  border-color: $primary;
+  border-color: $dark-primary;
+  box-shadow: 0 0 0 1px $dark-primary;
 }
 
 .delivery-address__submit {
@@ -37,19 +38,20 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   padding: 15px 0px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   cursor: pointer;
 }
 
 .loader {
   width: 80px;
   display: grid;
-  background: radial-gradient(farthest-side, #fff 98%, #0000) center/20px 100%
+  background: radial-gradient(farthest-side, $bg-primary 98%, #0000) center/20px 100%
     no-repeat;
   --mask: radial-gradient(7px at left 10px top 50%, #0000 95%, #000),
     radial-gradient(7px at center, #0000 95%, #000),
@@ -67,7 +69,7 @@
   grid-area: 1/1;
   height: 20px;
   aspect-ratio: 1;
-  background: #fff;
+  background: $bg-primary;
   border-radius: 50%;
 }
 .loader:after {

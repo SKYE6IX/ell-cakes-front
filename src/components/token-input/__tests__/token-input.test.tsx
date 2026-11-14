@@ -23,7 +23,7 @@ describe("Token input component", () => {
 
     // Act
     expect(componentTitle).toBeInTheDocument();
-    expect(componentTitle).toHaveTextContent("Подтвердите почта");
+    expect(componentTitle).toHaveTextContent("Подтвердите почту");
     expect(componentSubTitle).toBeInTheDocument();
   });
 

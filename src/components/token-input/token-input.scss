@@ -6,28 +6,26 @@
   @include flex-layout(column, center, center, 20px);
 }
 .token-input__title {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.75rem;
-  line-height: 30.8px;
+  line-height: 1.2;
   font-weight: 500;
   text-align: center;
   @include max-breakpoint("s") {
     font-size: 1.25rem;
-    line-height: 22px;
   }
 }
 
 .token-input__subtitle {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 19.8px;
+  line-height: 1.5;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   text-align: center;
   @include max-breakpoint("s") {
     max-width: 300px;
     font-size: 1rem;
-    line-height: 19px;
   }
 }
 
@@ -44,11 +42,11 @@
 }
 
 .token-input__error {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.85rem;
-  line-height: 16.1px;
+  line-height: 1.5;
   font-weight: 500;
-  color: $primary-accent;
+  color: $dark-accent;
   text-align: center;
 }
 
@@ -56,13 +54,13 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  border: 1px solid $text-color;
+  border: 1px solid $dark-primary;
   border-radius: 10px;
-  background: #fff;
+  background: $bg-primary;
   text-align: center;
   font-size: 20px;
   font-weight: 600;
-  color: $text-color;
+  color: $dark-primary;
   outline: none;
   transition: border-color 0.2s ease;
   @include max-breakpoint("s") {
@@ -70,11 +68,11 @@
     height: 38px;
     border-radius: 8px;
     font-size: 1rem;
-    line-height: 19px;
   }
 }
 .token-input__cell:focus {
-  border-color: $primary;
+  border-color: $dark-primary;
+  box-shadow: 0 0 0 1px $dark-primary;
 }
 .token-input__submit {
   @include flex-layout(row, center, center, none);
@@ -82,18 +80,15 @@
   border: none;
   outline: none;
   border-radius: 10px;
-  background: $text-color;
-  color: $neutral;
+  background: $dark-primary;
+  color: $bg-primary;
   width: 100%;
   padding: 15px 0px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   cursor: pointer;
-  @include max-breakpoint("s") {
-    font-size: 0.875rem;
-    line-height: 16.8px;
-  }
 }
 
 .token-input__resend {
@@ -105,23 +100,25 @@
 
 .token-input__resend-label,
 .token-input__resend-btn {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  line-height: 1.2;
   font-weight: 400;
 }
 
 .token-input__resend-label {
   font-size: 0.875rem;
-  line-height: 16px;
-  color: $text-color;
+  line-height: 1.2;
+  color: $dark-primary;
 }
 
 .token-input__resend-btn {
   border: none;
   background: none;
   outline: none;
-  font-size: 0.75rem;
-  line-height: 14.4px;
-  color: $primary;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  color: $dark-primary;
+  text-decoration: underline;
   cursor: pointer;
 }
 

@@ -8,7 +8,9 @@ body {
 }
 
 body {
-  background: $neutral;
+  background: $bg-primary;
+  color: $dark-primary;
+  text-underline-offset: 0.2em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -23,6 +25,13 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
 }
 
 li,

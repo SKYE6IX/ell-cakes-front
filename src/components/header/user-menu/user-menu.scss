@@ -17,8 +17,9 @@
   }
 }
 .user-menu__text {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
+  line-height: 1.2;
   font-size: 1rem;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
 }

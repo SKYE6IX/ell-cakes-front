@@ -6,13 +6,12 @@
 }
 
 .order-history__title {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 1.5rem;
-  line-height: 26.4px;
+  line-height: 1.2;
   font-weight: 500;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 21.6px;
   }
 }
 
@@ -34,7 +33,7 @@
 }
 
 .order-history__row:not(:last-child) {
-  border-bottom: 1px solid #d5d5d5;
+  border-bottom: 1px solid $bg-secondary;
 }
 
 .order-history__left {
@@ -50,9 +49,9 @@
   @include flex-layout(column, none, none, 5px);
   width: 20%;
   span {
-    font-family: $font-montserrat, sans-serif;
+    font-family: $font-manrope, sans-serif;
     font-size: 0.875rem;
-    line-height: 16.8px;
+    line-height: 1.2;
     font-weight: 400;
   }
   @include max-breakpoint("s") {
@@ -67,26 +66,26 @@
 .order-history__product-item {
   max-width: 300px;
   align-self: flex-start;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 16.2px;
+  line-height: 1.2;
   font-weight: 400;
-  color: $text-color;
+  color: $dark-primary;
 }
 .order-history__product-item .qty {
   font-size: 0.75rem;
   font-weight: 500;
-  color: $primary;
-  line-height: 14.4px;
+  color: $dark-primary;
+  line-height: 1.2;
 }
 .order-history__price-wrapper {
   margin-left: auto;
 }
 
 .order-history__price {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 21.6px;
+  line-height: 1.2;
   font-weight: 500;
 }
 
@@ -96,28 +95,27 @@
 }
 
 .order-history__icon--onway {
-  color: $text-color;
+  color: $dark-primary;
 }
 
 .order-history__icon--delivered {
-  color: $secondary;
+  color: $dark-primary;
 }
 
 .order-history__empty {
-  background: #fcfcfc;
+  background: $bg-primary;
   border-radius: 18px;
   padding: 25px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.125rem;
-  line-height: 19.3px;
-  color: $text-color;
+  line-height: 1.5;
+  color: $dark-primary;
   min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   @include max-breakpoint("sm") {
     font-size: 1rem;
-    line-height: 19px;
     text-align: center;
   }
 }

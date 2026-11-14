@@ -1,7 +1,9 @@
+@use "@/global-styles/variables" as *;
+
 .loader {
   width: 80px;
   display: grid;
-  background: radial-gradient(farthest-side, #fff 98%, #0000) center/20px 100%
+  background: radial-gradient(farthest-side, $bg-primary 98%, #0000) center/20px 100%
     no-repeat;
   --mask: radial-gradient(7px at left 10px top 50%, #0000 95%, #000),
     radial-gradient(7px at center, #0000 95%, #000),
@@ -19,7 +21,7 @@
   grid-area: 1/1;
   height: 20px;
   aspect-ratio: 1;
-  background: #fff;
+  background: $bg-primary;
   border-radius: 50%;
 }
 .loader:after {

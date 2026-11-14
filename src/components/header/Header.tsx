@@ -30,9 +30,9 @@ async function Header() {
         <div className="header__site-icon">
           <Link href="/">
             <Image
-              src="/app-logo.png"
-              width={98}
-              height={63}
+              src="/logo-green.svg"
+              width={1342}
+              height={277}
               alt="Site Icon"
               data-testid="header-site-icon"
               loading="eager"

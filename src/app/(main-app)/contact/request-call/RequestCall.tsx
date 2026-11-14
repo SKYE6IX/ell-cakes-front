@@ -93,7 +93,7 @@ function RequestCall() {
           <Input
             value={requestCallState.requestCallField.email}
             name="email"
-            placeholder="Ваш почты"
+            placeholder="Ваша почта"
             type="email"
             onInputChange={onInputChange}
             hasError={requestCallState.errorNames.includes("email")}
@@ -101,7 +101,7 @@ function RequestCall() {
           <Input
             value={requestCallState.requestCallField.company}
             name="company"
-            placeholder="компания"
+            placeholder="Компания"
             type="text"
             onInputChange={onInputChange}
             hasError={requestCallState.errorNames.includes("company")}

@@ -9,11 +9,11 @@
   width: 100%;
   height: 100%;
   border: none;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 19px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   padding: 0 15px;
   @include max-breakpoint("s") {
     padding: 0 10px;
@@ -21,10 +21,10 @@
 }
 
 .yandex-map-address__input::placeholder {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.875rem;
-  line-height: 16.8px;
-  color: $text-color;
+  line-height: 1.2;
+  color: $dark-primary;
   opacity: 1;
 }
 
@@ -35,8 +35,8 @@
   top: calc(100% + 5px);
   z-index: 100;
   border-radius: 10px;
-  background-color: $neutral;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+  background-color: $bg-primary;
+  box-shadow: 0 8px 26px rgba($dark-primary, 0.06);
   @include flex-layout(column, none, none, 15px);
   padding: 10px 15px;
   list-style: none;
@@ -49,24 +49,24 @@
   pointer-events: auto;
 }
 .yandex-map-address__suggestion-item {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   padding: 5px 0px;
   font-size: 0.875rem;
-  line-height: 16.8px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $text-color;
+  color: $dark-primary;
   cursor: pointer;
 }
 
 .yandex-map-address__error {
   display: none;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 0.75rem;
-  line-height: 16.2px;
+  line-height: 1.5;
   font-weight: 500;
   padding-left: 5px;
   padding-top: 5px;
-  color: $primary-accent;
+  color: $dark-accent;
 }
 .yandex-map-address__error.show {
   display: block;

@@ -13,10 +13,10 @@ function FeaturedSection() {
   return (
     <section className="featured-section">
       <h3 className="featured__title">
-        ВСЕ, ЧТО НУЖНО ДЛЯ УДОВЛЕТВОРЕНИЯ САМОГО ИЗЫСКАННОГО ВКУСА
+        Все, что нужно для удовлетворения самого изысканного вкуса
       </h3>
       <h5 className="featured__sub-title">
-        МЫ ПРЕДЛАГАЕМ ТОЛЬКО СВЕЖИЕ ИНГРЕДИЕНТЫ И САМЫЕ ЛУЧШИЕ РЕЦЕПТЫ!
+        Мы предлагаем только свежие ингредиенты и самые лучшие рецепты!
       </h5>
       <div className="featured__products-wrapper">
         <ErrorBoundaryWrapper>

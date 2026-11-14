@@ -13,7 +13,7 @@ describe("Craft Description Component", () => {
     // Act
     expect(headingText).toBeInTheDocument();
     expect(headingText).toHaveTextContent(
-      "авторские торты, пирожные и нежнейшие капкейки ручной работы"
+      "Авторские торты, пирожные и нежнейшие капкейки ручной работы"
     );
     expect(descriptionText).toBeInTheDocument();
     expect(descriptionText).toHaveTextContent(

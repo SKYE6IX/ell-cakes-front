@@ -8,7 +8,7 @@ function CraftDescription() {
     <section className="craft-description">
       <div className="craft-description__text-wrapper">
         <h3 className="craft-description__heading">
-          авторские торты, пирожные и нежнейшие капкейки{" "}
+          Авторские торты, пирожные и нежнейшие капкейки{" "}
           <span className="highlight">ручной работы</span>
         </h3>
         <p
@@ -20,7 +20,7 @@ function CraftDescription() {
           продуктов.
         </p>
         <div className="craft-description__btn-wrapper">
-          <Button textKey="ЗАказать" href="/collections" />
+          <Button textKey="Заказать" href="/collections" />
         </div>
       </div>
       <div className="craft-description__image-container">

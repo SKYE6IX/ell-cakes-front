@@ -61,7 +61,7 @@ function Cart() {
                 className="cart__checkout-btn"
                 onClick={handleCloseModal}
               >
-                оформить заказ {cart?.subTotal}₽
+                Оформить заказ {cart?.subTotal}₽
               </Link>
             </div>
           </>

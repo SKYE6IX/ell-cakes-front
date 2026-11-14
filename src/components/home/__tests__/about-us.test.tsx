@@ -13,7 +13,7 @@ describe("About Us Component", () => {
 
     // Act
     expect(headingText).toBeInTheDocument();
-    expect(headingText).toHaveTextContent("о нас");
+    expect(headingText).toHaveTextContent("О нас");
     expect(descriptionText).toBeInTheDocument();
     expect(image).toBeInTheDocument();
   });

@@ -126,14 +126,14 @@ function Hero() {
 
           {activeIndex === 0 ? (
             <Link href="/collections" className="hero__product-link">
-              ЗАказать
+              Заказать
             </Link>
           ) : (
             <Link
               href={`/product/${banners[activeIndex].product?.slug}`}
               className="hero__product-link"
             >
-              ЗАказать
+              Заказать
             </Link>
           )}
         </div>

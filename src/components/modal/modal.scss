@@ -17,13 +17,13 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba($dark-primary, 0.5);
 }
 .modal__content-wrapper {
   width: 700px;
   min-height: 600px;
   position: absolute;
-  background: $neutral;
+  background: $bg-primary;
   top: 0px;
   right: 0px;
   padding: 30px;
@@ -64,9 +64,9 @@
 }
 .modal__heading-text {
   max-width: 500px;
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 2rem;
-  line-height: 35.2px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $primary-accent;
+  color: $dark-primary;
 }

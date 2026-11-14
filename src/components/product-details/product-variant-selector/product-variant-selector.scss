@@ -7,7 +7,7 @@
   width: 90%;
   padding: 0px 80px;
   border-radius: 15px;
-  background-color: $primary-accent;
+  background-color: $dark-primary;
   @include flex-layout(row, center, space-between, none);
   @include max-breakpoint("md") {
     margin-top: 40px;
@@ -40,20 +40,19 @@
 
 .product-variant-selector__metric,
 .product-variant-selector__price {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.3rem;
-  line-height: 21.4px;
+  line-height: 1.2;
   font-weight: 500;
-  color: $neutral;
+  color: $bg-primary;
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 21.6px;
   }
 }
 .product-variant-selector__serving {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1rem;
-  line-height: 18.1px;
+  line-height: 1.2;
   font-weight: 600;
-  color: $neutral;
+  color: $bg-primary;
 }

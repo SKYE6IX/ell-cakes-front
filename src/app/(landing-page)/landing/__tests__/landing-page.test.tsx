@@ -12,7 +12,7 @@ describe("Landing page", () => {
     expect(sectionHeadings.length).toEqual(3);
     expect(sectionHeadings[0]).toHaveTextContent("Храните в холодильнике");
     expect(sectionHeadings[1]).toHaveTextContent(
-      "15–30 минут при комнатной температуре",
+      "15-30 минут при комнатной температуре",
     );
     expect(sectionHeadings[2]).toHaveTextContent(
       "Понравился торт? Расскажите об этом",

@@ -9,7 +9,7 @@ function CloseIcon() {
     >
       <path
         d="M0.796875 15.7907L15.7969 0.794922M0.796875 0.794922L15.7969 15.7907"
-        stroke="black"
+        stroke="#273728"
         strokeWidth="1.59078"
         strokeLinecap="round"
       />

@@ -109,7 +109,7 @@ function TokenInput({ inputEmail, reedeemToken, loading, error }: TokenInputProp
 
   return (
     <div className="token-input">
-      <h3 className="token-input__title">Подтвердите почта</h3>
+      <h3 className="token-input__title">Подтвердите почту</h3>
       <h5 className="token-input__subtitle">
         Мы отправили 6-значный код на {maskEmailAddress(inputEmail)}
       </h5>

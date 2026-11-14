@@ -14,15 +14,11 @@
   }
 }
 .product-info-btn__text {
-  font-family: $font-montserrat, sans-serif;
-  font-size: 1.25rem;
-  line-height: 22px;
+  font-family: $font-manrope, sans-serif;
+  font-size: 1rem;
+  line-height: 1.2;
   font-weight: 600;
-  color: $text-color;
-  @include max-breakpoint("s") {
-    font-size: 1rem;
-    line-height: 19.2px;
-  }
+  color: $dark-primary;
 }
 .product-info-btn__icon {
   svg {

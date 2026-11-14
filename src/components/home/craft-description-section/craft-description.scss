@@ -26,36 +26,35 @@
   }
 }
 .craft-description__heading {
-  font-family: $font-uncage, sans-serif;
+  font-family: $font-tenor-sans, sans-serif;
   font-size: 2.25rem;
   font-weight: 500;
-  line-height: 39.6px;
+  line-height: 1.2;
   text-align: center;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 1.5rem;
-    line-height: 26.4px;
   }
   @include max-breakpoint("s") {
     font-size: 1.125rem;
-    line-height: 19.8px;
   }
 }
 .craft-description__heading .highlight {
-  color: $primary;
+  color: $dark-primary;
+  background: $light-accent;
+  padding: 0 0.15em;
 }
 .craft-description__text {
   margin-top: 20px;
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   font-size: 1.25rem;
-  line-height: 26px;
-  color: $text-color;
+  line-height: 1.5;
+  color: $dark-primary;
   font-weight: 400;
   text-align: center;
   @include max-breakpoint("md") {
     margin-top: 10px;
     font-size: 1rem;
-    line-height: 19.2px;
   }
 }
 .craft-description__btn-wrapper {

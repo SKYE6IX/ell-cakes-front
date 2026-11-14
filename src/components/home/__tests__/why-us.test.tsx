@@ -13,7 +13,7 @@ describe("Why Us Component", () => {
 
     // Act
     expect(headingText).toBeInTheDocument();
-    expect(headingText).toHaveTextContent("ПОЧЕМу выбирают нас ?");
+    expect(headingText).toHaveTextContent("Почему выбирают нас?");
     expect(itemHeadings.length).toEqual(3);
     expect(itemTexts.length).toEqual(3);
     for (const el of itemHeadings) {

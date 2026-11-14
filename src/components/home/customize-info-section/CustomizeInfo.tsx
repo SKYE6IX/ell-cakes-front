@@ -23,7 +23,7 @@ function CustomizeInfo() {
       </div>
       <div className="customize-info__text-wrapper">
         <h3 className="customize-info__heading">
-          Торт твоей мечты — по{" "}
+          Торт твоей мечты - по{" "}
           <Link href={tlUrl}>
             <span className="highlight">индивидуальному дизайну</span>
           </Link>
@@ -32,15 +32,15 @@ function CustomizeInfo() {
           <span>
             У нас ты можешь заказать торт, который полностью отражает твой стиль
             и настроение праздника. Мы создадим уникальный десерт по твоим
-            пожеланиям — от вкуса и формы до декора и надписи.
+            пожеланиям - от вкуса и формы до декора и надписи.
           </span>
           <span>
-            Каждый торт — это ручная работа, внимание к деталям и любовь в
+            Каждый торт - это ручная работа, внимание к деталям и любовь в
             каждом слое. Сделай свой праздник по-настоящему особенным!
           </span>
         </p>
         <div className="customize-info__btn-wrapper">
-          <Button textKey="связаться" href="/contact" />
+          <Button textKey="Связаться" href="/contact" />
         </div>
       </div>
     </section>

@@ -36,22 +36,24 @@
 }
 
 .contact__title {
-  font-family: $font-uncage;
-  font-weight: 500;
+  font-family: $font-tenor-sans;
+  line-height: 1.2;
+  font-weight: 400;
   font-size: 36px;
-  color: $text-color;
+  color: $dark-primary;
   @include max-breakpoint("md") {
     font-size: 32px;
   }
 }
 
 .contact__text {
-  font-family: $font-montserrat;
-  font-weight: 300;
-  font-size: 20px;
-  color: $text-color;
+  font-family: $font-manrope;
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: $dark-primary;
   @include max-breakpoint("md") {
-    font-size: 18px;
+    font-size: 1rem;
   }
 }
 
@@ -76,21 +78,22 @@
 
 .footer__link-wrapper-item__title {
   margin-bottom: 10px;
-  font-family: $font-montserrat, sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: #8a8a8a;
+  font-family: $font-tenor-sans, sans-serif;
+  line-height: 1.2;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     font-size: 16px;
   }
 }
 
 .footer__link-wrapper-item__text {
-  font-family: $font-montserrat, sans-serif;
+  font-family: $font-manrope, sans-serif;
   max-width: 300px;
   font-size: 1rem;
-  line-height: 19.2px;
-  color: $text-color;
+  line-height: 1.5;
+  color: $dark-primary;
   @include max-breakpoint("s") {
     max-width: 140px;
   }
