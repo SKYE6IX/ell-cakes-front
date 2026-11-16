@@ -142,7 +142,7 @@ function AddCustomisePhoto({
       ) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
-          errorMessage: "сложите два изображения!",
+          errorMessage: "Добавьте два изображения",
         }));
         handleSetOpen();
         return;

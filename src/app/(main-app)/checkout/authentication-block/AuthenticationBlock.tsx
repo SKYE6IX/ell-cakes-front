@@ -215,7 +215,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
                 hasError={authenticationState.errorFeilds.includes("password")}
               />
               {error && (
-                <span className="authentication-block__login-error">Неверный почты или пароль</span>
+                <span className="authentication-block__login-error">Неверная почта или пароль</span>
               )}
             </div>
             <div className="authentication-block__btn-wrapper">
@@ -274,7 +274,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
                 />
                 {emailValidation?.isEmailInUse && (
                   <span className="authentication-block__input-email-validation">
-                    почта используется
+                    Эта почта уже используется
                   </span>
                 )}
               </div>
@@ -290,7 +290,7 @@ function AuthenticationBlock({ authUser }: AuthenticationBlockProps) {
                 />
                 {phoneValidation?.isPhoneNumberInUse && (
                   <span className="authentication-block__input-phone-validation">
-                    ТЕЛЕФОН используется
+                    Этот телефон уже используется
                   </span>
                 )}
               </div>

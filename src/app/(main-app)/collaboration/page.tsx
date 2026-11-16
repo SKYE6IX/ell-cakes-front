@@ -23,7 +23,7 @@ function Collaboration() {
         <p className="colaboration__text">
           Свяжитесь с нами - будем рады обсудить детали!
         </p>
-        <Button textKey="Связаться" tagre-="_blank" href="https://clck.ru/3Rgodu" />
+        <Button textKey="Связаться" target href="https://clck.ru/3Rgodu" />
       </div>
 
       <div className="colaboration__media">

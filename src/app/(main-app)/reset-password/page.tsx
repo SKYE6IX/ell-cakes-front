@@ -127,7 +127,7 @@ export default function ResetPasswordPage() {
                 />
 
                 {requestError && (
-                  <span className="reset-password__error">Пользователь не существует!</span>
+                  <span className="reset-password__error">Пользователь с такой почтой не найден</span>
                 )}
 
                 <button
@@ -135,7 +135,7 @@ export default function ResetPasswordPage() {
                   type="submit"
                   disabled={isRequestLoading}
                 >
-                  {isRequestLoading ? <Loader /> : "Отправить "}
+                  {isRequestLoading ? <Loader /> : "Отправить"}
                 </button>
               </form>
             </>
@@ -159,7 +159,7 @@ export default function ResetPasswordPage() {
                 <Input
                   value={resetPasswordState.password}
                   name="password"
-                  placeholder="ПАРОЛЬ"
+                  placeholder="Пароль"
                   type="password"
                   onInputChange={onInputChange}
                   hasError={false}
