@@ -30,14 +30,9 @@ const variant: Variants = {
   },
 };
 
-function AddCustomisePhoto({
-  customOptions,
-  dispatch,
-}: CustomiseComponentProps) {
+function AddCustomisePhoto({ customOptions, dispatch }: CustomiseComponentProps) {
   const dropDownRef = useRef<HTMLDivElement>(null);
-  const customPhoto = customOptions.find(
-    (option) => option.name?.toUpperCase() === "PHOTOS"
-  );
+  const customPhoto = customOptions.find((option) => option.name?.toUpperCase() === "PHOTOS");
   const optionId = customPhoto?.id ?? "";
   const extraPrice = customPhoto?.customValues![0].extraPrice ?? 0;
 
@@ -45,10 +40,7 @@ function AddCustomisePhoto({
 
   useEffect(() => {
     const onClickOutsideRef = (e: MouseEvent) => {
-      if (
-        dropDownRef.current &&
-        !dropDownRef.current.contains(e.target as Node)
-      ) {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target as Node)) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
           openDropDown: false,
@@ -124,9 +116,7 @@ function AddCustomisePhoto({
 
     const fileList = e.target.files;
 
-    const totalImageSelected = Number(
-      customisePhotoState.customisePhotoOption.total
-    );
+    const totalImageSelected = Number(customisePhotoState.customisePhotoOption.total);
 
     if (fileList) {
       if (totalImageSelected === 2 && fileList.length > totalImageSelected) {
@@ -136,10 +126,7 @@ function AddCustomisePhoto({
         }));
         handleSetOpen();
         return;
-      } else if (
-        totalImageSelected === 2 &&
-        fileList.length < totalImageSelected
-      ) {
+      } else if (totalImageSelected === 2 && fileList.length < totalImageSelected) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
           errorMessage: "сложите два изображения!",
@@ -155,9 +142,7 @@ function AddCustomisePhoto({
     }
   };
 
-  const handleSelectedCustomPhoto = (
-    selectedOption: CustomizationOptionValue
-  ) => {
+  const handleSelectedCustomPhoto = (selectedOption: CustomizationOptionValue) => {
     setCustomisePhotoState((prvState) => ({
       ...prvState,
       customisePhotoOption: {
@@ -186,10 +171,7 @@ function AddCustomisePhoto({
             </span>
             <ul className="add-customise-photo__added-photos">
               {customisePhotoState.previewsData.map((preview) => (
-                <li
-                  className="add-customise-photo__added-photo"
-                  key={preview.id}
-                >
+                <li className="add-customise-photo__added-photo" key={preview.id}>
                   {preview.name}
                 </li>
               ))}
@@ -205,15 +187,10 @@ function AddCustomisePhoto({
       ) : (
         <>
           {customisePhotoState.errorMessage && (
-            <p className="add-customise-photo__error-message">
-              {customisePhotoState.errorMessage}
-            </p>
+            <p className="add-customise-photo__error-message">{customisePhotoState.errorMessage}</p>
           )}
           <button
-            className={[
-              "add-customise-photo__button",
-              loading ? "in-flight" : "",
-            ].join(" ")}
+            className={["add-customise-photo__button", loading ? "in-flight" : ""].join(" ")}
             onClick={handleSetOpen}
             disabled={loading}
           >
@@ -235,31 +212,21 @@ function AddCustomisePhoto({
               >
                 <label
                   htmlFor={
-                    Number(customValue.value) > 1
-                      ? "add-multiple-image"
-                      : "add-single-image"
+                    Number(customValue.value) > 1 ? "add-multiple-image" : "add-single-image"
                   }
                   className="photo-option__label"
                 >
                   <div className="photo-option__count-wrapper">
                     <PhotoIcon />
-                    <span className="photo-option__count">
-                      {customValue.value}x
-                    </span>
+                    <span className="photo-option__count">{customValue.value}x</span>
                   </div>
-                  <span className="photo-option__cost">
-                    +{customValue.extraPrice}
-                  </span>
+                  <span className="photo-option__cost">+{customValue.extraPrice}</span>
                 </label>
 
                 <input
                   type="file"
                   accept="image/*"
-                  id={
-                    Number(customValue.value) > 1
-                      ? "add-multiple-image"
-                      : "add-single-image"
-                  }
+                  id={Number(customValue.value) > 1 ? "add-multiple-image" : "add-single-image"}
                   className="photo-option__selection"
                   max={Number(customValue.value)}
                   multiple={Number(customValue.value) > 1}

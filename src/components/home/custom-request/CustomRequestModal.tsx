@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence, Variants } from "motion/react";
 import * as motion from "motion/react-client";
 import "./custom-request.scss";
+import CloseIcon from "@/components/icons/CloseIcon";
 
 const varinats: Variants = {
   visible: {
@@ -43,7 +44,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-function Modal({ showModal, handleCloseModal, children }: ModalProps) {
+function CustomRequestModal({ showModal, handleCloseModal, children }: ModalProps) {
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(true);
@@ -64,10 +65,10 @@ function Modal({ showModal, handleCloseModal, children }: ModalProps) {
   return createPortal(
     <AnimatePresence initial={false}>
       {showModal && (
-        <motion.div className="modal" key="modal">
-          <div className="modal__inner-wrapper">
+        <motion.div className="custom-request-modal" key="modal">
+          <div className="custom-request-modal__inner-wrapper">
             <motion.div
-              className="modal__close-modal"
+              className="custom-request-modal__close-modal"
               role="button"
               onClick={handleCloseModal}
               variants={varinats}
@@ -76,16 +77,16 @@ function Modal({ showModal, handleCloseModal, children }: ModalProps) {
               exit="fadeOut"
             />
             <motion.div
-              className="modal__content-wrapper"
+              className="custom-request-modal__content-wrapper"
               variants={varinats}
               initial="hidden"
               animate="visible"
               exit="hidden"
             >
-              <div className="modal__content">
-                <div className="modal__content-header">
-                  <button className="modal__close-button" onClick={handleCloseModal}></button>
-                </div>
+              <div className="custom-request-modal__content">
+                <button className="custom-request-modal__close-button" onClick={handleCloseModal}>
+                  <CloseIcon />
+                </button>
                 {children}
               </div>
             </motion.div>
@@ -97,4 +98,4 @@ function Modal({ showModal, handleCloseModal, children }: ModalProps) {
   );
 }
 
-export default Modal;
+export default CustomRequestModal;

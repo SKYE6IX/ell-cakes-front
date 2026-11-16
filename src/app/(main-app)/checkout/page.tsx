@@ -25,8 +25,6 @@ import spbIcon from "./sbp-icon.png";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
-// TODO:
-// 1. Write test for all component inside checkout
 const paymentMethods = [
   {
     id: "bank_card",
@@ -141,6 +139,7 @@ function Checkout() {
       window.history.replaceState({}, "", confirmationUrl);
       router.push(paymentUrl);
     },
+
     onError(error) {
       console.error("Error occur when try to checout order -> ", error);
     },
