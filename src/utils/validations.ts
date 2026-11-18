@@ -33,7 +33,6 @@ const loginSchema = z.object({
     }),
 });
 
-// /^[A-Za-z0-9!@#$]+$/
 const updateUserSchema = z.object({
   name: z
     .string({

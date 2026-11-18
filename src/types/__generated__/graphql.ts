@@ -1164,6 +1164,7 @@ export type Mutation = {
   registerUser: User;
   removeFromCart: Maybe<Cart>;
   requestCall: Scalars['String']['output'];
+  requestForCustomCake: Scalars['String']['output'];
   resendUserVerificationToken: Scalars['String']['output'];
   sendPasswordResetToken: Scalars['String']['output'];
   updateCart: Maybe<Cart>;
@@ -1769,6 +1770,11 @@ export type MutationRemoveFromCartArgs = {
 
 export type MutationRequestCallArgs = {
   requestCallInput: RequestCallInput;
+};
+
+
+export type MutationRequestForCustomCakeArgs = {
+  requestForCustomCakeInput: RequestForCustomCakeInput;
 };
 
 
@@ -3884,6 +3890,23 @@ export type RequestCallInput = {
   phoneNumber: Scalars['String']['input'];
 };
 
+export type RequestForCustomCakeInput = {
+  addresss: Scalars['String']['input'];
+  allergies: Scalars['String']['input'];
+  colorPallete: Scalars['String']['input'];
+  decorations: Scalars['String']['input'];
+  eventDate: Scalars['String']['input'];
+  filling: Scalars['String']['input'];
+  guestNum: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  occassion: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+  refPhoto?: InputMaybe<Array<Scalars['Upload']['input']>>;
+  shape: Scalars['String']['input'];
+  stackLevel: Scalars['String']['input'];
+  textDescription: Scalars['String']['input'];
+};
+
 export type Review = {
   __typename: 'Review';
   createdAt: Maybe<Scalars['DateTime']['output']>;
@@ -4547,6 +4570,11 @@ export type FeaturedProductsQueryVariables = Exact<{
 
 
 export type FeaturedProductsQuery = { featuredProducts: Array<{ __typename: 'FeaturedProduct', id: string, products: Array<{ __typename: 'Product', id: string, name: string | null, slug: string | null, badge: string | null, baseDescription: string | null, variantType: string | null, fillings: Array<{ __typename: 'ProductFilling', id: string, variants: Array<{ __typename: 'ProductVariant', id: string, weight: unknown | null, pieces: number | null, size: number | null, price: number | null }> | null }> | null, images: Array<{ __typename: 'ProductImage', id: string, isMain: boolean | null, image: { __typename: 'ImageFieldOutput', url: string } | null }> | null }> | null }> | null };
+
+export type ReviewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReviewsQuery = { reviews: Array<{ __typename: 'Review', id: string, user: string | null, description: string | null, image: { __typename: 'ImageFieldOutput', id: string, url: string } | null }> | null };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;

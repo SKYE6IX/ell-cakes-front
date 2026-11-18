@@ -1,7 +1,7 @@
 import Link from "next/link";
 import FillingCard from "./filling-card/FillingCard";
 import "./fillings.scss";
-import { fillingsList } from "@/lib/fillingsList";
+import { fillingsList } from "./fillingsList";
 
 function Fillings() {
   return (

@@ -22,7 +22,7 @@ export default function Input({
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === "phoneNumber") {
+    if (name === "phoneNumber" || name === "phone_number") {
       onInputChange({ name, value: value.replace(/[+\s-]/g, "") });
     } else {
       onInputChange({ name, value });

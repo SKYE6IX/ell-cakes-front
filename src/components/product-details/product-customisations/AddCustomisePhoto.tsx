@@ -189,6 +189,7 @@ function AddCustomisePhoto({ customOptions, dispatch }: CustomiseComponentProps)
           {customisePhotoState.errorMessage && (
             <p className="add-customise-photo__error-message">{customisePhotoState.errorMessage}</p>
           )}
+
           <button
             className={["add-customise-photo__button", loading ? "in-flight" : ""].join(" ")}
             onClick={handleSetOpen}
