@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -46,6 +46,7 @@ const paymentMethods = [
 function Checkout() {
   const router = useRouter();
 
+  const [allowDataProccess, setAllowDataProcess] = useState(false);
   const [checkoutState, dispatch] = useReducer(checkoutReducer, {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
@@ -149,6 +150,7 @@ function Checkout() {
     ...checkoutState,
     userId: authUser?.id,
     deliveryAddressId: authUser?.delivaryAddress?.id,
+    allowDataProccess,
   });
 
   if (!cart) return <CartEmpty />;
@@ -326,6 +328,17 @@ function Checkout() {
               Произошла ошибка! Пожалуйста, попробуйте еще раз.
             </span>
           )}
+
+          <div className="checkout__allow-data-process">
+            <input
+              type="checkbox"
+              checked={allowDataProccess}
+              onChange={(e) => {
+                setAllowDataProcess(e.target.checked);
+              }}
+            />
+            <span>Согласена на обработку персональных данных</span>
+          </div>
 
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}

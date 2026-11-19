@@ -3,6 +3,7 @@ import type { CheckoutState } from "./checkoutReducer";
 type Args = CheckoutState & {
   userId: string | undefined;
   deliveryAddressId: string | undefined;
+  allowDataProccess: boolean;
 };
 
 export function canCheckout({
@@ -12,10 +13,9 @@ export function canCheckout({
   initialZonePrice,
   deliveryAddressId,
   deliveryDate,
+  allowDataProccess,
 }: Args) {
-  if (!userId) return false;
-
-  if (!deliveryDate) return false;
+  if (!userId || !deliveryDate || !allowDataProccess) return false;
 
   if (hasOrderReceiver) {
     if (!orderReceiver) return false;

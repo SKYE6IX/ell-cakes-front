@@ -1,7 +1,7 @@
 import Collection from "@/components/collection/Collection";
 
 async function page() {
-  const CATEGORY_NAME = "torty";
+  const CATEGORY_NAME = "assortiment";
   return (
     <Collection
       categorySlug={CATEGORY_NAME}
