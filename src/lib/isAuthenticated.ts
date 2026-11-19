@@ -29,7 +29,6 @@ export async function isAuthenticated() {
     if (!data || data.queryAuthorizedUser === null) {
       return false;
     }
-
     return true;
   } catch (error) {
     console.error(error);

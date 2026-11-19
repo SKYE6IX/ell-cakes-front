@@ -79,6 +79,7 @@ function ProductList({ products }: ProductListProps) {
                   loading="lazy"
                 />
               </div>
+
               <h3 className="product-card__name">{product.name}</h3>
               <p className="product-card__description" data-testid="product-card-description">
                 {product.baseDescription}
