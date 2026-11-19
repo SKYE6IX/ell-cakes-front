@@ -20,8 +20,8 @@
 .custom-request__heading {
   font-family: $font-tenor-sans, sans-serif;
   font-size: 2.25rem;
-  line-height: 1.5;
-  font-weight: 800;
+  line-height: 1.2;
+  font-weight: 400;
   color: $dark-primary;
   text-align: center;
   @include max-breakpoint("md") {
@@ -50,17 +50,14 @@
   outline: none;
   background-color: $dark-primary;
   color: $bg-primary;
-  font-family: $font-tenor-sans, sans-serif;
-  font-size: 1.5rem;
+  font-family: $font-manrope, sans-serif;
+  font-size: 1rem;
   line-height: 1.2;
-  font-weight: 600;
-  padding: 15px 20px;
-  border-radius: 15px;
+  font-weight: 500;
+  height: 44px;
+  padding: 0px 30px;
+  border-radius: 10px;
   cursor: pointer;
-  @include max-breakpoint("s") {
-    padding: 10px 15px;
-    font-size: 1.125rem;
-  }
 }
 
 // MODAL SECTION STYLES
@@ -250,9 +247,11 @@
   height: 100%;
   min-height: 46px;
   background: inherit;
-  font-family: $font-tenor-sans, sans-serif;
-  font-size: 1rem;
+  font-family: $font-manrope, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.2;
   font-weight: 400;
+  color: $dark-primary;
 
   border: 1px solid $dark-primary;
   padding: 0px 15px;
@@ -437,7 +436,9 @@
 
 .custom-request__custom-date-text {
   font-family: $font-manrope, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  color: $dark-primary;
   font-weight: 400;
   text-align: start;
 }

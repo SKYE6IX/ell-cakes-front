@@ -10,7 +10,7 @@
 }
 .storage-info__heading {
   font-family: $font-manrope, sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1.2;
   font-weight: 500;
   margin-bottom: 30px;
@@ -25,4 +25,7 @@
 }
 .storage-info__text.p1 {
   margin-bottom: 30px;
+}
+.storage-info__text b {
+  font-weight: 600;
 }

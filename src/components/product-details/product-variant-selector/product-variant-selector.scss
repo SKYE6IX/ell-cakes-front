@@ -41,18 +41,15 @@
 .product-variant-selector__metric,
 .product-variant-selector__price {
   font-family: $font-manrope, sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.125rem;
   line-height: 1.2;
   font-weight: 500;
   color: $bg-primary;
-  @include max-breakpoint("s") {
-    font-size: 1.125rem;
-  }
 }
 .product-variant-selector__serving {
   font-family: $font-manrope, sans-serif;
   font-size: 1rem;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 500;
   color: $bg-primary;
 }
