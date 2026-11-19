@@ -4,13 +4,14 @@ import aestheticsImage from "@/components/home/about-us-section/about-us-section
 import "./about.scss";
 
 const aboutImages: Record<
-  "intro" | "principles" | "aesthetics" | "awards",
+  "intro" | "principles" | "aesthetics" | "awardsFirst" | "awardsSecond",
   StaticImageData | string | null
 > = {
-  intro: "/default-hero-images/product-image-2.jpg",
+  intro: "/about-images/ell-cakes-logo.jpg",
   principles: "/collection-images/birthday-1.jpg",
   aesthetics: aestheticsImage,
-  awards: "/collection-images/woman-day-1.jpeg",
+  awardsFirst: "/about-images/award-1.jpg",
+  awardsSecond: "/about-images/award-2.jpg",
 };
 
 const stats = [
@@ -129,12 +130,20 @@ function About() {
       </div>
 
       <div className="about__row">
-        <AboutMedia
-          src={aboutImages.awards}
-          alt="Ell Cakes"
-          sizes="(max-width: 912px) 100vw, 50vw"
-          className="about__media about__media--square"
-        />
+        <div className="about__gallery">
+          <AboutMedia
+            src={aboutImages.awardsFirst}
+            alt="Ell Cakes на премии I’m Famous"
+            sizes="(max-width: 912px) 50vw, 25vw"
+            className="about__media about__media--portrait"
+          />
+          <AboutMedia
+            src={aboutImages.awardsSecond}
+            alt="Торт Ell Cakes для премии I’m Famous"
+            sizes="(max-width: 912px) 50vw, 25vw"
+            className="about__media about__media--portrait"
+          />
+        </div>
         <div className="about__text-wrapper">
           <p className="about__text">
             Наш профессиональный путь отмечен наградами и признанием на деловом

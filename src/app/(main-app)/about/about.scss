@@ -56,6 +56,25 @@
     aspect-ratio: 4 / 3;
   }
 }
+.about__gallery {
+  flex-shrink: 0;
+  width: 50%;
+  @include flex-layout(row, flex-start, space-between, 20px);
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+  @include max-breakpoint("s") {
+    gap: 12px;
+  }
+}
+.about__media--portrait {
+  flex: 1;
+  width: auto;
+  aspect-ratio: 3 / 4;
+  @include max-breakpoint("sm") {
+    width: auto;
+  }
+}
 
 .about__text-wrapper {
   flex: 1;
