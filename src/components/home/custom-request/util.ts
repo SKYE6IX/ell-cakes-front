@@ -1,6 +1,6 @@
 export type StepUnion = "step_1" | "step_2" | "step_3";
 
-export interface CustomRequestState {
+export interface CustomRequestData {
   shape: string;
   filling: string;
   stackLevel: string;
@@ -17,7 +17,7 @@ export interface CustomRequestState {
   address: string;
 }
 
-export const DEFAULT_STATE: CustomRequestState = {
+export const DEFAULT_STATE: CustomRequestData = {
   shape: "",
   filling: "",
   stackLevel: "",
@@ -60,7 +60,7 @@ export const FILLINGS_OPITON = [
   { name: "Груша-карамель", img_src: null },
 ];
 
-export const getInitiState = (): CustomRequestState => {
+export const getInitiState = (): CustomRequestData => {
   try {
     const storedValue = localStorage.getItem(STORAGE_KEY);
     return storedValue ? JSON.parse(storedValue) : DEFAULT_STATE;
@@ -78,13 +78,15 @@ export const onStateChange = ({
 }) => {
   const storedValue = localStorage.getItem(STORAGE_KEY);
 
-  const currentState: CustomRequestState = storedValue ? JSON.parse(storedValue) : DEFAULT_STATE;
+  const currentState: CustomRequestData = storedValue ? JSON.parse(storedValue) : DEFAULT_STATE;
+
+  // For now, we don't want to persist these fields
+  if (name === "refPhoto" || name === "eventDate") return;
 
   const updatedState = {
     ...currentState,
     [name]: value,
   };
-
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedState));
 };
 
@@ -98,14 +100,14 @@ const REQUIRED_FIELDS = {
   step_3: ["name", "phoneNumber", "address", "eventDate", "occassion"],
 };
 
-type CustomRequestKey = keyof CustomRequestState;
+type CustomRequestKey = keyof CustomRequestData;
 
 export const validateFields = ({
   step,
   customRequest,
 }: {
   step: StepUnion;
-  customRequest: CustomRequestState;
+  customRequest: CustomRequestData;
 }) => {
   const undefinedFields: string[] = [];
   const phase = REQUIRED_FIELDS[step];

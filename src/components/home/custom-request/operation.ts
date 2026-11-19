@@ -1,11 +1,13 @@
 import { TypedDocumentNode, gql } from "@apollo/client";
-import { CustomRequestState } from "./util";
+import { CustomRequestData } from "./util";
 
 export const CUSTOM_REQUEST_MUTATION: TypedDocumentNode<
-  string,
-  { requestForCustomCakeInput: CustomRequestState }
+  { requestForCustomCake: { status: string } },
+  { requestForCustomCakeInput: CustomRequestData }
 > = gql`
   mutation RequestForCustomCake($requestForCustomCakeInput: RequestForCustomCakeInput!) {
-    requestForCustomCake(requestForCustomCakeInput: $requestForCustomCakeInput)
+    requestForCustomCake(requestForCustomCakeInput: $requestForCustomCakeInput) {
+      status
+    }
   }
 `;

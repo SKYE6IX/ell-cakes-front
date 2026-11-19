@@ -11,7 +11,7 @@ import UploadIcon from "@/components/icons/UploadIcon";
 import {
   clearStateStorage,
   COLOR_PALLATE,
-  CustomRequestState,
+  CustomRequestData,
   FILLINGS_OPITON,
   getInitiState,
   onStateChange,
@@ -28,12 +28,16 @@ import Loader from "@/components/loader/Loader";
 import "./custom-request.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
+interface CustomReqState {
+  openModal: boolean;
+  stepIndex: number;
+  selectedDate: Date | null;
+  errorFields: string[];
+  allowDataProccess: boolean;
+  showAllowDataProcessError: boolean;
+}
+
 const STEPS: StepUnion[] = ["step_1", "step_2", "step_3"];
-type CustomDateInputProp = {
-  value?: string;
-  onClick?: () => void;
-  buttonRef?: React.RefObject<HTMLButtonElement | null>;
-};
 
 const fadeVariant: Variants = {
   active: {
@@ -45,7 +49,6 @@ const fadeVariant: Variants = {
     visibility: "hidden",
   },
 };
-
 const dropDownVariant: Variants = {
   open: {
     translateY: 0,
@@ -59,43 +62,60 @@ const dropDownVariant: Variants = {
   },
 };
 
-// TODO: Check all field in step_3 are filled before allowing user to submit
+// TODO: Check all field in step_3 are filled before allowing user to submit ✅
 // Check mobile and write test for vital component after sharing with client
-
 function CustomRequest() {
-  const [openModal, setOpenModal] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [customReqState, setCustomReqState] = useState<CustomRequestState>(getInitiState());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [errorFields, setErrorFields] = useState<string[]>([]);
+  const [customReqState, setCustomReqState] = useState<CustomReqState>({
+    openModal: false,
+    stepIndex: 0,
+    selectedDate: null,
+    errorFields: [],
+    allowDataProccess: false,
+    showAllowDataProcessError: false,
+  });
 
+  const [customReqData, setCustomReqData] = useState<CustomRequestData>(getInitiState());
   const dateButtonRef = useRef<HTMLButtonElement>(null);
-
-  const currentStep = STEPS[stepIndex];
+  const currentStep = STEPS[customReqState.stepIndex];
 
   const handleOpenModal = () => {
-    setOpenModal((prvState) => !prvState);
+    setCustomReqState((prvState) => ({ ...prvState, openModal: !prvState.openModal }));
   };
 
+  // GO NEXT STEP
   const goNextStep = () => {
-    if (stepIndex >= STEPS.length - 1) return;
+    if (customReqState.stepIndex >= STEPS.length - 1) return;
 
     const { fields, isError } = validateFields({
       step: currentStep,
-      customRequest: customReqState,
+      customRequest: customReqData,
     });
-    setErrorFields((prvSate) => [...prvSate, ...fields]);
+
+    setCustomReqState((prvState) => ({
+      ...prvState,
+      errorFields: [...prvState.errorFields, ...fields],
+    }));
+
     if (isError) return;
-    setStepIndex((prvState) => prvState + 1);
+
+    setCustomReqState((prvState) => ({
+      ...prvState,
+      stepIndex: prvState.stepIndex + 1,
+    }));
   };
 
+  // GO PREVIOUS STEP
   const goPrvStep = () => {
-    if (stepIndex <= 0) return;
-    setStepIndex((prvState) => prvState - 1);
+    if (customReqState.stepIndex <= 0) return;
+
+    setCustomReqState((prvState) => ({
+      ...prvState,
+      stepIndex: prvState.stepIndex - 1,
+    }));
   };
 
-  const isProgressToStep2 = stepIndex > 0 && stepIndex <= 2;
-  const isProgressToStep3 = stepIndex > 1 && stepIndex <= 2;
+  const isProgressToStep2 = customReqState.stepIndex > 0 && customReqState.stepIndex <= 2;
+  const isProgressToStep3 = customReqState.stepIndex > 1 && customReqState.stepIndex <= 2;
 
   const handleSetCustomReqState = ({
     name,
@@ -105,8 +125,11 @@ function CustomRequest() {
     value: string | FileList | null;
   }) => {
     //Always remove the errror field from the list
-    setErrorFields((prvSate) => prvSate.filter((field) => field !== name));
     setCustomReqState((prvState) => ({
+      ...prvState,
+      errorFields: prvState.errorFields.filter((field) => field !== name),
+    }));
+    setCustomReqData((prvState) => ({
       ...prvState,
       [name]: value,
     }));
@@ -127,7 +150,11 @@ function CustomRequest() {
     handleSetCustomReqState({ name: "colorPallete", value });
   };
   const setEventDateOption = (date: Date | null) => {
-    setSelectedDate(date);
+    setCustomReqState((prvState) => ({
+      ...prvState,
+      selectedDate: date,
+    }));
+
     if (date) {
       const formatDate = date.toLocaleString("ru", { dateStyle: "full" });
       handleSetCustomReqState({ name: "eventDate", value: formatDate });
@@ -138,25 +165,52 @@ function CustomRequest() {
     handleSetCustomReqState({ name: "refPhoto", value: fileList });
   };
 
-  const [makeRequest, { loading, error }] = useMutation(CUSTOM_REQUEST_MUTATION, {
+  const [makeRequest, { loading }] = useMutation(CUSTOM_REQUEST_MUTATION, {
     variables: {
-      requestForCustomCakeInput: customReqState,
+      requestForCustomCakeInput: customReqData,
     },
     context: {
       headers: {
         "apollo-require-preflight": "true",
       },
     },
-
-    onCompleted(data) {
+    onCompleted() {
       clearStateStorage();
-      setCustomReqState(getInitiState());
-      setStepIndex(0);
-      alert("Check backend");
+      setCustomReqData(getInitiState());
+      setCustomReqState((prvState) => ({
+        ...prvState,
+        stepIndex: 0,
+      }));
+      alert("Message Sent! 🚀🚀");
+    },
+    onError() {
+      alert("SOmething Went wrong! Please try again! 🚀🚀");
     },
   });
 
-  //   console.log("Custom Data => ", JSON.stringify(customReqState, null, 3));
+  const sendRequest = () => {
+    const { fields, isError } = validateFields({
+      step: currentStep,
+      customRequest: customReqData,
+    });
+    setCustomReqState((prvState) => ({
+      ...prvState,
+      errorFields: [...prvState.errorFields, ...fields],
+    }));
+
+    if (isError) return;
+
+    if (!customReqState.allowDataProccess) {
+      setCustomReqState((prvState) => ({
+        ...prvState,
+        showAllowDataProcessError: true,
+      }));
+      return;
+    }
+    makeRequest();
+  };
+
+  //   console.log("Custom Data => ", JSON.stringify(customReqData, null, 3));
 
   return (
     <React.Fragment>
@@ -172,7 +226,7 @@ function CustomRequest() {
       </section>
 
       {/* Modal Section */}
-      <CustomRequestModal showModal={openModal} handleCloseModal={handleOpenModal}>
+      <CustomRequestModal showModal={customReqState.openModal} handleCloseModal={handleOpenModal}>
         {/* STEPPERS */}
         <div className="custom-request__stepper">
           <div
@@ -203,7 +257,7 @@ function CustomRequest() {
           <div className="custom-request__row">
             <div className="custom-request__row-label-wrapper">
               <h3 className="custom-request__row-label">Форма торта</h3>
-              {errorFields.includes("shape") && (
+              {customReqState.errorFields.includes("shape") && (
                 <span className="custom-request__error-message">Выберите вариант</span>
               )}
             </div>
@@ -212,7 +266,7 @@ function CustomRequest() {
               <button
                 className={[
                   "custom-request__shape-item",
-                  customReqState.shape === "Круг" ? "selected" : "",
+                  customReqData.shape === "Круг" ? "selected" : "",
                 ].join(" ")}
                 onClick={() => setShapeOption("Круг")}
               >
@@ -223,7 +277,7 @@ function CustomRequest() {
               <button
                 className={[
                   "custom-request__shape-item",
-                  customReqState.shape === "Сердце" ? "selected" : "",
+                  customReqData.shape === "Сердце" ? "selected" : "",
                 ].join(" ")}
                 onClick={() => setShapeOption("Сердце")}
               >
@@ -246,7 +300,7 @@ function CustomRequest() {
           <div className="custom-request__row">
             <div className="custom-request__row-label-wrapper">
               <h3 className="custom-request__row-label">Начинка</h3>
-              {errorFields.includes("filling") && (
+              {customReqState.errorFields.includes("filling") && (
                 <span className="custom-request__error-message">Выберите вариант</span>
               )}
             </div>
@@ -257,7 +311,7 @@ function CustomRequest() {
                   key={filling.name}
                   className={[
                     "custom-request__filling-item",
-                    customReqState.filling === filling.name ? "selected" : "",
+                    customReqData.filling === filling.name ? "selected" : "",
                   ].join(" ")}
                   onClick={() => setFillingOption(filling.name)}
                 >
@@ -287,12 +341,12 @@ function CustomRequest() {
             <div
               className={[
                 "custom-request__row",
-                errorFields.includes("stackLevel") ? "error" : "",
+                customReqState.errorFields.includes("stackLevel") ? "error" : "",
               ].join(" ")}
             >
               <h3 className="custom-request__row-label">Количество ярусов</h3>
               <DropDown
-                value={customReqState.stackLevel}
+                value={customReqData.stackLevel}
                 placeholder="Выберите количество ярусов"
                 lists={STACK_LEVELS}
                 setOption={setStackLevelOption}
@@ -303,11 +357,11 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Количество гостей</h3>
               <Input
                 type="number"
-                value={customReqState.guestNum}
+                value={customReqData.guestNum}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Введите количество гостей"
                 name="guestNum"
-                hasError={errorFields.includes("guestNum")}
+                hasError={customReqState.errorFields.includes("guestNum")}
               />
             </div>
           </div>
@@ -316,12 +370,12 @@ function CustomRequest() {
             <div
               className={[
                 "custom-request__row",
-                errorFields.includes("colorPallete") ? "error" : "",
+                customReqState.errorFields.includes("colorPallete") ? "error" : "",
               ].join(" ")}
             >
               <h3 className="custom-request__row-label">Цветовая гамма</h3>
               <DropDown
-                value={customReqState.colorPallete}
+                value={customReqData.colorPallete}
                 placeholder="Выберите цветовая гамма"
                 lists={COLOR_PALLATE}
                 setOption={setColorPallateOption}
@@ -332,11 +386,11 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Декор</h3>
               <Input
                 type="text"
-                value={customReqState.decorations}
+                value={customReqData.decorations}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Леденцы, Фотопечать, Свой вариант"
                 name="decorations"
-                hasError={errorFields.includes("decorations")}
+                hasError={customReqState.errorFields.includes("decorations")}
               />
             </div>
           </div>
@@ -346,11 +400,11 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Надпись на торт</h3>
               <Input
                 type="text"
-                value={customReqState.textDescription}
+                value={customReqData.textDescription}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Оформление текста"
                 name="textDescription"
-                hasError={errorFields.includes("textDescription")}
+                hasError={customReqState.errorFields.includes("textDescription")}
               />
             </div>
 
@@ -358,11 +412,11 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Аллергены</h3>
               <Input
                 type="text"
-                value={customReqState.allergies}
+                value={customReqData.allergies}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Молочные продукты, Глютен, Аллергий нет"
                 name="allergies"
-                hasError={errorFields.includes("allergies")}
+                hasError={customReqState.errorFields.includes("allergies")}
               />
             </div>
           </div>
@@ -370,8 +424,8 @@ function CustomRequest() {
           <div className="custom-request__row">
             <h3 className="custom-request__row-label">Фото-референс</h3>
             <label htmlFor="custom-request-ref-image" className="custom-request__upload-label">
-              {customReqState.refPhoto && customReqState.refPhoto[0].name ? (
-                customReqState.refPhoto[0].name
+              {customReqData.refPhoto && customReqData.refPhoto[0].name ? (
+                customReqData.refPhoto[0].name
               ) : (
                 <>
                   <UploadIcon />
@@ -403,11 +457,11 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Имя</h3>
               <Input
                 type="text"
-                value={customReqState.name}
+                value={customReqData.name}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Введите своё имя"
                 name="name"
-                hasError={errorFields.includes("name")}
+                hasError={customReqState.errorFields.includes("name")}
               />
             </div>
 
@@ -416,12 +470,12 @@ function CustomRequest() {
               <Input
                 type="tel"
                 value={
-                  customReqState.phoneNumber ? formatPhoneNumber(customReqState.phoneNumber) : ""
+                  customReqData.phoneNumber ? formatPhoneNumber(customReqData.phoneNumber) : ""
                 }
                 onInputChange={handleSetCustomReqState}
                 placeholder="Введите свои контактны"
                 name="phoneNumber"
-                hasError={errorFields.includes("phoneNumber")}
+                hasError={customReqState.errorFields.includes("phoneNumber")}
                 maxLength={11}
               />
             </div>
@@ -432,23 +486,23 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Адрес</h3>
               <Input
                 type="text"
-                value={customReqState.address}
+                value={customReqData.address}
                 onInputChange={handleSetCustomReqState}
                 placeholder="Введите свой адрес"
                 name="address"
-                hasError={errorFields.includes("address")}
+                hasError={customReqState.errorFields.includes("address")}
               />
             </div>
 
             <div
               className={[
                 "custom-request__row",
-                errorFields.includes("event_date") ? "error" : "",
+                customReqState.errorFields.includes("eventDate") ? "error" : "",
               ].join(" ")}
             >
               <h3 className="custom-request__row-label">Дата праздника</h3>
               <DatePicker
-                selected={selectedDate}
+                selected={customReqState.selectedDate}
                 onChange={setEventDateOption}
                 customInput={<CustomDateInput buttonRef={dateButtonRef} />}
                 popperTargetRef={dateButtonRef}
@@ -461,16 +515,29 @@ function CustomRequest() {
             <h3 className="custom-request__row-label">Повод</h3>
             <Input
               type="text"
-              value={customReqState.occassion}
+              value={customReqData.occassion}
               onInputChange={handleSetCustomReqState}
               placeholder="Укажите повод"
               name="occassion"
-              hasError={errorFields.includes("occassion")}
+              hasError={customReqState.errorFields.includes("occassion")}
             />
           </div>
 
+          {customReqState.showAllowDataProcessError && (
+            <span className="custom-request__error-message">Дать согласие на обработку данных</span>
+          )}
           <div className="custom-request__agreement">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={customReqState.allowDataProccess}
+              onChange={(e) => {
+                setCustomReqState((prv) => ({
+                  ...prv,
+                  allowDataProccess: e.target.checked,
+                  showAllowDataProcessError: false,
+                }));
+              }}
+            />
             <p className="custom-request__agreement-text">
               Согласена на обработку персональных данных
             </p>
@@ -497,7 +564,7 @@ function CustomRequest() {
           </button>
 
           {isProgressToStep3 ? (
-            <button className="custom-request__nav-btn next" onClick={() => makeRequest()}>
+            <button className="custom-request__nav-btn next" onClick={sendRequest}>
               {loading ? <Loader /> : "Рассчитать стоимость"}
             </button>
           ) : (
@@ -523,17 +590,12 @@ function CustomRequest() {
 export default CustomRequest;
 
 // CUSTOM DROP DOWN
-const DropDown = ({
-  lists,
-  value,
-  placeholder,
-  setOption,
-}: {
+const DropDown: React.FC<{
   placeholder: string;
   value: string;
   lists: { id: string; value: string }[];
   setOption: (value: string) => void;
-}) => {
+}> = ({ lists, value, placeholder, setOption }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleIsOpen = () => {
@@ -572,7 +634,11 @@ const DropDown = ({
 };
 
 // CUSTOM COMPOMENT FOR REACT DATE INPUT
-const CustomDateInput: React.FC<CustomDateInputProp> = ({ value, onClick, buttonRef }) => (
+const CustomDateInput: React.FC<{
+  value?: string;
+  onClick?: () => void;
+  buttonRef?: React.RefObject<HTMLButtonElement | null>;
+}> = ({ value, onClick, buttonRef }) => (
   <button className="custom-request__custom-date" ref={buttonRef} onClick={onClick}>
     <span className="custom-request__custom-date-text">{value || "Выберите дату"}</span>
   </button>
