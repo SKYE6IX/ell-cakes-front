@@ -5,8 +5,8 @@ import DatePicker from "react-datepicker";
 import { ACTIONTYPE } from "../checkoutReducer";
 import { Cart } from "@/types/__generated__/graphql";
 import "./delivery-option.scss";
-
 import "react-datepicker/dist/react-datepicker.css";
+import { getFutureDate } from "@/utils/getFutureDate";
 
 type DeliveryOptionType = {
   key: "self-pickup" | "regular-time" | "in-between-time";
@@ -24,30 +24,15 @@ type DeliveryAddressProps = {
   cart: Cart;
 };
 
-const deliveryTimeInterval = [
-  "с 10 до 12",
-  "с 12 до 14",
-  "с 14 до 16",
-  "с 16 до 18",
-  "с 16 до 20",
-];
-
-function getFutureDate(daysToAdd: number) {
-  const date = new Date();
-  date.setDate(date.getDate() + daysToAdd + 1);
-  return new Date(date);
-}
+const deliveryTimeInterval = ["с 10 до 12", "с 12 до 14", "с 14 до 16", "с 16 до 18", "с 16 до 20"];
 
 function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const dateButtonRef = useRef<HTMLButtonElement>(null);
 
-  const [currentValue, setCurrentValue] =
-    useState<DeliveryOptionType["key"]>("regular-time");
+  const [currentValue, setCurrentValue] = useState<DeliveryOptionType["key"]>("regular-time");
 
-  const [selectedInterval, setSelectedInterval] = useState(
-    deliveryTimeInterval[0]
-  );
+  const [selectedInterval, setSelectedInterval] = useState(deliveryTimeInterval[0]);
 
   const handleSetDelivaryOption = ({ key, chosenTime }: DeliveryOptionType) => {
     setCurrentValue(key);
@@ -72,16 +57,13 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
         type: "manage_delivery_option",
         payload: {
           zonePrice: 0,
-          option:
-            "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
+          option: "Самовывоз - Котельники, ул. Кузьминская, 17 (с 09:00 до 14:00)",
         },
       });
     }
   };
 
-  const handleOnSelectedIntervalChangeChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleOnSelectedIntervalChangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentValue("in-between-time");
     const { value } = e.target;
     setSelectedInterval(value);
@@ -136,7 +118,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
           ].join(" ")}
           onClick={() => handleSetDelivaryOption({ key: "self-pickup" })}
         >
-          Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)
+          Самовывоз - Котельники, ул. Кузьминская, 17 (с 09:00 до 14:00)
         </li>
 
         <li className="delivery-option__list-item delivery-interval">
@@ -163,11 +145,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
             onChange={handleOnSelectedIntervalChangeChange}
           >
             {deliveryTimeInterval.map((dti) => (
-              <option
-                key={dti}
-                value={dti}
-                className="delivery-interval__option"
-              >
+              <option key={dti} value={dti} className="delivery-interval__option">
                 {dti}
               </option>
             ))}
@@ -176,9 +154,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
       </ul>
 
       <div className="delivery-option__date-selection-wrapper">
-        <label className="delivery-option__date-selection-label">
-          На какое число приготовить?
-        </label>
+        <label className="delivery-option__date-selection-label">На какое число приготовить?</label>
         <DatePicker
           selected={selectedDate}
           onChange={handleOnDeliveryDateChange}
@@ -187,12 +163,13 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
           minDate={getFutureDate(maxPreparationDays)}
         />
       </div>
+
       <p className="delivery-option__urgent">
         Нужен срочный заказ? Можете{" "}
         <Link href={tlUrl} target="_blank">
-          Написать в Telegram{" "}
-        </Link>
-        узнать о наличии.
+          написать в Telegram
+        </Link>{" "}
+        и узнать о наличии.
       </p>
     </div>
   );
@@ -200,15 +177,9 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
 
 export default DeliveryOption;
 
-const CustomDateInputWithButton: React.FC<CustomInputProps> = ({
-  value,
-  onClick,
-  buttonRef,
-}) => (
+const CustomDateInputWithButton: React.FC<CustomInputProps> = ({ value, onClick, buttonRef }) => (
   <div className="delivery-option__custom-date">
-    <span className="delivery-option__custom-date-text">
-      {value || "Выберите дату"}
-    </span>
+    <span className="delivery-option__custom-date-text">{value || "Выберите дату"}</span>
     <button
       className="delivery-option__custom-date-btn"
       ref={buttonRef}

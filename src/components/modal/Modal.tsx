@@ -45,12 +45,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-function Modal({
-  showModal,
-  headingText,
-  handleCloseModal,
-  children,
-}: ModalProps) {
+function Modal({ showModal, headingText, handleCloseModal, children }: ModalProps) {
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(true);
@@ -91,10 +86,7 @@ function Modal({
             >
               <div className="modal__content">
                 <div className="modal__content-header">
-                  <button
-                    className="modal__close-button"
-                    onClick={handleCloseModal}
-                  >
+                  <button className="modal__close-button" onClick={handleCloseModal}>
                     <CloseIcon />
                   </button>
                   <h3 className="modal__heading-text">{headingText}</h3>
@@ -106,7 +98,7 @@ function Modal({
         </motion.div>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }
 

@@ -13,9 +13,7 @@ interface SimilarProductsProps {
 
 function SimilarProducts({ productSlug }: SimilarProductsProps) {
   const similarProductsContainerRef = useRef<HTMLDivElement>(null);
-  const [getSimilarProducts, { data, loading }] = useLazyQuery(
-    QUERY_SIMILAR_PRODUCTS
-  );
+  const [getSimilarProducts, { data, loading }] = useLazyQuery(QUERY_SIMILAR_PRODUCTS);
   const similarProducts = data?.querySimilarProducts;
 
   useEffect(() => {
@@ -34,23 +32,22 @@ function SimilarProducts({ productSlug }: SimilarProductsProps) {
               imagesOrderBy: [{ id: OrderDirection.Asc }],
             },
           });
+
           observer.disconnect();
         }
       },
       {
         root: null,
         threshold: 0.1,
-      }
+      },
     );
     observer.observe(containerToObserve);
+
     return () => observer.disconnect();
   }, [data, getSimilarProducts, productSlug]);
 
   return (
-    <div
-      className="product-details__similar-products"
-      ref={similarProductsContainerRef}
-    >
+    <div className="product-details__similar-products" ref={similarProductsContainerRef}>
       <h3 className="similar-products__heading">Сделай праздник ещё вкуснее</h3>
       <div className="similar-products__container">
         {loading && <ProductListSkeleton />}

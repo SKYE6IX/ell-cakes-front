@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import "./input.scss";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -7,7 +5,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
   value: string;
   onInputChange: ({}: { name: string; value: string }) => void;
-  type: "text" | "email" | "password" | "tel";
+  type: "text" | "email" | "password" | "tel" | "number";
   hasError: boolean;
   customClassName?: string;
 }
@@ -24,7 +22,7 @@ export default function Input({
 }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === "phoneNumber") {
+    if (name === "phoneNumber" || name === "phone_number") {
       onInputChange({ name, value: value.replace(/[+\s-]/g, "") });
     } else {
       onInputChange({ name, value });

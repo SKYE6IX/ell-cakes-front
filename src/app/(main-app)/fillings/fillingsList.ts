@@ -16,11 +16,7 @@ export const fillingsList: Filling[] = [
     minWeight: "2.3 кг",
     minWeightPrice: "6.440 ₽",
     pricePerKg: "2.800 ₽",
-    description: [
-      "влажный бархатистый бисквит",
-      "нежный крем-чиз",
-      "сочное клубничное конфи",
-    ],
+    description: ["влажный бархатистый бисквит", "нежный крем-чиз", "сочное клубничное конфи"],
   },
   {
     key: "napoleon",
@@ -38,11 +34,7 @@ export const fillingsList: Filling[] = [
     minWeight: "2.3 кг",
     minWeightPrice: "6.440 ₽",
     pricePerKg: "2.800 ₽",
-    description: [
-      "нежная лаванда",
-      "насыщенная черника",
-      "воздушный сливочный крем",
-    ],
+    description: ["нежная лаванда", "насыщенная черника", "воздушный сливочный крем"],
   },
   {
     key: "praga",
@@ -90,11 +82,7 @@ export const fillingsList: Filling[] = [
     minWeight: "2.5 кг",
     minWeightPrice: "7.000 ₽",
     pricePerKg: "2.500 ₽",
-    description: [
-      "тонкие медовые коржи",
-      "сливочно-сметанный крем",
-      "нотки карамели",
-    ],
+    description: ["тонкие медовые коржи", "сливочно-сметанный крем", "нотки карамели"],
   },
   {
     key: "ptichye-moloko",

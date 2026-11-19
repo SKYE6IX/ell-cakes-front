@@ -15,21 +15,6 @@ function Faq() {
   return (
     <section className="faq">
       <div className="faq__inner-wrapper">
-        <div className="faq-help">
-          <div className="faq-help__title">Нужна помощь?</div>
-          <div className="faq-help__link-wrapper">
-            <Link href="/delivery" className="faq-help__link">
-              Условия доставки
-            </Link>
-            <Link href="/collaboration" className="faq-help__link">
-              Сотрудничество
-            </Link>
-            <Link href="/contact" className="faq-help__link">
-              Контакты
-            </Link>
-          </div>
-        </div>
-
         <div className="faq__body">
           {sections.map((section) => (
             <div className="faq__section" key={section.key}>
@@ -46,6 +31,21 @@ function Faq() {
               })}
             </div>
           ))}
+        </div>
+
+        <div className="faq-help">
+          <div className="faq-help__title">Нужна помощь?</div>
+          <div className="faq-help__link-wrapper">
+            <Link href="/delivery" className="faq-help__link">
+              Условия доставки
+            </Link>
+            <Link href="/collaboration" className="faq-help__link">
+              Сотрудничество
+            </Link>
+            <Link href="/contact" className="faq-help__link">
+              Контакты
+            </Link>
+          </div>
         </div>
       </div>
     </section>

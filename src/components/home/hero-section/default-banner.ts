@@ -2,8 +2,7 @@ import { ImageExtension, ProductHomeBanner } from "@/types/__generated__/graphql
 
 export const defaultBanner: ProductHomeBanner = {
   __typename: "ProductHomeBanner",
-  bannerText:
-    "Десерты, приготовленные вручную из натуральных ингредиентов! Для праздников, подарков и просто хорошего настроения - красиво, вкусно и всегда вовремя!",
+  bannerText: "Десерты из премиальных ингредиентов - специально для вашего праздника",
   createdAt: undefined,
   id: "default-banner-id",
   product: {
@@ -58,7 +57,7 @@ export const defaultBanner: ProductHomeBanner = {
     imagesCount: null,
     isAvailable: null,
     mixBoxProduct: null,
-    name: "Создаём сладкие моменты",
+    name: "Торт, который запомнится",
     slug: "collection",
     topping: null,
     type: null,

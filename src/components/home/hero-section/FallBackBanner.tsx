@@ -32,11 +32,9 @@ function FallBackBanner() {
         </li>
       </ul>
       <div className="hero__info">
-        <h3 className="hero__product-name">Создаём сладкие моменты</h3>
+        <h3 className="hero__product-name">Торт, который запомнится</h3>
         <p className="hero__product-description" data-testid="hero-banner-text">
-          Десерты, приготовленные вручную из натуральных ингредиентов! Для
-          праздников, подарков и просто хорошего настроения - красиво, вкусно и
-          всегда вовремя!
+          Десерты из премиальных ингредиентов - специально для вашего праздника
         </p>
         <Button textKey="Заказать" />
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,8 +25,6 @@ import spbIcon from "./sbp-icon.png";
 import { OrderDirection } from "@/types/__generated__/graphql";
 import "./checkout.scss";
 
-// TODO:
-// 1. Write test for all component inside checkout
 const paymentMethods = [
   {
     id: "bank_card",
@@ -48,6 +46,7 @@ const paymentMethods = [
 function Checkout() {
   const router = useRouter();
 
+  const [allowDataProccess, setAllowDataProcess] = useState(false);
   const [checkoutState, dispatch] = useReducer(checkoutReducer, {
     paymentMethod: "bank_card",
     deliveryOption: "Интервал доставки (с 10:00 до 16:00)",
@@ -141,6 +140,7 @@ function Checkout() {
       window.history.replaceState({}, "", confirmationUrl);
       router.push(paymentUrl);
     },
+
     onError(error) {
       console.error("Error occur when try to checout order -> ", error);
     },
@@ -150,6 +150,7 @@ function Checkout() {
     ...checkoutState,
     userId: authUser?.id,
     deliveryAddressId: authUser?.delivaryAddress?.id,
+    allowDataProccess,
   });
 
   if (!cart) return <CartEmpty />;
@@ -328,9 +329,20 @@ function Checkout() {
             </span>
           )}
 
+          <div className="checkout__allow-data-process">
+            <input
+              type="checkbox"
+              checked={allowDataProccess}
+              onChange={(e) => {
+                setAllowDataProcess(e.target.checked);
+              }}
+            />
+            <span>Согласена на обработку персональных данных</span>
+          </div>
+
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
-            <Link href="/policy">с согласием на обработку персональных данных</Link>
+            <Link href="/privacy">с согласием на обработку персональных данных</Link>
           </p>
         </div>
       </div>

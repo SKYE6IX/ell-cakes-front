@@ -16,10 +16,7 @@ type YandexMapAddressProps = {
   hasError: boolean;
 };
 
-function YandexMapAddress({
-  onAddressInputChange,
-  hasError,
-}: YandexMapAddressProps) {
+function YandexMapAddress({ onAddressInputChange, hasError }: YandexMapAddressProps) {
   const [address, setAddress] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -76,9 +73,7 @@ function YandexMapAddress({
 
       <ul
         className={`yandex-map-address__suggestion-list ${
-          suggesstion && suggesstion.length > 0 && showSuggestionBox
-            ? "show"
-            : " "
+          suggesstion && suggesstion.length > 0 && showSuggestionBox ? "show" : " "
         }`}
       >
         {suggesstion?.map((item, i) => {
@@ -100,10 +95,7 @@ function YandexMapAddress({
         })}
       </ul>
 
-      <p
-        aria-live="polite"
-        className={`yandex-map-address__error ${hasError ? "show" : ""}`}
-      >
+      <p aria-live="polite" className={`yandex-map-address__error ${hasError ? "show" : ""}`}>
         Неверный адрес
       </p>
     </div>
