@@ -54,7 +54,7 @@ const jsonLd: WithContext<Organization> = {
   "@context": "https://schema.org",
   "@type": "Corporation",
   name: "Ell Cakes",
-  email: "info@ellcakes.net",
+  email: "ellcakesofficial@gmail.com",
   logo: "/ell-cake-icon.png",
   url: "https://ellcakes.ru",
   description:
@@ -67,15 +67,15 @@ const jsonLd: WithContext<Organization> = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      telephone: "8(965)-195-05-99",
+      telephone: "+7(965)-195-05-99",
       contactType: "Customer Service",
-      email: "info@ellcakes.net",
+      email: "ellcakesofficial@gmail.com",
       availableLanguage: ["Russian"],
     },
   ],
   address: {
     "@type": "PostalAddress",
-    addressLocality: "г. Москва, Жуков проезд, дом 8",
+    addressLocality: "Котельники, ул. Кузьминская, 17",
     addressCountry: "Russia",
   },
 };

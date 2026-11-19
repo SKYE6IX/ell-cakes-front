@@ -82,7 +82,7 @@ function OrderStatus() {
                   <p className="order-status__body-text">
                     Вам придет смс о готовности заказа
                   </p>
-                  <Link href="/" className="order-status__link">
+                  <Link href="/collections" className="order-status__link">
                     Вернуться в каталог
                   </Link>
                 </div>
@@ -119,16 +119,16 @@ function OrderStatus() {
                       Нужна помощь?
                     </h5>
                     <Link
-                      href="mailto:info@ellcakes.net"
+                      href="mailto:ellcakesofficial@gmail.com"
                       className="order-status__contact-mail"
                     >
-                      info@ellcakes.net
+                      ellcakesofficial@gmail.com
                     </Link>
                     <Link
-                      href="tel:89651950599"
+                      href="tel:+79651950599"
                       className="order-status__contact-phone"
                     >
-                      8(965)-195-05-99 <span>(10:00-20:00)</span>
+                      +7(965)-195-05-99 <span>(10:00-20:00)</span>
                     </Link>
                   </div>
                 </div>

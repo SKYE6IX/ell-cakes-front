@@ -24,8 +24,8 @@ describe("Contact page", () => {
     expect(contactAddress).toBeInTheDocument();
     expect(contactPhone).toBeInTheDocument();
     expect(contactAddress).toHaveTextContent(
-      "Московская область, город Котельники, ул. Кузьминская, 17",
+      "Котельники, ул. Кузьминская, 17",
     );
-    expect(contactPhone).toHaveTextContent("8(965)-195-05-99");
+    expect(contactPhone).toHaveTextContent("+7(965)-195-05-99");
   });
 });

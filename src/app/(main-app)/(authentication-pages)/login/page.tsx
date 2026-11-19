@@ -74,7 +74,7 @@ function Login() {
             hasError={errorFeilds.includes("password")}
           />
 
-          {error && <span className="login-form__error-message">Неверный почты или пароль</span>}
+          {error && <span className="login-form__error-message">Неверная почта или пароль</span>}
         </div>
 
         <button type="submit" className="login-form__submit-button">
