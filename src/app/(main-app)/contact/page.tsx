@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Telegram from "@/components/icons/Telegram";
 import Instagram from "@/components/icons/Instagram";
-import Vk from "@/components/icons/Vk";
 import WhatsApp from "@/components/icons/WhatsApp";
 import RequestCall from "./request-call/RequestCall";
 import "./contact.scss";
@@ -33,17 +33,17 @@ function Contact() {
           <div className="footer__link-wrapper-item">
             <h4 className="footer__link-wrapper-item__title">Почта:</h4>
             <Link
-              href="mailto:info@ellcakes.net"
+              href="mailto:ellcakesofficial@gmail.com"
               className="footer__link-wrapper-item__text underline"
             >
-              info@ellcakes.net
+              ellcakesofficial@gmail.com
             </Link>
           </div>
 
           <div className="footer__link-wrapper-item">
             <h4 className="footer__link-wrapper-item__title">Адрес:</h4>
             <p className="footer__link-wrapper-item__text" data-testid="contact-address">
-              Московская область, город Котельники, ул. Кузьминская, 17
+              Котельники, ул. Кузьминская, 17
             </p>
           </div>
 
@@ -65,7 +65,7 @@ function Contact() {
               className="footer__link-wrapper-item__text underline"
               data-testid="contact-phone"
             >
-              8(965)-195-05-99
+              +7(965)-195-05-99
             </Link>
           </div>
 
@@ -75,12 +75,16 @@ function Contact() {
               <Link
                 className="footer__link-wrapper-item__link"
                 target="_blank"
+                href="https://t.me/by_ellcakes"
+              >
+                <Telegram />
+              </Link>
+              <Link
+                className="footer__link-wrapper-item__link"
+                target="_blank"
                 href="https://www.instagram.com/ell_cakes?igsh=aTBobjM1cXYzc2Y4"
               >
                 <Instagram />
-              </Link>
-              <Link className="footer__link-wrapper-item__link" href="/">
-                <Vk />
               </Link>
               <Link
                 className="footer__link-wrapper-item__link"

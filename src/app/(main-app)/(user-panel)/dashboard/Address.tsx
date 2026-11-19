@@ -146,7 +146,7 @@ function Address({ authUser }: AddressProps) {
                   type="submit"
                   disabled={updateLoading}
                 >
-                  {updateLoading ? <div className="dashboard__loader"></div> : "Обновлять"}
+                  {updateLoading ? <div className="dashboard__loader"></div> : "Обновить"}
                 </button>
               </form>
             ) : (

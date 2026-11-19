@@ -86,7 +86,7 @@ function RegistrationPage() {
               hasError={errorFeilds.includes("phoneNumber")}
             />
             {phoneValidation?.isPhoneNumberInUse && (
-              <span className="registration__field-validation">ТЕЛЕФОН используется</span>
+              <span className="registration__field-validation">Этот телефон уже используется</span>
             )}
           </div>
 
@@ -100,7 +100,7 @@ function RegistrationPage() {
               hasError={errorFeilds.includes("email")}
             />
             {emailValidation?.isEmailInUse && (
-              <span className="registration__field-validation">почта используется</span>
+              <span className="registration__field-validation">Эта почта уже используется</span>
             )}
           </div>
 
@@ -123,7 +123,7 @@ function RegistrationPage() {
 
       <p className="registration-form__policy" data-testid="registration-page-policy">
         нажимая кнопку вы соглашаетесь{" "}
-        <Link href="/policy" data-testid="registration-page-policy-link">
+        <Link href="/privacy" data-testid="registration-page-policy-link">
           с согласием на обработку персональных данных
         </Link>
       </p>

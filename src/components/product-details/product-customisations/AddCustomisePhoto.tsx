@@ -129,7 +129,7 @@ function AddCustomisePhoto({ customOptions, dispatch }: CustomiseComponentProps)
       } else if (totalImageSelected === 2 && fileList.length < totalImageSelected) {
         setCustomisePhotoState((prvState) => ({
           ...prvState,
-          errorMessage: "сложите два изображения!",
+          errorMessage: "Добавьте два изображения",
         }));
         handleSetOpen();
         return;

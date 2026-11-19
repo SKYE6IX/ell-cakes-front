@@ -329,7 +329,7 @@ function Checkout() {
 
           <p className="checkout__legal">
             нажимая кнопку вы соглашаетесь{" "}
-            <Link href="/policy">с согласием на обработку персональных данных</Link>
+            <Link href="/privacy">с согласием на обработку персональных данных</Link>
           </p>
         </div>
       </div>

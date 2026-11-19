@@ -57,7 +57,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
         type: "manage_delivery_option",
         payload: {
           zonePrice: 0,
-          option: "Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)",
+          option: "Самовывоз - Котельники, ул. Кузьминская, 17 (с 09:00 до 14:00)",
         },
       });
     }
@@ -118,7 +118,7 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
           ].join(" ")}
           onClick={() => handleSetDelivaryOption({ key: "self-pickup" })}
         >
-          Самовывоз - Котельники, ул Кузьминская 17, (с 09:00 до 14:00)
+          Самовывоз - Котельники, ул. Кузьминская, 17 (с 09:00 до 14:00)
         </li>
 
         <li className="delivery-option__list-item delivery-interval">
@@ -167,9 +167,9 @@ function DeliveryOption({ cart, dispatch }: DeliveryAddressProps) {
       <p className="delivery-option__urgent">
         Нужен срочный заказ? Можете{" "}
         <Link href={tlUrl} target="_blank">
-          Написать в Telegram{" "}
-        </Link>
-        узнать о наличии.
+          написать в Telegram
+        </Link>{" "}
+        и узнать о наличии.
       </p>
     </div>
   );

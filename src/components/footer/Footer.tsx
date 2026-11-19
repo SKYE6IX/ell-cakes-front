@@ -5,8 +5,8 @@ import Image from "next/image";
 import Button from "../button/Button";
 import "./footer.scss";
 import logo from "./logo-pink.svg";
+import Telegram from "../icons/Telegram";
 import Instagram from "../icons/Instagram";
-import Vk from "../icons/Vk";
 import WhatsApp from "../icons/WhatsApp";
 
 function Footer() {
@@ -41,14 +41,14 @@ function Footer() {
               <h5 className="footer__contact-title">Будем на связи!</h5>
               <ul className="footer__contact-list">
                 <li className="footer__contact-list-item">
-                  <Link href="mailto:info@ellcakes.net">info@ellcakes.net</Link>
+                  <Link href="mailto:ellcakesofficial@gmail.com">ellcakesofficial@gmail.com</Link>
                 </li>
                 <li className="footer__contact-list-item">
                   <Link href="tel:+79651950599">+7(965)-195-05-99</Link>
                 </li>
                 <li className="footer__contact-list-item">
-                  <Link target="" href="https://yandex.ru/maps/-/CPA4mEP8">
-                    Московская область, город Котельники, ул. Кузьминская, 17
+                  <Link target="_blank" href="https://yandex.ru/maps/-/CPA4mEP8">
+                    Котельники, ул. Кузьминская, 17
                   </Link>
                 </li>
               </ul>
@@ -56,11 +56,11 @@ function Footer() {
           </div>
           <div className="footer__social-media-wrapper">
             <div>
+              <Link className="footer__social-media-item" target="_blank" href="https://t.me/by_ellcakes">
+                <Telegram />
+              </Link>
               <Link className="footer__social-media-item" target="_blank" href="https://www.instagram.com/ell_cakes?igsh=aTBobjM1cXYzc2Y4">
                 <Instagram />
-              </Link>
-              <Link className="footer__social-media-item" href="/">
-                <Vk />
               </Link>
               <Link className="footer__social-media-item" target="_blank" href="https://wa.me/79651950599">
                 <WhatsApp />
