@@ -376,7 +376,7 @@ function CustomRequest() {
               <h3 className="custom-request__row-label">Цветовая гамма</h3>
               <DropDown
                 value={customReqData.colorPallete}
-                placeholder="Выберите цветовая гамма"
+                placeholder="Выберите цветовую гамму"
                 lists={COLOR_PALLATE}
                 setOption={setColorPallateOption}
               />
@@ -388,7 +388,7 @@ function CustomRequest() {
                 type="text"
                 value={customReqData.decorations}
                 onInputChange={handleSetCustomReqState}
-                placeholder="Леденцы, Фотопечать, Свой вариант"
+                placeholder="Леденцы, фотопечать, свой вариант"
                 name="decorations"
                 hasError={customReqState.errorFields.includes("decorations")}
               />
@@ -402,7 +402,7 @@ function CustomRequest() {
                 type="text"
                 value={customReqData.textDescription}
                 onInputChange={handleSetCustomReqState}
-                placeholder="Оформление текста"
+                placeholder="Например: С днём рождения, Маша!"
                 name="textDescription"
                 hasError={customReqState.errorFields.includes("textDescription")}
               />
@@ -414,7 +414,7 @@ function CustomRequest() {
                 type="text"
                 value={customReqData.allergies}
                 onInputChange={handleSetCustomReqState}
-                placeholder="Молочные продукты, Глютен, Аллергий нет"
+                placeholder="Молочные продукты, глютен, аллергий нет"
                 name="allergies"
                 hasError={customReqState.errorFields.includes("allergies")}
               />
@@ -473,7 +473,7 @@ function CustomRequest() {
                   customReqData.phoneNumber ? formatPhoneNumber(customReqData.phoneNumber) : ""
                 }
                 onInputChange={handleSetCustomReqState}
-                placeholder="Введите свои контактны"
+                placeholder="Введите номер телефона"
                 name="phoneNumber"
                 hasError={customReqState.errorFields.includes("phoneNumber")}
                 maxLength={11}
@@ -524,7 +524,7 @@ function CustomRequest() {
           </div>
 
           {customReqState.showAllowDataProcessError && (
-            <span className="custom-request__error-message">Дать согласие на обработку данных</span>
+            <span className="custom-request__error-message">Дайте согласие на обработку данных</span>
           )}
           <div className="custom-request__agreement">
             <input
@@ -539,7 +539,7 @@ function CustomRequest() {
               }}
             />
             <p className="custom-request__agreement-text">
-              Согласена на обработку персональных данных
+              Даю согласие на обработку персональных данных
             </p>
           </div>
         </motion.div>

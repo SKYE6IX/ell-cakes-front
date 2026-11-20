@@ -37,18 +37,19 @@ export const DEFAULT_STATE: CustomRequestData = {
 export const STORAGE_KEY = "custom_request";
 
 export const STACK_LEVELS = [
-  { id: "option_1", value: "1 ярусов" },
-  { id: "option_2", value: "2 ярусов" },
-  { id: "option_3", value: "3 ярусов" },
+  { id: "option_1", value: "1 ярус" },
+  { id: "option_2", value: "2 яруса" },
+  { id: "option_3", value: "3 яруса" },
 ];
 
 export const COLOR_PALLATE = [
-  { id: "option_1", value: "Яркая и насыщенная" },
-  { id: "option_2", value: "Нейтральная/натуральная" },
-  { id: "option_3", value: "Монохромная(один цвет в разных оттенках)" },
-  { id: "option_4", value: "Контрастная(сочетание нескольких цветов)" },
-  { id: "option_5", value: "Пастельная с акцентными деталями" },
-  { id: "option_6", value: "На усмотрение кондитера" },
+  { id: "option_1", value: "Нежная пастельная" },
+  { id: "option_2", value: "Яркая и насыщенная" },
+  { id: "option_3", value: "Нейтральная / натуральная" },
+  { id: "option_4", value: "Монохромная (один цвет в разных оттенках)" },
+  { id: "option_5", value: "Контрастная (сочетание нескольких цветов)" },
+  { id: "option_6", value: "Пастельная с акцентными деталями" },
+  { id: "option_7", value: "На усмотрение кондитера" },
 ];
 
 export const FILLINGS_OPITON = [
