@@ -62,6 +62,9 @@ const dropDownVariant: Variants = {
   },
 };
 
+const CIRCLE = "Круг";
+const HEART = "Сердце";
+
 // TODO: Check all field in step_3 are filled before allowing user to submit ✅
 // Check mobile and write test for vital component after sharing with client
 function CustomRequest() {
@@ -139,6 +142,11 @@ function CustomRequest() {
   };
 
   const setShapeOption = (value: string) => {
+    // Whenever user shape option is HEART,
+    // we always default back to filling "option_1"
+    if (value === HEART) {
+      setFillingOption({ value: FILLINGS_OPITON[0].name, optoion_id: FILLINGS_OPITON[0].id });
+    }
     handleSetCustomReqState({ name: "shape", value });
   };
 
@@ -146,7 +154,7 @@ function CustomRequest() {
     // Always set shape to circle for all other
     // filling option that isn't "option_1"
     if (optoion_id !== "option_1") {
-      setShapeOption("Круг");
+      setShapeOption(CIRCLE);
     }
     handleSetCustomReqState({ name: "filling", value });
   };
@@ -272,20 +280,20 @@ function CustomRequest() {
               <button
                 className={[
                   "custom-request__shape-item",
-                  customReqData.shape === "Круг" ? "selected" : "",
+                  customReqData.shape === CIRCLE ? "selected" : "",
                 ].join(" ")}
-                onClick={() => setShapeOption("Круг")}
+                onClick={() => setShapeOption(CIRCLE)}
               >
                 <span className="shape circle-shape" />
-                <span className="shape-label">Круг</span>
+                <span className="shape-label">{CIRCLE}</span>
               </button>
 
               <button
                 className={[
                   "custom-request__shape-item",
-                  customReqData.shape === "Сердце" ? "selected" : "",
+                  customReqData.shape === HEART ? "selected" : "",
                 ].join(" ")}
-                onClick={() => setShapeOption("Сердце")}
+                onClick={() => setShapeOption(HEART)}
               >
                 <span className="shape heart-shape">
                   <svg
@@ -298,7 +306,7 @@ function CustomRequest() {
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                 </span>
-                <span className="shape-label">Сердце</span>
+                <span className="shape-label">{HEART}</span>
               </button>
             </div>
           </div>
