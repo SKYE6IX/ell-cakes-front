@@ -59,7 +59,7 @@ jobs:
 
           docker compose -f ellcakes-compose.yaml pull staging-client
 
-          SERVER_URL="${{ secrets.STAGING_SERVER_URL }}" docker compose -f ellcakes-compose.yaml up staging-client --force-recreate -d
+          STAGING_SERVER_URL="${{ secrets.STAGING_SERVER_URL }}" docker compose -f ellcakes-compose.yaml up staging-client --force-recreate -d
 
           docker image prune -f
           EOF
