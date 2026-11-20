@@ -25,22 +25,14 @@ function Cart() {
   };
 
   return (
-    <Modal
-      headingText="Ваш заказ"
-      showModal={isCartOpen}
-      handleCloseModal={handleCloseModal}
-    >
+    <Modal headingText="Ваш заказ" showModal={isCartOpen} handleCloseModal={handleCloseModal}>
       <div className="cart full-height">
         {!cart ? (
           <div className="cart__empty-cart">
             <h4 className="cart__empty-cart-text">
               Ваша корзина пуста, начните покупки прямо сейчас!
             </h4>
-            <Link
-              href="/collections"
-              className="cart__empty-cart-link"
-              onClick={handleCloseModal}
-            >
+            <Link href="/collections" className="cart__empty-cart-link" onClick={handleCloseModal}>
               Заказ!
             </Link>
           </div>
@@ -48,19 +40,11 @@ function Cart() {
           <>
             <div className="cart_cart-item-list">
               {cart?.cartItems!.map((cartItem) => (
-                <CartItem
-                  key={cartItem.id}
-                  cartItem={cartItem}
-                  mode="read-write"
-                />
+                <CartItem key={cartItem.id} cartItem={cartItem} mode="read-write" />
               ))}
             </div>
             <div className="cart__checkout-btn-wrapper">
-              <Link
-                href="/checkout"
-                className="cart__checkout-btn"
-                onClick={handleCloseModal}
-              >
+              <Link href="/checkout" className="cart__checkout-btn" onClick={handleCloseModal}>
                 Оформить заказ {cart?.subTotal}₽
               </Link>
             </div>

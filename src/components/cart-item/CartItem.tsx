@@ -4,15 +4,8 @@ import CustomImage from "../custom-image/CustomImage";
 import PlusIcon from "@/components/icons/PlusIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
 import CloseIcon from "@/components/icons/CloseIcon";
-import {
-  CartItem as CartItemType,
-  OrderDirection,
-} from "@/types/__generated__/graphql";
-import {
-  INCREASE_CART_ITEM,
-  DECREASE_CART_ITEM,
-  DELETE_CART_ITEM,
-} from "../cart/operations";
+import { CartItem as CartItemType, OrderDirection } from "@/types/__generated__/graphql";
+import { INCREASE_CART_ITEM, DECREASE_CART_ITEM, DELETE_CART_ITEM } from "../cart/operations";
 import { GET_CART_QUERY } from "../cart/operations";
 import { useWriteCartQuery } from "@/hooks/useWriteCartQuery";
 import { isCartOpenVar } from "@/lib/cache";
@@ -39,53 +32,44 @@ function CartItem({ cartItem, mode }: CartItemProps) {
     orderImagesBy: [{ id: OrderDirection.Asc }],
   };
 
-  const [increaseCartItem, { loading: isCartIncreasing }] = useMutation(
-    INCREASE_CART_ITEM,
-    {
-      variables: operationVariable,
-      update(cache, { data }) {
-        if (data?.increaseCartItem) {
-          writeCartQuery(cache, data.increaseCartItem);
-        }
-      },
-    }
-  );
+  const [increaseCartItem, { loading: isCartIncreasing }] = useMutation(INCREASE_CART_ITEM, {
+    variables: operationVariable,
+    update(cache, { data }) {
+      if (data?.increaseCartItem) {
+        writeCartQuery(cache, data.increaseCartItem);
+      }
+    },
+  });
 
-  const [decreaseCartItem, { loading: isCartDecreaasing }] = useMutation(
-    DECREASE_CART_ITEM,
-    {
-      variables: operationVariable,
-      update(cache, { data }) {
-        if (data?.decreaseCartItem) {
-          writeCartQuery(cache, data.decreaseCartItem);
-        }
-      },
-      refetchQueries(result) {
-        if (result.data.decreaseCartItem === null) {
-          return [GET_CART_QUERY];
-        }
-        return [];
-      },
-    }
-  );
+  const [decreaseCartItem, { loading: isCartDecreaasing }] = useMutation(DECREASE_CART_ITEM, {
+    variables: operationVariable,
+    update(cache, { data }) {
+      if (data?.decreaseCartItem) {
+        writeCartQuery(cache, data.decreaseCartItem);
+      }
+    },
+    refetchQueries(result) {
+      if (result.data.decreaseCartItem === null) {
+        return [GET_CART_QUERY];
+      }
+      return [];
+    },
+  });
 
-  const [deleteCartItem, { loading: isCartItemDeleting }] = useMutation(
-    DELETE_CART_ITEM,
-    {
-      variables: operationVariable,
-      update(cache, { data }) {
-        if (data?.removeFromCart) {
-          writeCartQuery(cache, data.removeFromCart);
-        }
-      },
-      refetchQueries(result) {
-        if (result.data.removeFromCart === null) {
-          return [GET_CART_QUERY];
-        }
-        return [];
-      },
-    }
-  );
+  const [deleteCartItem, { loading: isCartItemDeleting }] = useMutation(DELETE_CART_ITEM, {
+    variables: operationVariable,
+    update(cache, { data }) {
+      if (data?.removeFromCart) {
+        writeCartQuery(cache, data.removeFromCart);
+      }
+    },
+    refetchQueries(result) {
+      if (result.data.removeFromCart === null) {
+        return [GET_CART_QUERY];
+      }
+      return [];
+    },
+  });
 
   const loading = isCartDecreaasing || isCartIncreasing || isCartItemDeleting;
 
@@ -109,19 +93,14 @@ function CartItem({ cartItem, mode }: CartItemProps) {
   return (
     <div className={["cart-item", loading ? "in-flight" : ""].join(" ")}>
       <button
-        className={`cart-item__remove-item-btn ${
-          mode === "read-only" ? "hide" : ""
-        }`}
+        className={`cart-item__remove-item-btn ${mode === "read-only" ? "hide" : ""}`}
         disabled={loading}
         onClick={() => deleteCartItem()}
       >
         <CloseIcon />
       </button>
 
-      <Link
-        href={`/product/${cartItem.product?.slug}`}
-        onClick={handleCloseModal}
-      >
+      <Link href={`/product/${cartItem.product?.slug}`} onClick={handleCloseModal}>
         <div className="cart-item__product-image-container">
           <CustomImage
             src={cartItem.product?.images![0].image?.url ?? ""}
@@ -138,57 +117,30 @@ function CartItem({ cartItem, mode }: CartItemProps) {
 
         <div className="cart-item__details">
           {cartItem.product?.variantType === "weight" && (
-            <span className="cart-item__details-metric">
-              {`${cartItem.variant?.weight}`} кг
-            </span>
+            <span className="cart-item__details-metric">{`${cartItem.variant?.weight}`} кг</span>
           )}
           {cartItem.product?.variantType === "pieces" && (
-            <span className="cart-item__details-metric">
-              {`${cartItem.variant?.pieces}`} шт
-            </span>
+            <span className="cart-item__details-metric">{`${cartItem.variant?.pieces}`} шт</span>
           )}
           {cartItem.product?.variantType === "size" && (
-            <span className="cart-item__details-metric">
-              {`${cartItem.variant?.size}`} см
-            </span>
+            <span className="cart-item__details-metric">{`${cartItem.variant?.size}`} см</span>
           )}
 
           {/* Customizations */}
-          {(cartItem.customizations as CustomizationOption[])?.map(
-            (customize) => (
-              <span
-                key={customize.name.toLowerCase()}
-                className="cart-item__details-customization"
-              >
-                {`${getCustomizationIcon(customize.name)} 
-                ${
-                  customize.name !== "INSCRIPTION"
-                    ? customize.customValue?.value
-                    : ""
-                }`}
-              </span>
-            )
-          )}
+          {(cartItem.customizations as CustomizationOption[])?.map((customize) => (
+            <span key={customize.name.toLowerCase()} className="cart-item__details-customization">
+              {`${getCustomizationIcon(customize.name)} 
+                ${customize.name !== "INSCRIPTION" ? customize.customValue?.value : ""}`}
+            </span>
+          ))}
         </div>
 
-        <div
-          className={`cart-item__btn-wrapper ${
-            mode === "read-only" ? "hide" : ""
-          }`}
-        >
-          <button
-            className="cart-item__btn"
-            disabled={loading}
-            onClick={() => decreaseCartItem()}
-          >
+        <div className={`cart-item__btn-wrapper ${mode === "read-only" ? "hide" : ""}`}>
+          <button className="cart-item__btn" disabled={loading} onClick={() => decreaseCartItem()}>
             <MinusIcon />
           </button>
           <span className="cart-item__qty">{cartItem.quantity}</span>
-          <button
-            className="cart-item__btn"
-            disabled={loading}
-            onClick={() => increaseCartItem()}
-          >
+          <button className="cart-item__btn" disabled={loading} onClick={() => increaseCartItem()}>
             <PlusIcon />
           </button>
         </div>
