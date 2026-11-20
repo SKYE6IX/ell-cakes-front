@@ -73,9 +73,10 @@ function CustomRequest() {
     allowDataProccess: false,
     showAllowDataProcessError: false,
   });
-
   const [customReqData, setCustomReqData] = useState<CustomRequestData>(getInitiState());
+
   const dateButtonRef = useRef<HTMLButtonElement>(null);
+
   const currentStep = STEPS[customReqState.stepIndex];
 
   const handleOpenModal = () => {
@@ -140,9 +141,16 @@ function CustomRequest() {
   const setShapeOption = (value: string) => {
     handleSetCustomReqState({ name: "shape", value });
   };
-  const setFillingOption = (value: string) => {
+
+  const setFillingOption = ({ value, optoion_id }: { value: string; optoion_id: string }) => {
+    // Always set shape to circle for all other
+    // filling option that isn't "option_1"
+    if (optoion_id !== "option_1") {
+      setShapeOption("Круг");
+    }
     handleSetCustomReqState({ name: "filling", value });
   };
+
   const setStackLevelOption = (value: string) => {
     handleSetCustomReqState({ name: "stackLevel", value });
   };
@@ -209,8 +217,6 @@ function CustomRequest() {
     }
     makeRequest();
   };
-
-  //   console.log("Custom Data => ", JSON.stringify(customReqData, null, 3));
 
   return (
     <React.Fragment>
@@ -308,12 +314,12 @@ function CustomRequest() {
             <div className="custom-request__fillings-option">
               {FILLINGS_OPITON.map((filling) => (
                 <button
-                  key={filling.name}
+                  key={filling.id + filling.name}
                   className={[
                     "custom-request__filling-item",
                     customReqData.filling === filling.name ? "selected" : "",
                   ].join(" ")}
-                  onClick={() => setFillingOption(filling.name)}
+                  onClick={() => setFillingOption({ value: filling.name, optoion_id: filling.id })}
                 >
                   <span className="filling-item__image-container">
                     {filling.img_src ? (
@@ -524,7 +530,9 @@ function CustomRequest() {
           </div>
 
           {customReqState.showAllowDataProcessError && (
-            <span className="custom-request__error-message">Дайте согласие на обработку данных</span>
+            <span className="custom-request__error-message">
+              Дайте согласие на обработку данных
+            </span>
           )}
           <div className="custom-request__agreement">
             <input

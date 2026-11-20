@@ -53,12 +53,12 @@ export const COLOR_PALLATE = [
 ];
 
 export const FILLINGS_OPITON = [
-  { name: "Мильфей", img_src: "/fillings-images/yagodno-bananovy-milfey.jpg" },
-  { name: "Сникерс", img_src: "/fillings-images/snikers.jpg" },
-  { name: "Красный бархат", img_src: "/fillings-images/krasny-barkhat.jpg" },
-  { name: "Лаванда-черника", img_src: null },
-  { name: "Рафаэлло", img_src: null },
-  { name: "Груша-карамель", img_src: null },
+  { id: "option_1", name: "Мильфей", img_src: "/fillings-images/yagodno-bananovy-milfey.jpg" },
+  { id: "option_2", name: "Сникерс", img_src: "/fillings-images/snikers.jpg" },
+  { id: "option_3", name: "Красный бархат", img_src: "/fillings-images/krasny-barkhat.jpg" },
+  { id: "option_4", name: "Лаванда-черника", img_src: null },
+  { id: "option_5", name: "Рафаэлло", img_src: null },
+  { id: "option_6", name: "Груша-карамель", img_src: null },
 ];
 
 export const getInitiState = (): CustomRequestData => {
@@ -83,11 +83,11 @@ export const onStateChange = ({
 
   // For now, we don't want to persist these fields
   if (name === "refPhoto" || name === "eventDate") return;
-
   const updatedState = {
     ...currentState,
     [name]: value,
   };
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedState));
 };
 
