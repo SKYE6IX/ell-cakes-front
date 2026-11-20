@@ -128,6 +128,7 @@
   transition: opacity 0.1s ease-in;
   z-index: 100;
   @include max-breakpoint("md") {
+    min-height: 0px;
     height: auto;
     position: relative;
     opacity: 1;
