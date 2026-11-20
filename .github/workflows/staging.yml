@@ -35,6 +35,7 @@ jobs:
             Y_MAP_API=${{secrets.Y_MAP_API}}
             IMGPROXY_ENDPOINT=${{secrets.IMGPROXY_ENDPOINT}}
             IMGPROXY_BASE_URL=${{vars.IMGPROXY_BASE_URL_STAGING}}
+            PORT=${{vars.PORT}}
 
   deploy:
     runs-on: ubuntu-latest
