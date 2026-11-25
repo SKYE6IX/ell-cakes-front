@@ -1,5 +1,4 @@
 export type StepUnion = "step_1" | "step_2" | "step_3";
-
 export interface CustomRequestData {
   shape: string;
   filling: string;

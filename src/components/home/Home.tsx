@@ -5,9 +5,9 @@ import WhyUs from "./why-us-section/WhyUs";
 import AboutUs from "./about-us-section/AboutUs";
 import CustomizeInfo from "./customize-info-section/CustomizeInfo";
 import GeneralFaq from "./general-faq-section/GeneralFaq";
-import "./home.scss";
 import Reviews from "./reviews/Reviews";
 import CustomRequest from "./custom-request/CustomRequest";
+import "./home.scss";
 
 async function Home() {
   return (

@@ -49,6 +49,7 @@ const fadeVariant: Variants = {
     visibility: "hidden",
   },
 };
+
 const dropDownVariant: Variants = {
   open: {
     translateY: 0,
@@ -76,6 +77,7 @@ function CustomRequest() {
     allowDataProccess: false,
     showAllowDataProcessError: false,
   });
+
   const [customReqData, setCustomReqData] = useState<CustomRequestData>(getInitiState());
 
   const dateButtonRef = useRef<HTMLButtonElement>(null);
@@ -200,7 +202,7 @@ function CustomRequest() {
       alert("Message Sent! 🚀🚀");
     },
     onError() {
-      alert("SOmething Went wrong! Please try again! 🚀🚀");
+      alert("Something Went wrong! Please try again!");
     },
   });
 

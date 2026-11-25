@@ -1,6 +1,7 @@
 import React from "react";
 import localFont from "next/font/local";
 import { Tenor_Sans, Manrope, Montserrat } from "next/font/google";
+import "../global-styles/globals.scss";
 
 const tenorSans = Tenor_Sans({
   subsets: ["cyrillic"],
@@ -62,7 +63,12 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         montserrat.variable,
       ].join(" ")}
     >
-      <body>{children}</body>
+      <body>
+        <div className="development">
+          <p>IN DEVELOPMENT</p>
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

@@ -8,6 +8,7 @@ body {
 }
 
 body {
+  position: relative;
   background: $bg-primary;
   color: $dark-primary;
   text-underline-offset: 0.2em;
@@ -51,4 +52,16 @@ span {
   width: 100%;
   min-height: 100vh;
   @include flex-layout(column, none, none, none);
+}
+
+.development {
+  position: absolute;
+  top: 0px;
+  z-index: 2000;
+
+  left: 50%;
+  transform: translateX(-50%);
+  background: $bg-secondary;
+  color: red;
+  padding: 10px 20px;
 }

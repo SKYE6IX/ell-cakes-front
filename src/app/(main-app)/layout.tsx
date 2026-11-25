@@ -7,7 +7,6 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import Cart from "@/components/cart/Cart";
 import ChatWidget from "@/components/chat-widget/ChatWidget";
-import "../../global-styles/globals.scss";
 
 export const metadata: Metadata = {
   title: "Ell Cakes",
