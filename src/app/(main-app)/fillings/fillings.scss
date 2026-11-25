@@ -154,6 +154,15 @@
   background: $bg-primary;
   color: $dark-primary;
 }
+.fillings__action--dark {
+  width: auto;
+  padding: 0 30px;
+  background: $dark-primary;
+  color: $bg-primary;
+  @include max-breakpoint("s") {
+    width: 100%;
+  }
+}
 .fillings__action--outline {
   border: 1.5px solid $bg-primary;
   color: $bg-primary;

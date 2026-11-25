@@ -30,16 +30,21 @@
 }
 .why-us__lists {
   list-style: none;
-  @include flex-layout(row, center, none, 100px);
+  @include flex-layout(row, flex-start, center, 100px);
   @include max-breakpoint("md") {
     gap: 50px;
   }
   @include max-breakpoint("sm") {
     flex-direction: column;
+    align-items: center;
   }
 }
 .why-us__item {
-  @include flex-layout(column, center, center, none);
+  flex: 1 1 0;
+  @include flex-layout(column, center, flex-start, none);
+  svg {
+    flex-shrink: 0;
+  }
 }
 .why-us__item-heading {
   margin-top: 30px;

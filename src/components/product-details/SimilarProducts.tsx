@@ -48,7 +48,7 @@ function SimilarProducts({ productSlug }: SimilarProductsProps) {
 
   return (
     <div className="product-details__similar-products" ref={similarProductsContainerRef}>
-      <h3 className="similar-products__heading">Сделай праздник ещё вкуснее</h3>
+      <h3 className="similar-products__heading">Сделайте праздник ещё вкуснее</h3>
       <div className="similar-products__container">
         {loading && <ProductListSkeleton />}
         {similarProducts && <ProductList products={similarProducts} />}

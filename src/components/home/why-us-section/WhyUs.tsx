@@ -1,6 +1,6 @@
-import TruckIcon from "@/components/icons/TruckIcon";
-import StarsIcon from "@/components/icons/StarsIcon";
-import CakeIcon from "@/components/icons/CakeIcon";
+import RefrigeratedTruckIcon from "@/components/icons/RefrigeratedTruckIcon";
+import ShieldStarIcon from "@/components/icons/ShieldStarIcon";
+import TieredCakeIcon from "@/components/icons/TieredCakeIcon";
 import "./why-us.scss";
 
 function WhyUs() {
@@ -9,26 +9,34 @@ function WhyUs() {
       <h3 className="why-us__heading">Почему выбирают нас?</h3>
       <ul className="why-us__lists">
         <li className="why-us__item">
-          <TruckIcon />
-          <h5 className="why-us__item-heading">Удобная доставка</h5>
+          <RefrigeratedTruckIcon />
+          <h5 className="why-us__item-heading">Бережная доставка</h5>
           <p className="why-us__item-text" data-testid="why-us-item-text">
-            Доставляем торты по Москве и области в удобное время.
+            Привозим торты в специальных автомобилях с холодильными
+            установками. Доставим по Москве и области точно к назначенному
+            времени, чтобы десерт приехал идеально свежим.
           </p>
         </li>
 
         <li className="why-us__item">
-          <StarsIcon />
-          <h5 className="why-us__item-heading">Нас выбирают звезды</h5>
+          <ShieldStarIcon />
+          <h5 className="why-us__item-heading">Нам доверяют важные события</h5>
           <p className="why-us__item-text" data-testid="why-us-item-text">
-            Наши десерты украшают праздники самых известных людей
+            Наши торты выбирают для закрытых вечеринок, свадеб и съемок. Мы
+            умеем работать с высокими требованиями и сохранять
+            конфиденциальность.
           </p>
         </li>
 
         <li className="why-us__item">
-          <CakeIcon />
-          <h5 className="why-us__item-heading">20 000+ заказов</h5>
+          <TieredCakeIcon />
+          <h5 className="why-us__item-heading">
+            Более 20 000 счастливых моментов
+          </h5>
           <p className="why-us__item-text" data-testid="why-us-item-text">
-            Тысячи клиентов уже доверили нам свои праздники.
+            За 10 лет мы испекли тысячи тортов. Наш опыт позволяет нам не
+            бояться сложных заказов и гарантировать безупречный вкус в каждой
+            коробке.
           </p>
         </li>
       </ul>

@@ -4,7 +4,7 @@ const list = [
   {
     name: "Ассортимент",
     description:
-      "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",
+      "Сделаем Ваш праздник слаще - выберите торт, который удивит гостей и порадует именинника!",
     media: [
       { href: "/collection-images/cake-1.jpg", isVideo: false },
       { href: collectionDeliveryInfoImage, isVideo: false },
@@ -31,7 +31,7 @@ const list = [
   {
     name: "Торты на День рождения",
     description:
-      "Сделаем Ваш праздник слаще - выбери торт, который удивит гостей и порадует именинника!",
+      "Сделаем Ваш праздник слаще - выберите торт, который удивит гостей и порадует именинника!",
     media: [
       { href: "/collection-images/birthday-1.jpg", isVideo: false },
       { href: "/collection-images/birthday-2.jpg", isVideo: false },

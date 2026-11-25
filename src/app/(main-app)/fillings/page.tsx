@@ -10,8 +10,15 @@ function Fillings() {
         <h2 className="fillings__title">Начинки</h2>
         <p className="fillings__text">
           Здесь собраны все наши начинки: что внутри каждой, минимальный вес и стоимость.
-          Понравившуюся начинку можно выбрать на странице торта при оформлении заказа.
+          Понравившуюся начинку можно заказать в разделе «Ягодные торты» — выберите торт и
+          укажите нужную начинку при оформлении заказа.
         </p>
+        <Link
+          href="/collections/yagodnye-torty"
+          className="fillings__action fillings__action--dark"
+        >
+          Перейти к ягодным тортам
+        </Link>
       </div>
 
       <div className="fillings__list">
@@ -29,7 +36,10 @@ function Fillings() {
           </p>
         </div>
         <div className="fillings__notice-actions">
-          <Link href="/collections" className="fillings__action fillings__action--primary">
+          <Link
+            href="/collections/yagodnye-torty"
+            className="fillings__action fillings__action--primary"
+          >
             Выбрать торт
           </Link>
           <Link href="/contact" className="fillings__action fillings__action--outline">

@@ -24,7 +24,7 @@ function Footer() {
           <div className="footer__link-wrapper">
             <div className="footer__nav">
               <h3 className="footer__title">
-                Сделай свой праздник ещё слаще вместе с нашей кондитерской!
+                Сделайте свой праздник ещё слаще вместе с нашей кондитерской!
               </h3>
               <Button textKey="Заказать" href="/collections" />
               <ul className="footer__link-list">

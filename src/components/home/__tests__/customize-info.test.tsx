@@ -14,7 +14,7 @@ describe("Customize Info Component", () => {
     // Act
     expect(headingText).toBeInTheDocument();
     expect(headingText).toHaveTextContent(
-      "Торт твоей мечты - по индивидуальному дизайну"
+      "Эксклюзивный дизайн для вашего праздника"
     );
     expect(descriptionText).toBeInTheDocument();
     expect(image).toBeInTheDocument();
