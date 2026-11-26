@@ -15,12 +15,13 @@ function CraftDescription() {
           className="craft-description__text"
           data-testid="craft-description-text"
         >
-          Основной нашей концепцией является использование в изготовлении
-          кулинарной продукции только натуральных и экологически чистых пищевых
-          продуктов.
+          В основе наших десертов — только натуральные ингредиенты
+          премиум-класса. Мы убеждены, что идеальный вкус не нуждается в
+          красителях и консервантах, поэтому каждый торт — это чистое
+          удовольствие и ручная работа.
         </p>
         <div className="craft-description__btn-wrapper">
-          <Button textKey="Заказать" href="/collections" />
+          <Button textKey="Смотреть ассортимент" href="/collections" />
         </div>
       </div>
       <div className="craft-description__image-container">

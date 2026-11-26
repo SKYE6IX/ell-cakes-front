@@ -12,7 +12,7 @@ describe("Footer Component", () => {
     // Act
     expect(footerHeading).toBeInTheDocument();
     expect(footerHeading).toHaveTextContent(
-      "Сделай свой праздник ещё слаще вместе с нашей кондитерской!"
+      "Сделайте свой праздник ещё слаще вместе с нашей кондитерской!"
     );
   });
 

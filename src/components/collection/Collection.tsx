@@ -75,7 +75,7 @@ function Collection({ categorySlug, where }: CollectionProps) {
             className="collection__delivery-info-heading"
             data-testid="collection-delivery-info-heading"
           >
-            Десерты с доставкой? Конечно!
+            Заказ и доставка в три шага
           </h3>
           <ul className="collection__delivery-info-list">
             <li
@@ -87,9 +87,10 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">Выбери свой десерт</h5>
+                <h5 className="collection__delivery-info-item-heading">Выберите десерт</h5>
                 <p className="collection__delivery-info-item-text">
-                  Для подарка, для друзей или просто для себя - выбери то, что хочется прямо сейчас!
+                  Огромный выбор десертов для любого повода — от уютного чаепития до масштабного
+                  торжества.
                 </p>
               </div>
             </li>
@@ -103,10 +104,10 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">Назначь дату доставки</h5>
+                <h5 className="collection__delivery-info-item-heading">Назначьте дату</h5>
                 <p className="collection__delivery-info-item-text">
-                  Планируешь заранее или заказываешь в последний момент? Мы доставляем 7 дней в
-                  неделю
+                  Работаем без выходных. Вы можете заказать торт как за неделю, так и в срочном
+                  порядке.
                 </p>
               </div>
             </li>
@@ -120,10 +121,10 @@ function Collection({ categorySlug, where }: CollectionProps) {
               </span>
 
               <div className="collection__delivery-info-item-inner">
-                <h5 className="collection__delivery-info-item-heading">Жди с нетерпением!</h5>
+                <h5 className="collection__delivery-info-item-heading">Ожидайте курьера</h5>
                 <p className="collection__delivery-info-item-text">
-                  Мы аккуратно упакуем и отправим твой десерт так, чтобы он приехал свежим и в
-                  идеальном виде.
+                  Мы отвечаем за сохранность: аккуратная упаковка и доставка в идеальном виде
+                  гарантированы.
                 </p>
               </div>
             </li>

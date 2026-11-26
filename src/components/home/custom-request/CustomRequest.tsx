@@ -231,13 +231,14 @@ function CustomRequest() {
   return (
     <React.Fragment>
       <section className="custom-request">
-        <h3 className="custom-request__heading">Хотите создать свой собственный торт?</h3>
+        <h3 className="custom-request__heading">Торт по вашему эскизу</h3>
         <p className="custom-request__body">
-          Мы делаем торты на заказ в Москве! Если у вас есть представление о том, как должен
-          выглядеть ваш идеальный торт, мы готовы сделать торт по индивидуальному дизайну!
+          Не нашли подходящий вариант в каталоге? Создадим десерт специально для вашего события.
+          Пришлите фото-референс или просто опишите задумку — наши кондитеры разработают
+          индивидуальный дизайн, учитывая все ваши пожелания по форме, декору и вкусу.
         </p>
         <button className="custom-request__button" onClick={handleOpenModal}>
-          Хочу со своим дизайном
+          Перейти в конструктор
         </button>
       </section>
 

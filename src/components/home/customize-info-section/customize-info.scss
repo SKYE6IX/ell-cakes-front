@@ -58,6 +58,7 @@
   color: $dark-primary;
   background: $light-accent;
   padding: 0 0.15em;
+  white-space: nowrap;
 }
 .customize-info__text {
   @include flex-layout(column, none, none, 20px);
