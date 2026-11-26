@@ -1,78 +1,137 @@
 @use "@/global-styles/variables" as *;
 @use "@/global-styles/shared-styles" as *;
 
-.colaboration {
+.collaboration {
   flex: 1;
   width: 100%;
-  @include flex-layout(row, center, space-between, 100px);
+  @include flex-layout(row, none, space-between, 100px);
   margin-top: 50px;
   margin-bottom: 100px;
   padding: 0px 50px;
+
   @include max-breakpoint("md") {
+    flex-direction: column-reverse;
     margin-top: 40px;
     margin-bottom: 80px;
     padding: 0px 40px;
     gap: 50px;
   }
+
   @include max-breakpoint("s") {
     margin-top: 0px;
     margin-bottom: 40px;
     padding: 20px;
-    flex-direction: column-reverse;
     gap: 40px;
   }
 }
 
-.colaboration__text-wrapper {
+.collaboration__text-wrapper {
   width: 50%;
   @include flex-layout(column, none, none, 20px);
+
   @include max-breakpoint("md") {
-    gap: 15px;
+    width: 80%;
   }
+
   @include max-breakpoint("s") {
+    gap: 15px;
     width: 100%;
   }
 }
-.colaboration__title {
+
+.collaboration__title {
   font-family: $font-tenor-sans, sans-serif;
   font-weight: 500;
   font-size: 2.25rem;
   line-height: 1.2;
   color: $dark-primary;
+
   @include max-breakpoint("md") {
     font-size: 1.75rem;
   }
+
   @include max-breakpoint("s") {
     font-size: 1.5rem;
   }
 }
-.colaboration__text {
+
+.collaboration__text {
   font-family: $font-manrope;
   font-size: 1.0625rem;
   line-height: 1.5;
   font-weight: 400;
   color: $dark-primary;
-  @include max-breakpoint("md") {
+  @include max-breakpoint("s") {
     font-size: 1rem;
   }
+}
+
+.collaboration__form-wrapper {
+  width: 60%;
+  @include flex-layout(column, none, none, 20px);
+
   @include max-breakpoint("s") {
-    font-size: 0.9375rem;
+    width: 100%;
+    gap: 15px;
   }
 }
-.colaboration__media {
+
+.collaboration__text-area {
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  padding: 15px;
+  font-family: $font-manrope, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  border: 1px solid $dark-primary;
+  border-radius: 10px;
+  background: $bg-primary;
+  &::placeholder {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    color: $dark-primary;
+  }
+  &:focus {
+    border-color: $dark-primary;
+    box-shadow: 0 0 0 1px $dark-primary;
+  }
+}
+
+.collaboration__text-area.error {
+  border-color: red;
+}
+
+.collaboration__form-btn {
+  padding: 10px 25px;
+  @include flex-layout(row, center, center, none);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background-color: $dark-primary;
+  color: $bg-primary;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.collaboration__media {
   position: relative;
   width: 40%;
   height: auto;
+  max-height: 600px;
   aspect-ratio: 1 / 1;
   border-radius: 15px;
+
   @include max-breakpoint("md") {
-    width: 50%;
-  }
-  @include max-breakpoint("s") {
     width: 100%;
   }
 }
-.colaboration__image {
+
+.collaboration__image {
   object-fit: cover;
   border-radius: inherit;
 }

@@ -48,7 +48,7 @@ const updateUserSchema = z.object({
   phoneNumber: z.string().min(11).max(11),
 });
 
-const requestCallSchema = z.object({
+const cooperationRequest = z.object({
   email: z.email({
     error: "Invalid email address",
   }),
@@ -62,7 +62,7 @@ const requestCallSchema = z.object({
       error: "Invalid message input",
     })
     .min(3),
-  phoneNumber: z.string().min(11).max(11),
+  phoneNumber: z.string().max(11).nullable(),
 });
 
 export function validateRegistrationFields(registerData: z.output<typeof registerSchema>) {
@@ -77,6 +77,6 @@ export function validateUpdateFields(updateData: z.output<typeof updateUserSchem
   return updateUserSchema.safeParse(updateData);
 }
 
-export function validaterequestCallFields(requestCallField: z.output<typeof requestCallSchema>) {
-  return requestCallSchema.safeParse(requestCallField);
+export function validateCooperationRequest(requestFields: z.output<typeof cooperationRequest>) {
+  return cooperationRequest.safeParse(requestFields);
 }

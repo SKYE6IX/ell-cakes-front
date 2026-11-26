@@ -7,9 +7,11 @@ import { isMenuOpenVar } from "@/lib/cache";
 import ArrowDown from "../../icons/ArrowDown";
 import { Category } from "@/types/__generated__/graphql";
 import "./navigation.scss";
+import { label } from "motion/react-client";
 
 const STATIC_NAV_MENU = [
-  { href: "/quick-order", label: "Срочные заказы" },
+  // { href: "/quick-order", label: "Срочные заказы" },
+  { href: "/collaboration", label: "Сотрудничество" },
   { href: "/contact", label: "КОНТАКТЫ" },
   { href: "/delivery", label: "Доставка и оплата" },
 ];

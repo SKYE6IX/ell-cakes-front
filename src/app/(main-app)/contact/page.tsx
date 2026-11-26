@@ -1,14 +1,53 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import Telegram from "@/components/icons/Telegram";
 import Instagram from "@/components/icons/Instagram";
 import WhatsApp from "@/components/icons/WhatsApp";
-import RequestCall from "./request-call/RequestCall";
+import Input from "@/components/input/Input";
+import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import Loader from "@/components/loader/Loader";
 import "./contact.scss";
+
+const REQUEST_CALL: TypedDocumentNode<{ requestCall: string }, { phoneNumber: string }> = gql`
+  mutation RequestForCustomCake($phoneNumber: String!) {
+    requestCall(phoneNumber: $phoneNumber)
+  }
+`;
 
 function Contact() {
   const url = new URL("https://t.me/Ell_Cakes");
   url.searchParams.set("text", "Здравствуйте! Хочу оформить заказ");
   const tlUrl = url.toString().replace(/\+/g, "%20");
+
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [showInputError, setShowInputError] = useState(false);
+
+  const onInputChange = ({ value }: { name: string; value: string }) => {
+    setShowInputError(false);
+    setPhoneNumber(value);
+  };
+
+  const [requestCall, { loading }] = useMutation(REQUEST_CALL, {
+    variables: {
+      phoneNumber,
+    },
+    onCompleted() {
+      setPhoneNumber("");
+      alert("Message Sent! 🚀");
+    },
+  });
+
+  const handleSubmitRequest = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!phoneNumber.trim()) {
+      setShowInputError(true);
+      return;
+    }
+    requestCall();
+  };
 
   return (
     <section className="contact">
@@ -19,7 +58,20 @@ function Contact() {
             Мы будем рады вашим вопросам, предложениям и заказам!
           </p>
 
-          <RequestCall />
+          <form className="contact__form-wrapper" onSubmit={handleSubmitRequest}>
+            <Input
+              value={phoneNumber ? formatPhoneNumber(phoneNumber) : ""}
+              name="phoneNumber"
+              placeholder="Телефон"
+              type="tel"
+              onInputChange={onInputChange}
+              hasError={showInputError}
+            />
+
+            <button className="contact__form-btn" type="submit" disabled={loading}>
+              {loading ? <Loader /> : "Отправить"}
+            </button>
+          </form>
         </div>
 
         <div className="contact__link-wrapper">

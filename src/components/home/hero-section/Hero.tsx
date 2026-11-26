@@ -48,19 +48,19 @@ function Hero() {
     paginate(direction);
   };
 
-  // useEffect(() => {
-  //   if (isSliderActive) {
-  //     autoSlideId.current = setInterval(() => {
-  //       paginate(1);
-  //     }, 7000);
-  //   }
+  useEffect(() => {
+    if (isSliderActive) {
+      autoSlideId.current = setInterval(() => {
+        paginate(1);
+      }, 7000);
+    }
 
-  //   return () => {
-  //     if (autoSlideId.current) {
-  //       clearInterval(autoSlideId.current);
-  //     }
-  //   };
-  // }, [paginate, autoSlideFlag, isSliderActive]);
+    return () => {
+      if (autoSlideId.current) {
+        clearInterval(autoSlideId.current);
+      }
+    };
+  }, [paginate, autoSlideFlag, isSliderActive]);
 
   return (
     <section className="hero">

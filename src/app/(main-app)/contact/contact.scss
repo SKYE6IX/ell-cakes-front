@@ -35,6 +35,32 @@
   @include flex-layout(column, none, none, 20px);
 }
 
+.contact__form-btn {
+  padding: 10px 25px;
+  @include flex-layout(row, center, center, none);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background-color: $dark-primary;
+  color: $bg-primary;
+  font-family: $font-manrope, sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.contact__form-wrapper {
+  width: 50%;
+  @include flex-layout(column, none, center, 15px);
+  @include max-breakpoint("md") {
+    width: 60%;
+  }
+  @include max-breakpoint("sm") {
+    width: 100%;
+  }
+}
+
 .contact__title {
   font-family: $font-tenor-sans;
   line-height: 1.2;
